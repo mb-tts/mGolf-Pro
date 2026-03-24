@@ -12,10 +12,10 @@ import { Colors }       from '../../../constants/colors';
 import { loginSchema, LoginForm } from './login.schema';
 
 const SOCIAL_LOGIN_LIST = [
-  { key: 'phone',    icon: 'call',        color: '#0060AF' },
+  { key: 'phone',    icon: 'call',          color: '#0060AF' },
   { key: 'google',   icon: 'logo-google',   color: '#DB4437' },
   { key: 'facebook', icon: 'logo-facebook', color: '#1877F2' },
-  { key: 'qr',       icon: 'qr-code',      color: '#0060AF' },
+  { key: 'qr',       icon: 'qr-code',       color: '#0060AF' },
 ];
 
 export const LoginScreen = () => {
@@ -64,37 +64,42 @@ export const LoginScreen = () => {
         )}
       />
 
+      {/* Quên mật khẩu - căn phải */}
       <TouchableOpacity style={styles.forgotRow}>
         <Text style={styles.forgotText}>Quên mật khẩu?</Text>
       </TouchableOpacity>
 
+      {/* Nút Đăng nhập */}
       <AppButton
         title="Đăng nhập"
         loading={isLoading}
         onPress={handleSubmit(onSubmit)}
-        style={styles.loginBtn}
       />
 
+      {/* Dải phân cách "Hoặc" */}
       <View style={styles.dividerRow}>
         <View style={styles.line} />
         <Text style={styles.orText}>Hoặc</Text>
         <View style={styles.line} />
       </View>
 
+      {/* Nút đăng nhập xã hội */}
       <View style={styles.socialRow}>
         {SOCIAL_LOGIN_LIST.map(({ key, icon, color }) => (
           <TouchableOpacity key={key} style={styles.socialBtn}>
-            <Ionicons name={icon as any} size={28} color={color} />
+            <Ionicons name={icon as any} size={24} color={color} />
           </TouchableOpacity>
         ))}
       </View>
 
+      {/* Điều khoản sử dụng */}
       <Text style={styles.terms}>
-        Bằng việc tiếp tục, bạn đã đồng ý với{' '}
-        <Text style={[styles.link, { color: '#333333' }]}>Điều khoản sử dụng</Text>
+        Bằng việc tiếp tục, bạn đã đồng ý với{'\n'}
+        <Text style={styles.termsBold}>Điều khoản sử dụng</Text>
       </Text>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Register')} style={styles.bottomLink}>
+      {/* Tạo tài khoản */}
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
         <Text style={styles.bottomText}>
           Bạn chưa có tài khoản mGolf?{' '}
           <Text style={styles.link}>Tạo tài khoản</Text>
@@ -106,21 +111,20 @@ export const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  forgotRow:   { alignItems: 'flex-end', marginBottom: 35 }, // Theo mẫu khoảng cách ở đây rộng hơn
-  forgotText:  { color: Colors.link, fontSize: 16, fontWeight: '500' },
-  loginBtn:    { height: 64, borderRadius: 16, marginTop: 10 }, // Nút đăng nhập to và bo góc nhiều
-  dividerRow:  { flexDirection: 'row', alignItems: 'center', marginTop: 40, marginBottom: 25 },
-  line:        { flex: 1, height: 1, backgroundColor: '#F0F0F0' },
-  orText:      { marginHorizontal: 15, color: '#999999', fontSize: 14 },
-  socialRow:   { flexDirection: 'row', justifyContent: 'center', gap: 20, marginBottom: 40 },
+  forgotRow:   { alignItems: 'flex-end', marginBottom: 4 },
+  forgotText:  { color: Colors.link, fontSize: 14 },
+  dividerRow:  { flexDirection: 'row', alignItems: 'center', marginVertical: 20 },
+  line:        { flex: 1, height: 1, backgroundColor: '#E8E8E8' },
+  orText:      { marginHorizontal: 12, color: '#999', fontSize: 13 },
+  socialRow:   { flexDirection: 'row', justifyContent: 'center', gap: 16, marginBottom: 20 },
   socialBtn:   {
-    width: 60, height: 60, borderRadius: 16,
-    backgroundColor: '#F8F9FA', alignItems: 'center', justifyContent: 'center',
-    elevation: 1, shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05, shadowRadius: 2,
+    width: 52, height: 52, borderRadius: 12,
+    borderWidth: 1, borderColor: '#E0E0E0',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center', justifyContent: 'center',
   },
-  terms:       { textAlign: 'center', fontSize: 14, color: '#888888', marginBottom: 40 },
-  link:        { color: Colors.link, fontWeight: '700' },
-  bottomLink:  { paddingBottom: 20 },
-  bottomText:  { textAlign: 'center', fontSize: 15, color: '#777777' },
+  terms:       { textAlign: 'center', fontSize: 12, color: '#888', marginBottom: 12, lineHeight: 18 },
+  termsBold:   { fontWeight: '700', color: '#333' },
+  link:        { color: Colors.link, fontWeight: '600' },
+  bottomText:  { textAlign: 'center', fontSize: 13, color: '#888' },
 });
