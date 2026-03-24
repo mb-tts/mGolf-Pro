@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   View,
   Text,
@@ -15,6 +16,9 @@ import { AppButton } from "../../../components/auth/AppButton";
 import { useAuth } from "../../../providers/auth.provider";
 import { Colors } from "../../../constants/colors";
 import { registerSchema, RegisterForm } from "./register.schema";
+
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 export const RegisterScreen = () => {
   const { register, isLoading } = useAuth();
@@ -39,89 +43,100 @@ export const RegisterScreen = () => {
   };
 
   return (
-    <AuthLayout title="Đăng ký" subtitle="Điền thông tin cá nhân của bạn tại đây">
-      <Controller
-        control={control}
-        name="fullName"
-        render={({ field: { value, onChange, onBlur } }) => (
-          <AppInput
-            label="Họ và tên"
-            placeholder="Nhập họ và tên"
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            error={errors.fullName?.message}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
-        name="vgaCode"
-        render={({ field: { value, onChange, onBlur } }) => (
-          <AppInput
-            label="Mã VGA"
-            placeholder="Nhập mã VGA"
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            autoCapitalize="characters"
-            error={errors.vgaCode?.message}
-          />
-        )}
-      />
-
-      <Controller
-        control={control}
-        name="phone"
-        render={({ field: { value, onChange, onBlur } }) => (
-          <AppInput
-            label="Số điện thoại"
-            placeholder="Nhập số điện thoại"
-            keyboardType="phone-pad"
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            error={errors.phone?.message}
-          />
-        )}
-      />
-
-      <AppButton
-        title="Tiếp tục"
-        loading={isLoading}
-        onPress={handleSubmit(onSubmit)}
-      />
-
-      <Text style={styles.terms}>
-        Bằng việc tiếp tục, bạn đã đồng ý với{"\n"}
-        <Text style={styles.termsBold}>Điều khoản sử dụng</Text>
-      </Text>
-
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Login")}
-        style={styles.bottomLink}
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      enableAutomaticScroll
+      extraScrollHeight={50}
+      enableResetScrollToCoords={false} 
+      keyboardOpeningTime={0}
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ flexGrow: 1 }}
+    >
+      <AuthLayout
+        title="Đăng ký"
+        subtitle="Điền thông tin cá nhân của bạn tại đây"
       >
-        <Text style={styles.bottomText}>
-          Bạn đã có tài khoản mGolf?{" "}
-          <Text style={styles.link}>Đăng nhập</Text>
+        <Controller
+          control={control}
+          name="fullName"
+          render={({ field: { value, onChange, onBlur } }) => (
+            <AppInput
+              label="Họ và tên"
+              placeholder="Nhập họ và tên"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.fullName?.message}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="vgaCode"
+          render={({ field: { value, onChange, onBlur } }) => (
+            <AppInput
+              label="Mã VGA"
+              placeholder="Nhập mã VGA"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              autoCapitalize="characters"
+              error={errors.vgaCode?.message}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="phone"
+          render={({ field: { value, onChange, onBlur } }) => (
+            <AppInput
+              label="Số điện thoại"
+              placeholder="Nhập số điện thoại"
+              keyboardType="phone-pad"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.phone?.message}
+            />
+          )}
+        />
+
+        <AppButton
+          title="Tiếp tục"
+          loading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+        />
+
+        <Text style={styles.terms}>
+          Bằng việc tiếp tục, bạn đã đồng ý với{" "}
+          <Text style={styles.link}>Điều khoản sử dụng</Text>
         </Text>
-      </TouchableOpacity>
-    </AuthLayout>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text style={styles.bottomText}>
+            Bạn đã có tài khoản mGolf?{" "}
+            <Text style={styles.link}>Đăng nhập</Text>
+          </Text>
+        </TouchableOpacity>
+      </AuthLayout>
+    </KeyboardAwareScrollView>
   );
 };
-
 const styles = StyleSheet.create({
   terms: {
     textAlign: "center",
     fontSize: 12,
-    color: "#888",
+
+    color: Colors.textSecondary,
     marginTop: 16,
     marginBottom: 12,
-    lineHeight: 18,
   },
-  termsBold: { fontWeight: "700", color: "#333" },
   link: { color: Colors.link, fontWeight: "600" },
-  bottomLink: { paddingBottom: 10 },
-  bottomText: { textAlign: "center", fontSize: 13, color: "#888" },
+  bottomText: {
+    textAlign: "center",
+    fontSize: 13,
+    color: Colors.textSecondary,
+  },
 });

@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "../../constants/colors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface AuthLayoutProps {
   title: string;
@@ -125,6 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "800",
     color: "#292929",
+
     textAlign: "center",
     lineHeight: 28,
     letterSpacing: -0.2,
@@ -134,6 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "400",
     color: "#878787",
+
     textAlign: "center",
     lineHeight: 17,
     letterSpacing: -0.12,

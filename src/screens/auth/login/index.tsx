@@ -1,5 +1,7 @@
 import React from "react";
+
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
@@ -11,6 +13,7 @@ import { AppButton } from "../../../components/auth/AppButton";
 import { useAuth } from "../../../providers/auth.provider";
 import { Colors } from "../../../constants/colors";
 import { loginSchema, LoginForm } from "./login.schema";
+
 
 const SOCIAL_LOGIN_LIST = [
   { key: "phone",    type: "vector", icon: "call",          color: "#0060AF" },
@@ -67,6 +70,7 @@ export const LoginScreen = () => {
   };
 
   return (
+
     <AuthLayout title="Đăng nhập" subtitle="Nhập VGA và mật khẩu">
       {/* Tên đăng nhập */}
       <Controller
@@ -164,6 +168,7 @@ export const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
+
   forgotRow: { alignItems: "flex-end", marginBottom: 4 },
   forgotText: { color: Colors.link, fontSize: 14 },
   dividerRow: {
@@ -206,4 +211,5 @@ const styles = StyleSheet.create({
   link: { color: Colors.link, fontWeight: "600" },
   bottomLink: { paddingBottom: 10 },
   bottomText: { textAlign: "center", fontSize: 13, color: "#888" },
+
 });

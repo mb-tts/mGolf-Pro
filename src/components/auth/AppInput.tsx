@@ -10,6 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors";
 
+
 interface AppInputProps extends TextInputProps {
   label?: string;
   error?: string;
@@ -42,6 +43,7 @@ export const AppInput: React.FC<AppInputProps> = ({
           secureTextEntry={password && !show}
           {...rest}
         />
+
         {password && (
           <TouchableOpacity
             onPress={() => setShow((s) => !s)}
@@ -62,6 +64,7 @@ export const AppInput: React.FC<AppInputProps> = ({
 
 const styles = StyleSheet.create({
   wrapper: { marginBottom: 14 },
+
   label: {
     fontFamily: "Inter",
     fontSize: 14,
@@ -71,6 +74,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.14, // -1% của 14 ≈ -0.14
     marginBottom: 6,
   },
+
   required: { color: Colors.error },
   inputRow: {
     flexDirection: "row",
