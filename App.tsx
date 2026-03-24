@@ -3,17 +3,22 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider, useAuth } from './src/providers/auth.provider';
-import { LoginScreen }       from './src/screens/auth/login';
-import { RegisterScreen }    from './src/screens/auth/register';
-import { SetPasswordScreen } from './src/screens/auth/set-password';
+import { SplashScreen }       from './src/screens/auth/splash';
+import { OnboardingScreen }   from './src/screens/auth/onboarding';
+import { LoginScreen }        from './src/screens/auth/login';
+import { RegisterScreen }     from './src/screens/auth/register';
+import { SetPasswordScreen }  from './src/screens/auth/set-password';
 
 const Stack = createNativeStackNavigator();
 
+// Luồng Auth: Splash → Onboarding → Login → Register → SetPassword
 const AuthNavigator = () => (
-  <Stack.Navigator id="AuthStack" screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Login"       component={LoginScreen} />
-    <Stack.Screen name="Register"    component={RegisterScreen} />
-    <Stack.Screen name="SetPassword" component={SetPasswordScreen} />
+  <Stack.Navigator id="AuthStack" screenOptions={{ headerShown: false, animation: 'fade' }}>
+    <Stack.Screen name="Splash"       component={SplashScreen} />
+    <Stack.Screen name="Onboarding"   component={OnboardingScreen} />
+    <Stack.Screen name="Login"        component={LoginScreen} />
+    <Stack.Screen name="Register"     component={RegisterScreen} />
+    <Stack.Screen name="SetPassword"  component={SetPasswordScreen} />
   </Stack.Navigator>
 );
 
@@ -21,7 +26,6 @@ const AuthNavigator = () => (
 const RootNavigator = () => {
   const { isAuthenticated } = useAuth();
   
-  // Debug: Kiểm tra trạng thái đăng nhập
   console.log('--- RootNavigator: isAuthenticated =', isAuthenticated);
 
   return (

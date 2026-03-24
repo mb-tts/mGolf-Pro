@@ -49,22 +49,28 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
       </SafeAreaView>
     </LinearGradient>
 
-    {/* ── Phần Card trắng chứa nội dung form gập lên khi có bàn phím ── */}
+    {/* ── Phần Nội dung: ScrollView bọc toàn bộ màn hình ── */}
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : "padding"}
       style={{ flex: 1 }}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
     >
       <ScrollView
-        style={styles.card}
+        style={styles.scrollView}
         contentContainerStyle={[styles.cardContent, { flexGrow: 1 }]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
-        <Text style={styles.title}>{title}</Text>
-        {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
-        {children}
+        {/* Khoảng trống này tương ứng với chiều cao của nền xanh (Header) */}
+        <View style={styles.headerSpacer} />
+
+        {/* Thân card trắng phủ kín từ đây trở xuống */}
+        <View style={styles.card}>
+          <Text style={styles.title}>{title}</Text>
+          {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+          {children}
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   </View>
@@ -96,36 +102,41 @@ const styles = StyleSheet.create({
     height: 110,
     marginTop: 20,
   },
+  scrollView: { flex: 1 },
+  headerSpacer: { height: 240 }, // Tạo khoảng đệm để lộ nền xanh
   card: {
-    marginTop: 240,
     flex: 1,
     backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
+    paddingHorizontal: 24,
+    paddingTop: 28,
+    paddingBottom: 40,
+    // Đổ bóng nổi bật
     elevation: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
   },
-  cardContent: { paddingHorizontal: 24, paddingTop: 28, paddingBottom: 40 },
+  cardContent: { paddingHorizontal: 0, paddingTop: 0, flexGrow: 1 },
   title: {
     fontFamily: "Inter",
     fontSize: 20,
-    fontWeight: "800", // SemiBold
+    fontWeight: "800",
     color: "#292929",
     textAlign: "center",
-    lineHeight: 28, // 140% của 20px = 28
-    letterSpacing: -0.2, // -1% của 20px ≈ -0.2
+    lineHeight: 28,
+    letterSpacing: -0.2,
   },
   subtitle: {
     fontFamily: "Inter",
     fontSize: 12,
-    fontWeight: "400", // Regular
+    fontWeight: "400",
     color: "#878787",
     textAlign: "center",
-    lineHeight: 17, // 12 * 1.4 = 16.8 ≈ 17
-    letterSpacing: -0.12, // -1% của 12 ≈ -0.12
+    lineHeight: 17,
+    letterSpacing: -0.12,
     marginBottom: 24,
   },
 });
