@@ -11,7 +11,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "../../constants/colors";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface AuthLayoutProps {
   title: string;
