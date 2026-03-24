@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
@@ -18,10 +13,15 @@ import { Colors } from "../../../constants/colors";
 import { loginSchema, LoginForm } from "./login.schema";
 
 const SOCIAL_LOGIN_LIST = [
-  { key: "phone", icon: "call", color: "#0060AF" },
-  { key: "google", icon: "logo-google", color: "#DB4437" },
-  { key: "facebook", icon: "logo-facebook", color: "#1877F2" },
-  { key: "qr", icon: "qr-code", color: "#0060AF" },
+  { key: "phone",    type: "vector", icon: "call",          color: "#0060AF" },
+  { key: "google",   type: "image",  icon: require("../../../../assets/icons/google.png"), color: null }, // Dùng ảnh logo Google màu
+  { key: "facebook", type: "vector", icon: "logo-facebook", color: "#1877F2" },
+  {
+    key: "qr",
+    type: "image",
+    icon: require("../../../../assets/icons/scanAuth.png"),
+    color: null,
+  },
 ];
 
 export const LoginScreen = () => {
@@ -36,6 +36,27 @@ export const LoginScreen = () => {
     resolver: zodResolver(loginSchema),
     defaultValues: { vgaCode: "", password: "" },
   });
+
+  // HÀM XỬ LÝ ĐĂNG NHẬP MẠNG XÃ HỘI (Sẵn sàng để tích hợp thật)
+  const onSocialLogin = (platform: string) => {
+    console.log(`--- Tiếp tục với ${platform} ---`);
+    switch (platform) {
+      case "phone":
+        // TODO: Mở màn hình nhập OTP số điện thoại
+        break;
+      case "google":
+        // TODO: Gọi Google.logInAsync() hoặc expo-auth-session
+        break;
+      case "facebook":
+        // TODO: Gọi Facebook.logInWithReadPermissionsAsync()
+        break;
+      case "qr":
+        // TODO: Mở Camera để quét mã QR mGolf
+        break;
+    }
+    // Thêm feedback cho người dùng thấy đã nhấn
+    alert(`Tính năng đăng nhập bằng ${platform} đang được tích hợp.`);
+  };
 
   const onSubmit = async (data: LoginForm) => {
     try {
@@ -100,11 +121,24 @@ export const LoginScreen = () => {
         <View style={styles.line} />
       </View>
 
-      {/* Đăng nhập mạng xã hội */}
+      {/* Đăng nhập mạng xã hội (Clone logic) */}
       <View style={styles.socialRow}>
-        {SOCIAL_LOGIN_LIST.map(({ key, icon, color }) => (
-          <TouchableOpacity key={key} style={styles.socialBtn}>
-            <Ionicons name={icon as any} size={24} color={color} />
+        {SOCIAL_LOGIN_LIST.map(({ key, icon, color, type }) => (
+          <TouchableOpacity
+            key={key}
+            style={styles.socialBtn}
+            onPress={() => onSocialLogin(key)}
+            activeOpacity={0.7}
+          >
+            {type === "vector" ? (
+              <Ionicons name={icon as any} size={28} color={color as any} />
+            ) : (
+              <Image 
+                source={icon as any} 
+                style={styles.socialIconImage} 
+                resizeMode="contain" 
+              />
+            )}
           </TouchableOpacity>
         ))}
       </View>
@@ -132,24 +166,34 @@ export const LoginScreen = () => {
 const styles = StyleSheet.create({
   forgotRow: { alignItems: "flex-end", marginBottom: 4 },
   forgotText: { color: Colors.link, fontSize: 14 },
-  dividerRow: { flexDirection: "row", alignItems: "center", marginVertical: 20 },
-  line: { flex: 1, height: 1, backgroundColor: "#E8E8E8" },
+  dividerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 16,
+    gap: 8,
+  },
+  line: { flex: 1, height: 1, backgroundColor: "#F3F3F3" },
   orText: { marginHorizontal: 12, color: "#999", fontSize: 13 },
   socialRow: {
     flexDirection: "row",
     justifyContent: "center",
-    gap: 16,
+    gap: 8,
     marginBottom: 20,
+    minWidth: 335,
+    minHeight: 56,
+    borderRadius: 22,
   },
   socialBtn: {
-    width: 52,
-    height: 52,
+    width: 77.75,
+    height: 56,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#F8F8F8",
     alignItems: "center",
     justifyContent: "center",
+  },
+  socialIconImage: {
+    width: 28,
+    height: 28,
   },
   terms: {
     textAlign: "center",

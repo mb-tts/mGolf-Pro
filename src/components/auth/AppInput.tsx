@@ -62,7 +62,15 @@ export const AppInput: React.FC<AppInputProps> = ({
 
 const styles = StyleSheet.create({
   wrapper: { marginBottom: 14 },
-  label: { fontSize: 14, color: "#333", marginBottom: 6, fontWeight: "500" },
+  label: {
+    fontFamily: "Inter",
+    fontSize: 14,
+    fontWeight: "400", // Regular
+    color: "#333",
+    lineHeight: 20, // 14 * 1.4 = 19.6 ≈ 20
+    letterSpacing: -0.14, // -1% của 14 ≈ -0.14
+    marginBottom: 6,
+  },
   required: { color: Colors.error },
   inputRow: {
     flexDirection: "row",

@@ -35,7 +35,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
         style={styles.patternImage}
         resizeMode="cover"
       />
-      
+
       <View style={styles.overlay} />
 
       <SafeAreaView style={styles.safe} edges={["top"]}>
@@ -49,14 +49,15 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
       </SafeAreaView>
     </LinearGradient>
 
-    {/* ── Phần Card trắng chứa nội dung form ── */}
+    {/* ── Phần Card trắng chứa nội dung form gập lên khi có bàn phím ── */}
     <KeyboardAvoidingView
-      style={styles.keyboard}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
     >
       <ScrollView
         style={styles.card}
-        contentContainerStyle={styles.cardContent}
+        contentContainerStyle={[styles.cardContent, { flexGrow: 1 }]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         bounces={false}
@@ -95,8 +96,8 @@ const styles = StyleSheet.create({
     height: 110,
     marginTop: 20,
   },
-  keyboard: { flex: 1, marginTop: 240 },
   card: {
+    marginTop: 240,
     flex: 1,
     backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 24,
@@ -109,16 +110,22 @@ const styles = StyleSheet.create({
   },
   cardContent: { paddingHorizontal: 24, paddingTop: 28, paddingBottom: 40 },
   title: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#1A1A1A",
+    fontFamily: "Inter",
+    fontSize: 20,
+    fontWeight: "800", // SemiBold
+    color: "#292929",
     textAlign: "center",
-    marginBottom: 6,
+    lineHeight: 28, // 140% của 20px = 28
+    letterSpacing: -0.2, // -1% của 20px ≈ -0.2
   },
   subtitle: {
-    fontSize: 13,
-    color: "#999",
+    fontFamily: "Inter",
+    fontSize: 12,
+    fontWeight: "400", // Regular
+    color: "#878787",
     textAlign: "center",
+    lineHeight: 17, // 12 * 1.4 = 16.8 ≈ 17
+    letterSpacing: -0.12, // -1% của 12 ≈ -0.12
     marginBottom: 24,
   },
 });
