@@ -41,12 +41,12 @@ export const AppButton: React.FC<AppButtonProps> = ({
 
 const styles = StyleSheet.create({
   base:        {
-    height: 60, borderRadius: 16, alignItems: 'center',
+    height: 52, borderRadius: 12, alignItems: 'center',
     justifyContent: 'center', marginTop: 10,
   },
   primary:     { backgroundColor: Colors.primary },
   outline:     { backgroundColor: 'transparent', borderWidth: 1.5, borderColor: Colors.primary },
   disabled:    { opacity: 0.6 },
-  text:        { color: Colors.white, fontSize: 18, fontWeight: '700' },
+  text:        { color: Colors.white, fontSize: 14, fontWeight: '600' },
   textOutline: { color: Colors.primary },
 });

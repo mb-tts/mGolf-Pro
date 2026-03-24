@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface AuthLayoutProps {
   title: string;
@@ -115,14 +116,14 @@ const styles = StyleSheet.create({
   },
   cardContent: { paddingHorizontal: 28, paddingTop: 32, paddingBottom: 60 },
   title: {
-    fontSize: 26,
-    fontWeight: "700",
+    fontSize: 20,
+    fontWeight: "600",
     color: "#1A1A1A",
     textAlign: "center",
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 12,
     color: "#888888",
     textAlign: "center",
     marginBottom: 32,
