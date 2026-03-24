@@ -2,6 +2,9 @@
   "expo": {
     "name": "mGolf-Pro",
     "slug": "mGolf-Pro",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "android": {
+      "package": "com.manh260603.mGolfPro"
+    }
   }
 }

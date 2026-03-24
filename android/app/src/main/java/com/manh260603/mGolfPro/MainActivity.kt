@@ -1,4 +1,4 @@
-package com.mgolfpro
+package com.manh260603.mGolfPro
 
 import android.os.Build
 import android.os.Bundle
