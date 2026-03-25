@@ -298,7 +298,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F4F7",
   },
   backBtn: {
-    padding: 8,
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFF",
   },
   headerTitle: {
     fontSize: 18,

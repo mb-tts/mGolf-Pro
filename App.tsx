@@ -26,6 +26,7 @@ import { TournamentScreen } from "./src/screens/tournament";
 
 // ─── Account Sub-Screens ──────────────────────────────────────────────────────
 import { AccountInformationScreen } from "./src/screens/account/account-information";
+import { AchievementsScreen } from "./src/screens/account/achievements";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -64,6 +65,7 @@ export type MainTabParamList = {
 export type AppStackParamList = {
   MainTabs: undefined;
   AccountInformation: undefined;
+  Achievements: undefined;
   // Thêm các screen con khác ở đây khi cần
 };
 
@@ -168,6 +170,12 @@ const AppNavigator = () => (
     <AppStack.Screen 
       name="AccountInformation" 
       component={AccountInformationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+    
+    <AppStack.Screen 
+      name="Achievements" 
+      component={AchievementsScreen}
       options={{ animation: "slide_from_right" }}
     />
   </AppStack.Navigator>
