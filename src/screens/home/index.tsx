@@ -99,6 +99,8 @@ const styles = StyleSheet.create({
   horizontalList: {
     paddingRight: 16,
     gap: 12,
+    paddingBottom: 16, // Để phần bóng (shadow) mờ bên dưới không bị cắt
+    paddingTop: 4,
   },
   achievementWrapper: {
     borderRadius: 16,

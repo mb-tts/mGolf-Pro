@@ -1,9 +1,13 @@
 import React, { memo } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors"; 
 import { Match } from "../../constants/mock-data";
 import { ScoreTable } from "../../components/home/ScoreTable";
+
+// SVG Icons
+import LocationIcon from "../../../assets/icons/home/Location.svg";
+import ClubIcon from "../../../assets/icons/home/3User.svg";
+import CalendarIcon from "../../../assets/icons/home/calender2.svg";
 
 interface HistoryCardProps {
   match: Match;
@@ -20,21 +24,21 @@ const HistoryCard: React.FC<HistoryCardProps> = ({ match, onPress }) => (
       <Text style={styles.detailText}>Xem chi tiết</Text>
     </View>
 
-    
     <View style={styles.infoRow}>
-      <Ionicons name="location-outline" style={styles.infoIcon} />
+      <LocationIcon width={14} height={14} color={Colors.textSecondary} />
       <Text style={styles.infoText} numberOfLines={1}>{match.location}</Text>
     </View>
     <View style={styles.infoRow}>
-      <Ionicons name="people-outline" style={styles.infoIcon} />
+      <ClubIcon width={14} height={14} color={Colors.textSecondary} />
       <Text style={styles.infoText}>{match.club}</Text>
     </View>
     <View style={styles.infoRow}>
-      <Ionicons name="calendar-outline" style={styles.infoIcon} />
+      <CalendarIcon width={14} height={14} color={Colors.textSecondary} />
       <Text style={styles.infoText}>{match.datetime}</Text>
     </View>
 
-    
+    {/* Divider line before score table */}
+    <View style={styles.divider} />
     <View style={styles.scoreWrapper}>
       <ScoreTable {...match.scores} />
     </View>
@@ -44,15 +48,13 @@ const HistoryCard: React.FC<HistoryCardProps> = ({ match, onPress }) => (
 const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.white,
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 16,
     
-    borderRadius: 16, 
-    paddingTop: 16, 
-    paddingBottom: 16,
-    paddingHorizontal: 16,
-    marginBottom: 8, 
-    
-    elevation: 3,
-    shadowColor: Colors.shadow || "#000",
+    // Equivalent: box-shadow: 0px 1px 16px 0px rgba(0, 0, 0, 0.1)
+    elevation: 5, // For Android
+    shadowColor: "#000000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 16,
@@ -84,6 +86,12 @@ const styles = StyleSheet.create({
   infoIcon: {
     fontSize: 16,
     color: Colors.textSecondary || "#6B7280", 
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#F3F4F6", // very light gray divider
+    marginTop: 12,
+    marginBottom: 4,
   },
   infoText: {
     fontSize: 13,
