@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAuth } from "../../providers/auth.provider";
 import { Colors } from "../../constants/colors";
+import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 
 const MENU_GROUP_1 = [
   { label: "Thông tin tài khoản", icon: "person-outline", id: "AccountInformation" },
@@ -86,6 +87,14 @@ export const AccountScreen = () => {
               source={{ uri: "https://i.pravatar.cc/150?img=11" }}
               style={styles.avatar}
             />
+            <SafeAreaView edges={["top"]} style={styles.safeHeader}>
+              <TouchableOpacity hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}>
+                <Ionicons name="chevron-back" size={28} color={Colors.white} />
+              </TouchableOpacity>
+              <TouchableOpacity hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}>
+                <Ionicons name="qr-code-outline" size={24} color={Colors.white} />
+              </TouchableOpacity>
+            </SafeAreaView>
           </View>
           <Text style={styles.userName}>
             {user?.fullName || "Nguyễn Văn Anh"}
@@ -98,7 +107,6 @@ export const AccountScreen = () => {
               </Text>
             </View>
           </View>
-        </View>
 
         <View style={styles.menuGroup}>
           {MENU_GROUP_1.map((item) => (

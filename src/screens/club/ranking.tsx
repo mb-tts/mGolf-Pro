@@ -1,0 +1,308 @@
+import React, { useRef } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  TextInput,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+// 1. TẠO DỮ LIỆU ẢO (DUMMY DATA)
+const generateData = () => {
+  const data = [
+    {
+      id: "1",
+      rank: 1,
+      name: "Nguyễn Hùng",
+      vgaid: "VGA 123568",
+      score: 48,
+      image: "https://picsum.photos/id/10/100",
+    },
+    {
+      id: "2",
+      rank: 2,
+      name: "Nguyễn Hùng",
+      vgaid: "VGA 123568",
+      score: 44,
+      image: "https://picsum.photos/id/11/100",
+    },
+    {
+      id: "3",
+      rank: 3,
+      name: "Nguyễn Hùng",
+      vgaid: "VGA 123568",
+      score: 40,
+      image: "https://picsum.photos/id/12/100",
+    },
+    {
+      id: "4",
+      rank: 4,
+      name: "Nguyễn Hùng",
+      vgaid: "VGA 123568",
+      score: 38,
+      image: "https://picsum.photos/id/13/100",
+    },
+    {
+      id: "5",
+      rank: 5,
+      name: "Lan Anh Phạm",
+      vgaid: "VGA 190900",
+      score: 36,
+      image: "https://picsum.photos/id/14/100",
+    },
+    {
+      id: "6",
+      rank: 6,
+      name: "Nguyễn Văn An",
+      vgaid: "VGA 190901",
+      score: 35,
+      image: "https://picsum.photos/id/15/100",
+    },
+  ];
+
+  // Tự động sinh thêm cho đủ 19 người
+  for (let i = 7; i <= 19; i++) {
+    data.push({
+      id: i.toString(),
+      rank: i,
+      name: `Người chơi ${i}`,
+      vgaid: `VGA ${100000 + i}`,
+      score: 35 - (i - 6),
+      image: `https://picsum.photos/id/${10 + i}/100`,
+    });
+  }
+
+  // Thêm "Tôi" vào vị trí số 20
+  const myData = {
+    id: "20",
+    rank: 20,
+    name: "Tôi",
+    vgaid: "VGA 123368",
+    score: 10,
+    image: "https://picsum.photos/id/30/100",
+  };
+  data.push(myData);
+
+  return { data, myData };
+};
+
+const { data: LEADERBOARD_DATA, myData: MY_DATA } = generateData();
+
+// Chiều cao cố định của item để hàm scrollToIndex tính toán chính xác
+const ITEM_HEIGHT = 80;
+
+// Component hiển thị từng người chơi
+const PlayerRow = ({ item, isSticky = false }) => {
+  let rankColor = "#fff";
+  if (item.rank === 1) rankColor = "#FFD700";
+  else if (item.rank === 2) rankColor = "#C0C0C0";
+  else if (item.rank === 3) rankColor = "#CD7F32";
+
+  return (
+    <View>
+      <View style={[styles.itemContainer, isSticky && styles.stickyItem]}>
+        {/* Phần Avatar & Rank */}
+        <View style={styles.avatarContainer}>
+          <Image source={{ uri: item.image }} style={styles.avatar} />
+          <View style={styles.overlay} />
+          <Text style={[styles.rankText, { color: rankColor }]}>
+            {item.rank}
+          </Text>
+        </View>
+
+        {/* Phần Thông tin */}
+        <View style={styles.infoContainer}>
+          <Text style={styles.nameText}>{item.name}</Text>
+          <Text style={styles.vgaText}>{item.vgaid}</Text>
+        </View>
+
+        {/* Phần Điểm */}
+        <View style={styles.scoreContainer}>
+          <Text style={styles.scoreText}>{item.score} điểm</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default function RankingScreen() {
+  const flatListRef = useRef(null);
+
+  const scrollToMe = () => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToIndex({
+        index: 19,
+        animated: true,
+        viewPosition: 0.5,
+      });
+    }
+  };
+
+  // Hàm renderItem chuẩn của FlatList
+  const renderFlatListItem = ({ item }) => {
+    return <PlayerRow item={item} />;
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.searchWrap}>
+        <View style={styles.searchBox}>
+          <Ionicons name="search" size={18} color="#666" />
+          <TextInput
+            placeholder="Tìm kiếm"
+            style={styles.input}
+            placeholderTextColor="#999"
+          />
+        </View>
+
+        <View style={styles.filterBtn}>
+          <Ionicons name="options-outline" size={20} color="#007AFF" />
+        </View>
+      </View>
+      {/* Danh sách chính */}
+      <FlatList
+        ref={flatListRef}
+        data={LEADERBOARD_DATA}
+        keyExtractor={(item) => item.id}
+        renderItem={renderFlatListItem} // Gọi hàm chuẩn ở đây
+        getItemLayout={(data, index) => ({
+          length: ITEM_HEIGHT,
+          offset: ITEM_HEIGHT * index,
+          index,
+        })}
+        contentContainerStyle={{ paddingBottom: ITEM_HEIGHT }}
+      />
+
+      {/* Phần "Tôi" dán cứng ở dưới */}
+      <TouchableOpacity
+        style={styles.stickyBottomContainer}
+        activeOpacity={0.9}
+        onPress={scrollToMe}
+      >
+        {/* Truyền trực tiếp isSticky vào Component */}
+        <PlayerRow item={MY_DATA} isSticky={true} />
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+}
+
+// 2. STYLES
+const styles = StyleSheet.create({
+  container: {
+    padding: 16, 
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: ITEM_HEIGHT,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F0",
+    backgroundColor: "#fff",
+  },
+  stickyItem: {
+    borderBottomWidth: 0,
+  },
+  avatarContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+  },
+  avatar: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.4)", // Tạo lớp màng đen mờ để chữ số hạng nổi bật
+  },
+  rankText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    zIndex: 1,
+  },
+  infoContainer: {
+    flex: 1,
+    marginLeft: 15,
+    justifyContent: "center",
+  },
+  nameText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 4,
+  },
+  vgaText: {
+    fontSize: 13,
+    color: "#888",
+  },
+  scoreContainer: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+  },
+  scoreText: {
+    fontSize: 14,
+    color: "#333",
+  },
+  stickyBottomContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0",
+    // Đổ bóng cho đẹp
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 10,
+  },
+
+  searchWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+
+  searchBox: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    height: 40,
+    elevation: 2
+  },
+
+  input: {
+    marginLeft: 8,
+    flex: 1,
+  },
+
+  filterBtn: {
+    marginLeft: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 2
+  },
+});

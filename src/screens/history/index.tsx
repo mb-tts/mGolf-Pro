@@ -13,6 +13,7 @@ import { Colors } from "../../constants/colors";
 import { MOCK_HISTORY_MATCHES } from "../../constants/mock-data";
 import HistoryCard from "./historycard";
 import FilterBottomSheet from "./filter";
+import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 
 export const HistoryScreen = () => {
   const [searchText, setSearchText] = useState("");
@@ -31,58 +32,64 @@ export const HistoryScreen = () => {
   }, [searchText]);
 
   return (
-    <SafeAreaView style={styles.safe} edges={["top"]}>
-      <View style={styles.customHeader}>
-        <Text style={styles.headerTitle}>Lịch sử</Text>
-      </View>
-
-      <View style={styles.container}>
-        <View style={styles.searchRow}>
-          <View style={styles.searchContainer}>
-            <Ionicons
-              name="search-outline"
-              size={20}
-              color={Colors.textSecondary}
-            />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Nhập tên outing hoặc trận đấu"
-              placeholderTextColor={Colors.textSecondary}
-              value={searchText}
-              onChangeText={setSearchText}
-            />
-          </View>
-          <TouchableOpacity
-            style={styles.filterButton}
-            onPress={() => setIsFilterVisible(true)}
-          >
-            <Ionicons name="options-outline" size={24} color={Colors.primary} />
-          </TouchableOpacity>
+    <ScreenWrapper>
+      <SafeAreaView style={styles.safe} edges={["top"]}>
+        <View style={styles.customHeader}>
+          <Text style={styles.headerTitle}>Lịch sử</Text>
         </View>
 
-        <FlatList
-          data={filteredMatches}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <HistoryCard match={item} onPress={() => {}} />
-          )}
-          contentContainerStyle={styles.listContent}
-          showsVerticalScrollIndicator={false}
+        <View style={styles.container}>
+          <View style={styles.searchRow}>
+            <View style={styles.searchContainer}>
+              <Ionicons
+                name="search-outline"
+                size={20}
+                color={Colors.textSecondary}
+              />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Nhập tên outing hoặc trận đấu"
+                placeholderTextColor={Colors.textSecondary}
+                value={searchText}
+                onChangeText={setSearchText}
+              />
+            </View>
+            <TouchableOpacity
+              style={styles.filterButton}
+              onPress={() => setIsFilterVisible(true)}
+            >
+              <Ionicons
+                name="options-outline"
+                size={24}
+                color={Colors.primary}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <FlatList
+            data={filteredMatches}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <HistoryCard match={item} onPress={() => {}} />
+            )}
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+        <FilterBottomSheet
+          visible={isFilterVisible}
+          onClose={() => setIsFilterVisible(false)}
+          onApply={() => {
+            console.log("Áp dụng bộ lọc");
+            setIsFilterVisible(false);
+          }}
+          onClear={() => {
+            console.log("Xóa bộ lọc");
+            setIsFilterVisible(false);
+          }}
         />
-      </View>
-      <FilterBottomSheet
-        visible={isFilterVisible}
-        onClose={() => setIsFilterVisible(false)}
-        onApply={() => {
-          console.log("Áp dụng bộ lọc");
-          setIsFilterVisible(false);
-        }}
-        onClear={() => {
-          console.log("Xóa bộ lọc");
-          setIsFilterVisible(false);
-        }}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScreenWrapper>
   );
 };
 
