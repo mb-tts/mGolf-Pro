@@ -43,7 +43,7 @@ export const MatchStatusBadge: React.FC<{ status: Status }> = ({ status }) => {
   const { bg, color, label, Icon } = STATUS_CONFIG[status];
   return (
     <View style={[styles.badge, { backgroundColor: bg }]}>
-      <Icon width={14} height={14} color={color} />{" "}
+      <Icon width={14} height={14} color={color} />
       {/* icon cùng màu với text */}
       <Text style={[styles.label, { color }]}>{label}</Text>
     </View>

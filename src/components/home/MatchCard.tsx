@@ -42,16 +42,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 16,
     padding: 16,
-    marginRight: 12,
+    marginRight: 16, // Increase right margin for the larger shadow blur to not be clipped
 
-    // ✅ Thêm border nhạt
+    // Thêm lại viền và shadow nhỏ để không bị cắt lỗi hiển thị
     borderWidth: 1,
     borderColor: "#E5E7EB",
 
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1, // rgba(0,0,0,0.1)
-    shadowRadius: 8, // 16 / 2 = 8
+    shadowOpacity: 0.1, 
+    shadowRadius: 8, 
     elevation: 3,
   },
   title: {

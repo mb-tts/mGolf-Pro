@@ -62,3 +62,33 @@ export const MOCK_CREDENTIALS = {
   vgaCode: "a", // ← đổi
   password: "123456", // ← đổi
 };
+
+export const MOCK_HISTORY_MATCHES: Match[] = [
+  {
+    id: "h1",
+    title: "Trận bán kết giải MBF 2024",
+    status: "finished",
+    location: "Sân Golf Đại Lải",
+    club: "MBF Club",
+    datetime: "8:00 12/12/2024",
+    scores: { hdc: 30, net: 20, gross: 25, ranking: 2, skins: 92 },
+  },
+  {
+    id: "h2",
+    title: "Sân Golf Đại Lải",
+    status: "finished",
+    location: "Sân Golf Đại Lải",
+    club: "MBF Club",
+    datetime: "8:00 12/12/2024",
+    scores: { hdc: 30, net: 20, gross: 25, ranking: 2, skins: 92 },
+  },
+  {
+    id: "h3",
+    title: "Trận bán kết giải MBF 2024",
+    status: "finished",
+    location: "Sân Golf Đại Lải",
+    club: "MBF Club",
+    datetime: "8:00 12/12/2024",
+    scores: { hdc: 30, net: 20, gross: 25, ranking: 2, skins: 92 },
+  },
+];

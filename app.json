@@ -8,7 +8,8 @@
       "softwareKeyboardLayoutMode": "resize"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font"
     ]
   }
 }
