@@ -10,30 +10,41 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAuth } from "../../providers/auth.provider";
 import { Colors } from "../../constants/colors";
 import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 import BackgroundProfile from "../../../assets/icons/profile/backgroundProfile.svg";
 
 const MENU_GROUP_1 = [
-  { label: "Thông tin tài khoản", icon: "person-outline" },
-  { label: "Thành tích", icon: "podium-outline" },
-  { label: "Cài đặt game", icon: "game-controller-outline" },
-  { label: "Cài đặt giao diện", icon: "contrast-outline" },
-  { label: "Cài đặt thanh toán", icon: "cash-outline" },
-  { label: "Trang bị", icon: "golf-outline" },
-  { label: "Cài đặt thông báo", icon: "notifications-outline" },
-  { label: "Bảo mật và Quyền riêng tư", icon: "shield-checkmark-outline" },
+  { label: "Thông tin tài khoản", icon: "person-outline", id: "AccountInformation" },
+  { label: "Thành tích", icon: "podium-outline", id: "Achievements" },
+  { label: "Cài đặt game", icon: "game-controller-outline", id: "GameSettings" },
+  { label: "Cài đặt giao diện", icon: "contrast-outline", id: "UISettings" },
+  { label: "Cài đặt thanh toán", icon: "cash-outline", id: "PaymentSettings" },
+  { label: "Trang bị", icon: "golf-outline", id: "Equipment" },
+  { label: "Cài đặt thông báo", icon: "notifications-outline", id: "NotificationSettings" },
+  { label: "Bảo mật và Quyền riêng tư", icon: "shield-checkmark-outline", id: "Security" },
 ];
 
 const MENU_GROUP_2 = [
-  { label: "Liên hệ với chúng tôi", icon: "call-outline" },
-  { label: "Về chúng tôi", icon: "document-text-outline" },
-  { label: "Luật chơi", icon: "book-outline" },
+  { label: "Liên hệ với chúng tôi", icon: "call-outline", id: "Contact" },
+  { label: "Về chúng tôi", icon: "document-text-outline", id: "About" },
+  { label: "Luật chơi", icon: "book-outline", id: "Rules" },
 ];
 
-const MenuItem = ({ item }: { item: any }) => (
-  <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
+interface MenuItemProps {
+  item: any;
+  onPress: (screenName: string) => void;
+}
+
+const MenuItem: React.FC<MenuItemProps> = ({ item, onPress }) => (
+  <TouchableOpacity
+    style={styles.menuItem}
+    activeOpacity={0.7}
+    onPress={() => onPress(item.id)}
+  >
     <View style={styles.menuIconBox}>
       <Ionicons name={item.icon} size={20} color="#4A4A4A" />
     </View>
@@ -44,19 +55,38 @@ const MenuItem = ({ item }: { item: any }) => (
 
 export const AccountScreen = () => {
   const { user, logout } = useAuth();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const handleMenuPress = (screenName: string) => {
+    navigation.navigate(screenName);
+  };
 
   return (
-    <ScreenWrapper>
-      <View style={styles.container}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContent}
-        >
-          {/* NỀN XANH TRÊN CÙNG */}
-          <View style={styles.headerBackground}>
-            <LinearGradient
-              colors={["#42A5F5", "#90CAF9", "#F0F4F8"]}
-              style={StyleSheet.absoluteFillObject}
+    <View style={styles.container}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <View style={styles.headerBackground}>
+          <LinearGradient
+            colors={["#42A5F5", "#90CAF9", "#F0F4F8"]}
+            style={StyleSheet.absoluteFillObject}
+          />
+          <SafeAreaView edges={["top"]} style={styles.safeHeader}>
+            <TouchableOpacity>
+              <Ionicons name="chevron-back" size={28} color={Colors.white} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Ionicons name="qr-code-outline" size={24} color={Colors.white} />
+            </TouchableOpacity>
+          </SafeAreaView>
+        </View>
+
+        <View style={styles.profileCard}>
+          <View style={styles.avatarWrapper}>
+            <Image
+              source={{ uri: "https://i.pravatar.cc/150?img=11" }}
+              style={styles.avatar}
             />
             <SafeAreaView edges={["top"]} style={styles.safeHeader}>
               <TouchableOpacity
@@ -75,6 +105,9 @@ export const AccountScreen = () => {
               </TouchableOpacity>
             </SafeAreaView>
           </View>
+          <Text style={styles.userName}>
+            {user?.fullName || "Nguyễn Văn Anh"}
+          </Text>
 
           {/* THẺ PROFILE DỊCH LÊN TRÊN */}
           <View style={styles.profileCard}>
@@ -97,6 +130,11 @@ export const AccountScreen = () => {
               {user?.fullName || "Nguyễn Văn Anh"}
             </Text>
 
+          <View style={styles.badgeRow}>
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>
+                VGA {user?.vgaCode || "234568"}
+              </Text>
             <View style={styles.badgeRow}>
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>
@@ -115,20 +153,41 @@ export const AccountScreen = () => {
             </View>
           </View>
 
-          {/* MENU NHÓM 1 */}
-          <View style={styles.menuGroup}>
-            {MENU_GROUP_1.map((item) => (
-              <MenuItem key={item.label} item={item} />
-            ))}
-          </View>
+        <View style={styles.menuGroup}>
+          {MENU_GROUP_1.map((item) => (
+            <MenuItem
+              key={item.label}
+              item={item}
+              onPress={handleMenuPress}
+            />
+          ))}
+        </View>
 
-          {/* MENU NHÓM 2 */}
-          <View style={styles.menuGroup}>
-            {MENU_GROUP_2.map((item) => (
-              <MenuItem key={item.label} item={item} />
-            ))}
-          </View>
+        <View style={styles.menuGroup}>
+          {MENU_GROUP_2.map((item) => (
+            <MenuItem
+              key={item.label}
+              item={item}
+              onPress={handleMenuPress}
+            />
+          ))}
+        </View>
 
+        <TouchableOpacity
+          style={styles.logoutBtn}
+          onPress={logout}
+          activeOpacity={0.8}
+        >
+          <Ionicons
+            name="log-out-outline"
+            size={20}
+            color="#FF3B30"
+            style={{ transform: [{ scaleX: -1 }] }}
+          />
+          <Text style={styles.logoutText}>Đăng xuất</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
           {/* NÚT ĐĂNG XUẤT */}
           <TouchableOpacity
             style={styles.logoutBtn}
