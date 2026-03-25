@@ -4,6 +4,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SvgProps } from "react-native-svg";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
 
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
@@ -55,7 +59,7 @@ export type MainTabParamList = {
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
-// ✅ Đầy đủ 5 tab, đúng tên biến
+// Đầy đủ 5 tab, đúng tên biến
 const TAB_ICONS: Record<
   string,
   { active: React.FC<SvgProps>; inactive: React.FC<SvgProps> }
@@ -86,58 +90,62 @@ const AuthNavigator = () => (
 // ─── Main Tab Navigator ───────────────────────────────────────────────────────
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
-const MainNavigator = () => (
-  <Tab.Navigator
-    id="MainTab"
-    screenOptions={({ route }) => ({
-      headerShown: false,
-      tabBarShowLabel: true,
-      tabBarActiveTintColor: "#1565C0",
-      tabBarInactiveTintColor: "#9E9E9E",
-      tabBarStyle: {
-        height: 60,
-        paddingBottom: 8,
-        paddingTop: 6,
-        backgroundColor: "#FFFFFF",
-        borderTopWidth: 1,
-        borderTopColor: "#F0F0F0",
-        elevation: 10,
-      },
-      tabBarIcon: ({ focused }) => {
-        const icons = TAB_ICONS[route.name];
-        if (!icons) return null;
-        const Icon = focused ? icons.active : icons.inactive;
-        return <Icon width={24} height={24} />;
-      },
-    })}
-  >
-    <Tab.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{ tabBarLabel: "Trang chủ" }}
-    />
-    <Tab.Screen
-      name="History"
-      component={HistoryScreen}
-      options={{ tabBarLabel: "Lịch sử" }}
-    />
-    <Tab.Screen
-      name="Club"
-      component={ClubScreen}
-      options={{ tabBarLabel: "Câu lạc bộ" }}
-    />
-    <Tab.Screen
-      name="Tournament"
-      component={TournamentScreen}
-      options={{ tabBarLabel: "Sân đấu" }}
-    />
-    <Tab.Screen
-      name="Account"
-      component={AccountScreen}
-      options={{ tabBarLabel: "Tài khoản" }}
-    />
-  </Tab.Navigator>
-);
+const MainNavigator = () => {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <Tab.Navigator
+      id="MainTab"
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: true,
+        tabBarActiveTintColor: "#1565C0",
+        tabBarInactiveTintColor: "#9E9E9E",
+        tabBarStyle: {
+          height: 60 + insets.bottom,
+          paddingBottom: 8 + insets.bottom,
+          paddingTop: 6,
+          backgroundColor: "#FFFFFF",
+          borderTopWidth: 1,
+          borderTopColor: "#F0F0F0",
+          elevation: 10,
+        },
+        tabBarIcon: ({ focused }) => {
+          const icons = TAB_ICONS[route.name];
+          if (!icons) return null;
+          const Icon = focused ? icons.active : icons.inactive;
+          return <Icon width={24} height={24} />;
+        },
+      })}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ tabBarLabel: "Trang chủ" }}
+      />
+      <Tab.Screen
+        name="History"
+        component={HistoryScreen}
+        options={{ tabBarLabel: "Lịch sử" }}
+      />
+      <Tab.Screen
+        name="Club"
+        component={ClubScreen}
+        options={{ tabBarLabel: "Câu lạc bộ" }}
+      />
+      <Tab.Screen
+        name="Tournament"
+        component={TournamentScreen}
+        options={{ tabBarLabel: "Sân đấu" }}
+      />
+      <Tab.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{ tabBarLabel: "Tài khoản" }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 // ─── Root Navigator ───────────────────────────────────────────────────────────
 const RootNavigator = () => {
@@ -154,13 +162,23 @@ const RootNavigator = () => {
   );
 };
 
+import { useFonts } from "expo-font";
+
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "Meow Script": require("./assets/fonts/MeowScript-Regular.ttf"),
+  });
+
+  if (!fontsLoaded) return null;
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthProvider>
-        <RootNavigator />
-      </AuthProvider>
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <AuthProvider>
+          <RootNavigator />
+        </AuthProvider>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 }

@@ -22,16 +22,16 @@ export const ScoreTable: React.FC<ScoreTableProps> = ({
   const values = [hdc, net, gross, ranking, skins];
   return (
     <View style={styles.table}>
-      <View style={styles.row}>
-        {HEADERS.map((h) => (
-          <Text key={h} style={styles.headerCell}>
+      <View style={[styles.row, styles.headerRow]}>
+        {HEADERS.map((h, index) => (
+          <Text key={h} style={[styles.headerCell, index < HEADERS.length - 1 && styles.borderRight]}>
             {h}
           </Text>
         ))}
       </View>
       <View style={styles.row}>
-        {values.map((v, i) => (
-          <Text key={i} style={styles.valueCell}>
+        {values.map((v, index) => (
+          <Text key={index} style={[styles.valueCell, index < values.length - 1 && styles.borderRight]}>
             {v}
           </Text>
         ))}
@@ -49,21 +49,29 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   row: { flexDirection: "row" },
+  headerRow: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E7EB",
+  },
+  borderRight: {
+    borderRightWidth: 1,
+    borderRightColor: "#E5E7EB",
+  },
   headerCell: {
     flex: 1,
     textAlign: "center",
-    paddingVertical: 7,
+    paddingVertical: 10,
     fontSize: 12,
-    fontWeight: "700",
-    color: Colors.tableHeader,
-    backgroundColor: "#EEF4FF",
+    fontWeight: "600",
+    color: "#0066FF",
+    backgroundColor: "#F5F8FF",
   },
   valueCell: {
     flex: 1,
     textAlign: "center",
-    paddingVertical: 8,
+    paddingVertical: 12,
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: "500",
     color: Colors.text,
     backgroundColor: Colors.white,
   },
