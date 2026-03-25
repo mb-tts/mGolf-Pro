@@ -4,7 +4,11 @@
     "slug": "mGolf-Pro",
     "version": "1.0.0",
     "android": {
-      "package": "com.manh260603.mGolfPro"
-    }
+      "package": "com.manh260603.mGolfPro",
+      "softwareKeyboardLayoutMode": "resize"
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
