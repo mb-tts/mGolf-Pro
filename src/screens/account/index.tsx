@@ -12,6 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../providers/auth.provider";
 import { Colors } from "../../constants/colors";
+import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 
 const MENU_GROUP_1 = [
   { label: "Thông tin tài khoản", icon: "person-outline" },
@@ -44,77 +45,79 @@ export const AccountScreen = () => {
   const { user, logout } = useAuth();
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* NỀN XANH TRÊN CÙNG */}
-        <View style={styles.headerBackground}>
-          <LinearGradient
-            colors={["#42A5F5", "#90CAF9", "#F0F4F8"]}
-            style={StyleSheet.absoluteFillObject}
-          />
-          <SafeAreaView edges={["top"]} style={styles.safeHeader}>
-            <TouchableOpacity hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}>
-              <Ionicons name="chevron-back" size={28} color={Colors.white} />
-            </TouchableOpacity>
-            <TouchableOpacity hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}>
-              <Ionicons name="qr-code-outline" size={24} color={Colors.white} />
-            </TouchableOpacity>
-          </SafeAreaView>
-        </View>
-
-        {/* THẺ PROFILE DỊCH LÊN TRÊN */}
-        <View style={styles.profileCard}>
-          <View style={styles.avatarWrapper}>
-            <Image
-              source={{ uri: "https://i.pravatar.cc/150?img=11" }}
-              style={styles.avatar}
+    <ScreenWrapper>
+      <View style={styles.container}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
+          {/* NỀN XANH TRÊN CÙNG */}
+          <View style={styles.headerBackground}>
+            <LinearGradient
+              colors={["#42A5F5", "#90CAF9", "#F0F4F8"]}
+              style={StyleSheet.absoluteFillObject}
             />
+            <SafeAreaView edges={["top"]} style={styles.safeHeader}>
+              <TouchableOpacity hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}>
+                <Ionicons name="chevron-back" size={28} color={Colors.white} />
+              </TouchableOpacity>
+              <TouchableOpacity hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}>
+                <Ionicons name="qr-code-outline" size={24} color={Colors.white} />
+              </TouchableOpacity>
+            </SafeAreaView>
           </View>
-          <Text style={styles.userName}>{user?.fullName || "Nguyễn Văn Anh"}</Text>
 
-          <View style={styles.badgeRow}>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>VGA {user?.vgaCode || "234568"}</Text>
+          {/* THẺ PROFILE DỊCH LÊN TRÊN */}
+          <View style={styles.profileCard}>
+            <View style={styles.avatarWrapper}>
+              <Image
+                source={{ uri: "https://i.pravatar.cc/150?img=11" }}
+                style={styles.avatar}
+              />
             </View>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>HDC 30</Text>
-            </View>
-            <View style={[styles.badge, { backgroundColor: "#E3F2FD" }]}>
-              <Text style={[styles.badgeText, { color: Colors.primary }]}>MBF Club</Text>
-              <View style={styles.greenDot} />
+            <Text style={styles.userName}>{user?.fullName || "Nguyễn Văn Anh"}</Text>
+
+            <View style={styles.badgeRow}>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>VGA {user?.vgaCode || "234568"}</Text>
+              </View>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>HDC 30</Text>
+              </View>
+              <View style={[styles.badge, { backgroundColor: "#E3F2FD" }]}>
+                <Text style={[styles.badgeText, { color: Colors.primary }]}>MBF Club</Text>
+                <View style={styles.greenDot} />
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* MENU NHÓM 1 */}
-        <View style={styles.menuGroup}>
-          {MENU_GROUP_1.map((item) => (
-            <MenuItem key={item.label} item={item} />
-          ))}
-        </View>
+          {/* MENU NHÓM 1 */}
+          <View style={styles.menuGroup}>
+            {MENU_GROUP_1.map((item) => (
+              <MenuItem key={item.label} item={item} />
+            ))}
+          </View>
 
-        {/* MENU NHÓM 2 */}
-        <View style={styles.menuGroup}>
-          {MENU_GROUP_2.map((item) => (
-            <MenuItem key={item.label} item={item} />
-          ))}
-        </View>
+          {/* MENU NHÓM 2 */}
+          <View style={styles.menuGroup}>
+            {MENU_GROUP_2.map((item) => (
+              <MenuItem key={item.label} item={item} />
+            ))}
+          </View>
 
-        {/* NÚT ĐĂNG XUẤT */}
-        <TouchableOpacity style={styles.logoutBtn} onPress={logout} activeOpacity={0.8}>
-          <Ionicons
-            name="log-out-outline"
-            size={20}
-            color="#FF3B30"
-            style={{ transform: [{ scaleX: -1 }] }} // Lật icon lại cho giống hình
-          />
-          <Text style={styles.logoutText}>Đăng xuất</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
+          {/* NÚT ĐĂNG XUẤT */}
+          <TouchableOpacity style={styles.logoutBtn} onPress={logout} activeOpacity={0.8}>
+            <Ionicons
+              name="log-out-outline"
+              size={20}
+              color="#FF3B30"
+              style={{ transform: [{ scaleX: -1 }] }} // Lật icon lại cho giống hình
+            />
+            <Text style={styles.logoutText}>Đăng xuất</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    </ScreenWrapper>
   );
 };
 

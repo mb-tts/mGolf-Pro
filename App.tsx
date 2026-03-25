@@ -77,7 +77,7 @@ const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const AuthNavigator = () => (
   <AuthStack.Navigator
     id="AuthStack"
-    screenOptions={{ headerShown: false, animation: "fade" }}
+    screenOptions={{ headerShown: false, animation: "default" }} // Để hệ điều hành tự chọn hiệu ứng chuyển màn native (Samsung khác, iPhone khác)
   >
     <AuthStack.Screen name="Splash" component={SplashScreen} />
     <AuthStack.Screen name="Onboarding" component={OnboardingScreen} />
