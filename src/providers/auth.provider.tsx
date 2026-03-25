@@ -14,18 +14,19 @@ import {
   SetPasswordPayload,
 } from "../types/auth.types";
 import { AuthStorage } from "../store/auth.store";
-import { MOCK_USER, MOCK_CREDENTIALS } from "../constants/mock-data"; // ✅ fix
+import { MOCK_USERS } from "../constants/mock-data"; 
+import { User } from "../types/auth.types";
 
 // ─── Reducer ──────────────────────────────────────────────────────────────────
 type Action =
   | { type: "SET_LOADING"; payload: boolean }
   | {
       type: "LOGIN_SUCCESS";
-      payload: { user: typeof MOCK_USER; token: string };
+      payload: { user: User; token: string };
     }
   | {
       type: "RESTORE_SESSION";
-      payload: { user: typeof MOCK_USER | null; token: string | null };
+      payload: { user: User | null; token: string | null };
     }
   | { type: "LOGOUT" };
 
@@ -99,18 +100,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "SET_LOADING", payload: true });
     try {
       await new Promise((r) => setTimeout(r, 1000)); // TODO: replace with API
-      if (
-        payload.vgaCode !== MOCK_CREDENTIALS.vgaCode ||
-        payload.password !== MOCK_CREDENTIALS.password
-      ) {
+      
+      const user = MOCK_USERS[payload.vgaCode];
+      if (!user || payload.password !== "123456") {
         throw new Error("Sai mã VGA hoặc mật khẩu");
       }
-      console.log("--- Auth: Login thành công cho user:", MOCK_USER.vgaCode);
-      await AuthStorage.setUser(MOCK_USER);
-      await AuthStorage.setToken(MOCK_USER.token);
+
+      console.log("--- Auth: Login thành công cho user:", user.vgaCode);
+      await AuthStorage.setUser(user);
+      await AuthStorage.setToken(user.token);
       dispatch({
         type: "LOGIN_SUCCESS",
-        payload: { user: MOCK_USER, token: MOCK_USER.token },
+        payload: { user, token: user.token },
       });
     } catch (err) {
       console.error("--- Auth: Lỗi login:", err);
