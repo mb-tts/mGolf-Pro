@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../providers/auth.provider";
 import { Colors } from "../../constants/colors";
 import { ScreenWrapper } from "../../components/common/ScreenWrapper";
+import BackgroundProfile from "../../../assets/icons/profile/backgroundProfile.svg";
 
 const MENU_GROUP_1 = [
   { label: "Thông tin tài khoản", icon: "person-outline" },
@@ -58,34 +59,57 @@ export const AccountScreen = () => {
               style={StyleSheet.absoluteFillObject}
             />
             <SafeAreaView edges={["top"]} style={styles.safeHeader}>
-              <TouchableOpacity hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}>
+              <TouchableOpacity
+                hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+              >
                 <Ionicons name="chevron-back" size={28} color={Colors.white} />
               </TouchableOpacity>
-              <TouchableOpacity hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}>
-                <Ionicons name="qr-code-outline" size={24} color={Colors.white} />
+              <TouchableOpacity
+                hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+              >
+                <Ionicons
+                  name="qr-code-outline"
+                  size={24}
+                  color={Colors.white}
+                />
               </TouchableOpacity>
             </SafeAreaView>
           </View>
 
           {/* THẺ PROFILE DỊCH LÊN TRÊN */}
           <View style={styles.profileCard}>
+            {/* SVG nền (được bọc trong container có overflow hidden để không bị tràn bo góc) */}
+            <View style={styles.svgContainer}>
+              <BackgroundProfile
+                width="100%"
+                height="100%"
+                preserveAspectRatio="xMidYMid slice"
+              />
+            </View>
+
             <View style={styles.avatarWrapper}>
               <Image
                 source={{ uri: "https://i.pravatar.cc/150?img=11" }}
                 style={styles.avatar}
               />
             </View>
-            <Text style={styles.userName}>{user?.fullName || "Nguyễn Văn Anh"}</Text>
+            <Text style={styles.userName}>
+              {user?.fullName || "Nguyễn Văn Anh"}
+            </Text>
 
             <View style={styles.badgeRow}>
               <View style={styles.badge}>
-                <Text style={styles.badgeText}>VGA {user?.vgaCode || "234568"}</Text>
+                <Text style={styles.badgeText}>
+                  VGA {user?.vgaCode || "234568"}
+                </Text>
               </View>
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>HDC 30</Text>
               </View>
               <View style={[styles.badge, { backgroundColor: "#E3F2FD" }]}>
-                <Text style={[styles.badgeText, { color: Colors.primary }]}>MBF Club</Text>
+                <Text style={[styles.badgeText, { color: Colors.primary }]}>
+                  MBF Club
+                </Text>
                 <View style={styles.greenDot} />
               </View>
             </View>
@@ -106,7 +130,11 @@ export const AccountScreen = () => {
           </View>
 
           {/* NÚT ĐĂNG XUẤT */}
-          <TouchableOpacity style={styles.logoutBtn} onPress={logout} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={styles.logoutBtn}
+            onPress={logout}
+            activeOpacity={0.8}
+          >
             <Ionicons
               name="log-out-outline"
               size={20}
@@ -153,6 +181,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
+    position: "relative",
+    // Bỏ overflow: "hidden" ở đây để Avatar lồi lên không bị mất
+  },
+  svgContainer: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 16, // Phải khớp với borderRadius của profileCard
+    overflow: "hidden", // Chỉ cắt ảnh SVG ở đây
   },
   avatarWrapper: {
     marginTop: -40, // Đẩy avatar lồi ra ngoài thẻ
