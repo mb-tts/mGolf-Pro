@@ -1,15 +1,22 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
+
 import { AuthLayout } from "../../../components/auth/AuthLayout";
 import { AppInput } from "../../../components/auth/AppInput";
 import { AppButton } from "../../../components/auth/AppButton";
 import { useAuth } from "../../../providers/auth.provider";
 import { Colors } from "../../../constants/colors";
 import { registerSchema, RegisterForm } from "./register.schema";
-import { KeyboardAvoidingView , Platform} from "react-native";
+import { KeyboardAvoidingView, Platform } from "react-native";
 
 export const RegisterScreen = () => {
   const { register, isLoading } = useAuth();
@@ -110,11 +117,11 @@ export const RegisterScreen = () => {
     </KeyboardAvoidingView>
   );
 };
-
 const styles = StyleSheet.create({
   terms: {
     textAlign: "center",
     fontSize: 12,
+
     color: Colors.textSecondary,
     marginTop: 16,
     marginBottom: 12,

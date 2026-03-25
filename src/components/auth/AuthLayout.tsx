@@ -10,9 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface AuthLayoutProps {
   title: string;
@@ -26,23 +24,18 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
   children,
 }) => (
   <View style={styles.container}>
-    {/* Nền xanh phối hợp Gradient và Ảnh hoa văn quả bóng golf */}
+    {/* ── Nền xanh phối hợp Gradient và Ảnh hoa văn quả bóng golf ── */}
     <LinearGradient
       colors={["#003B6B", "#47ADFF", "#003B6B"]} // Đậm ở hai đầu, sáng rực ở giữa
       locations={[0, 0.5, 1]}
       style={styles.backgroundHeader}
     >
-      {/* 
-          Dùng ảnh hoa văn quả bóng golf từ thư mục assets. 
-          Lưu ý đi tìm ảnh gôn bạn vừa gởi và lưu vào d:\test\mGolf-Pro\assets\images\golf_pattern.png 
-      */}
       <Image
         source={require("../../../assets/images/golf_pattern.png")}
         style={styles.patternImage}
         resizeMode="cover"
       />
 
-      {/* Thêm một lớp phủ mờ màu xanh để làm hoa văn chìm hơn */}
       <View style={styles.overlay} />
 
       <SafeAreaView style={styles.safe} edges={["top"]}>
@@ -56,21 +49,28 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
       </SafeAreaView>
     </LinearGradient>
 
-    {/* Card trắng chồng lên */}
+    {/* ── Phần Nội dung: ScrollView bọc toàn bộ màn hình ── */}
     <KeyboardAvoidingView
-      style={styles.keyboard}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : "padding"}
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
     >
       <ScrollView
-        style={styles.card}
-        contentContainerStyle={styles.cardContent}
+        style={styles.scrollView}
+        contentContainerStyle={[styles.cardContent, { flexGrow: 1 }]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
-        <Text style={styles.title}>{title}</Text>
-        {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
-        {children}
+        {/* Khoảng trống này tương ứng với chiều cao của nền xanh (Header) */}
+        <View style={styles.headerSpacer} />
+
+        {/* Thân card trắng phủ kín từ đây trở xuống */}
+        <View style={styles.card}>
+          <Text style={styles.title}>{title}</Text>
+          {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+          {children}
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   </View>
@@ -87,13 +87,13 @@ const styles = StyleSheet.create({
   },
   patternImage: {
     position: "absolute",
-    alignSelf: "center", // Căn giữa ảnh
+    alignSelf: "center",
     opacity: 0.4,
-    transform: [{ scale: 1.3 }], // Bạn có thể chỉnh scale để thu nhỏ/phóng to ảnh thật này
+    transform: [{ scale: 1.3 }],
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 51, 102, 0.2)", // Giảm độ đậm của lớp phủ xanh
+    backgroundColor: "rgba(0, 51, 102, 0.2)",
   },
   safe: { flex: 1 },
   header: { alignItems: "center", paddingTop: 40 },
@@ -102,30 +102,43 @@ const styles = StyleSheet.create({
     height: 110,
     marginTop: 20,
   },
-  keyboard: { flex: 1, marginTop: 240 },
+  scrollView: { flex: 1 },
+  headerSpacer: { height: 240 }, // Tạo khoảng đệm để lộ nền xanh
   card: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
-    elevation: 10,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 24,
+    paddingTop: 28,
+    paddingBottom: 40,
+    // Đổ bóng nổi bật
+    elevation: 8,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: -10 },
+    shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
   },
-  cardContent: { paddingHorizontal: 28, paddingTop: 32, paddingBottom: 60 },
+  cardContent: { paddingHorizontal: 0, paddingTop: 0, flexGrow: 1 },
   title: {
+    fontFamily: "Inter",
     fontSize: 20,
-    fontWeight: "600",
-    color: "#1A1A1A",
+    fontWeight: "800",
+    color: "#292929",
+
     textAlign: "center",
-    marginBottom: 8,
+    lineHeight: 28,
+    letterSpacing: -0.2,
   },
   subtitle: {
+    fontFamily: "Inter",
     fontSize: 12,
-    color: "#888888",
+    fontWeight: "400",
+    color: "#878787",
+
     textAlign: "center",
-    marginBottom: 32,
+    lineHeight: 17,
+    letterSpacing: -0.12,
+    marginBottom: 24,
   },
 });
