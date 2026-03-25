@@ -10,6 +10,7 @@ import { Colors } from "../../constants/colors";
 import { MOCK_MATCHES, MOCK_ACHIEVEMENTS } from "../../constants/mock-data";
 import { useAuth } from "../../providers/auth.provider";
 import { AchievementCard } from "../../components/home/AchievementCard";
+import AchiveBg from "../../../assets/icons/home/achive.svg";
 
 export const HomeScreen = () => {
   const { user } = useAuth();
@@ -27,7 +28,7 @@ export const HomeScreen = () => {
         {/* Index Banner — nằm trên nền xám */}
         <IndexBanner index={12.5} />
 
-        {/* ✅ Khối trắng bo góc trên */}
+        {/* Khối trắng bo góc trên */}
         <View style={styles.whiteSheet}>
           {/* Trận đấu của tôi */}
           <View style={styles.section}>
@@ -45,10 +46,23 @@ export const HomeScreen = () => {
           {/* Thành tích của tôi */}
           <View style={styles.section}>
             <SectionHeader title="Thành tích của tôi" />
-            <View style={styles.achievementRow}>
-              {MOCK_ACHIEVEMENTS.map((item) => (
-                <AchievementCard key={item.id} item={item} />
-              ))}
+
+            <View style={styles.achievementWrapper}>
+              {/* ✅ Bọc SVG trong View absolute */}
+              <View style={StyleSheet.absoluteFillObject}>
+                <AchiveBg
+                  width="100%"
+                  height="100%"
+                  preserveAspectRatio="xMidYMid slice"
+                />
+              </View>
+
+              {/* Các card */}
+              <View style={styles.achievementRow}>
+                {MOCK_ACHIEVEMENTS.map((item) => (
+                  <AchievementCard key={item.id} item={item} />
+                ))}
+              </View>
             </View>
           </View>
         </View>
@@ -85,6 +99,20 @@ const styles = StyleSheet.create({
   horizontalList: {
     paddingRight: 16,
     gap: 12,
+  },
+  achievementWrapper: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#E8C96B",
+    overflow: "hidden", // ✅ giữ để SVG không tràn ra ngoài bo góc
+    padding: 16,
+  },
+
+  achiveBg: {
+    position: "absolute", // ✅ nằm phía sau các card
+    top: 0,
+    left: 0,
+    opacity: 0.25, // ✅ mờ để thấy hoa văn nhẹ
   },
   achievementRow: {
     flexDirection: "row",
