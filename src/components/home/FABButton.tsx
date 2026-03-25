@@ -1,0 +1,37 @@
+import React from "react";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { Colors } from "../../constants/colors";
+
+interface FABButtonProps {
+  onPress: () => void;
+  icon?: string;
+}
+
+export const FABButton: React.FC<FABButtonProps> = ({
+  onPress,
+  icon = "🏌️",
+}) => (
+  <TouchableOpacity style={styles.fab} onPress={onPress} activeOpacity={0.85}>
+    <Text style={styles.icon}>{icon}</Text>
+  </TouchableOpacity>
+);
+
+const styles = StyleSheet.create({
+  fab: {
+    position: "absolute",
+    bottom: 24,
+    right: 16,
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    backgroundColor: Colors.primary,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 6,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+  },
+  icon: { fontSize: 26 },
+});
