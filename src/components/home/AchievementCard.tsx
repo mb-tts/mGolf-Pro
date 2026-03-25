@@ -3,6 +3,8 @@ import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "../../constants/colors";
 import { Achievement } from "../../constants/mock-data";
 import { SvgProps } from "react-native-svg";
+import { LinearGradient } from "expo-linear-gradient";
+import MaskedView from "@react-native-masked-view/masked-view";
 
 //  Import SVG icons
 import RankingIcon from "../../../assets/icons/home/ranking.svg";
@@ -29,17 +31,31 @@ export const AchievementCard: React.FC<{ item: Achievement }> = ({ item }) => {
   return (
     <View style={styles.card}>
       {/* Label nhỏ trên icon (NET / GROSS) */}
-      {topLabel ? (
+      {/* {topLabel ? (
         <Text style={styles.topLabel}>{topLabel}</Text>
       ) : (
         <View style={styles.topLabelPlaceholder} />
-      )}
+      )} */}
 
       {/* SVG Icon */}
       <Icon width={40} height={40} color={Colors.gold} />
 
-      {/* Số */}
-      <Text style={styles.value}>{item.value}</Text>
+      {/* Số với Hiệu ứng Gradient Text (Không có border) */}
+      <MaskedView
+        maskElement={
+          <Text style={[styles.value, { backgroundColor: "transparent" }]}>
+            {item.value}
+          </Text>
+        }
+      >
+        <LinearGradient
+          colors={["#DAA650", "#F6CB64", "#DAA650"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        >
+          <Text style={[styles.value, { opacity: 0 }]}>{item.value}</Text>
+        </LinearGradient>
+      </MaskedView>
 
       {/* Label dưới */}
       <Text style={styles.label}>{item.label}</Text>
@@ -71,12 +87,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   topLabelPlaceholder: {
-    height: 16, // ✅ giữ căn giữa cho card ranking
+    height: 16,
   },
   value: {
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: "800",
-    color: Colors.gold,
+    textAlign: "center",
   },
   label: {
     fontSize: 12,

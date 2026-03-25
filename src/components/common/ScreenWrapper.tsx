@@ -13,44 +13,54 @@ export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   loadingDelay = 400, // Giảm nhẹ delay cho mượt hơn
 }) => {
   const [showLoading, setShowLoading] = useState(true);
-  const fadeOutAnim = React.useRef(new Animated.Value(1)).current; // Loading layer mờ đi
-  const slideAnim = React.useRef(new Animated.Value(30)).current; // Nội dung trồi lên nhẹ
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false); // Theo dõi việc đã từng load thành công chưa
+  const fadeOutAnim = React.useRef(new Animated.Value(1)).current; 
+  const slideAnim = React.useRef(new Animated.Value(30)).current; 
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      // Chuẩn bị trạng thái
-      setShowLoading(true);
-      fadeOutAnim.setValue(1); 
-      slideAnim.setValue(30);
+      if (!hasLoadedOnce) {
+        // --- LẦN ĐẦU TIÊN: Có hiện Loading xoay xoay ---
+        setShowLoading(true);
+        fadeOutAnim.setValue(1); 
+        slideAnim.setValue(30);
 
-      const timer = setTimeout(() => {
-        // Chạy đồng bộ: Lớp Loading mờ dần đi để lộ nội dung bên dưới
-        // Đồng thời nội dung đẩy nhẹ lên mượt mà
-        Animated.parallel([
-          Animated.timing(fadeOutAnim, {
-            toValue: 0,
-            duration: 400,
-            useNativeDriver: true,
-          }),
-          Animated.spring(slideAnim, {
-            toValue: 0,
-            tension: 50,
-            friction: 7,
-            useNativeDriver: true,
-          }),
-        ]).start(({ finished }) => {
-          if (finished) setShowLoading(false);
-        });
-      }, loadingDelay);
-
-      return () => clearTimeout(timer);
-    } else {
-      setShowLoading(true);
-      fadeOutAnim.setValue(1);
+        const timer = setTimeout(() => {
+          Animated.parallel([
+            Animated.timing(fadeOutAnim, {
+              toValue: 0,
+              duration: 400,
+              useNativeDriver: true,
+            }),
+            Animated.spring(slideAnim, {
+              toValue: 0,
+              tension: 50,
+              friction: 7,
+              useNativeDriver: true,
+            }),
+          ]).start(({ finished }) => {
+            if (finished) {
+              setShowLoading(false);
+              setHasLoadedOnce(true); // Đánh dấu đã load xong lần đầu
+            }
+          });
+        }, loadingDelay);
+        return () => clearTimeout(timer);
+      } else {
+        // --- CÁC LẦN SAU: Không hiện Loading nữa, chỉ chạy Animation trồi lên cực nhanh ---
+        setShowLoading(false); // Ẩn hoàn toàn spinner
+        slideAnim.setValue(15); // Hạ thấp độ cao đẩy lên cho mượt nhẹ
+        Animated.spring(slideAnim, {
+          toValue: 0,
+          tension: 80,
+          friction: 8,
+          useNativeDriver: true,
+        }).start();
+      }
     }
-  }, [isFocused]);
+  }, [isFocused, hasLoadedOnce]);
 
   return (
     <View style={styles.container}>
