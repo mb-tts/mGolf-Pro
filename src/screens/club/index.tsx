@@ -95,7 +95,7 @@ export const ClubScreen = () => {
           />
         </View>
         <View style={{ flex: 1 }}>
-            {activeTab === 0 && <IntroduceScreen />}
+            {activeTab === 0 && <IntroduceScreen /> }
             {activeTab === 1 && <OutingScreen />}
             {activeTab === 2 && <RankingScreen />}
             {activeTab === 3 && <MemberScreen />}
