@@ -24,6 +24,9 @@ import { AccountScreen } from "./src/screens/account";
 import { ClubScreen } from "./src/screens/club";
 import { TournamentScreen } from "./src/screens/tournament";
 
+// ─── Account Sub-Screens ──────────────────────────────────────────────────────
+import { AccountInformationScreen } from "./src/screens/account/account-information";
+
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
 import HomeIcon from "./assets/icons/tabbar/Home.svg";
@@ -56,6 +59,12 @@ export type MainTabParamList = {
   Club: undefined;
   Tournament: undefined;
   Account: undefined;
+};
+
+export type AppStackParamList = {
+  MainTabs: undefined;
+  AccountInformation: undefined;
+  // Thêm các screen con khác ở đây khi cần
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -142,10 +151,27 @@ const MainNavigator = () => {
         name="Account"
         component={AccountScreen}
         options={{ tabBarLabel: "Tài khoản" }}
-      />
+      />   
     </Tab.Navigator>
   );
 };
+
+// ─── App Stack Navigator (Bọc Tab lại) ────────────────────────────────────────
+const AppStack = createNativeStackNavigator<AppStackParamList>();
+
+const AppNavigator = () => (
+  <AppStack.Navigator id="AppStack" screenOptions={{ headerShown: false }}>
+    {/* Màn hình mặc định là cái Tab Navigator */}
+    <AppStack.Screen name="MainTabs" component={MainNavigator} />
+    
+    {/* Các màn hình con khi bấm vào từ Account sẽ được push đè lên trên Tab */}
+    <AppStack.Screen 
+      name="AccountInformation" 
+      component={AccountInformationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+  </AppStack.Navigator>
+);
 
 // ─── Root Navigator ───────────────────────────────────────────────────────────
 const RootNavigator = () => {
@@ -157,7 +183,7 @@ const RootNavigator = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
+      {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 };
