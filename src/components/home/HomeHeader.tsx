@@ -29,7 +29,7 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
           <Text style={styles.name}>{user.fullName}</Text>
         </Text>
 
-        {/* ✅ Sửa: thêm flexDirection row + padding cho badge */}
+        {/* Sửa: thêm flexDirection row + padding cho badge */}
         <View style={styles.clubBadge}>
           <Text style={styles.clubText}>{clubName}</Text>
           <Image source={DotImage} style={styles.dot} />
@@ -61,7 +61,15 @@ const styles = StyleSheet.create({
   leftRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   avatar: { width: 40, height: 40, borderRadius: 20 }, // ✅ thu nhỏ avatar
   greeting: { fontSize: 13, marginBottom: 3 },
-  italic: { fontStyle: "italic", color: Colors.textSecondary },
+  italic: {
+    fontFamily: "Meow Script", // tên font đã import
+    fontWeight: "400", // tương đương Regular
+    fontStyle: "normal", // React Native không nhận "Regular", chỉ normal/italic
+    fontSize: 14,
+    lineHeight: 14 * 1.4, // 140% line-height
+    letterSpacing: -0.01 * 14, // -1% của font size
+    color: Colors.textSecondary,
+  },
   name: { fontWeight: "700", color: Colors.text },
   clubBadge: {
     flexDirection: "row", // ✅ quan trọng: xếp ngang

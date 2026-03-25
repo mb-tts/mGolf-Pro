@@ -1,18 +1,17 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "../../constants/colors";
+
+// ✅ Import SVG icon
+import GolfPersonIcon from "../../../assets/icons/home/golfPerson.svg";
 
 interface FABButtonProps {
   onPress: () => void;
-  icon?: string;
 }
 
-export const FABButton: React.FC<FABButtonProps> = ({
-  onPress,
-  icon = "🏌️",
-}) => (
+export const FABButton: React.FC<FABButtonProps> = ({ onPress }) => (
   <TouchableOpacity style={styles.fab} onPress={onPress} activeOpacity={0.85}>
-    <Text style={styles.icon}>{icon}</Text>
+    <GolfPersonIcon width={30} height={30} color={Colors.white} />
   </TouchableOpacity>
 );
 
@@ -33,5 +32,4 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 8,
   },
-  icon: { fontSize: 26 },
 });
