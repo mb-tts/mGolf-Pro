@@ -17,7 +17,7 @@ export interface Match {
 export interface Achievement {
   id: string;
   type: "ranking" | "net" | "gross";
-  value: number;
+  value: number | string; // Cho phép dùng "-" khi chưa có data
   label: string;
 }
 
@@ -50,12 +50,21 @@ export const MOCK_ACHIEVEMENTS: Achievement[] = [
 
 import { User } from "../types/auth.types";
 
-export const MOCK_USER: User = {
-  id: "usr_001",
-  fullName: "Nguyễn Văn An",
-  vgaCode: "a",
-  phone: "0901234567",
-  token: "mock-jwt-token-xyz",
+export const MOCK_USERS: Record<string, User> = {
+  a: {
+    id: "usr_001",
+    fullName: "Nguyễn Văn An",
+    vgaCode: "a",
+    phone: "0901234567",
+    token: "mock-jwt-token-xyz-a",
+  },
+  b: {
+    id: "usr_002",
+    fullName: "Nguyễn Văn Anh",
+    vgaCode: "b",
+    phone: "0908888888",
+    token: "mock-jwt-token-xyz-b",
+  },
 };
 
 export const MOCK_CREDENTIALS = {
