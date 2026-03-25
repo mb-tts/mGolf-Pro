@@ -77,10 +77,11 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#F0F4F8", // ✅ nền xám nhạt hiển thị sau banner
+    backgroundColor: Colors.white, // Trắng cả khu vực status bar (tai thỏ)
   },
   scroll: {
     flex: 1,
+    backgroundColor: Colors.white, // Backgroun phần thẻ IndexBanner cũng màu trắng
   },
   scrollContent: {
     flexGrow: 1,
@@ -91,6 +92,13 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20, // ✅ bo góc trên phải
     paddingTop: 8,
     minHeight: "100%", // ✅ kéo dài tới cuối màn hình
+    
+    // Thêm blur shadow từ phần bo góc trên (đổ lên trên)
+    elevation: 8,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: -6 }, // Đẩy shadow đi ngược lên vùng trắng phía trên
+    shadowOpacity: 0.1,
+    shadowRadius: 16,
   },
   section: {
     paddingHorizontal: 16,
