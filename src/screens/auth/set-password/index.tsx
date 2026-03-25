@@ -73,7 +73,6 @@ export const SetPasswordScreen = () => {
           </Text>
         </TouchableOpacity>
       </AuthLayout>
-    </KeyboardAwareScrollView>
   );
 };
 
