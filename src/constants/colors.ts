@@ -1,5 +1,5 @@
 export const Colors = {
-  primary: "#0060AF",
+  primary: "#004FA1",
   primaryDark: "#003366", // Xanh đậm hơn (Deep Blue)
   primaryLight: "#007FFF",
   white: "#FFFFFF",
@@ -15,10 +15,10 @@ export const Colors = {
   inputBackground: "#FFFFFF",
   gold: "#C9A84C",
   goldLight: "#F5E6C0",
-  live: "#E53935",
-  liveLight: "#FFEBEE",
-  finished: "#757575",
-  finishedLight: "#F5F5F5",
+  live: "#ffffff",
+  liveLight: "#E50019",
+  finished: "#FFFFFF",
+  finishedLight: "#A5A5A5",
   tableHeader: "#1565C0",
   shadow: "#00000015",
 } as const;

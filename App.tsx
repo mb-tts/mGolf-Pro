@@ -3,24 +3,45 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Text } from "react-native";
+import { SvgProps } from "react-native-svg";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
 
-// Auth Screens
+// ─── Auth Screens ─────────────────────────────────────────────────────────────
 import { SplashScreen } from "./src/screens/auth/splash";
 import { OnboardingScreen } from "./src/screens/auth/onboarding";
 import { LoginScreen } from "./src/screens/auth/login";
 import { RegisterScreen } from "./src/screens/auth/register";
 import { SetPasswordScreen } from "./src/screens/auth/set-password";
 
-// Main Screens
+// ─── Main Screens ─────────────────────────────────────────────────────────────
 import { HomeScreen } from "./src/screens/home";
 import { HistoryScreen } from "./src/screens/history";
 import { AccountScreen } from "./src/screens/account";
 import { ClubScreen } from "./src/screens/club";
 import { TournamentScreen } from "./src/screens/tournament";
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// ─── Tab Icons ────────────────────────────────────────────────────────────────
+// Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
+import HomeIcon from "./assets/icons/tabbar/Home.svg";
+import HomeActiveIcon from "./assets/icons/tabbar/Home2.svg";
+
+import HistoryIcon from "./assets/icons/tabbar/history.svg";
+import HistoryActiveIcon from "./assets/icons/tabbar/history2.svg";
+
+import ClubIcon from "./assets/icons/tabbar/club.svg";
+import ClubActiveIcon from "./assets/icons/tabbar/club2.svg";
+
+import GolfCourseIcon from "./assets/icons/tabbar/golf-course.svg";
+import GolfCourseActiveIcon from "./assets/icons/tabbar/golf-course2.svg";
+
+import ProfileIcon from "./assets/icons/tabbar/profile-circle.svg";
+import ProfileActiveIcon from "./assets/icons/tabbar/profile-circle2.svg";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 export type AuthStackParamList = {
   Splash: undefined;
   Onboarding: undefined;
@@ -37,13 +58,17 @@ export type MainTabParamList = {
   Account: undefined;
 };
 
-// ─── Tab Icons ───────────────────────────────────────────────────────────────
-const TAB_ICONS: Record<string, { active: string; inactive: string }> = {
-  Home: { active: "🏠", inactive: "🏠" },
-  History: { active: "🕐", inactive: "🕐" },
-  Club: { active: "🛡️", inactive: "🛡️" },
-  Tournament: { active: "⛳", inactive: "⛳" },
-  Account: { active: "👤", inactive: "👤" },
+// ─── Tab Icons Map ────────────────────────────────────────────────────────────
+// Đầy đủ 5 tab, đúng tên biến
+const TAB_ICONS: Record<
+  string,
+  { active: React.FC<SvgProps>; inactive: React.FC<SvgProps> }
+> = {
+  Home: { active: HomeActiveIcon, inactive: HomeIcon },
+  History: { active: HistoryActiveIcon, inactive: HistoryIcon },
+  Club: { active: ClubActiveIcon, inactive: ClubIcon },
+  Tournament: { active: GolfCourseActiveIcon, inactive: GolfCourseIcon },
+  Account: { active: ProfileActiveIcon, inactive: ProfileIcon },
 };
 
 // ─── Auth Navigator ───────────────────────────────────────────────────────────
@@ -65,59 +90,62 @@ const AuthNavigator = () => (
 // ─── Main Tab Navigator ───────────────────────────────────────────────────────
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
-const MainNavigator = () => (
-  <Tab.Navigator
-    id="MainTab"
-    screenOptions={({ route }) => ({
-      headerShown: false,
-      tabBarShowLabel: true,
-      tabBarActiveTintColor: "#1565C0",
-      tabBarInactiveTintColor: "#9E9E9E",
-      tabBarStyle: {
-        height: 60,
-        paddingBottom: 8,
-        paddingTop: 6,
-        backgroundColor: "#FFFFFF",
-        borderTopWidth: 1,
-        borderTopColor: "#F0F0F0",
-        elevation: 10,
-      },
-      tabBarIcon: ({ focused }) => (
-        <Text style={{ fontSize: 20 }}>
-          {focused
-            ? TAB_ICONS[route.name].active
-            : TAB_ICONS[route.name].inactive}
-        </Text>
-      ),
-    })}
-  >
-    <Tab.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{ tabBarLabel: "Trang chủ" }}
-    />
-    <Tab.Screen
-      name="History"
-      component={HistoryScreen}
-      options={{ tabBarLabel: "Lịch sử" }}
-    />
-    <Tab.Screen
-      name="Club"
-      component={ClubScreen}
-      options={{ tabBarLabel: "Câu lạc bộ" }}
-    />
-    <Tab.Screen
-      name="Tournament"
-      component={TournamentScreen}
-      options={{ tabBarLabel: "Sân đấu" }}
-    />
-    <Tab.Screen
-      name="Account"
-      component={AccountScreen}
-      options={{ tabBarLabel: "Tài khoản" }}
-    />
-  </Tab.Navigator>
-);
+const MainNavigator = () => {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <Tab.Navigator
+      id="MainTab"
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: true,
+        tabBarActiveTintColor: "#1565C0",
+        tabBarInactiveTintColor: "#9E9E9E",
+        tabBarStyle: {
+          height: 60 + insets.bottom,
+          paddingBottom: 8 + insets.bottom,
+          paddingTop: 6,
+          backgroundColor: "#FFFFFF",
+          borderTopWidth: 1,
+          borderTopColor: "#F0F0F0",
+          elevation: 10,
+        },
+        tabBarIcon: ({ focused }) => {
+          const icons = TAB_ICONS[route.name];
+          if (!icons) return null;
+          const Icon = focused ? icons.active : icons.inactive;
+          return <Icon width={24} height={24} />;
+        },
+      })}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ tabBarLabel: "Trang chủ" }}
+      />
+      <Tab.Screen
+        name="History"
+        component={HistoryScreen}
+        options={{ tabBarLabel: "Lịch sử" }}
+      />
+      <Tab.Screen
+        name="Club"
+        component={ClubScreen}
+        options={{ tabBarLabel: "Câu lạc bộ" }}
+      />
+      <Tab.Screen
+        name="Tournament"
+        component={TournamentScreen}
+        options={{ tabBarLabel: "Sân đấu" }}
+      />
+      <Tab.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{ tabBarLabel: "Tài khoản" }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 // ─── Root Navigator ───────────────────────────────────────────────────────────
 const RootNavigator = () => {
@@ -125,7 +153,7 @@ const RootNavigator = () => {
 
   console.log("--- RootNavigator: isAuthenticated =", isAuthenticated);
 
-  if (isLoading) return null; // hoặc <SplashScreen /> trong khi check auth
+  if (isLoading) return null;
 
   return (
     <NavigationContainer>
@@ -134,13 +162,23 @@ const RootNavigator = () => {
   );
 };
 
+import { useFonts } from "expo-font";
+
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "Meow Script": require("./assets/fonts/MeowScript-Regular.ttf"),
+  });
+
+  if (!fontsLoaded) return null;
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthProvider>
-        <RootNavigator />
-      </AuthProvider>
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <AuthProvider>
+          <RootNavigator />
+        </AuthProvider>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 }
