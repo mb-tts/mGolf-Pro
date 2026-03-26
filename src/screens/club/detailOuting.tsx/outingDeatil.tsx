@@ -102,114 +102,16 @@ export default function OutingDetailScreen({ route, navigation }: any) {
           </View>
 
           {/* TAB: SÂN ĐẤU */}
-          {activeTab === "Sân đấu" && (
-            <View style={styles.tabContent}>
-              <Text style={styles.sectionTitle}>
-                {String(courseDetails?.name || "")}
-              </Text>
-
-              <View style={styles.courseContactBox}>
-                <View style={styles.infoRow}>
-                  <Ionicons name="location-outline" size={18} color="#0055A5" />
-                  <Text style={styles.courseInfoText}>
-                    {String(courseDetails?.location || "")}
-                  </Text>
-                </View>
-
-                <View style={styles.infoRow}>
-                  <Ionicons name="golf-outline" size={18} color="#0055A5" />
-                  <Text style={styles.courseInfoText}>
-                    {String(courseDetails?.holes || "")}
-                  </Text>
-                </View>
-
-                <View style={styles.infoRow}>
-                  <Ionicons name="time-outline" size={18} color="#0055A5" />
-                  <Text style={styles.courseInfoText}>
-                    {String(courseDetails?.operatingHours || "")}
-                  </Text>
-                </View>
-
-                <View style={styles.infoRow}>
-                  <Ionicons name="call-outline" size={18} color="#0055A5" />
-                  <Text style={styles.courseInfoText}>
-                    {String(courseDetails?.phone || "")}
-                  </Text>
-                </View>
-              </View>
-
-              {/* DESCRIPTION */}
-              <Text style={styles.sectionTitle}>Thông tin giới thiệu</Text>
-              <Text style={styles.descText}>
-                {String(courseDetails?.description || "")}
-                <Text style={styles.readMore}> xem thêm</Text>
-              </Text>
-
-              {/* IMAGES */}
-              <Text style={styles.sectionTitle}>Hình ảnh sân đấu</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {courseDetails?.courseImages?.map(
-                  (img: string, idx: number) => (
-                    <Image
-                      key={idx}
-                      source={{ uri: img }}
-                      style={styles.courseImg}
-                    />
-                  ),
-                )}
-              </ScrollView>
-
-              {/* TABLE */}
-              <Text style={styles.sectionTitle}>Bảng điểm</Text>
-
-              <ScrollView horizontal>
-                <View>
-                  {/* HEADER */}
-                  <View style={[styles.tableRow, styles.tableHeader]}>
-                    <Text style={[styles.cell, styles.colHole, bold]}>
-                      Hole
-                    </Text>
-                    {courseDetails?.scorecard?.map((s: any) => (
-                      <Text key={s.hole} style={[styles.cell, styles.colNum]}>
-                        {String(s?.hole || "")}
-                      </Text>
-                    ))}
-                  </View>
-
-                  {/* ROW GENERATOR */}
-                  {[
-                    { label: "Black", key: "black", bg: "#F5F5F5" },
-                    { label: "Blue", key: "blue", bg: "#D1E8FF" },
-                    { label: "White", key: "white", bg: "#FFF" },
-                    { label: "Red", key: "red", bg: "#FF7F8F" },
-                  ].map((row) => (
-                    <View
-                      key={row.key}
-                      style={[styles.tableRow, { backgroundColor: row.bg }]}
-                    >
-                      <Text style={[styles.cell, styles.colHole, bold]}>
-                        {row.label}
-                      </Text>
-                      {courseDetails?.scorecard?.map((s: any) => (
-                        <Text
-                          key={`${row.key}-${s.hole}`}
-                          style={[styles.cell, styles.colNum]}
-                        >
-                          {String(s?.[row.key] || "")}
-                        </Text>
-                      ))}
-                    </View>
-                  ))}
-                </View>
-              </ScrollView>
-
-              <View style={{ height: 40 }} />
-            </View>
+          {activeTab === "Sân đấu" && courseDetails &&(
+            <Sandau courseDetails={courseDetails}/>
+          )}
+          {/* TAB KHÁC */}
+          {activeTab === "Thể lệ" && outingData.rules &&(
+            <Thele rules={outingData.rules}/>
           )}
 
-          {/* TAB KHÁC */}
-          {activeTab === "Thể lệ" && (
-            <Text style={{ padding: 20 }}>Điều lệ</Text>
+          {activeTab === "Flight" && outingData.flights &&(
+            <Filght flights={outingData.flights}/>
           )}
         </View>
       </ScrollView>
@@ -271,56 +173,4 @@ const styles = StyleSheet.create({
   activeTabText: { color: "#0055A5", fontWeight: "bold" },
 
   tabContent: { paddingTop: 20 },
-
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 12,
-    marginTop: 8,
-  },
-
-  courseContactBox: {
-    backgroundColor: "#F8F9FA",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    // Viền và bóng đổ nhẹ tạo cảm giác nổi
-    borderWidth: 1,
-    borderColor: '#F0F0F0',
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2, 
-  },
-  flightHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-
-  courseInfoText: { marginLeft: 12 },
-
-  descText: { lineHeight: 22, marginBottom: 20 },
-  readMore: { color: "#999", fontWeight: "bold" },
-
-  courseImg: {
-    width: 220,
-    height: 160,
-    borderRadius: 12,
-    marginRight: 12,
-  },
-
-  tableRow: { flexDirection: "row", borderBottomWidth: 1, borderColor: "#EEE" },
-  tableHeader: { backgroundColor: "#FFE4B5" },
-
-  cell: {
-    paddingVertical: 8,
-    textAlign: "center",
-    borderRightWidth: 1,
-    borderColor: "#EEE",
-  },
-
-  colHole: { width: 100, paddingLeft: 10, textAlign: "left" },
-  colNum: { width: 45 },
 });
