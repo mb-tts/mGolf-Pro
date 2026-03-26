@@ -6,19 +6,18 @@ import {
   FlatList,
   Image,
   SafeAreaView,
-  TextInput
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
 
 // 1. TẠO DỮ LIỆU ẢO (DUMMY DATA) 20 NGƯỜI
 const generateData = () => {
   return Array.from({ length: 20 }, (_, index) => ({
     id: (index + 1).toString(),
     rank: index + 1,
-    name: "Nguyễn Hải Linh", // Lấy tên giống ảnh mẫu
+    name: "Nguyễn Hải Linh",
     hdc: 20,
     vga: "123568",
-    image: `https://picsum.photos/id/${10 + index}/100`, // Avatar ngẫu nhiên
+    image: `https://picsum.photos/id/${10 + index}/100`,
     // Gán role "Quản trị viên" cho người đầu tiên
     role: index === 0 ? "Quản trị viên" : null,
   }));
@@ -26,20 +25,17 @@ const generateData = () => {
 
 const LEADERBOARD_DATA = generateData();
 
-// 2. COMPONENT HIỂN THỊ TỪNG DÒNG
 const MemberRow = ({ item }) => {
-  // Format số thứ tự: thêm '0' ở đầu nếu số nhỏ hơn 10
   const formattedRank = item.rank.toString().padStart(2, "0");
 
   return (
     <View style={styles.itemContainer}>
-      {/* Số thứ tự */}
+      
       <Text style={styles.rankText}>{formattedRank}</Text>
 
-      {/* Avatar */}
+      
       <Image source={{ uri: item.image }} style={styles.avatar} />
 
-      {/* Thông tin: Tên, HDC, VGA */}
       <View style={styles.infoContainer}>
         <Text style={styles.nameText}>{item.name}</Text>
         <Text style={styles.statsContainer}>
@@ -50,8 +46,7 @@ const MemberRow = ({ item }) => {
         </Text>
       </View>
 
-      {/* Role (Chỉ hiển thị nếu có) */}
-      {item.role && <Text style={styles.roleText}>{item.role}</Text>}
+      {item.role ? <Text style={styles.roleText}>{item.role}</Text> : null}
     </View>
   );
 };
@@ -60,35 +55,23 @@ const MemberRow = ({ item }) => {
 export default function MemberScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      {/* SEARCH */}
-      <View style={styles.searchWrap}>
-        <View style={styles.searchBox}>
-          <Ionicons name="search" size={18} color="#666" />
-          <TextInput
-            placeholder="Tìm kiếm"
-            style={styles.input}
-            placeholderTextColor="#999"
-          />
-        </View>
+      {/* 🟢 GỌI COMPONENT TÌM KIẾM VÀ BỘ LỌC DÙNG CHUNG Ở ĐÂY */}
+      <FilterSearchBox />
 
-        <View style={styles.filterBtn}>
-          <Ionicons name="options-outline" size={20} color="#007AFF" />
-        </View>
-      </View>
       <FlatList
         data={LEADERBOARD_DATA}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <MemberRow item={item} />}
-        showsVerticalScrollIndicator={false} // Ẩn thanh cuộn cho đẹp
+        showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
   );
 }
 
-// 4. STYLES
+// 4. STYLES (Đã xóa các style của SearchBox thừa)
 const styles = StyleSheet.create({
   container: {
-    padding: 16, 
+    padding: 16,
     flex: 1,
     backgroundColor: "#fff",
   },
@@ -98,14 +81,14 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#F5F5F5", // Màu viền xám nhạt giống ảnh
+    borderBottomColor: "#F5F5F5",
     backgroundColor: "#fff",
   },
   rankText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#0055A5", // Màu xanh dương cho số thứ tự
-    width: 25, // Cố định độ rộng để căn lề đều nhau
+    color: "#0055A5",
+    width: 25,
     marginRight: 10,
   },
   avatar: {
@@ -128,50 +111,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   label: {
-    color: "#888", // Màu xám cho chữ "HDC:" và "VGA:"
+    color: "#888",
   },
   value: {
-    color: "#222", // Màu đen cho con số
+    color: "#222",
     fontWeight: "500",
   },
   roleText: {
     fontSize: 14,
     color: "#666",
     marginLeft: 10,
-  },
-
-  /* SEARCH */
-  searchWrap: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-
-  searchBox: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 25,
-    paddingHorizontal: 12,
-    height: 40,
-    borderColor: 'black', 
-    elevation: 2
-  },
-
-  input: {
-    marginLeft: 8,
-    flex: 1,
-  },
-
-  filterBtn: {
-    marginLeft: 10,
-    width: 40,
-    height: 40,
-    borderRadius: 12,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 2
   },
 });

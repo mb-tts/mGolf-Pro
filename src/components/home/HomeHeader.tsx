@@ -10,13 +10,19 @@ import DotImage from "../../../assets/icons/home/Dot.png";
 interface HomeHeaderProps {
   user: User;
   clubName?: string;
+  onPressAvatar?: () => void;
 }
 
 export const HomeHeader: React.FC<HomeHeaderProps> = ({
   user,
   clubName = "MBF Club",
+  onPressAvatar,
 }) => (
-  <View style={styles.container}>
+  <TouchableOpacity
+    style={styles.container}
+    activeOpacity={1}
+    onPress={onPressAvatar}
+  >
     {/* Avatar + Info */}
     <View style={styles.leftRow}>
       <Image
@@ -29,7 +35,7 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
           <Text style={styles.name}>{user.fullName}</Text>
         </Text>
 
-        {/* Sửa: thêm flexDirection row + padding cho badge */}
+        {/* badge */}
         <View style={styles.clubBadge}>
           <Text style={styles.clubText}>{clubName}</Text>
           <Image source={DotImage} style={styles.dot} />
@@ -46,7 +52,7 @@ export const HomeHeader: React.FC<HomeHeaderProps> = ({
         <NotificationIcon width={20} height={20} />
       </TouchableOpacity>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({

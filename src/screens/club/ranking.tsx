@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react"; // Thêm useState, useEffect
 import {
   View,
   Text,
@@ -7,9 +7,10 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  TextInput,
+  Keyboard, // Thêm Keyboard vào đây
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
+
 // 1. TẠO DỮ LIỆU ẢO (DUMMY DATA)
 const generateData = () => {
   const data = [
@@ -131,6 +132,26 @@ const PlayerRow = ({ item, isSticky = false }) => {
 export default function RankingScreen() {
   const flatListRef = useRef(null);
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false); // Thêm state này
+
+  // Thêm useEffect này để lắng nghe sự kiện bàn phím
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardVisible(true),
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardVisible(false),
+    );
+
+    // Clean up listener khi component unmount
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   const scrollToMe = () => {
     if (flatListRef.current) {
       flatListRef.current.scrollToIndex({
@@ -141,58 +162,49 @@ export default function RankingScreen() {
     }
   };
 
-  // Hàm renderItem chuẩn của FlatList
   const renderFlatListItem = ({ item }) => {
     return <PlayerRow item={item} />;
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.searchWrap}>
-        <View style={styles.searchBox}>
-          <Ionicons name="search" size={18} color="#666" />
-          <TextInput
-            placeholder="Tìm kiếm"
-            style={styles.input}
-            placeholderTextColor="#999"
-          />
-        </View>
+      <FilterSearchBox />
 
-        <View style={styles.filterBtn}>
-          <Ionicons name="options-outline" size={20} color="#007AFF" />
-        </View>
-      </View>
-      {/* Danh sách chính */}
       <FlatList
         ref={flatListRef}
         data={LEADERBOARD_DATA}
         keyExtractor={(item) => item.id}
-        renderItem={renderFlatListItem} // Gọi hàm chuẩn ở đây
+        renderItem={renderFlatListItem}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,
           offset: ITEM_HEIGHT * index,
           index,
         })}
-        contentContainerStyle={{ paddingBottom: ITEM_HEIGHT }}
+        // Nếu bàn phím đang mở thì không cần paddingBottom (vì phần Tôi đã ẩn)
+        contentContainerStyle={{
+          paddingBottom: isKeyboardVisible ? 20 : ITEM_HEIGHT + 20,
+        }}
+        showsVerticalScrollIndicator={false}
       />
 
-      {/* Phần "Tôi" dán cứng ở dưới */}
-      <TouchableOpacity
-        style={styles.stickyBottomContainer}
-        activeOpacity={0.9}
-        onPress={scrollToMe}
-      >
-        {/* Truyền trực tiếp isSticky vào Component */}
-        <PlayerRow item={MY_DATA} isSticky={true} />
-      </TouchableOpacity>
+      {/*  ẨN PHẦN NÀY ĐI KHI BÀN PHÍM BẬT LÊN */}
+      {!isKeyboardVisible && (
+        <TouchableOpacity
+          style={styles.stickyBottomContainer}
+          activeOpacity={0.9}
+          onPress={scrollToMe}
+        >
+          <PlayerRow item={MY_DATA} isSticky={true} />
+        </TouchableOpacity>
+      )}
     </SafeAreaView>
   );
 }
 
-// 2. STYLES
+// 2. STYLES (Đã xóa các style của SearchBox thừa)
 const styles = StyleSheet.create({
   container: {
-    padding: 16, 
+    padding: 16,
     flex: 1,
     backgroundColor: "#fff",
   },
@@ -224,7 +236,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.4)", // Tạo lớp màng đen mờ để chữ số hạng nổi bật
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
   rankText: {
     fontSize: 20,
@@ -265,44 +277,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#E0E0E0",
-    // Đổ bóng cho đẹp
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 10,
-  },
-
-  searchWrap: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-
-  searchBox: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    height: 40,
-    elevation: 2
-  },
-
-  input: {
-    marginLeft: 8,
-    flex: 1,
-  },
-
-  filterBtn: {
-    marginLeft: 10,
-    width: 40,
-    height: 40,
-    borderRadius: 12,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 2
   },
 });

@@ -10,7 +10,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors";
 
-
 interface AppInputProps extends TextInputProps {
   label?: string;
   error?: string;

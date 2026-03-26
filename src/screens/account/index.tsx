@@ -18,14 +18,30 @@ import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 import BackgroundProfile from "../../../assets/icons/profile/backgroundProfile.svg";
 
 const MENU_GROUP_1 = [
-  { label: "Thông tin tài khoản", icon: "person-outline", id: "AccountInformation" },
+  {
+    label: "Thông tin tài khoản",
+    icon: "person-outline",
+    id: "AccountInformation",
+  },
   { label: "Thành tích", icon: "podium-outline", id: "Achievements" },
-  { label: "Cài đặt game", icon: "game-controller-outline", id: "GameSettings" },
+  {
+    label: "Cài đặt game",
+    icon: "game-controller-outline",
+    id: "GameSettings",
+  },
   { label: "Cài đặt giao diện", icon: "contrast-outline", id: "UISettings" },
   { label: "Cài đặt thanh toán", icon: "cash-outline", id: "PaymentSettings" },
   { label: "Trang bị", icon: "golf-outline", id: "Equipment" },
-  { label: "Cài đặt thông báo", icon: "notifications-outline", id: "NotificationSettings" },
-  { label: "Bảo mật và Quyền riêng tư", icon: "shield-checkmark-outline", id: "Security" },
+  {
+    label: "Cài đặt thông báo",
+    icon: "notifications-outline",
+    id: "NotificationSettings",
+  },
+  {
+    label: "Bảo mật và Quyền riêng tư",
+    icon: "shield-checkmark-outline",
+    id: "Security",
+  },
 ];
 
 const MENU_GROUP_2 = [
