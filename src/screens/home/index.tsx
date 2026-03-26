@@ -15,7 +15,7 @@ import GolfPersonIcon from "../../../assets/icons/home/golfPerson.svg";
 import { ImageBackground, Image, TouchableOpacity } from "react-native";
 import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }: any) => {
   const { user } = useAuth();
 
   // Clone Chưa có data -> dành cho user b
@@ -45,7 +45,11 @@ export const HomeScreen = () => {
             edges={["top"]}
             style={{ backgroundColor: Colors.white }}
           >
-            <HomeHeader user={user!} clubName="MBF Club" />
+            <HomeHeader
+              user={user!}
+              clubName="MBF Club"
+              onPressAvatar={() => navigation.navigate("Account")}
+            />
           </SafeAreaView>
         )}
 
