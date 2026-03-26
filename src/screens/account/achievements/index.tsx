@@ -10,9 +10,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-// Nhớ check lại đường dẫn Colors của bạn nhé
-import { Colors } from "../../../constants/colors";
-
 // Import SVG icons
 import RankingIcon from "../../../../assets/icons/achievements/ranking.svg";
 import NetIcon from "../../../../assets/icons/achievements/net.svg";
@@ -294,7 +291,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#0061AF",
   },
-
   /* ACHIEVEMENTS GRID (Khối liền mạch) */
   gridContainer: {
     flexDirection: "row",
@@ -354,7 +350,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#999",
   },
-
   /* SEE MORE LINK */
   seeMoreLink: {
     marginHorizontal: 16,
