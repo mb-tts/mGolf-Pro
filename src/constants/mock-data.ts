@@ -95,15 +95,6 @@ export const MOCK_PLAYERS: Player[] = [
     voa: 99999,
     isVerified: true,
   },
-  {
-    id: "p5",
-    name: "Nguyễn Văn Trung",
-    avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&h=100&fit=crop",
-    index: 21.8,
-    hdc: 30,
-    voa: 99999,
-    isVerified: true,
-  }
 ];
 
 import { User } from "../types/auth.types";
