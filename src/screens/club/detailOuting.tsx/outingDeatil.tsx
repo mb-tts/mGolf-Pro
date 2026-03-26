@@ -9,7 +9,9 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
+import Sandau from "./sandau";
+import Thele from "./thele";
+import Filght from "./flight";
 export default function OutingDetailScreen({ route, navigation }: any) {
   // Lấy data truyền từ Card sang
   const { outingData } = route.params;
@@ -34,11 +36,9 @@ export default function OutingDetailScreen({ route, navigation }: any) {
             <Ionicons name="chevron-back" size={24} color="#fff" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Chi tiết outing</Text>
-          <View style={{ width: 40 }} /> {/* Spacer để cân bằng Header */}
+          <View style={{ width: 40 }} /> 
         </SafeAreaView>
       </View>
-
-      <ScrollView style={{ marginTop: -50 }}>
         {/* === MAIN INFO BOX (Kéo lên đè 1 phần lên ảnh) === */}
         <View style={styles.mainInfoBox}>
           <Text style={styles.mainTitle}>{outingData.title}</Text>
@@ -64,7 +64,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
             <Text style={styles.infoText}>{outingData.fly} fly</Text>
           </View>
 
-          {/* === TABS === */}
+          
           <View style={styles.tabContainer}>
             {tabs.map((tab) => (
               <TouchableOpacity
@@ -86,188 +86,24 @@ export default function OutingDetailScreen({ route, navigation }: any) {
               </TouchableOpacity>
             ))}
           </View>
-
+          <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 0 , flex: 1, marginBottom: 30 }}>
           {/* === NỘI DUNG TAB "SÂN ĐẤU" === */}
           {activeTab === "Sân đấu" && courseDetails && (
-            <View style={styles.tabContent}>
-              <Text style={styles.sectionTitle}>{courseDetails.name}</Text>
-
-              <View style={styles.courseContactBox}>
-                <View style={styles.infoRow}>
-                  <Ionicons name="location-outline" size={18} color="#0055A5" />
-                  <Text style={styles.courseInfoText}>
-                    {courseDetails.location}
-                  </Text>
-                </View>
-                <View style={styles.infoRow}>
-                  <Ionicons name="golf-outline" size={18} color="#0055A5" />
-                  <Text style={styles.courseInfoText}>
-                    {courseDetails.holes}
-                  </Text>
-                </View>
-                <View style={styles.infoRow}>
-                  <Ionicons name="time-outline" size={18} color="#0055A5" />
-                  <Text style={styles.courseInfoText}>
-                    {courseDetails.operatingHours}
-                  </Text>
-                </View>
-                <View style={styles.infoRow}>
-                  <Ionicons name="call-outline" size={18} color="#0055A5" />
-                  <Text style={styles.courseInfoText}>
-                    {courseDetails.phone}
-                  </Text>
-                </View>
-              </View>
-
-              <Text style={styles.sectionTitle}>Thông tin giới thiệu</Text>
-              <Text style={styles.descText}>
-                {courseDetails.description}{" "}
-                <Text style={styles.readMore}>xem thêm</Text>
-              </Text>
-
-              <Text style={styles.sectionTitle}>Hình ảnh sân đấu</Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={styles.imageList}
-              >
-                {courseDetails.courseImages.map((img: string, idx: number) => (
-                  <Image
-                    key={idx}
-                    source={{ uri: img }}
-                    style={styles.courseImg}
-                  />
-                ))}
-              </ScrollView>
-
-              <Text style={styles.sectionTitle}>Bảng điểm (Scorecard)</Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={styles.tableWrapper}
-              >
-                <View>
-                  <View style={[styles.tableRow, styles.tableHeader]}>
-                    <Text
-                      style={[
-                        styles.cell,
-                        styles.colHole,
-                        { fontWeight: "bold" },
-                      ]}
-                    >
-                      Hole
-                    </Text>
-                    {courseDetails.scorecard.map((s: any) => (
-                      <Text
-                        key={`h${s.hole}`}
-                        style={[
-                          styles.cell,
-                          styles.colNum,
-                          { fontWeight: "bold" },
-                        ]}
-                      >
-                        {s.hole}
-                      </Text>
-                    ))}
-                  </View>
-                  <View
-                    style={[styles.tableRow, { backgroundColor: "#F5F5F5" }]}
-                  >
-                    <Text
-                      style={[
-                        styles.cell,
-                        styles.colHole,
-                        { fontWeight: "bold" },
-                      ]}
-                    >
-                      Black
-                    </Text>
-                    {courseDetails.scorecard.map((s: any) => (
-                      <Text
-                        key={`b${s.hole}`}
-                        style={[styles.cell, styles.colNum]}
-                      >
-                        {s.black}
-                      </Text>
-                    ))}
-                  </View>
-                  <View
-                    style={[styles.tableRow, { backgroundColor: "#D1E8FF" }]}
-                  >
-                    <Text
-                      style={[
-                        styles.cell,
-                        styles.colHole,
-                        { fontWeight: "bold" },
-                      ]}
-                    >
-                      Blue
-                    </Text>
-                    {courseDetails.scorecard.map((s: any) => (
-                      <Text
-                        key={`bl${s.hole}`}
-                        style={[styles.cell, styles.colNum]}
-                      >
-                        {s.blue}
-                      </Text>
-                    ))}
-                  </View>
-                  <View
-                    style={[styles.tableRow, { backgroundColor: "#FFFFFF" }]}
-                  >
-                    <Text
-                      style={[
-                        styles.cell,
-                        styles.colHole,
-                        { fontWeight: "bold" },
-                      ]}
-                    >
-                      White
-                    </Text>
-                    {courseDetails.scorecard.map((s: any) => (
-                      <Text
-                        key={`w${s.hole}`}
-                        style={[styles.cell, styles.colNum]}
-                      >
-                        {s.white}
-                      </Text>
-                    ))}
-                  </View>
-                  <View
-                    style={[styles.tableRow, { backgroundColor: "#FF7F8F" }]}
-                  >
-                    <Text
-                      style={[
-                        styles.cell,
-                        styles.colHole,
-                        { fontWeight: "bold" },
-                      ]}
-                    >
-                      Red
-                    </Text>
-                    {courseDetails.scorecard.map((s: any) => (
-                      <Text
-                        key={`r${s.hole}`}
-                        style={[styles.cell, styles.colNum]}
-                      >
-                        {s.red}
-                      </Text>
-                    ))}
-                  </View>
-                </View>
-              </ScrollView>
-              <View style={{ height: 40 }} />
-            </View>
+            <Sandau courseDetails={courseDetails} />
           )}
 
-          {activeTab === "Thể lệ"  && <View>
-          <Text style = {{padding: 20}}>
-            Điều lệ
-          </Text>
-            
-            </View>}
+          {/* === NỘI DUNG TAB "THỂ LỆ" === */}
+          {activeTab === "Thể lệ" && outingData.rules && (
+            <Thele rules={outingData.rules}/>
+          )}
+
+          {/* === NỘI DUNG TAB "FLIGHT" === */}
+          {activeTab === "Flight" && outingData.flights && (
+            <Filght flights = {outingData.flights}/>
+          )}
+          </ScrollView>
         </View>
-      </ScrollView>
+      
     </View>
   );
 }
@@ -304,7 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    marginTop: 0, // Kéo box lên đè lên ảnh
+    marginTop: -60, // Kéo box lên đè lên ảnh
     paddingTop: 24,
     paddingHorizontal: 20,
     paddingBottom: 40,
@@ -321,7 +157,7 @@ const styles = StyleSheet.create({
 
   tabContainer: {
     flexDirection: "row",
-    marginTop: 16,
+    marginTop: 0,
     borderBottomWidth: 1,
     borderBottomColor: "#EEE",
   },
@@ -331,47 +167,75 @@ const styles = StyleSheet.create({
   activeTabText: { color: "#0055A5", fontWeight: "bold" },
 
   tabContent: { paddingTop: 20 },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 12,
-    marginTop: 8,
-  },
-  courseContactBox: {
-    backgroundColor: "#F8F9FA",
-    borderRadius: 12,
+
+  flightCard: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
     padding: 16,
     marginBottom: 16,
-  },
-  courseInfoText: { marginLeft: 12, color: "#444", fontSize: 14 },
-
-  descText: { fontSize: 14, color: "#555", lineHeight: 22, marginBottom: 20 },
-  readMore: { color: "#999", fontWeight: "bold" },
-
-  imageList: { flexDirection: "row", marginBottom: 24 },
-  courseImg: { width: 220, height: 160, borderRadius: 12, marginRight: 12 },
-
-  tableWrapper: {
-    marginTop: 10,
+    // Viền và bóng đổ nhẹ tạo cảm giác nổi
     borderWidth: 1,
-    borderColor: "#EEE",
-    borderRadius: 8,
-    overflow: "hidden",
+    borderColor: '#F0F0F0',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2, 
   },
-  tableRow: {
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: "#EEE",
+  flightHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
   },
-  tableHeader: { backgroundColor: "#FFE4B5" },
-  cell: {
-    paddingVertical: 8,
-    textAlign: "center",
-    fontSize: 13,
-    borderRightWidth: 1,
-    borderRightColor: "#EEE",
+  flightName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
   },
-  colHole: { width: 100, paddingLeft: 10, textAlign: "left" },
-  colNum: { width: 45 },
+  viewDetailText: {
+    fontSize: 14,
+    color: '#0055A5', // Màu xanh đặc trưng cho text link
+    fontWeight: '600',
+  },
+  playersGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  playerCard: {
+    width: '48%', // Chiếm 48% để chia 2 cột, chừa 4% khoảng trống giữa
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+    padding: 12,
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  playerAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginBottom: 8,
+  },
+  playerName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  playerStats: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#888',
+  },
+  statValue: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#333',
+  },
 });
