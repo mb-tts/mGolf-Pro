@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react"; // Thêm useState, useEffect
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  Keyboard, // Thêm Keyboard vào đây
 } from "react-native";
 import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
 
@@ -131,6 +132,26 @@ const PlayerRow = ({ item, isSticky = false }) => {
 export default function RankingScreen() {
   const flatListRef = useRef(null);
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false); // Thêm state này
+
+  // Thêm useEffect này để lắng nghe sự kiện bàn phím
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardVisible(true),
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardVisible(false),
+    );
+
+    // Clean up listener khi component unmount
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   const scrollToMe = () => {
     if (flatListRef.current) {
       flatListRef.current.scrollToIndex({
@@ -141,17 +162,14 @@ export default function RankingScreen() {
     }
   };
 
-  // Hàm renderItem chuẩn của FlatList
   const renderFlatListItem = ({ item }) => {
     return <PlayerRow item={item} />;
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* 🟢 GỌI COMPONENT TÌM KIẾM VÀ BỘ LỌC DÙNG CHUNG Ở ĐÂY */}
       <FilterSearchBox />
 
-      {/* Danh sách chính */}
       <FlatList
         ref={flatListRef}
         data={LEADERBOARD_DATA}
@@ -162,18 +180,23 @@ export default function RankingScreen() {
           offset: ITEM_HEIGHT * index,
           index,
         })}
-        contentContainerStyle={{ paddingBottom: ITEM_HEIGHT }}
+        // Nếu bàn phím đang mở thì không cần paddingBottom (vì phần Tôi đã ẩn)
+        contentContainerStyle={{
+          paddingBottom: isKeyboardVisible ? 20 : ITEM_HEIGHT + 20,
+        }}
         showsVerticalScrollIndicator={false}
       />
 
-      {/* Phần "Tôi" dán cứng ở dưới */}
-      <TouchableOpacity
-        style={styles.stickyBottomContainer}
-        activeOpacity={0.9}
-        onPress={scrollToMe}
-      >
-        <PlayerRow item={MY_DATA} isSticky={true} />
-      </TouchableOpacity>
+      {/*  ẨN PHẦN NÀY ĐI KHI BÀN PHÍM BẬT LÊN */}
+      {!isKeyboardVisible && (
+        <TouchableOpacity
+          style={styles.stickyBottomContainer}
+          activeOpacity={0.9}
+          onPress={scrollToMe}
+        >
+          <PlayerRow item={MY_DATA} isSticky={true} />
+        </TouchableOpacity>
+      )}
     </SafeAreaView>
   );
 }
