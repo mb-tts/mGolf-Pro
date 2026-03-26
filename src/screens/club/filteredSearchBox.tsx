@@ -8,83 +8,89 @@ import {
   TouchableOpacity,
   Modal,
   SafeAreaView,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Boloc from "./bolocInOuting"; // Đảm bảo đường dẫn đúng tới file Boloc của bạn
+import { KeyboardAvoidingView } from "react-native";
 
 export default function FilterSearchBox() {
   const [filterVisible, setFilterVisible] = useState(false);
 
   return (
-    <View>
-      {/* SEARCH BAR */}
-      <View style={styles.searchWrap}>
-        <View style={styles.searchBox}>
-          <Ionicons name="search" size={18} color="#666" />
-          <TextInput
-            placeholder="Tìm kiếm"
-            style={styles.input}
-            placeholderTextColor="#999"
-          />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <View >
+        {/* SEARCH BAR */}
+        <View style={styles.searchWrap}>
+          <View style={styles.searchBox}>
+            <Ionicons name="search" size={18} color="#666" />
+            <TextInput
+              placeholder="Tìm kiếm"
+              style={styles.input}
+              placeholderTextColor="#999"
+            />
+          </View>
+
+          {/* Nút bấm để mở bộ lọc */}
+          <TouchableOpacity
+            style={styles.filterBtn}
+            onPress={() => setFilterVisible(true)}
+          >
+            <Ionicons name="options-outline" size={20} color="#007AFF" />
+          </TouchableOpacity>
         </View>
 
-        {/* Nút bấm để mở bộ lọc */}
-        <TouchableOpacity
-          style={styles.filterBtn}
-          onPress={() => setFilterVisible(true)}
+        {/* MODAL BỘ LỌC */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={filterVisible}
+          onRequestClose={() => setFilterVisible(false)}
         >
-          <Ionicons name="options-outline" size={20} color="#007AFF" />
-        </TouchableOpacity>
-      </View>
-
-      {/* MODAL BỘ LỌC */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={filterVisible}
-        onRequestClose={() => setFilterVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setFilterVisible(false)}
-        >
-          <TouchableOpacity activeOpacity={1} style={styles.bottomSheet}>
-            {/* Thanh ngang kéo thả (Decor) */}
-            <View style={styles.dragHandleWrap}>
-              <View style={styles.dragHandle} />
-            </View>
-
-            {/* Header Bộ lọc */}
-            <View style={styles.sheetHeader}>
-              <TouchableOpacity onPress={() => setFilterVisible(false)}>
-                <Ionicons name="chevron-back" size={24} color="#333" />
-              </TouchableOpacity>
-              <Text style={styles.sheetTitle}>Bộ lọc</Text>
-              <View style={{ width: 24 }} /> {/* Spacer để cân bằng Title */}
-            </View>
-
-            {/* Nội dung Bộ lọc (Dùng chung file Boloc) */}
-            <Boloc />
-
-            {/* Footer Buttons */}
-            <SafeAreaView>
-              <View style={styles.sheetFooter}>
-                <TouchableOpacity style={styles.clearBtn}>
-                  <Text style={styles.clearBtnText}>Xóa tất cả</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.applyBtn}
-                  onPress={() => setFilterVisible(false)}
-                >
-                  <Text style={styles.applyBtnText}>Áp dụng bộ lọc</Text>
-                </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPress={() => setFilterVisible(false)}
+          >
+            <TouchableOpacity activeOpacity={1} style={styles.bottomSheet}>
+              {/* Thanh ngang kéo thả (Decor) */}
+              <View style={styles.dragHandleWrap}>
+                <View style={styles.dragHandle} />
               </View>
-            </SafeAreaView>
+
+              {/* Header Bộ lọc */}
+              <View style={styles.sheetHeader}>
+                <TouchableOpacity onPress={() => setFilterVisible(false)}>
+                  <Ionicons name="chevron-back" size={24} color="#333" />
+                </TouchableOpacity>
+                <Text style={styles.sheetTitle}>Bộ lọc</Text>
+                <View style={{ width: 24 }} /> {/* Spacer để cân bằng Title */}
+              </View>
+
+              {/* Nội dung Bộ lọc (Dùng chung file Boloc) */}
+              <Boloc />
+
+              {/* Footer Buttons */}
+              <SafeAreaView>
+                <View style={styles.sheetFooter}>
+                  <TouchableOpacity style={styles.clearBtn}>
+                    <Text style={styles.clearBtnText}>Xóa tất cả</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.applyBtn}
+                    onPress={() => setFilterVisible(false)}
+                  >
+                    <Text style={styles.applyBtnText}>Áp dụng bộ lọc</Text>
+                  </TouchableOpacity>
+                </View>
+              </SafeAreaView>
+            </TouchableOpacity>
           </TouchableOpacity>
-        </TouchableOpacity>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -107,7 +113,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 2,
     borderWidth: 1, // Đã thêm viền giống với MemberScreen của bạn
-    borderColor: '#E0E0E0'
+    borderColor: "#E0E0E0",
   },
   input: {
     marginLeft: 8,
