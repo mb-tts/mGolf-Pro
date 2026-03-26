@@ -23,9 +23,13 @@ export const LoginScreen = () => {
   const { login, isLoading } = useAuth();
   const navigation = useNavigation<any>();
 
-  const { control, handleSubmit, formState: { errors } } = useForm<LoginForm>({
-    resolver:      zodResolver(loginSchema),
-    defaultValues: { vgaCode: '', password: '' },
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { vgaCode: "", password: "" },
   });
 
   // HÀM XỬ LÝ ĐĂNG NHẬP MẠNG XÃ HỘI (Sẵn sàng để tích hợp thật)
@@ -126,7 +130,7 @@ export const LoginScreen = () => {
         </View>
 
         <Text style={styles.terms}>
-          Bằng việc tiếp tục, bạn đã đồng ý với{" "}
+          Bằng việc tiếp tục, bạn đã đồng ý với
           <Text style={[styles.link, { color: "#333333" }]}>
             Điều khoản sử dụng
           </Text>
@@ -137,7 +141,7 @@ export const LoginScreen = () => {
           style={styles.bottomLink}
         >
           <Text style={styles.bottomText}>
-            Bạn chưa có tài khoản mGolf?{" "}
+            Bạn chưa có tài khoản mGolf?
             <Text style={styles.link}>Tạo tài khoản</Text>
           </Text>
         </TouchableOpacity>
@@ -147,26 +151,28 @@ export const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  forgotRow: { alignItems: "flex-end", marginBottom: 35 }, // Theo mẫu khoảng cách ở đây rộng hơn
+  forgotRow: { alignItems: "flex-end", marginBottom: 5 }, // Theo mẫu khoảng cách ở đây rộng hơn
   forgotText: { color: Colors.link, fontSize: 16, fontWeight: "500" },
   loginBtn: { height: 52, borderRadius: 16, marginTop: 10 }, // Nút đăng nhập to và bo góc nhiều
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 25,
   },
   line: { flex: 1, height: 1, backgroundColor: "#F0F0F0" },
   orText: { marginHorizontal: 15, color: "#999999", fontSize: 14 },
   socialRow: {
+    minWidth: 335,
+    minHeight: 56,
     flexDirection: "row",
     justifyContent: "center",
-    gap: 20,
-    marginBottom: 40,
+    gap: 6,
+    marginBottom: 20,
   },
   socialBtn: {
-    width: 60,
-    height: 60,
+    width: 77.75,
+    height: 56,
     borderRadius: 16,
     backgroundColor: "#F8F9FA",
     alignItems: "center",

@@ -1,11 +1,6 @@
 import React from "react";
 
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
@@ -41,10 +36,10 @@ export const RegisterScreen = () => {
   };
 
   return (
-      <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style = {{flex : 1}}
-      >
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
       <AuthLayout
         title="Đăng ký"
         subtitle="Điền thông tin cá nhân của bạn tại đây"
@@ -103,13 +98,13 @@ export const RegisterScreen = () => {
         />
 
         <Text style={styles.terms}>
-          Bằng việc tiếp tục, bạn đã đồng ý với{" "}
+          Bằng việc tiếp tục, bạn đã đồng ý với
           <Text style={styles.link}>Điều khoản sử dụng</Text>
         </Text>
 
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
           <Text style={styles.bottomText}>
-            Bạn đã có tài khoản mGolf?{" "}
+            Bạn đã có tài khoản mGolf?
             <Text style={styles.link}>Đăng nhập</Text>
           </Text>
         </TouchableOpacity>

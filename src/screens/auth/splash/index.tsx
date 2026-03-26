@@ -30,7 +30,7 @@ export const SplashScreen = () => {
       {/* Dòng chữ "Phát triển bởi mobifone" ở đáy */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          Phát triển bởi{" "}
+          Phát triển bởi
           <Text style={styles.footerBrand}>mobifone</Text>
         </Text>
       </View>
