@@ -19,10 +19,9 @@ export default function FilterSearchBox() {
 
   return (
     <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          
-          >
-      <View >
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <View>
         {/* SEARCH BAR */}
         <View style={styles.searchWrap}>
           <View style={styles.searchBox}>
