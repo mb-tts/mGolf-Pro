@@ -183,6 +183,18 @@ const AppNavigator = () => (
       component={AccountInformationScreen}
       options={{ animation: "slide_from_right" }}
     />
+
+    <AppStack.Screen
+      name="Achievements"
+      component={AchievementsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="GameSettings"
+      component={GameSettingScreen}
+      options={{ animation: "slide_from_right" }}
+    />
     <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
   </AppStack.Navigator>
 );
