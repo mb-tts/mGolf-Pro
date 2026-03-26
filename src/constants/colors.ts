@@ -21,4 +21,5 @@ export const Colors = {
   finishedLight: "#A5A5A5",
   tableHeader: "#1565C0",
   shadow: "#00000015",
+  black: "#000000",
 } as const;
