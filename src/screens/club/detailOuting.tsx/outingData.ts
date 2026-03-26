@@ -29,10 +29,60 @@ export const OUTING_DATA = [
         { hole: 3, black: 3, blue: 3, white: 3, red: 3, par: 3, strokeIndex: 3 },
         { hole: 4, black: 4, blue: 4, white: 4, red: 4, par: 4, strokeIndex: 4 },
       ], 
-      regulation: [
-        
-      ]
-    }
+    },
+    rules: [
+      {
+        id: "rule1",
+        title: "1. ĐIỀU HÀNH GIẢI",
+        content: "Đơn vị tổ chức, điều hành: Giải Final mGolf Cup 2024 được tổ chức, điều hành bởi Ban Tổ chức giải (BTC) và mọi quyết định của Ban Tổ chức giải là quyết định cuối cùng.",
+        subContent: "Thành phần Ban Tổ chức giải:",
+        bullets: [
+          "Ông Bùi Sơn Nam – Chủ tịch CLB mGolf",
+          "Ông Lê Ngọc Anh – Tổng Thư ký CLB mGolf",
+          "Ông Vũ Quang Hải - Ủy viên BCH CLB mGolf",
+          "Ông Trần Nguyễn Hoàng Tuấn - Ủy viên BCH CLB mGolf",
+          "Ông Đoàn Đình Dân – Ủy viên BCH CLB mGolf",
+          "Ông Nguyễn Hải Linh - Ủy viên BCH CLB mGolf"
+        ]
+      },
+      {
+        id: "rule2",
+        title: "2. THỜI GIAN VÀ ĐỊA ĐIỂM",
+        content: "", 
+        subContent: "",
+        bullets: [
+          "Giải Đấu sẽ thi đấu trên Sân Golf Thanh Lanh, Chủ Nhật ngày 08/12/2024",
+          "18 Flight xuất phát thi đấu vào lúc 12h30"
+        ]
+      },
+      {
+        id: "rule3",
+        title: "3. LUẬT THI ĐẤU",
+        content: "Giải đấu áp dụng Luật Golf do R&A Rules Limited và Hiệp hội Golf Hoa Kỳ (USGA) ban hành năm 2023, cùng với Luật Địa phương do Sân golf quy định.",
+        subContent: "",
+        bullets: [] // Nếu không có gạch đầu dòng thì để mảng rỗng
+      }
+    ], 
+    flights: [
+      {
+        id: "f1",
+        name: "Flight 1",
+        players: [
+          { id: "p1", name: "Nguyễn Hải Linh", hdc: 20, vga: "123568", image: "https://picsum.photos/id/64/100" },
+          { id: "p2", name: "Trần Văn B", hdc: 15, vga: "123569", image: "https://picsum.photos/id/65/100" },
+          { id: "p3", name: "Lê Thị C", hdc: 22, vga: "123570", image: "https://picsum.photos/id/66/100" },
+          { id: "p4", name: "Phạm Minh D", hdc: 18, vga: "123571", image: "https://picsum.photos/id/67/100" },
+        ]
+      },
+      {
+        id: "f2",
+        name: "Flight 2",
+        players: [
+          { id: "p5", name: "Vũ Quang Hải", hdc: 12, vga: "190901", image: "https://picsum.photos/id/68/100" },
+          { id: "p6", name: "Đoàn Đình Dân", hdc: 14, vga: "190902", image: "https://picsum.photos/id/69/100" },
+        ]
+      }
+    ]
   },
   {
     id: "2",
@@ -61,7 +111,46 @@ export const OUTING_DATA = [
         { hole: 3, black: 5, blue: 5, white: 5, red: 6, par: 5, strokeIndex: 1 },
         { hole: 4, black: 4, blue: 4, white: 4, red: 4, par: 4, strokeIndex: 5 },
       ]
-    }
+    },
+    rules: [
+      {
+        id: "rule1",
+        title: "1. ĐỐI TƯỢNG THAM GIA",
+        content: "Tất cả các Golfer Nghiệp dư (Amateur) theo Luật tình trạng Nghiệp dư của R&A và USGA đều được quyền đăng ký tham gia.",
+        subContent: "Bảng đấu dự kiến:",
+        bullets: [
+          "Bảng A: HDC 00 - 15",
+          "Bảng B: HDC 16 - 25",
+          "Bảng C: HDC 26 - 36"
+        ]
+      },
+      {
+        id: "rule2",
+        title: "2. THỂ THỨC THI ĐẤU",
+        content: "Thi đấu theo thể thức Đấu Gậy (Stroke Play) 18 hố tính điểm Net dựa trên Handicap ngày (System 36).",
+        subContent: "",
+        bullets: []
+      }
+    ],flights: [
+      {
+        id: "f1",
+        name: "Flight 1",
+        players: [
+          { id: "p1", name: "Nguyễn Hải Linh", hdc: 20, vga: "123568", image: "https://picsum.photos/id/64/100" },
+          { id: "p2", name: "Trần Văn B", hdc: 15, vga: "123569", image: "https://picsum.photos/id/65/100" },
+          { id: "p3", name: "Lê Thị C", hdc: 22, vga: "123570", image: "https://picsum.photos/id/66/100" },
+          { id: "p4", name: "Phạm Minh D", hdc: 18, vga: "123571", image: "https://picsum.photos/id/67/100" },
+        ]
+      },
+      {
+        id: "f2",
+        name: "Flight 2",
+        players: [
+          { id: "p5", name: "Vũ Quang Hải", hdc: 12, vga: "190901", image: "https://picsum.photos/id/68/100" },
+          { id: "p6", name: "Đoàn Đình Dân", hdc: 14, vga: "190902", image: "https://picsum.photos/id/69/100" },
+        ]
+      }
+    ]
   },
   {
     id: "3",

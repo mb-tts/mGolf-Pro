@@ -9,7 +9,9 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
+import Sandau from "./sandau";
+import Thele from "./thele";
+import Filght from "./flight";
 export default function OutingDetailScreen({ route, navigation }: any) {
   const { outingData } = route.params || {};
   const courseDetails = outingData?.courseDetails || {};
@@ -210,7 +212,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
             <Text style={{ padding: 20 }}>Điều lệ</Text>
           )}
         </View>
-      </ScrollView>
+      
     </View>
   );
 }
@@ -257,7 +259,7 @@ const styles = StyleSheet.create({
 
   tabContainer: {
     flexDirection: "row",
-    marginTop: 16,
+    marginTop: 0,
     borderBottomWidth: 1,
     borderBottomColor: "#EEE",
   },
@@ -281,6 +283,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F9FA",
     borderRadius: 12,
     padding: 16,
+    marginBottom: 16,
+    // Viền và bóng đổ nhẹ tạo cảm giác nổi
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2, 
+  },
+  flightHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 16,
   },
 
