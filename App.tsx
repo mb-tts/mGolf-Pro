@@ -9,6 +9,7 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
+import OutingDetailScreen from "./src/screens/club/detailOuting.tsx/outingDeatil";
 
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
 import { SplashScreen } from "./src/screens/auth/splash";
@@ -65,6 +66,7 @@ export type AppStackParamList = {
   MainTabs: undefined;
   AccountInformation: undefined;
   // Thêm các screen con khác ở đây khi cần
+  OutingDetailScreen: { outingData: any };
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -104,9 +106,8 @@ const MainNavigator = () => {
 
   return (
     <Tab.Navigator
-      
       id="MainTab"
-      screenOptions={({ route , }) => ({
+      screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: true,
         tabBarActiveTintColor: "#1565C0",
@@ -120,7 +121,6 @@ const MainNavigator = () => {
           borderTopWidth: 1,
           borderTopColor: "#F0F0F0",
           elevation: 10,
-          
         },
         tabBarIcon: ({ focused }) => {
           const icons = TAB_ICONS[route.name];
@@ -154,7 +154,7 @@ const MainNavigator = () => {
         name="Account"
         component={AccountScreen}
         options={{ tabBarLabel: "Tài khoản" }}
-      />   
+      />
     </Tab.Navigator>
   );
 };
@@ -166,13 +166,14 @@ const AppNavigator = () => (
   <AppStack.Navigator id="AppStack" screenOptions={{ headerShown: false }}>
     {/* Màn hình mặc định là cái Tab Navigator */}
     <AppStack.Screen name="MainTabs" component={MainNavigator} />
-    
+
     {/* Các màn hình con khi bấm vào từ Account sẽ được push đè lên trên Tab */}
-    <AppStack.Screen 
-      name="AccountInformation" 
+    <AppStack.Screen
+      name="AccountInformation"
       component={AccountInformationScreen}
       options={{ animation: "slide_from_right" }}
     />
+    <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
   </AppStack.Navigator>
 );
 
