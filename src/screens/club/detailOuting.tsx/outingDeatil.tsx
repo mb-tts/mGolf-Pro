@@ -212,7 +212,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
             <Text style={{ padding: 20 }}>Điều lệ</Text>
           )}
         </View>
-      
+      </ScrollView>
     </View>
   );
 }
