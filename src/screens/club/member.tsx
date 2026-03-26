@@ -25,20 +25,17 @@ const generateData = () => {
 
 const LEADERBOARD_DATA = generateData();
 
-// 2. COMPONENT HIỂN THỊ TỪNG DÒNG
 const MemberRow = ({ item }) => {
-  // Format số thứ tự: thêm '0' ở đầu nếu số nhỏ hơn 10
   const formattedRank = item.rank.toString().padStart(2, "0");
 
   return (
     <View style={styles.itemContainer}>
-      {/* Số thứ tự */}
+      
       <Text style={styles.rankText}>{formattedRank}</Text>
 
-      {/* Avatar */}
+      
       <Image source={{ uri: item.image }} style={styles.avatar} />
 
-      {/* Thông tin: Tên, HDC, VGA */}
       <View style={styles.infoContainer}>
         <Text style={styles.nameText}>{item.name}</Text>
         <Text style={styles.statsContainer}>
@@ -49,8 +46,7 @@ const MemberRow = ({ item }) => {
         </Text>
       </View>
 
-      {/* Role (Chỉ hiển thị nếu có) */}
-      {item.role && <Text style={styles.roleText}>{item.role}</Text>}
+      {item.role ? <Text style={styles.roleText}>{item.role}</Text> : null}
     </View>
   );
 };

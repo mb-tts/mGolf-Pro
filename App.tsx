@@ -104,11 +104,13 @@ const MainNavigator = () => {
 
   return (
     <Tab.Navigator
+      
       id="MainTab"
-      screenOptions={({ route }) => ({
+      screenOptions={({ route , }) => ({
         headerShown: false,
         tabBarShowLabel: true,
         tabBarActiveTintColor: "#1565C0",
+        tabBarHideOnKeyboard: true,
         tabBarInactiveTintColor: "#9E9E9E",
         tabBarStyle: {
           height: 60 + insets.bottom,
@@ -118,6 +120,7 @@ const MainNavigator = () => {
           borderTopWidth: 1,
           borderTopColor: "#F0F0F0",
           elevation: 10,
+          
         },
         tabBarIcon: ({ focused }) => {
           const icons = TAB_ICONS[route.name];

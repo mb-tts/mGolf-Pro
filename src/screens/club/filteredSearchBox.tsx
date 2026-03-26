@@ -12,15 +12,16 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Boloc from "./bolocInOuting"; // Đảm bảo đường dẫn đúng tới file Boloc của bạn
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { KeyboardAvoidingView } from "react-native";
-
 export default function FilterSearchBox() {
   const [filterVisible, setFilterVisible] = useState(false);
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          
+          >
       <View >
         {/* SEARCH BAR */}
         <View style={styles.searchWrap}>
