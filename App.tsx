@@ -69,6 +69,11 @@ export type AppStackParamList = {
   AccountInformation: undefined;
   Achievements: undefined;
   GameSettings: undefined;
+  UISettings: undefined;
+  PaymentSettings: undefined;
+  Equipment: undefined;
+  NotificationSettings: undefined;
+  Security: undefined;
   // Thêm các screen con khác ở đây khi cần
 };
 
@@ -187,6 +192,12 @@ const AppNavigator = () => (
       component={GameSettingScreen}
       options={{ animation: "slide_from_right" }}
     />
+
+    <AppStack.Screen
+      name="UISettings"
+      component={UISettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
   </AppStack.Navigator>
 );
 
@@ -206,6 +217,8 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
+import UISettingScreen from "./src/screens/account/ui-setting";
+import UISettingsScreen from "./src/screens/account/ui-setting";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {

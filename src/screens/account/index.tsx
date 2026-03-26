@@ -58,7 +58,7 @@ export const AccountScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const handleMenuPress = (screenName: string) => {
-    const appStackScreens = ["AccountInformation", "Achievements", "GameSettings"];
+    const appStackScreens = ["AccountInformation", "Achievements", "GameSettings", "UISettings", "PaymentSettings", "Equipment", "NotificationSettings", "Security"];
     
     if (appStackScreens.includes(screenName)) {
       navigation.getParent()?.navigate(screenName);

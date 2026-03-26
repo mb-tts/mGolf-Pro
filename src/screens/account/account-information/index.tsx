@@ -95,7 +95,7 @@ export const AccountInformationScreen: React.FC<AccountInfoScreenProps> = ({
                 style={styles.avatar}
               />
               <TouchableOpacity style={styles.editAvatarBtn}>
-                <Ionicons name="camera" size={18} color={Colors.white} />
+                <Ionicons name="camera" size={18} color={Colors.black} />
               </TouchableOpacity>
             </View>
           </View>
@@ -252,7 +252,6 @@ const styles = StyleSheet.create({
     borderColor: "#E5E7EB",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FFF",
   },
   headerTitle: {
     fontSize: 18,
@@ -266,9 +265,9 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     alignItems: "center",
-    paddingVertical: 24,
+    paddingVertical: 15,
     backgroundColor: "#F2F4F7",
-    marginBottom: 16,
+    marginBottom: 15,
   },
   avatarWrapper: {
     position: "relative",
@@ -285,7 +284,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.finishedLight,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 3,
@@ -306,6 +305,7 @@ const styles = StyleSheet.create({
   },
   fieldValueBox: {
     backgroundColor: Colors.white,
+    borderWidth: 0.1,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 12, // Tăng padding một chút để vùng bấm thoải mái hơn

@@ -111,7 +111,7 @@ export const SelectionBottomSheet: React.FC<SelectionBottomSheetProps> = ({
                 onPress={() => onUpgradePress(option.id)}
                 activeOpacity={0.7}
               >
-                <Text style={styles.registerBtnText}>Nâng cấp</Text>
+                <Text style={styles.registerBtnText}>Đăng ký</Text>
               </TouchableOpacity>
             ) : null}
           </TouchableOpacity>
@@ -175,12 +175,12 @@ const styles = StyleSheet.create({
   registerBtn: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: Colors.primary,
+    backgroundColor: '#EAF6FF',
     borderRadius: 16,
   },
   registerBtnText: {
     fontSize: 12,
     fontWeight: "600",
-    color: Colors.white,
+    color: '#0061AF',
   },
 });
