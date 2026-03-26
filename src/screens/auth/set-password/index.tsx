@@ -79,7 +79,7 @@ export const SetPasswordScreen = () => {
       />
 
       <Text style={styles.terms}>
-        Bằng việc tiếp tục, bạn đã đồng ý với{" "}
+        Bằng việc tiếp tục, bạn đã đồng ý với
         <Text style={styles.link}>Điều khoản sử dụng</Text>
       </Text>
 
