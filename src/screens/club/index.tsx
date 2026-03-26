@@ -173,12 +173,12 @@ const styles = StyleSheet.create({
   },
 
   tabs: {
-    
+    borderRadius: 20,
     width: width,
     flexDirection: "row",
     justifyContent: "space-around",
     backgroundColor: "#fff",
-    marginTop: 15,
+    marginTop: -15,
     paddingVertical: 12,
   },
 
