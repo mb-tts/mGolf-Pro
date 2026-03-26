@@ -11,8 +11,7 @@ import {
   Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Boloc from "./bolocInOuting"; // Đảm bảo đường dẫn đúng tới file Boloc của bạn
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Boloc from "./bolocInOuting"; 
 import { KeyboardAvoidingView } from "react-native";
 export default function FilterSearchBox() {
   const [filterVisible, setFilterVisible] = useState(false);
@@ -22,7 +21,7 @@ export default function FilterSearchBox() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View>
-        {/* SEARCH BAR */}
+        
         <View style={styles.searchWrap}>
           <View style={styles.searchBox}>
             <Ionicons name="search" size={18} color="#666" />
@@ -33,7 +32,7 @@ export default function FilterSearchBox() {
             />
           </View>
 
-          {/* Nút bấm để mở bộ lọc */}
+         
           <TouchableOpacity
             style={styles.filterBtn}
             onPress={() => setFilterVisible(true)}
@@ -42,7 +41,7 @@ export default function FilterSearchBox() {
           </TouchableOpacity>
         </View>
 
-        {/* MODAL BỘ LỌC */}
+        
         <Modal
           animationType="slide"
           transparent={true}
@@ -55,24 +54,24 @@ export default function FilterSearchBox() {
             onPress={() => setFilterVisible(false)}
           >
             <TouchableOpacity activeOpacity={1} style={styles.bottomSheet}>
-              {/* Thanh ngang kéo thả (Decor) */}
+              
               <View style={styles.dragHandleWrap}>
                 <View style={styles.dragHandle} />
               </View>
 
-              {/* Header Bộ lọc */}
+              
               <View style={styles.sheetHeader}>
                 <TouchableOpacity onPress={() => setFilterVisible(false)}>
                   <Ionicons name="chevron-back" size={24} color="#333" />
                 </TouchableOpacity>
                 <Text style={styles.sheetTitle}>Bộ lọc</Text>
-                <View style={{ width: 24 }} /> {/* Spacer để cân bằng Title */}
+                <View style={{ width: 24 }} /> 
               </View>
 
-              {/* Nội dung Bộ lọc (Dùng chung file Boloc) */}
+              
               <Boloc />
 
-              {/* Footer Buttons */}
+              
               <SafeAreaView>
                 <View style={styles.sheetFooter}>
                   <TouchableOpacity style={styles.clearBtn}>
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 2,
-    borderWidth: 1, // Đã thêm viền giống với MemberScreen của bạn
+    borderWidth: 1, 
     borderColor: "#E0E0E0",
   },
   input: {

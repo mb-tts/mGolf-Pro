@@ -42,10 +42,8 @@ export default function OutingDetailScreen({ route, navigation }: any) {
         </SafeAreaView>
       </View>
 
-      <ScrollView style={{ marginTop: -50 }}>
-        <View style={styles.mainInfoBox}>
-          {/* TITLE */}
-          <Text style={styles.mainTitle}>
+      <View style={styles.mainInfoBox1}>
+         <Text style={styles.mainTitle}>
             {String(outingData?.title || "")}
           </Text>
 
@@ -100,6 +98,11 @@ export default function OutingDetailScreen({ route, navigation }: any) {
               </TouchableOpacity>
             ))}
           </View>
+      </View>
+
+      <ScrollView >
+        <View style={styles.mainInfoBox2}>
+          {/* TITLE */}
 
           {/* TAB: SÂN ĐẤU */}
           {activeTab === "Sân đấu" && courseDetails &&(
@@ -145,11 +148,19 @@ const styles = StyleSheet.create({
 
   headerTitle: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 
-  mainInfoBox: {
+  mainInfoBox1: {
     backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 24,
+    paddingHorizontal: 20,
+    marginTop: -70,
+  },
+  mainInfoBox2: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 0,
     paddingHorizontal: 20,
     paddingBottom: 40,
   },

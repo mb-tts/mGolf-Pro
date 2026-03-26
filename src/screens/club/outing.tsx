@@ -6,7 +6,7 @@ import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chu
 export default function OutingScreen() {
   return (
     <View style={styles.container}>
-      {/* Chỉ cần gọi Component này ra */}
+      
       <FilterSearchBox />
 
       <ScrollView showsVerticalScrollIndicator={false}>
