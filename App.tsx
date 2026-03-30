@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { SvgProps } from "react-native-svg";
 import {
   SafeAreaProvider,
@@ -27,6 +28,8 @@ import { TournamentScreen } from "./src/screens/tournament";
 
 // ─── Account Sub-Screens ──────────────────────────────────────────────────────
 import { AccountInformationScreen } from "./src/screens/account/account-information";
+import { AchievementsScreen } from "./src/screens/account/achievements";
+import { GameSettingScreen } from "./src/screens/account/game-setting";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -65,6 +68,13 @@ export type MainTabParamList = {
 export type AppStackParamList = {
   MainTabs: undefined;
   AccountInformation: undefined;
+  Achievements: undefined;
+  GameSettings: undefined;
+  UISettings: undefined;
+  PaymentSettings: undefined;
+  Equipment: undefined;
+  NotificationSettings: undefined;
+  Security: undefined;
   // Thêm các screen con khác ở đây khi cần
   OutingDetailScreen: { outingData: any };
 };
@@ -173,6 +183,18 @@ const AppNavigator = () => (
       component={AccountInformationScreen}
       options={{ animation: "slide_from_right" }}
     />
+
+    <AppStack.Screen
+      name="Achievements"
+      component={AchievementsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="GameSettings"
+      component={GameSettingScreen}
+      options={{ animation: "slide_from_right" }}
+    />
     <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
   </AppStack.Navigator>
 );
@@ -193,6 +215,8 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
+import UISettingScreen from "./src/screens/account/ui-setting";
+import UISettingsScreen from "./src/screens/account/ui-setting";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
@@ -205,9 +229,11 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <AuthProvider>
-          <RootNavigator />
-        </AuthProvider>
+        <BottomSheetModalProvider>
+          <AuthProvider>
+            <RootNavigator />
+          </AuthProvider>
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
