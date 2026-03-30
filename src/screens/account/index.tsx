@@ -74,11 +74,12 @@ export const AccountScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const handleMenuPress = (screenName: string) => {
-    // Chỉ điều hướng nếu là AccountInformation, các cái khác chưa có screen có thể log ra
-    if (screenName === "AccountInformation") {
-      navigation.navigate(screenName);
+    const appStackScreens = ["AccountInformation", "Achievements", "GameSettings", "UISettings", "PaymentSettings", "Equipment", "NotificationSettings", "Security"];
+    
+    if (appStackScreens.includes(screenName)) {
+      navigation.getParent()?.navigate(screenName);
     } else {
-      console.log("Navigate to:", screenName);
+      navigation.navigate(screenName);
     }
   };
 

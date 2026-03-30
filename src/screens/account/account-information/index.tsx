@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  Modal,
-  FlatList,
   TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
+import { SelectionBottomSheet } from "../../../components/account/SelectionBottomSheet";
+import type { SelectionOption } from "../../../components/account/SelectionBottomSheet";
 
 interface AccountInfoScreenProps {
   navigation?: any;
@@ -33,8 +33,31 @@ export const AccountInformationScreen: React.FC<AccountInfoScreenProps> = ({
   const [membershipModal, setMembershipModal] = useState(false);
   const [teeBoxModal, setTeeBoxModal] = useState(false);
 
-  const membershipOptions = ["Basic", "Silver", "Gold", "Platinum"];
-  const teeBoxOptions = ["Red", "White", "Blue", "Black", "Green"];
+  const membershipOptions: SelectionOption[] = [
+    { id: "Basic", label: "Basic" },
+    { id: "Advance", label: "Advance", isUpgrade: true },
+    { id: "VIP", label: "VIP", isUpgrade: true },
+  ];
+
+  const teeBoxOptions: SelectionOption[] = [
+    { id: "Blue", label: "Blue" },
+    { id: "Red", label: "Red" },
+    { id: "White", label: "White" },
+    { id: "Yellow", label: "Yellow" },
+  ];
+
+  const handleMembershipUpgrade = (membership: string) => {
+    Alert.alert("Nâng cấp hội viên", `Bạn muốn nâng cấp lên ${membership}?`, [
+      { text: "Hủy", onPress: () => {} },
+      {
+        text: "Xác nhận",
+        onPress: () => {
+          setMemberShip(membership);
+          setMembershipModal(false);
+        },
+      },
+    ]);
+  };
 
   const handleUpdate = () => {
     Alert.alert("Thành công", "Cập nhật thông tin tài khoản thành công!");
@@ -47,247 +70,171 @@ export const AccountInformationScreen: React.FC<AccountInfoScreenProps> = ({
   };
 
   return (
-    <View style={styles.container}>
-        
-      <SafeAreaView edges={["top"]}>
-        <ScrollView
+    <View style={styles.screenWrapper}>
+      <SafeAreaView edges={["top"]} style={{flex: 1,backgroundColor: "#F2F4F7"}}>
+        {/* Vùng chứa nội dung cuộn */}
+        <View style={{ flex: 1 }}>
+          <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.scrollContent}
-        >
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
-            <Ionicons name="chevron-back" size={28} color={Colors.text} />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Thông tin tài khoản</Text>
-          <View style={styles.placeholder} />
-        </View>
-
-        {/* Avatar Section */}
-        <View style={styles.avatarContainer}>
-          <View style={styles.avatarWrapper}>
-            <Image
-              source={{ uri: "https://i.pravatar.cc/150?img=3" }}
-              style={styles.avatar}
-            />
-            <TouchableOpacity style={styles.editAvatarBtn}>
-              <Ionicons name="camera" size={18} color={Colors.white} />
+          >
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
+              <Ionicons name="chevron-back" size={28} color={Colors.text} />
             </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Form Fields */}
-        <View style={styles.formContainer}>
-          {/* Họ và tên */}
-          <View style={styles.fieldGroup}>
-            <View style={styles.fieldValueBox}>
-              <Text style={styles.fieldLabel}>Họ và tên</Text>
-              <Text style={styles.fieldValue}>{fullName}</Text>
-            </View>
+            <Text style={styles.headerTitle}>Thông tin tài khoản</Text>
+            <View style={styles.placeholder} />
           </View>
 
-          {/* Mã VGA */}
-          <View style={styles.fieldGroup}>
-            <View style={styles.fieldValueBox}>
-              <Text style={styles.fieldLabel}>Mã VGA</Text>
-              <Text style={styles.fieldValue}>{vgaCode}</Text>
-            </View>
-          </View>
-
-          {/* HDC Index */}
-          <View style={styles.fieldGroup}>
-            <View style={styles.fieldValueBox}>
-              <Text style={styles.fieldLabel}>HDC Index</Text>
-              <Text style={styles.fieldValue}>{handicap}</Text>
-            </View>
-          </View>
-
-          {/* Số điện thoại */}
-          <View style={styles.fieldGroup}>
-            <View style={styles.fieldValueBox}>
-              <Text style={styles.fieldLabel}>Số điện thoại</Text>
-              <TextInput
-                style={styles.inputInBox}
-                value={phone}
-                onChangeText={setPhone}
-                placeholder="Nhập số điện thoại"
-                placeholderTextColor={Colors.placeholder}
-                keyboardType="phone-pad"
+          {/* Avatar Section */}
+          <View style={styles.avatarContainer}>
+            <View style={styles.avatarWrapper}>
+              <Image
+                source={{ uri: "https://i.pravatar.cc/150?img=3" }}
+                style={styles.avatar}
               />
-            </View>
-          </View>
-
-          {/* Email */}
-          <View style={styles.fieldGroup}>
-            <View style={styles.fieldValueBox}>
-              <Text style={styles.fieldLabel}>Email</Text>
-              <TextInput
-                style={styles.inputInBox}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Nhập email"
-                placeholderTextColor={Colors.placeholder}
-                keyboardType="email-address"
-              />
-            </View>
-          </View>
-
-          {/* Hạng hội viên */}
-          <View style={styles.fieldGroup}>
-            <View style={styles.fieldValueBox}>
-              <Text style={styles.fieldLabel}>Hạng hội viên</Text>
-              <TouchableOpacity
-                style={styles.selectInputInBox}
-                onPress={() => setMembershipModal(true)}
-              >
-                <Text style={styles.selectText}>{memberShip}</Text>
-                <Ionicons
-                  name="chevron-down"
-                  size={16}
-                  color={Colors.textSecondary}
-                />
+              <TouchableOpacity style={styles.editAvatarBtn}>
+                <Ionicons name="camera" size={18} color={Colors.black} />
               </TouchableOpacity>
             </View>
           </View>
 
-          {/* Tee box */}
-          <View style={styles.fieldGroup}>
-            <View style={styles.fieldValueBox}>
-              <Text style={styles.fieldLabel}>Tee box</Text>
-              <TouchableOpacity
-                style={styles.selectInputInBox}
-                onPress={() => setTeeBoxModal(true)}
-              >
-                <Text style={styles.selectText}>{teeBox}</Text>
-                <Ionicons
-                  name="chevron-down"
-                  size={16}
-                  color={Colors.textSecondary}
+          {/* Form Fields */}
+          <View style={styles.formContainer}>
+            {/* Họ và tên */}
+            <View style={styles.fieldGroup}>
+              <View style={styles.fieldValueBox}>
+                <Text style={styles.fieldLabel}>Họ và tên</Text>
+                <Text style={styles.fieldValue}>{fullName}</Text>
+              </View>
+            </View>
+
+            {/* Mã VGA */}
+            <View style={styles.fieldGroup}>
+              <View style={styles.fieldValueBox}>
+                <Text style={styles.fieldLabel}>Mã VGA</Text>
+                <Text style={styles.fieldValue}>{vgaCode}</Text>
+              </View>
+            </View>
+
+            {/* HDC Index */}
+            <View style={styles.fieldGroup}>
+              <View style={styles.fieldValueBox}>
+                <Text style={styles.fieldLabel}>HDC Index</Text>
+                <Text style={styles.fieldValue}>{handicap}</Text>
+              </View>
+            </View>
+
+            {/* Số điện thoại */}
+            <View style={styles.fieldGroup}>
+              <View style={styles.fieldValueBox}>
+                <Text style={styles.fieldLabel}>Số điện thoại</Text>
+                <TextInput
+                  style={styles.inputInBox}
+                  value={phone}
+                  onChangeText={setPhone}
+                  placeholder="Nhập số điện thoại"
+                  placeholderTextColor={Colors.placeholder}
+                  keyboardType="phone-pad"
                 />
-              </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Email */}
+            <View style={styles.fieldGroup}>
+              <View style={styles.fieldValueBox}>
+                <Text style={styles.fieldLabel}>Email</Text>
+                <TextInput
+                  style={styles.inputInBox}
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholder="Nhập email"
+                  placeholderTextColor={Colors.placeholder}
+                  keyboardType="email-address"
+                />
+              </View>
+            </View>
+
+            {/* Hạng hội viên */}
+            <View style={styles.fieldGroup}>
+              <View style={styles.fieldValueBox}>
+                <Text style={styles.fieldLabel}>Hạng hội viên</Text>
+                <TouchableOpacity
+                  style={styles.selectInputInBox}
+                  onPress={() => setMembershipModal(true)}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.selectText}>{memberShip}</Text>
+                  <Ionicons
+                    name="chevron-down"
+                    size={16}
+                    color={Colors.textSecondary}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Tee box */}
+            <View style={styles.fieldGroup}>
+              <View style={styles.fieldValueBox}>
+                <Text style={styles.fieldLabel}>Tee box</Text>
+                <TouchableOpacity
+                  style={styles.selectInputInBox}
+                  onPress={() => setTeeBoxModal(true)}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.selectText}>{teeBox}</Text>
+                  <Ionicons
+                    name="chevron-down"
+                    size={16}
+                    color={Colors.textSecondary}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </View>
+
       {/* Update Button */}
       <View style={styles.bottomContainer}>
-        <TouchableOpacity style={styles.updateBtn} onPress={handleUpdate}>
+        <TouchableOpacity style={styles.updateBtn} onPress={handleUpdate} activeOpacity={0.8}>
           <Text style={styles.updateBtnText}>Cập nhật</Text>
         </TouchableOpacity>
       </View>
+      </SafeAreaView>
 
-      {/* Membership Modal */}
-      <Modal
-        visible={membershipModal}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setMembershipModal(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Chọn hạng hội viên</Text>
-              <TouchableOpacity onPress={() => setMembershipModal(false)}>
-                <Ionicons name="close" size={24} color={Colors.text} />
-              </TouchableOpacity>
-            </View>
-            <FlatList
-              data={membershipOptions}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={[
-                    styles.optionItem,
-                    memberShip === item && styles.selectedOption,
-                  ]}
-                  onPress={() => {
-                    setMemberShip(item);
-                    setMembershipModal(false);
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.optionText,
-                      memberShip === item && styles.selectedOptionText,
-                    ]}
-                  >
-                    {item}
-                  </Text>
-                  {memberShip === item && (
-                    <Ionicons
-                      name="checkmark"
-                      size={20}
-                      color={Colors.primary}
-                    />
-                  )}
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        </View>
-      </Modal>
+      {/* Membership Selection Bottom Sheet - OUTSIDE SafeAreaView */}
+      <SelectionBottomSheet
+        isVisible={membershipModal}
+        selectedValue={memberShip}
+        title="Hội viên"
+        options={membershipOptions}
+        onSelect={setMemberShip}
+        onClose={() => setMembershipModal(false)}
+        onUpgradePress={handleMembershipUpgrade}
+      />
 
-      {/* Tee Box Modal */}
-      <Modal
-        visible={teeBoxModal}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setTeeBoxModal(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Chọn Tee box</Text>
-              <TouchableOpacity onPress={() => setTeeBoxModal(false)}>
-                <Ionicons name="close" size={24} color={Colors.text} />
-              </TouchableOpacity>
-            </View>
-            <FlatList
-              data={teeBoxOptions}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={[
-                    styles.optionItem,
-                    teeBox === item && styles.selectedOption,
-                  ]}
-                  onPress={() => {
-                    setTeeBox(item);
-                    setTeeBoxModal(false);
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.optionText,
-                      teeBox === item && styles.selectedOptionText,
-                    ]}
-                  >
-                    {item}
-                  </Text>
-                  {teeBox === item && (
-                    <Ionicons
-                      name="checkmark"
-                      size={20}
-                      color={Colors.primary}
-                    />
-                  )}
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        </View>
-      </Modal>
+      {/* Tee Box Selection Bottom Sheet - OUTSIDE SafeAreaView */}
+      <SelectionBottomSheet
+        isVisible={teeBoxModal}
+        selectedValue={teeBox}
+        title="Tee box"
+        options={teeBoxOptions}
+        onSelect={setTeeBox}
+        onClose={() => setTeeBoxModal(false)}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  screenWrapper: {
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 100,
+    paddingBottom: 40,
   },
   header: {
     flexDirection: "row",
@@ -298,7 +245,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F4F7",
   },
   backBtn: {
-    padding: 8,
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    alignItems: "center",
+    justifyContent: "center",
   },
   headerTitle: {
     fontSize: 18,
@@ -312,9 +265,9 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     alignItems: "center",
-    paddingVertical: 24,
+    paddingVertical: 15,
     backgroundColor: "#F2F4F7",
-    marginBottom: 16,
+    marginBottom: 15,
   },
   avatarWrapper: {
     position: "relative",
@@ -331,18 +284,11 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.finishedLight,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 3,
     borderColor: Colors.white,
-  },
-  formSection: {
-    backgroundColor: Colors.white,
-    marginHorizontal: 16,
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
   },
   formContainer: {
     paddingHorizontal: 16,
@@ -350,7 +296,6 @@ const styles = StyleSheet.create({
   },
   fieldGroup: {
     marginBottom: 12,
-    paddingHorizontal: 6,
   },
   fieldLabel: {
     fontSize: 11,
@@ -360,9 +305,10 @@ const styles = StyleSheet.create({
   },
   fieldValueBox: {
     backgroundColor: Colors.white,
+    borderWidth: 0.1,
     borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: 10,
+    paddingVertical: 12, // Tăng padding một chút để vùng bấm thoải mái hơn
   },
   fieldValue: {
     fontSize: 14,
@@ -380,6 +326,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    // Thêm padding dọc vô hình để dễ chạm (tap) trên điện thoại
+    paddingVertical: 2, 
   },
   selectText: {
     fontSize: 14,
@@ -387,13 +335,10 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   bottomContainer: {
-    position: "absolute",
-    bottom: 10,
-    left: 0,
-    right: 0,
     backgroundColor: Colors.white,
     paddingHorizontal: 16,
     paddingVertical: 16,
+    paddingBottom: 24, // Thêm đệm dưới cho các dòng iPhone có tai thỏ/home bar
     borderTopWidth: 1,
     borderTopColor: Colors.border,
   },
@@ -407,52 +352,6 @@ const styles = StyleSheet.create({
   updateBtnText: {
     color: Colors.white,
     fontSize: 16,
-    fontWeight: "600",
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "flex-end",
-  },
-  modalContent: {
-    backgroundColor: Colors.white,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    maxHeight: "70%",
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  modalTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: Colors.text,
-  },
-  optionItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F0",
-  },
-  selectedOption: {
-    backgroundColor: "#E3F2FD",
-  },
-  optionText: {
-    fontSize: 14,
-    color: Colors.text,
-    fontWeight: "500",
-  },
-  selectedOptionText: {
-    color: Colors.primary,
     fontWeight: "600",
   },
 });
