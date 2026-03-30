@@ -13,6 +13,7 @@ import { AchievementCard } from "../../components/home/AchievementCard";
 import AchiveBg from "../../../assets/icons/home/achive.svg";
 import GolfPersonIcon from "../../../assets/icons/home/golfPerson.svg";
 import { ImageBackground, Image, TouchableOpacity } from "react-native";
+import LogoBackground from "../../../assets/icons/home/logobackground.svg";
 import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 
 export const HomeScreen = ({ navigation }: any) => {
@@ -28,14 +29,15 @@ export const HomeScreen = ({ navigation }: any) => {
 
   return (
     <ScreenWrapper>
-      <View style={styles.safe}>
+      <View
+        style={[styles.safe, hasMatches && { backgroundColor: Colors.white }]}
+      >
         {/* ẢNH GOLF Ở TRÊN CÙNG (Dùng cho Empty State hoặc Header cover) */}
         {!hasMatches && (
-          <ImageBackground
-            source={{
-              uri: "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2670&auto=format&fit=crop",
-            }}
+          <Image
+            source={require("../../../assets/images/backgroundHeader.jpg")}
             style={styles.topBackgroundImage}
+            resizeMode="cover"
           />
         )}
 
@@ -55,7 +57,10 @@ export const HomeScreen = ({ navigation }: any) => {
 
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={styles.scroll}
+          style={[
+            styles.scroll,
+            !hasMatches && { backgroundColor: "transparent" },
+          ]}
           contentContainerStyle={[
             styles.scrollContent,
             !hasMatches && { paddingTop: 260 },
@@ -66,27 +71,37 @@ export const HomeScreen = ({ navigation }: any) => {
           <View style={styles.whiteSheet}>
             {!hasMatches && (
               <View style={StyleSheet.absoluteFillObject}>
-                <ImageBackground
-                  source={require("../../../assets/images/golf_pattern.png")}
-                  style={{ flex: 1, opacity: 0.05 }}
-                  resizeMode="cover"
+                {/* Một biểu tượng golfer lớn, nằm lệch sang trái hoặc trung tâm */}
+                <LogoBackground
+                  width={240} // Chiều rộng xấp xỉ tỉ lệ Figma (156 * x)
+                  height={320} // Chiều cao xấp xỉ tỉ lệ Figma (244 * x)
+                  style={styles.logoBackground}
                 />
               </View>
             )}
 
             {/* HIỂN THỊ GREETING BÊN TRONG WHITE SHEET NẾU EMPTY */}
             {!hasMatches && (
-              <View style={styles.emptyGreetingWrapper}>
-                <Text style={styles.italicGreeting}>Xin chào,</Text>
-                <Text style={styles.greetingName}>{user?.fullName}</Text>
+              <>
+                <View style={styles.emptyGreetingWrapper}>
+                  <Text style={styles.italicGreeting}>Xin chào,</Text>
+                  <Text style={styles.greetingName}>{user?.fullName}</Text>
+                </View>
 
+                {/* IndexBanner nằm ngoài wrapper để chiếm full width */}
                 <IndexBanner index={12.5} />
 
-                <TouchableOpacity style={styles.playGolfBtn}>
-                  <GolfPersonIcon width={24} height={24} color={Colors.white} />
-                  <Text style={styles.playGolfText}>Chơi golf</Text>
-                </TouchableOpacity>
-              </View>
+                <View style={styles.emptyGreetingWrapper}>
+                  <TouchableOpacity style={styles.playGolfBtn}>
+                    <GolfPersonIcon
+                      width={24}
+                      height={24}
+                      color={Colors.white}
+                    />
+                    <Text style={styles.playGolfText}>Chơi golf</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
             )}
 
             {/* Trận đấu của tôi (Chỉ hiện khi có data) */}
@@ -129,7 +144,9 @@ export const HomeScreen = ({ navigation }: any) => {
         </ScrollView>
 
         {/* FAB (Chỉ hiện khi có data) */}
-        {hasMatches && <FABButton onPress={() => {}} />}
+        {hasMatches && (
+          <FABButton onPress={() => navigation.navigate("CreateFlight")} />
+        )}
       </View>
     </ScreenWrapper>
   );
@@ -138,7 +155,6 @@ export const HomeScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: Colors.white, // Trắng cả khu vực status bar (tai thỏ)
   },
   scroll: {
     flex: 1,
@@ -197,8 +213,8 @@ const styles = StyleSheet.create({
   },
   emptyGreetingWrapper: {
     alignItems: "center",
-    marginTop: 20,
-    marginBottom: 24,
+    marginTop: 8,
+    marginBottom: 0,
   },
   italicGreeting: {
     fontFamily: "Meow Script",
@@ -231,5 +247,11 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 16,
     fontWeight: "600",
+  },
+  logoBackground: {
+    position: "absolute",
+    left: -40, // Đẩy sang trái như trong ảnh
+    top: 0, // Bắt đầu từ phía trên white sheet
+    opacity: 0.05, // mờ đi một chút
   },
 });
