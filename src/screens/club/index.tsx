@@ -33,7 +33,6 @@ export const ClubScreen = () => {
       <StatusBar barStyle="light-content" />
 
       <View style={styles.container}>
-        {/* HEADER */}
         <View style={styles.header}>
           <Image
             source={require("../../../assets/images/image.png")}
@@ -45,7 +44,6 @@ export const ClubScreen = () => {
             style={styles.gradient}
           />
 
-          {/* Top bar */}
           <View style={styles.topBar}>
             <Image
               source={require("../../../assets/images/NewImage.png")}
@@ -56,7 +54,6 @@ export const ClubScreen = () => {
           <Text style={styles.headerTitle}>Câu lạc bộ</Text>
         </View>
 
-        {/* CARD */}
         <View style={styles.card}>
           <Image
             source={require("../../../assets/images/NewImage.png")}
@@ -69,7 +66,6 @@ export const ClubScreen = () => {
           </View>
         </View>
 
-        {/* TABS */}
         <View style={styles.tabs}>
           {tabs.map((tab, index) => {
             const isActive = index === activeTab; // activeTab vẫn là index số
@@ -87,7 +83,7 @@ export const ClubScreen = () => {
             );
           })}
 
-          {/* UNDERLINE */}
+          
           <View
             style={[
               styles.underline,
