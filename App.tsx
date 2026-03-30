@@ -44,7 +44,7 @@ import GolfCourseActiveIcon from "./assets/icons/tabbar/golf-course2.svg";
 
 import ProfileIcon from "./assets/icons/tabbar/profile-circle.svg";
 import ProfileActiveIcon from "./assets/icons/tabbar/profile-circle2.svg";
-
+import ImagesAndVideosScreen from "./src/screens/club/imagesAndvideos";
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type AuthStackParamList = {
   Splash: undefined;
@@ -52,6 +52,7 @@ export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
   SetPassword: undefined;
+  
 };
 
 export type MainTabParamList = {
@@ -67,6 +68,7 @@ export type AppStackParamList = {
   AccountInformation: undefined;
   // Thêm các screen con khác ở đây khi cần
   OutingDetailScreen: { outingData: any };
+  ImagesAndVideosScreen: undefined;
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -95,6 +97,7 @@ const AuthNavigator = () => (
     <AuthStack.Screen name="Login" component={LoginScreen} />
     <AuthStack.Screen name="Register" component={RegisterScreen} />
     <AuthStack.Screen name="SetPassword" component={SetPasswordScreen} />
+    
   </AuthStack.Navigator>
 );
 
@@ -172,6 +175,10 @@ const AppNavigator = () => (
       name="AccountInformation"
       component={AccountInformationScreen}
       options={{ animation: "slide_from_right" }}
+    />
+    <AppStack.Screen 
+      name="ImagesAndVideosScreen" 
+      component={ImagesAndVideosScreen} 
     />
     <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
   </AppStack.Navigator>

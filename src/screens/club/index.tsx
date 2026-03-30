@@ -12,6 +12,7 @@ import {
 import IntroduceScreen from "./introduce";
 import OutingScreen from "./outing";
 import MemberScreen from "./member";
+import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 
 import { LinearGradient } from "expo-linear-gradient";
 import RankingScreen from "./ranking";
@@ -28,7 +29,7 @@ export const ClubScreen = () => {
   const [expanded, setExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   return (
-    <View style={{ flex: 1 }}>
+    <ScreenWrapper>
       <StatusBar barStyle="light-content" />
 
       <View style={styles.container}>
@@ -101,7 +102,7 @@ export const ClubScreen = () => {
             {activeTab === 3 && <MemberScreen />}
           </View>
       </View>
-    </View>
+    </ScreenWrapper>
   );
 };
 const styles = StyleSheet.create({
