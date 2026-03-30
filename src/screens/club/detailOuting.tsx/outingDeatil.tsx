@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Sandau from "./sandau";
 import Thele from "./thele";
 import Filght from "./flight";
+import KetQua from "./ketqua";
 export default function OutingDetailScreen({ route, navigation }: any) {
   const { outingData, source } = route.params || {};
   const courseDetails = outingData?.courseDetails || {};
@@ -157,6 +158,10 @@ export default function OutingDetailScreen({ route, navigation }: any) {
               {activeTab === "Flight" && outingData.flights && <Filght flights={outingData.flights} />}
             </>
           )}
+
+          {activeTab === "Kết quả" && outingData.results &&(
+            <KetQua results={outingData.results}/>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -190,7 +195,7 @@ const styles = StyleSheet.create({
 
   headerTitle: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 
-  mainInfoBox: {
+  mainInfoBox1: {
     backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,

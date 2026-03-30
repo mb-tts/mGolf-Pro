@@ -82,6 +82,15 @@ export const OUTING_DATA = [
           { id: "p6", name: "Đoàn Đình Dân", hdc: 14, vga: "190902", image: "https://picsum.photos/id/69/100" },
         ]
       }
+    ], 
+    results: [
+      { id: "r1", rank: 1, name: "Nguyễn Hải Linh", hdc: 20, vga: "123568", net: 2, points: 92, image: "https://picsum.photos/id/64/100" },
+      { id: "r2", rank: 2, name: "Trần Văn Nam", hdc: 15, vga: "123569", net: 2, points: 92, image: "https://picsum.photos/id/65/100" },
+      { id: "r3", rank: 3, name: "Lê Ngọc Anh", hdc: 18, vga: "123570", net: 2, points: 92, image: "https://picsum.photos/id/66/100" },
+      { id: "r4", rank: 4, name: "Vũ Quang Hải", hdc: 22, vga: "123571", net: 2, points: 92, image: "https://picsum.photos/id/67/100" },
+      { id: "r5", rank: 5, name: "Đoàn Đình Dân", hdc: 20, vga: "123572", net: 2, points: 92, image: "https://picsum.photos/id/68/100" },
+      { id: "r6", rank: 6, name: "Bùi Sơn Nam", hdc: 19, vga: "123573", net: 2, points: 92, image: "https://picsum.photos/id/69/100" },
+      { id: "r7", rank: 7, name: "Trần Nguyễn Hoàng", hdc: 25, vga: "123574", net: 2, points: 92, image: "https://picsum.photos/id/70/100" },
     ]
   },
   {

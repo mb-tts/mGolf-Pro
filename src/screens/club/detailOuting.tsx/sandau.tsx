@@ -120,7 +120,7 @@ export default function Sandau({ courseDetails }: any) {
   );
 }
 const styles = StyleSheet.create({
-  tabContent: { paddingTop: 20 },
+  tabContent: { paddingTop: 10 },
   sectionTitle: {
     fontSize: 16,
     fontWeight: "bold",
@@ -132,14 +132,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F9FA",
     borderRadius: 12,
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 0,
   },
   courseInfoText: { marginLeft: 12, color: "#444", fontSize: 14 },
 
-  descText: { fontSize: 14, color: "#555", lineHeight: 22, marginBottom: 20 },
+  descText: { fontSize: 14, color: "#555", lineHeight: 22, marginBottom: 10 },
   readMore: { color: "#999", fontWeight: "bold" },
 
-  imageList: { flexDirection: "row", marginBottom: 24 },
+  imageList: { flexDirection: "row", marginBottom: 10 },
   courseImg: { width: 220, height: 160, borderRadius: 12, marginRight: 12 },
 
   tableWrapper: {
