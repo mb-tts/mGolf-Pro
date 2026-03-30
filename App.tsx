@@ -79,6 +79,7 @@ export type AppStackParamList = {
   // Thêm các screen con khác ở đây khi cần
   OutingDetailScreen: { outingData: any };
   ImagesAndVideosScreen: undefined;
+  
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -168,6 +169,7 @@ const MainNavigator = () => {
         component={AccountScreen}
         options={{ tabBarLabel: "Tài khoản" }}
       />
+      
     </Tab.Navigator>
   );
 };
@@ -189,6 +191,11 @@ const AppNavigator = () => (
     <AppStack.Screen 
       name="ImagesAndVideosScreen" 
       component={ImagesAndVideosScreen} 
+    />
+    <AppStack.Screen 
+      name="NotificationSettings" 
+      component={NotificationSettingsScreen} 
+      options={{ animation: "slide_from_right" }} 
     />
 
     <AppStack.Screen
@@ -224,6 +231,7 @@ const RootNavigator = () => {
 import { useFonts } from "expo-font";
 import UISettingScreen from "./src/screens/account/ui-setting";
 import UISettingsScreen from "./src/screens/account/ui-setting";
+import NotificationSettingsScreen from "./src/screens/account/notification-setting";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
