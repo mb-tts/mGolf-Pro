@@ -7,6 +7,7 @@ import {
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function KetQua({ results }: any) {
   // State để lưu trữ từ khóa tìm kiếm
@@ -18,7 +19,7 @@ export default function KetQua({ results }: any) {
   ) || [];
 
   return (
-    <View style={styles.tabContent}>
+    <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       
       {/* 1. THANH TÌM KIẾM */}
       <View style={styles.searchWrap}>
@@ -68,12 +69,12 @@ export default function KetQua({ results }: any) {
       </View>
       
       <View style={{ height: 40 }} />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  tabContent: { paddingTop: 20 },
+  tabContent: { paddingTop: 20 , flex: 1},
   
   // Search Box Styles
   searchWrap: {

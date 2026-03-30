@@ -25,6 +25,7 @@ import { HistoryScreen } from "./src/screens/history";
 import { AccountScreen } from "./src/screens/account";
 import { ClubScreen } from "./src/screens/club";
 import { TournamentScreen } from "./src/screens/tournament";
+import { CreateFlightScreen } from "./src/screens/home/create-flight";
 
 // ─── Account Sub-Screens ──────────────────────────────────────────────────────
 import { AccountInformationScreen } from "./src/screens/account/account-information";
@@ -78,6 +79,7 @@ export type AppStackParamList = {
   Security: undefined;
   // Thêm các screen con khác ở đây khi cần
   OutingDetailScreen: { outingData: any };
+  CreateFlight: undefined;
   ImagesAndVideosScreen: undefined;
   
 };
@@ -210,6 +212,11 @@ const AppNavigator = () => (
       options={{ animation: "slide_from_right" }}
     />
     <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
+    <AppStack.Screen
+      name="CreateFlight"
+      component={CreateFlightScreen}
+      options={{ animation: "slide_from_bottom" }} // Hiệu ứng trồi lên từ dưới
+    />
   </AppStack.Navigator>
 );
 

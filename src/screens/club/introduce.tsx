@@ -28,7 +28,7 @@ export default function IntroduceScreen() {
   const navigation = useNavigation<any>();
   const [expanded, setExpanded] = useState(false);
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Thông tin chung</Text>
 

@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   Image,
-  ScrollView,
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
@@ -52,7 +51,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
         </SafeAreaView>
       </View>
 
-      <ScrollView
+      <View
         style={{
           marginTop: -70,
           borderTopLeftRadius: 30,
@@ -132,7 +131,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
             </>
           )}
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 }

@@ -11,7 +11,7 @@ import {
 
 export default function Filght({ flights }: any) {
   return (
-    <View style={styles.tabContent}>
+    <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       {flights.map((flight) => (
         <View key={flight.id} style={styles.flightCard}>
           {/* Header của Flight */}
@@ -46,12 +46,12 @@ export default function Filght({ flights }: any) {
         </View>
       ))}
       <View style={{ height: 40 }} />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  tabContent: { paddingTop: 20 },
+  tabContent: { paddingTop: 20 , flex: 1},
   flightCard: {
     backgroundColor: "#fff",
     borderRadius: 16,
