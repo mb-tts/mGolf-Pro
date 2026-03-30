@@ -1,11 +1,6 @@
 import React from "react";
 
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
@@ -16,9 +11,7 @@ import { AppButton } from "../../../components/auth/AppButton";
 import { useAuth } from "../../../providers/auth.provider";
 import { Colors } from "../../../constants/colors";
 import { registerSchema, RegisterForm } from "./register.schema";
-
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
+import { KeyboardAvoidingView, Platform } from "react-native";
 
 export const RegisterScreen = () => {
   const { register, isLoading } = useAuth();
@@ -43,14 +36,9 @@ export const RegisterScreen = () => {
   };
 
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      enableAutomaticScroll
-      extraScrollHeight={50}
-      enableResetScrollToCoords={false} 
-      keyboardOpeningTime={0}
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ flexGrow: 1 }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
     >
       <AuthLayout
         title="Đăng ký"
@@ -110,18 +98,18 @@ export const RegisterScreen = () => {
         />
 
         <Text style={styles.terms}>
-          Bằng việc tiếp tục, bạn đã đồng ý với{" "}
+          Bằng việc tiếp tục, bạn đã đồng ý với
           <Text style={styles.link}>Điều khoản sử dụng</Text>
         </Text>
 
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
           <Text style={styles.bottomText}>
-            Bạn đã có tài khoản mGolf?{" "}
+            Bạn đã có tài khoản mGolf?
             <Text style={styles.link}>Đăng nhập</Text>
           </Text>
         </TouchableOpacity>
       </AuthLayout>
-    </KeyboardAwareScrollView>
+    </KeyboardAvoidingView>
   );
 };
 const styles = StyleSheet.create({

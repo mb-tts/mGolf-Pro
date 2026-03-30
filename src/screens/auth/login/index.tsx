@@ -1,30 +1,22 @@
 import React from "react";
-
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-
 import { AuthLayout } from "../../../components/auth/AuthLayout";
 import { AppInput } from "../../../components/auth/AppInput";
 import { AppButton } from "../../../components/auth/AppButton";
 import { useAuth } from "../../../providers/auth.provider";
 import { Colors } from "../../../constants/colors";
 import { loginSchema, LoginForm } from "./login.schema";
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SOCIAL_LOGIN_LIST = [
-  { key: "phone",    type: "vector", icon: "call",          color: "#0060AF" },
-  { key: "google",   type: "image",  icon: require("../../../../assets/icons/google.png"), color: null }, // Dùng ảnh logo Google màu
-  { key: "facebook", type: "vector", icon: "logo-facebook", color: "#1877F2" },
-  {
-    key: "qr",
-    type: "image",
-    icon: require("../../../../assets/icons/scanAuth.png"),
-    color: null,
-  },
+  { key: "phone", icon: "call", color: "#0060AF" },
+  { key: "google", icon: "logo-google", color: "#DB4437" },
+  { key: "facebook", icon: "logo-facebook", color: "#1877F2" },
+  { key: "qr", icon: "qr-code", color: "#0060AF" },
 ];
 
 export const LoginScreen = () => {
@@ -70,146 +62,134 @@ export const LoginScreen = () => {
   };
 
   return (
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      enableAutomaticScroll
+      extraScrollHeight={50}
+      enableResetScrollToCoords={false}
+      keyboardOpeningTime={0}
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ flexGrow: 1 }}
+    >
+      <AuthLayout title="Đăng nhập" subtitle="Nhập VGA và mật khẩu">
+        <Controller
+          control={control}
+          name="vgaCode"
+          render={({ field: { value, onChange, onBlur } }) => (
+            <AppInput
+              label="Tên đăng nhập"
+              placeholder="Nhập VGA"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              autoCapitalize="characters"
+              error={errors.vgaCode?.message}
+            />
+          )}
+        />
 
-    <AuthLayout title="Đăng nhập" subtitle="Nhập VGA và mật khẩu">
-      {/* Tên đăng nhập */}
-      <Controller
-        control={control}
-        name="vgaCode"
-        render={({ field: { value, onChange, onBlur } }) => (
-          <AppInput
-            label="Tên đăng nhập"
-            placeholder="Nhập VGA"
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            autoCapitalize="characters"
-            error={errors.vgaCode?.message}
-          />
-        )}
-      />
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { value, onChange, onBlur } }) => (
+            <AppInput
+              label="Mật khẩu"
+              placeholder="Nhập mật khẩu"
+              password
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.password?.message}
+            />
+          )}
+        />
 
-      {/* Mật khẩu */}
-      <Controller
-        control={control}
-        name="password"
-        render={({ field: { value, onChange, onBlur } }) => (
-          <AppInput
-            label="Mật khẩu"
-            placeholder="Nhập mật khẩu"
-            password
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            error={errors.password?.message}
-          />
-        )}
-      />
+        <TouchableOpacity style={styles.forgotRow}>
+          <Text style={styles.forgotText}>Quên mật khẩu?</Text>
+        </TouchableOpacity>
 
-      {/* Quên mật khẩu */}
-      <TouchableOpacity style={styles.forgotRow}>
-        <Text style={styles.forgotText}>Quên mật khẩu?</Text>
-      </TouchableOpacity>
+        <AppButton
+          title="Đăng nhập"
+          loading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+          style={styles.loginBtn}
+        />
 
-      {/* Nút đăng nhập */}
-      <AppButton
-        title="Đăng nhập"
-        loading={isLoading}
-        onPress={handleSubmit(onSubmit)}
-      />
+        <View style={styles.dividerRow}>
+          <View style={styles.line} />
+          <Text style={styles.orText}>Hoặc</Text>
+          <View style={styles.line} />
+        </View>
 
-      {/* Divider */}
-      <View style={styles.dividerRow}>
-        <View style={styles.line} />
-        <Text style={styles.orText}>Hoặc</Text>
-        <View style={styles.line} />
-      </View>
+        <View style={styles.socialRow}>
+          {SOCIAL_LOGIN_LIST.map(({ key, icon, color }) => (
+            <TouchableOpacity key={key} style={styles.socialBtn}>
+              <Ionicons name={icon as any} size={28} color={color} />
+            </TouchableOpacity>
+          ))}
+        </View>
 
-      {/* Đăng nhập mạng xã hội (Clone logic) */}
-      <View style={styles.socialRow}>
-        {SOCIAL_LOGIN_LIST.map(({ key, icon, color, type }) => (
-          <TouchableOpacity
-            key={key}
-            style={styles.socialBtn}
-            onPress={() => onSocialLogin(key)}
-            activeOpacity={0.7}
-          >
-            {type === "vector" ? (
-              <Ionicons name={icon as any} size={28} color={color as any} />
-            ) : (
-              <Image 
-                source={icon as any} 
-                style={styles.socialIconImage} 
-                resizeMode="contain" 
-              />
-            )}
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Điều khoản sử dụng */}
-      <Text style={styles.terms}>
-        Bằng việc tiếp tục, bạn đã đồng ý với{"\n"}
-        <Text style={styles.termsBold}>Điều khoản sử dụng</Text>
-      </Text>
-
-      {/* Link sang Đăng ký */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Register")}
-        style={styles.bottomLink}
-      >
-        <Text style={styles.bottomText}>
-          Bạn chưa có tài khoản mGolf?{" "}
-          <Text style={styles.link}>Tạo tài khoản</Text>
+        <Text style={styles.terms}>
+          Bằng việc tiếp tục, bạn đã đồng ý với
+          <Text style={[styles.link, { color: "#333333" }]}>
+            Điều khoản sử dụng
+          </Text>
         </Text>
-      </TouchableOpacity>
-    </AuthLayout>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Register")}
+          style={styles.bottomLink}
+        >
+          <Text style={styles.bottomText}>
+            Bạn chưa có tài khoản mGolf?
+            <Text style={styles.link}>Tạo tài khoản</Text>
+          </Text>
+        </TouchableOpacity>
+      </AuthLayout>
+    </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-
-  forgotRow: { alignItems: "flex-end", marginBottom: 4 },
-  forgotText: { color: Colors.link, fontSize: 14 },
+  forgotRow: { alignItems: "flex-end", marginBottom: 5 }, // Theo mẫu khoảng cách ở đây rộng hơn
+  forgotText: { color: Colors.link, fontSize: 16, fontWeight: "500" },
+  loginBtn: { height: 52, borderRadius: 16, marginTop: 10 }, // Nút đăng nhập to và bo góc nhiều
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 16,
-    gap: 8,
+    marginTop: 20,
+    marginBottom: 25,
   },
-  line: { flex: 1, height: 1, backgroundColor: "#F3F3F3" },
-  orText: { marginHorizontal: 12, color: "#999", fontSize: 13 },
+  line: { flex: 1, height: 1, backgroundColor: "#F0F0F0" },
+  orText: { marginHorizontal: 15, color: "#999999", fontSize: 14 },
   socialRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 8,
-    marginBottom: 20,
     minWidth: 335,
     minHeight: 56,
-    borderRadius: 22,
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 6,
+    marginBottom: 20,
   },
   socialBtn: {
     width: 77.75,
     height: 56,
-    borderRadius: 12,
-    backgroundColor: "#F8F8F8",
+    borderRadius: 16,
+    backgroundColor: "#F8F9FA",
     alignItems: "center",
     justifyContent: "center",
-  },
-  socialIconImage: {
-    width: 28,
-    height: 28,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
   },
   terms: {
     textAlign: "center",
-    fontSize: 12,
-    color: "#888",
-    marginBottom: 12,
-    lineHeight: 18,
+    fontSize: 14,
+    color: "#888888",
+    marginBottom: 40,
   },
-  termsBold: { fontWeight: "700", color: "#333" },
-  link: { color: Colors.link, fontWeight: "600" },
-  bottomLink: { paddingBottom: 10 },
-  bottomText: { textAlign: "center", fontSize: 13, color: "#888" },
-
+  link: { color: Colors.link, fontWeight: "700" },
+  bottomLink: { paddingBottom: 20 },
+  bottomText: { textAlign: "center", fontSize: 15, color: "#777777" },
 });

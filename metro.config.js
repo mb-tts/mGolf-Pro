@@ -3,6 +3,9 @@ const { getDefaultConfig } = require("expo/metro-config");
 
 const config = getDefaultConfig(__dirname);
 
+// 👇 Thêm config cho Reanimated
+config.resolver.disableHierarchicalLookup = false;
+
 // 👇 Thêm config cho SVG
 config.transformer = {
   ...config.transformer,

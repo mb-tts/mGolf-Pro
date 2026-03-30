@@ -13,10 +13,11 @@ import { AchievementCard } from "../../components/home/AchievementCard";
 import AchiveBg from "../../../assets/icons/home/achive.svg";
 import GolfPersonIcon from "../../../assets/icons/home/golfPerson.svg";
 import { ImageBackground, Image, TouchableOpacity } from "react-native";
+import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }: any) => {
   const { user } = useAuth();
-  
+
   // Clone Chưa có data -> dành cho user b
   const hasMatches = user?.vgaCode === "a" && MOCK_MATCHES.length > 0;
 
@@ -26,102 +27,111 @@ export const HomeScreen = () => {
     : MOCK_ACHIEVEMENTS.map((a) => ({ ...a, value: "-" }));
 
   return (
-    <View style={styles.safe}>
-      {/* ẢNH GOLF Ở TRÊN CÙNG (Dùng cho Empty State hoặc Header cover) */}
-      {!hasMatches && (
-        <ImageBackground
-          source={{
-            uri: "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2670&auto=format&fit=crop",
-          }}
-          style={styles.topBackgroundImage}
-        />
-      )}
+    <ScreenWrapper>
+      <View style={styles.safe}>
+        {/* ẢNH GOLF Ở TRÊN CÙNG (Dùng cho Empty State hoặc Header cover) */}
+        {!hasMatches && (
+          <ImageBackground
+            source={{
+              uri: "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2670&auto=format&fit=crop",
+            }}
+            style={styles.topBackgroundImage}
+          />
+        )}
 
-      {/* HIỂN THỊ HEADER KHI CÓ DATA */}
-      {hasMatches && (
-        <SafeAreaView edges={["top"]} style={{ backgroundColor: Colors.white }}>
-          <HomeHeader user={user!} clubName="MBF Club" />
-        </SafeAreaView>
-      )}
+        {/* HIỂN THỊ HEADER KHI CÓ DATA */}
+        {hasMatches && (
+          <SafeAreaView
+            edges={["top"]}
+            style={{ backgroundColor: Colors.white }}
+          >
+            <HomeHeader
+              user={user!}
+              clubName="MBF Club"
+              onPressAvatar={() => navigation.navigate("Account")}
+            />
+          </SafeAreaView>
+        )}
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.scroll}
-        contentContainerStyle={[
-          styles.scrollContent,
-          !hasMatches && { paddingTop: 260 },
-        ]}
-      >
-        {hasMatches && <IndexBanner index={12.5} />}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.scroll}
+          contentContainerStyle={[
+            styles.scrollContent,
+            !hasMatches && { paddingTop: 260 },
+          ]}
+        >
+          {hasMatches && <IndexBanner index={12.5} />}
 
-        <View style={styles.whiteSheet}>
-          {!hasMatches && (
-            <View style={StyleSheet.absoluteFillObject}>
-              <ImageBackground
-                source={require("../../../assets/images/golf_pattern.png")}
-                style={{ flex: 1, opacity: 0.05 }}
-                resizeMode="cover"
-              />
-            </View>
-          )}
-
-          {/* HIỂN THỊ GREETING BÊN TRONG WHITE SHEET NẾU EMPTY */}
-          {!hasMatches && (
-            <View style={styles.emptyGreetingWrapper}>
-              <Text style={styles.italicGreeting}>Xin chào,</Text>
-              <Text style={styles.greetingName}>{user?.fullName}</Text>
-
-              <IndexBanner index={12.5} />
-
-              <TouchableOpacity style={styles.playGolfBtn}>
-                <GolfPersonIcon width={24} height={24} color={Colors.white} />
-                <Text style={styles.playGolfText}>Chơi golf</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {/* Trận đấu của tôi (Chỉ hiện khi có data) */}
-          {hasMatches && (
-            <View style={styles.section}>
-              <SectionHeader
-                title="Trận đấu của tôi"
-                actionLabel="Xem tất cả"
-              />
-              <FlatList
-                data={MOCK_MATCHES}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <MatchCard match={item} />}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.horizontalList}
-              />
-            </View>
-          )}
-
-          {/* Thành tích của tôi */}
-          <View style={styles.section}>
-            <SectionHeader title="Thành tích của tôi" />
-            <View style={styles.achievementWrapper}>
+          <View style={styles.whiteSheet}>
+            {!hasMatches && (
               <View style={StyleSheet.absoluteFillObject}>
-                <AchiveBg
-                  width="100%"
-                  height="100%"
-                  preserveAspectRatio="xMidYMid slice"
+                <ImageBackground
+                  source={require("../../../assets/images/golf_pattern.png")}
+                  style={{ flex: 1, opacity: 0.05 }}
+                  resizeMode="cover"
                 />
               </View>
-              <View style={styles.achievementRow}>
-                {achievements.map((item) => (
-                  <AchievementCard key={item.id} item={item} />
-                ))}
+            )}
+
+            {/* HIỂN THỊ GREETING BÊN TRONG WHITE SHEET NẾU EMPTY */}
+            {!hasMatches && (
+              <View style={styles.emptyGreetingWrapper}>
+                <Text style={styles.italicGreeting}>Xin chào,</Text>
+                <Text style={styles.greetingName}>{user?.fullName}</Text>
+
+                <IndexBanner index={12.5} />
+
+                <TouchableOpacity style={styles.playGolfBtn}>
+                  <GolfPersonIcon width={24} height={24} color={Colors.white} />
+                  <Text style={styles.playGolfText}>Chơi golf</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {/* Trận đấu của tôi (Chỉ hiện khi có data) */}
+            {hasMatches && (
+              <View style={styles.section}>
+                <SectionHeader
+                  title="Trận đấu của tôi"
+                  actionLabel="Xem tất cả"
+                />
+                <FlatList
+                  data={MOCK_MATCHES}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => <MatchCard match={item} />}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.horizontalList}
+                />
+              </View>
+            )}
+
+            {/* Thành tích của tôi */}
+            <View style={styles.section}>
+              <SectionHeader title="Thành tích của tôi" />
+              <View style={styles.achievementWrapper}>
+                <View style={StyleSheet.absoluteFillObject}>
+                  <AchiveBg
+                    width="100%"
+                    height="100%"
+                    preserveAspectRatio="xMidYMid slice"
+                  />
+                </View>
+                <View style={styles.achievementRow}>
+                  {achievements.map((item) => (
+                    <AchievementCard key={item.id} item={item} />
+                  ))}
+                </View>
               </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
 
-      {/* FAB (Chỉ hiện khi có data) */}
-      {hasMatches && <FABButton onPress={() => {}} />}
-    </View>
+        {/* FAB (Chỉ hiện khi có data) */}
+        {hasMatches && <FABButton onPress={() => {}} />}
+      </View>
+    </ScreenWrapper>
   );
 };
 

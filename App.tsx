@@ -3,12 +3,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { SvgProps } from "react-native-svg";
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
+import OutingDetailScreen from "./src/screens/club/detailOuting.tsx/outingDeatil";
 
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
 import { SplashScreen } from "./src/screens/auth/splash";
@@ -23,6 +25,11 @@ import { HistoryScreen } from "./src/screens/history";
 import { AccountScreen } from "./src/screens/account";
 import { ClubScreen } from "./src/screens/club";
 import { TournamentScreen } from "./src/screens/tournament";
+
+// ─── Account Sub-Screens ──────────────────────────────────────────────────────
+import { AccountInformationScreen } from "./src/screens/account/account-information";
+import { AchievementsScreen } from "./src/screens/account/achievements";
+import { GameSettingScreen } from "./src/screens/account/game-setting";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -58,6 +65,20 @@ export type MainTabParamList = {
   Account: undefined;
 };
 
+export type AppStackParamList = {
+  MainTabs: undefined;
+  AccountInformation: undefined;
+  Achievements: undefined;
+  GameSettings: undefined;
+  UISettings: undefined;
+  PaymentSettings: undefined;
+  Equipment: undefined;
+  NotificationSettings: undefined;
+  Security: undefined;
+  // Thêm các screen con khác ở đây khi cần
+  OutingDetailScreen: { outingData: any };
+};
+
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
 // Đầy đủ 5 tab, đúng tên biến
 const TAB_ICONS: Record<
@@ -77,7 +98,7 @@ const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const AuthNavigator = () => (
   <AuthStack.Navigator
     id="AuthStack"
-    screenOptions={{ headerShown: false, animation: "fade" }}
+    screenOptions={{ headerShown: false, animation: "default" }} // Để hệ điều hành tự chọn hiệu ứng chuyển màn native (Samsung khác, iPhone khác)
   >
     <AuthStack.Screen name="Splash" component={SplashScreen} />
     <AuthStack.Screen name="Onboarding" component={OnboardingScreen} />
@@ -100,6 +121,7 @@ const MainNavigator = () => {
         headerShown: false,
         tabBarShowLabel: true,
         tabBarActiveTintColor: "#1565C0",
+        tabBarHideOnKeyboard: true,
         tabBarInactiveTintColor: "#9E9E9E",
         tabBarStyle: {
           height: 60 + insets.bottom,
@@ -147,6 +169,36 @@ const MainNavigator = () => {
   );
 };
 
+// ─── App Stack Navigator (Bọc Tab lại) ────────────────────────────────────────
+const AppStack = createNativeStackNavigator<AppStackParamList>();
+
+const AppNavigator = () => (
+  <AppStack.Navigator id="AppStack" screenOptions={{ headerShown: false }}>
+    {/* Màn hình mặc định là cái Tab Navigator */}
+    <AppStack.Screen name="MainTabs" component={MainNavigator} />
+
+    {/* Các màn hình con khi bấm vào từ Account sẽ được push đè lên trên Tab */}
+    <AppStack.Screen
+      name="AccountInformation"
+      component={AccountInformationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="Achievements"
+      component={AchievementsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="GameSettings"
+      component={GameSettingScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+    <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
+  </AppStack.Navigator>
+);
+
 // ─── Root Navigator ───────────────────────────────────────────────────────────
 const RootNavigator = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -157,12 +209,14 @@ const RootNavigator = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
+      {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 };
 
 import { useFonts } from "expo-font";
+import UISettingScreen from "./src/screens/account/ui-setting";
+import UISettingsScreen from "./src/screens/account/ui-setting";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
@@ -175,9 +229,11 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <AuthProvider>
-          <RootNavigator />
-        </AuthProvider>
+        <BottomSheetModalProvider>
+          <AuthProvider>
+            <RootNavigator />
+          </AuthProvider>
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
