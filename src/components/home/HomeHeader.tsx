@@ -78,14 +78,14 @@ const styles = StyleSheet.create({
   },
   name: { fontWeight: "700", color: Colors.text },
   clubBadge: {
-    flexDirection: "row", // ✅ quan trọng: xếp ngang
+    flexDirection: "row", // quan trọng: xếp ngang
     alignItems: "center",
-    alignSelf: "flex-start", // ✅ không chiếm full width
+    alignSelf: "flex-start", // không chiếm full width
     backgroundColor: "#EAF6FF",
     borderRadius: 10,
-    paddingHorizontal: 8, // ✅ thêm padding ngang
-    paddingVertical: 2, // ✅ thêm padding dọc
-    gap: 4, // ✅ khoảng cách giữa text và dot
+    paddingHorizontal: 8, // thêm padding ngang
+    paddingVertical: 2, // thêm padding dọc
+    gap: 4, //  khoảng cách giữa text và dot
   },
   clubText: {
     fontSize: 11,
