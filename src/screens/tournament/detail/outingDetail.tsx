@@ -224,7 +224,25 @@ export default function OutingDetailScreen({ route, navigation }: any) {
                 </View>
 
                 <View style={styles.tabContainer}>
-                  {/* existing tab logic stays if needed */}
+                  {tabs.map((tab) => (
+                    <TouchableOpacity
+                      key={tab}
+                      style={[
+                        styles.tabItem,
+                        activeTab === tab && styles.activeTabItem,
+                      ]}
+                      onPress={() => setActiveTab(tab)}
+                    >
+                      <Text
+                        style={[
+                          styles.tabText,
+                          activeTab === tab && styles.activeTabText,
+                        ]}
+                      >
+                        {tab}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
                 </View>
                 {activeTab === "Sân đấu" && courseDetails && (
                   <Sandau courseDetails={courseDetails} />
@@ -289,7 +307,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-  mainTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 12 },
+  mainTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 12, marginTop: 15 },
 
   infoRow: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
   infoText: { marginLeft: 8, color: "#555" },
