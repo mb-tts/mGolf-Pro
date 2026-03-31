@@ -6,13 +6,15 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Sandau from "./sandau";
 import Thele from "./thele";
 import Filght from "./flight";
 import KetQua from "./ketqua";
+import { ScreenWrapper } from "../../../components/common/ScreenWrapper";
+import { BackHeader } from "../../../components/common/BackHeader";
+
 export default function OutingDetailScreen({ route, navigation }: any) {
   const { outingData, source } = route.params || {};
   const courseDetails = outingData?.courseDetails || {};
@@ -24,31 +26,32 @@ export default function OutingDetailScreen({ route, navigation }: any) {
   const tabs = ["Sân đấu", "Thể lệ", "Flight", "Kết quả"];
 
   return (
+    <ScreenWrapper
+      extendBehindStatusBar
+      statusBarStyle="light-content"
+      loadingDelay={0}
+    >
     <View style={styles.container}>
-      {/* HEADER IMAGE */}
+      {/* HEADER IMAGE — tràn ra phía sau status bar */}
       <View style={styles.headerImageContainer}>
         <Image source={headerImageSource} style={styles.headerImage} />
         <View style={styles.headerOverlay} />
+      </View>
 
-        <SafeAreaView style={styles.headerTop}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons name="chevron-back" size={24} color="#fff" />
-          </TouchableOpacity>
-
-          <Text style={styles.headerTitle}>{isTournament ? "Thông tin sân đấu" : "Chi tiết outing"}</Text>
-
-          {isTournament ? (
+      {/* BackHeader — luôn nằm dưới status bar, không bị che */}
+      <BackHeader
+        title={isTournament ? "Thông tin sân đấu" : "Chi tiết outing"}
+        onBack={() => navigation.goBack()}
+        variant="blur"
+        tintColor="#fff"
+        rightAction={
+          isTournament ? (
             <TouchableOpacity style={styles.actionButton} onPress={() => {}}>
               <Ionicons name="settings-outline" size={24} color="#fff" />
             </TouchableOpacity>
-          ) : (
-            <View style={{ width: 40 }} />
-          )}
-        </SafeAreaView>
-      </View>
+          ) : undefined
+        }
+      />
 
       <ScrollView style={{ marginTop: -50 }}>
         <View style={styles.mainInfoBox}>
@@ -165,6 +168,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
         </View>
       </ScrollView>
     </View>
+    </ScreenWrapper>
   );
 }
 
@@ -195,7 +199,7 @@ const styles = StyleSheet.create({
 
   headerTitle: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 
-  mainInfoBox1: {
+  mainInfoBox: {
     backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
