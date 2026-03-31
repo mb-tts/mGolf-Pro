@@ -1,6 +1,6 @@
 import React from "react";
-import { View, ScrollView, FlatList, StyleSheet, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, ScrollView, FlatList, StyleSheet, Text, StatusBar } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { FABButton } from "../../components/home/FABButton";
 import { HomeHeader } from "../../components/home/HomeHeader";
 import { IndexBanner } from "../../components/home/IndexBanner";
@@ -18,6 +18,7 @@ import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 
 export const HomeScreen = ({ navigation }: any) => {
   const { user } = useAuth();
+  const insets = useSafeAreaInsets();
 
   // Clone Chưa có data -> dành cho user b
   const hasMatches = user?.vgaCode === "a" && MOCK_MATCHES.length > 0;
@@ -28,7 +29,10 @@ export const HomeScreen = ({ navigation }: any) => {
     : MOCK_ACHIEVEMENTS.map((a) => ({ ...a, value: "-" }));
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper
+      extendBehindStatusBar={!hasMatches}
+      statusBarStyle={hasMatches ? "dark-content" : "light-content"}
+    >
       <View
         style={[styles.safe, hasMatches && { backgroundColor: Colors.white }]}
       >

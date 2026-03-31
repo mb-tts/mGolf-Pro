@@ -7,7 +7,9 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
+  Platform,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IntroduceScreen from "./introduce";
 import OutingScreen from "./outing";
 import MemberScreen from "./member";
@@ -27,6 +29,8 @@ const tabs = [
 export const ClubScreen = () => {
   const [expanded, setExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const insets = useSafeAreaInsets();
+
   return (
     <ScreenWrapper>
       <StatusBar barStyle="light-content" />
@@ -50,7 +54,7 @@ export const ClubScreen = () => {
             />
           </View>
 
-          <Text style={styles.headerTitle}>Câu lạc bộ</Text>
+          <Text style={[styles.headerTitle, { top: insets.top + 6 }]}>Câu lạc bộ</Text>
         </View>
 
         <View style={styles.card}>
@@ -122,7 +126,6 @@ const styles = StyleSheet.create({
 
   topBar: {
     position: "absolute",
-    top: 40,
     right: 16,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -130,7 +133,6 @@ const styles = StyleSheet.create({
 
   headerTitle: {
     position: "absolute",
-    top: 40,
     left: 16,
     color: "#fff",
     fontSize: 20,

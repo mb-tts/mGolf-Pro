@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
+    paddingVertical: 8,
     paddingHorizontal: 14,
     backgroundColor: '#FFFFFF',
   },
@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   verifyIcon: {
-    marginRight: 10,
     marginTop: 28,
   },
 });

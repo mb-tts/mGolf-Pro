@@ -10,7 +10,7 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
-import OutingDetailScreen from "./src/screens/club/detailOuting.tsx/outingDeatil";
+import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
 
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
 import { SplashScreen } from "./src/screens/auth/splash";
@@ -31,6 +31,7 @@ import { CreateFlightScreen } from "./src/screens/home/create-flight";
 import { AccountInformationScreen } from "./src/screens/account/account-information";
 import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
+import { UISettingsScreen }  from "./src/screens/account/ui-setting";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -211,7 +212,18 @@ const AppNavigator = () => (
       component={GameSettingScreen}
       options={{ animation: "slide_from_right" }}
     />
-    <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
+
+    <AppStack.Screen 
+    name="OutingDetailScreen" 
+    component={OutingDetailScreen} 
+    />
+
+    <AppStack.Screen
+      name="UISettings"
+      component={UISettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
     <AppStack.Screen
       name="CreateFlight"
       component={CreateFlightScreen}

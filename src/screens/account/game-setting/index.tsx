@@ -8,6 +8,7 @@ import {
   EverythingSection,
   TeamXoaySection,
   TeamCoDefinedSection,
+  ContractSection,
 } from '../../../components/common/SettingsSections';
 import SelectionCard from '../../../components/common/SelectionCard';
 
@@ -35,6 +36,15 @@ export const GameSettingScreen = () => {
     comparison: 'best' | 'all' | 'weakest';
   }>({
     holeCount: 3, comparison: 'best',
+  });
+
+  // Contract section state
+  const [contractSettings, setContractSettings] = useState<{
+    skinsOut: string;
+    skinsIn: string;
+    skinsTotal: string;
+  }>({
+    skinsOut: '', skinsIn: '', skinsTotal: '',
   });
 
   const handleBack = () => {
@@ -73,7 +83,6 @@ export const GameSettingScreen = () => {
                   key={section.id} 
                   style={[
                     styles.accordionWrapper,
-                    isActive && styles.accordionWrapperActive
                   ]}
                 >
                   {/* Phần Header chứa Checkbox */}
@@ -85,7 +94,7 @@ export const GameSettingScreen = () => {
                     ]}
                   >
                     <View style={styles.cardContent}>
-                      <Text style={[styles.cardLabel, isActive && styles.cardLabelActive]}>
+                      <Text style={styles.cardLabel}>
                         {section.label}
                       </Text>
                       {section.memberCount > 0 && (
@@ -118,10 +127,11 @@ export const GameSettingScreen = () => {
                           onSettingsChange={setTeamCoDefinedSettings}
                         />
                       )}
-                      {(section.id === 'hopdong' || section.id === 'quyga') && (
-                        <View style={styles.placeholderSection}>
-                          <Text style={styles.placeholderText}>Chức năng sẽ được phát triển sớm</Text>
-                        </View>
+                      {section.id === 'hopdong' && (
+                        <ContractSection
+                          settings={contractSettings}
+                          onSettingsChange={setContractSettings}
+                        />
                       )}
                     </View>
                   )}
@@ -161,19 +171,13 @@ const styles = StyleSheet.create({
     elevation: 1,
     overflow: 'hidden',
   },
-  accordionWrapperActive: {
-    borderColor: '#0052CC', // Màu xanh khi được chọn
-  },
 
   settingCardHeaderActive: {
-    backgroundColor: '#F0F8FF', // Nền nhạt
-    borderBottomWidth: 1,
     borderBottomColor: '#E8E8E8', // Vạch kẻ ngang ngăn cách
   },
   
   cardContent: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
   cardLabel: { fontSize: 14, fontWeight: '600', color: Colors.text },
-  cardLabelActive: { color: '#0052CC' },
   badge: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#0052CC', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10, gap: 4 },
   badgeText: { fontSize: 11, fontWeight: '600', color: Colors.white },
 
