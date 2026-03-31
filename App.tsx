@@ -31,6 +31,7 @@ import { CreateFlightScreen } from "./src/screens/home/create-flight";
 import { AccountInformationScreen } from "./src/screens/account/account-information";
 import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
+import { UISettingsScreen }  from "./src/screens/account/ui-setting";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -197,7 +198,18 @@ const AppNavigator = () => (
       component={GameSettingScreen}
       options={{ animation: "slide_from_right" }}
     />
-    <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
+
+    <AppStack.Screen 
+    name="OutingDetailScreen" 
+    component={OutingDetailScreen} 
+    />
+
+    <AppStack.Screen
+      name="UISettings"
+      component={UISettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
     <AppStack.Screen
       name="CreateFlight"
       component={CreateFlightScreen}
@@ -222,8 +234,6 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
-import UISettingScreen from "./src/screens/account/ui-setting";
-import UISettingsScreen from "./src/screens/account/ui-setting";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
