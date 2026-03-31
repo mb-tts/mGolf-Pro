@@ -8,7 +8,6 @@ import {
   SafeAreaView,
 } from "react-native";
 import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
-import { ScrollView } from "react-native-gesture-handler";
 
 // 1. TẠO DỮ LIỆU ẢO (DUMMY DATA) 20 NGƯỜI
 const generateData = () => {
@@ -30,7 +29,7 @@ const MemberRow = ({ item }) => {
   const formattedRank = item.rank.toString().padStart(2, "0");
 
   return (
-    <ScrollView style={styles.itemContainer} showsVerticalScrollIndicator={false}>
+    <View style={styles.itemContainer}>
       
       <Text style={styles.rankText}>{formattedRank}</Text>
 
@@ -48,7 +47,7 @@ const MemberRow = ({ item }) => {
       </View>
 
       {item.role ? <Text style={styles.roleText}>{item.role}</Text> : null}
-    </ScrollView>
+    </View>
   );
 };
 
