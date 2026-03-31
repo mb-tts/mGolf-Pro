@@ -7,6 +7,7 @@ import {
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function KetQua({ results }: any) {
   // State để lưu trữ từ khóa tìm kiếm
@@ -18,7 +19,7 @@ export default function KetQua({ results }: any) {
   ) || [];
 
   return (
-    <View style={styles.tabContent}>
+    <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       
       {/* 1. THANH TÌM KIẾM */}
       <View style={styles.searchWrap}>
@@ -43,13 +44,13 @@ export default function KetQua({ results }: any) {
           <Text style={[styles.headerText, styles.colPoints, styles.noBorderRight]}>Điểm xếp hạng</Text>
         </View>
 
-        {/* Render danh sách hàng (Rows) */}
+
         {filteredResults.map((item: any, index: number) => (
           <View key={item.id} style={styles.tableRow}>
-            {/* Cột STT */}
+           
             <Text style={[styles.cellText, styles.colSTT]}>{item.rank}</Text>
             
-            {/* Cột Golfer (Có hình ảnh và 2 dòng chữ) */}
+           
             <View style={[styles.colGolfer, styles.golferCell]}>
               <Image source={{ uri: item.image }} style={styles.avatar} />
               <View style={styles.golferInfoBox}>
@@ -60,22 +61,20 @@ export default function KetQua({ results }: any) {
               </View>
             </View>
 
-            {/* Cột NET */}
             <Text style={[styles.cellText, styles.colNet]}>{item.net}</Text>
-            
-            {/* Cột Điểm xếp hạng */}
+ 
             <Text style={[styles.cellText, styles.colPoints, styles.noBorderRight]}>{item.points}</Text>
           </View>
         ))}
       </View>
       
       <View style={{ height: 40 }} />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  tabContent: { paddingTop: 20 },
+  tabContent: { paddingTop: 20 , flex: 1},
   
   // Search Box Styles
   searchWrap: {

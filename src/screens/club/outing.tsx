@@ -5,14 +5,14 @@ import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chu
 
 export default function OutingScreen() {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       
       <FilterSearchBox />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <CardOfOuting />
       </ScrollView>
-    </View>
+    </ScrollView>
   );
 }
 

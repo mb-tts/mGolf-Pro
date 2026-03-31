@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function Sandau({ courseDetails }: any) {
   return (
-    <View style={styles.tabContent}>
+    <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       <Text style={styles.sectionTitle}>{courseDetails.name}</Text>
 
       <View style={styles.courseContactBox}>
@@ -116,11 +116,11 @@ export default function Sandau({ courseDetails }: any) {
         </View>
       </ScrollView>
       <View style={{ height: 40 }} />
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
-  tabContent: { paddingTop: 10 },
+  tabContent: { paddingTop: 10 , flex: 1  },
   sectionTitle: {
     fontSize: 16,
     fontWeight: "bold",

@@ -10,6 +10,7 @@ import {
   Keyboard, // Thêm Keyboard vào đây
 } from "react-native";
 import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
+import { ScrollView } from "react-native-gesture-handler";
 
 // 1. TẠO DỮ LIỆU ẢO (DUMMY DATA)
 const generateData = () => {
@@ -103,7 +104,7 @@ const PlayerRow = ({ item, isSticky = false }) => {
   else if (item.rank === 3) rankColor = "#CD7F32";
 
   return (
-    <View>
+    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
       <View style={[styles.itemContainer, isSticky && styles.stickyItem]}>
         {/* Phần Avatar & Rank */}
         <View style={styles.avatarContainer}>
@@ -125,7 +126,7 @@ const PlayerRow = ({ item, isSticky = false }) => {
           <Text style={styles.scoreText}>{item.score} điểm</Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
