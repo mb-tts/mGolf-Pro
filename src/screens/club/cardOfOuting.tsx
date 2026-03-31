@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 // Import file data của bạn
-import { OUTING_DATA } from "./detailOuting.tsx/outingData";
+import { OUTING_DATA } from "../tournament/detail/outingData";
 
 export default function CardOfOuting() {
   const navigation = useNavigation<any>();
@@ -24,8 +24,8 @@ export default function CardOfOuting() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {OUTING_DATA.map((item) => (
-        <TouchableOpacity 
-          key={item.id} 
+        <TouchableOpacity
+          key={item.id}
           style={styles.card}
           activeOpacity={0.9}
           onPress={() => handlePressCard(item)}
@@ -48,7 +48,9 @@ export default function CardOfOuting() {
             </View>
             <View style={styles.row}>
               <Ionicons name="people-outline" size={16} color="#777" />
-              <Text style={styles.text}>{item.participants} người tham gia</Text>
+              <Text style={styles.text}>
+                {item.participants} người tham gia
+              </Text>
             </View>
             <View style={styles.row}>
               <Ionicons name="airplane-outline" size={16} color="#777" />
@@ -62,9 +64,28 @@ export default function CardOfOuting() {
 }
 
 const styles = StyleSheet.create({
-  card: { backgroundColor: "#fff", borderRadius: 16, overflow: "hidden", shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 10, elevation: 3, marginBottom: 20 },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 3,
+    marginBottom: 20,
+  },
   image: { width: "100%", height: 220 },
-  timeBadge: { position: "absolute", bottom: 10, left: 10, flexDirection: "row", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12 },
+  timeBadge: {
+    position: "absolute",
+    bottom: 10,
+    left: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
   timeText: { color: "#fff", marginLeft: 6, fontSize: 12 },
   info: { padding: 12 },
   title: { fontSize: 16, fontWeight: "600", marginBottom: 6 },

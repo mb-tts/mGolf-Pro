@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { ScreenWrapper } from "../../../components/common/ScreenWrapper";
@@ -26,6 +26,8 @@ import { TeeTimePickerModal } from "./components/TeeTimePickerModal";
 
 // ─── Component chính ─────────────────────────────────────────────────────────
 export const CreateFlightScreen = ({ navigation }: any) => {
+  const insets = useSafeAreaInsets();
+
   // ── Form State ──
   const [course, setCourse] = useState<Course | null>(null);
   const [holeCount, setHoleCount] = useState<HoleCount>(9);
@@ -76,10 +78,11 @@ export const CreateFlightScreen = ({ navigation }: any) => {
   };
 
   return (
-    <ScreenWrapper>
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+    <ScreenWrapper extendBehindStatusBar statusBarStyle="dark-content">
+      <SafeAreaView style={styles.container} edges={["bottom"]}>
         {/* ── Header ── */}
-        <View style={styles.header}>
+        {/* Header — paddingTop dùng insets.top để nút back luôn dưới icon bar */}
+        <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
           <TouchableOpacity
             style={styles.backBtn}
             onPress={() => navigation.goBack()}
@@ -90,13 +93,13 @@ export const CreateFlightScreen = ({ navigation }: any) => {
         </View>
 
         {/* ── Form ── */}
-        <ScrollView
-          style={styles.scroll}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View style={styles.formCard}>
+        <View style={styles.formCard}>
+          <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          >
             {/* Sân đấu */}
             <PickerField
               label="Sân đấu"
@@ -184,8 +187,8 @@ export const CreateFlightScreen = ({ navigation }: any) => {
               icon="calendar-outline"
               onPress={() => setShowTeeTime(true)}
             />
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
 
         {/* ── Footer ── */}
         <View style={styles.footerWrap}>
@@ -277,16 +280,17 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 26, fontWeight: "700", color: "#1A1A1A" },
 
   scroll: { flex: 1 },
-  scrollContent: { paddingTop: 12, paddingBottom: 30 },
+  scrollContent: { paddingTop: 12 },
 
   formCard: {
+    flex: 1,
     backgroundColor: Colors.white,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingHorizontal: 16,
-    paddingTop: 24,
+    paddingTop: 0,
     paddingBottom: 16,
-    minHeight: 400,
+
     elevation: 6,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -4 },

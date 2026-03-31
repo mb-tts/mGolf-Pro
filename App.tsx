@@ -10,7 +10,7 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
-import OutingDetailScreen from "./src/screens/club/detailOuting.tsx/outingDeatil";
+import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
 
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
 import { SplashScreen } from "./src/screens/auth/splash";
