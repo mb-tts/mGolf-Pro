@@ -16,7 +16,6 @@ export const TeamCoDefinedSection: React.FC<any> = ({
 
   return (
     <View style={styles.sectionContainer}>
-      {/* Số skins thắng up */}
       <View style={styles.settingBlock}>
         <Text style={styles.sectionTitle}>Số skins thắng up</Text>
         <TextInput 
