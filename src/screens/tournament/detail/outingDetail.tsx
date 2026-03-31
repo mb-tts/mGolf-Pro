@@ -56,17 +56,17 @@ export default function OutingDetailScreen({ route, navigation }: any) {
           }
         />
 
-        <View style={styles.mainInfoBox}>
-          <ScrollView
-            style={{ marginTop: 0 }}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingBottom: insets.bottom + 300, // 👈 để scroll tới tận đáy
-              flexGrow: 1, // 👈 QUAN TRỌNG
-            }}
-          >
-            {isTournament ? (
-              <>
+        <View style={[styles.mainInfoBox, { flex: 1, marginBottom: 0 }]}>
+          {isTournament ? (
+            <>
+              <ScrollView
+                style={{ marginTop: 0 }}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                  paddingBottom: insets.bottom + 50, // 👈 để scroll tới tận đáy
+                  flexGrow: 1,
+                }}
+              >
                 {/* Title nằm trên đầu thẻ */}
                 <Text style={styles.tournamentTitle}>
                   {String(courseDetails?.name || outingData?.title || "")}
@@ -191,75 +191,76 @@ export default function OutingDetailScreen({ route, navigation }: any) {
                     />
                   ))}
                 </ScrollView>
-              </>
-            ) : (
-              <>
-                <Text style={styles.mainTitle}>
-                  {String(outingData?.title || "")}
+              </ScrollView>
+            </>
+          ) : (
+            <>
+              <Text style={styles.mainTitle}>
+                {String(outingData?.title || "")}
+              </Text>
+              <View style={styles.infoRow}>
+                <Ionicons name="calendar-outline" size={16} color="#666" />
+                <Text style={styles.infoText}>
+                  {String(outingData?.time || "")}{" "}
+                  {String(outingData?.date || "")}
                 </Text>
-                <View style={styles.infoRow}>
-                  <Ionicons name="calendar-outline" size={16} color="#666" />
-                  <Text style={styles.infoText}>
-                    {String(outingData?.time || "")}{" "}
-                    {String(outingData?.date || "")}
-                  </Text>
-                </View>
-                <View style={styles.infoRow}>
-                  <Ionicons name="location-outline" size={16} color="#666" />
-                  <Text style={styles.infoText}>
-                    {String(outingData?.address || "")}
-                  </Text>
-                </View>
-                <View style={styles.infoRow}>
-                  <Ionicons name="people-outline" size={16} color="#666" />
-                  <Text style={styles.infoText}>
-                    {String(outingData?.participants || 0)} người tham gia
-                  </Text>
-                </View>
-                <View style={styles.infoRow}>
-                  <Ionicons name="airplane-outline" size={16} color="#666" />
-                  <Text style={styles.infoText}>
-                    {String(outingData?.fly || 0)} fly
-                  </Text>
-                </View>
+              </View>
+              <View style={styles.infoRow}>
+                <Ionicons name="location-outline" size={16} color="#666" />
+                <Text style={styles.infoText}>
+                  {String(outingData?.address || "")}
+                </Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Ionicons name="people-outline" size={16} color="#666" />
+                <Text style={styles.infoText}>
+                  {String(outingData?.participants || 0)} người tham gia
+                </Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Ionicons name="airplane-outline" size={16} color="#666" />
+                <Text style={styles.infoText}>
+                  {String(outingData?.fly || 0)} fly
+                </Text>
+              </View>
 
-                <View style={styles.tabContainer}>
-                  {tabs.map((tab) => (
-                    <TouchableOpacity
-                      key={tab}
+              <View style={styles.tabContainer}>
+                {tabs.map((tab) => (
+                  <TouchableOpacity
+                    key={tab}
+                    style={[
+                      styles.tabItem,
+                      activeTab === tab && styles.activeTabItem,
+                    ]}
+                    onPress={() => setActiveTab(tab)}
+                  >
+                    <Text
                       style={[
-                        styles.tabItem,
-                        activeTab === tab && styles.activeTabItem,
+                        styles.tabText,
+                        activeTab === tab && styles.activeTabText,
                       ]}
-                      onPress={() => setActiveTab(tab)}
                     >
-                      <Text
-                        style={[
-                          styles.tabText,
-                          activeTab === tab && styles.activeTabText,
-                        ]}
-                      >
-                        {tab}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-                {activeTab === "Sân đấu" && courseDetails && (
-                  <Sandau courseDetails={courseDetails} />
-                )}
-                {activeTab === "Thể lệ" && outingData.rules && (
-                  <Thele rules={outingData.rules} />
-                )}
-                {activeTab === "Flight" && outingData.flights && (
-                  <Filght flights={outingData.flights} />
-                )}
-              </>
-            )}
+                      {tab}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              {activeTab === "Sân đấu" && courseDetails && (
+                <Sandau courseDetails={courseDetails} />
+              )}
+              {activeTab === "Thể lệ" && outingData.rules && (
+                <Thele rules={outingData.rules} />
+              )}
+              {activeTab === "Flight" && outingData.flights && (
+                <Filght flights={outingData.flights} />
+              )}
+            </>
+          )}
 
-            {activeTab === "Kết quả" && outingData.results && (
-              <KetQua results={outingData.results} />
-            )}
-          </ScrollView>
+          {activeTab === "Kết quả" && outingData.results && (
+            <KetQua results={outingData.results} />
+          )}
+          {/* </ScrollView> */}
         </View>
       </View>
     </ScreenWrapper>
@@ -307,7 +308,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-  mainTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 12, marginTop: 15 },
+  mainTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 12,
+    marginTop: 15,
+  },
 
   infoRow: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
   infoText: { marginLeft: 8, color: "#555" },

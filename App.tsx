@@ -11,6 +11,7 @@ import {
 } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
 import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
+import ClubMainScreen from "./src/screens/club/mainscreen";
 
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
 import { SplashScreen } from "./src/screens/auth/splash";
@@ -23,10 +24,9 @@ import { SetPasswordScreen } from "./src/screens/auth/set-password";
 import { HomeScreen } from "./src/screens/home";
 import { HistoryScreen } from "./src/screens/history";
 import { AccountScreen } from "./src/screens/account";
-import { ClubScreen } from "./src/screens/club";
 import { TournamentScreen } from "./src/screens/tournament";
 import { CreateFlightScreen } from "./src/screens/home/create-flight";
-
+import ClubIndexScreen from "./src/screens/club";
 // ─── Account Sub-Screens ──────────────────────────────────────────────────────
 import { AccountInformationScreen } from "./src/screens/account/account-information";
 import { AchievementsScreen } from "./src/screens/account/achievements";
@@ -78,6 +78,7 @@ export type AppStackParamList = {
   Equipment: undefined;
   NotificationSettings: undefined;
   Security: undefined;
+  ClubMain: undefined;
   // Thêm các screen con khác ở đây khi cần
   OutingDetailScreen: { outingData: any };
   CreateFlight: undefined;
@@ -159,7 +160,7 @@ const MainNavigator = () => {
       />
       <Tab.Screen
         name="Club"
-        component={ClubScreen}
+        component={ClubIndexScreen}
         options={{ tabBarLabel: "Câu lạc bộ" }}
       />
       <Tab.Screen
@@ -184,7 +185,7 @@ const AppNavigator = () => (
   <AppStack.Navigator id="AppStack" screenOptions={{ headerShown: false }}>
     {/* Màn hình mặc định là cái Tab Navigator */}
     <AppStack.Screen name="MainTabs" component={MainNavigator} />
-
+    
     {/* Các màn hình con khi bấm vào từ Account sẽ được push đè lên trên Tab */}
     <AppStack.Screen
       name="AccountInformation"
@@ -217,6 +218,12 @@ const AppNavigator = () => (
     name="OutingDetailScreen" 
     component={OutingDetailScreen} 
     />
+
+    <AppStack.Screen 
+    name="ClubMain" 
+    component={ClubMainScreen} 
+    options={{ headerShown: false }} // Ẩn header mặc định nếu muốn
+  />
 
     <AppStack.Screen
       name="UISettings"
