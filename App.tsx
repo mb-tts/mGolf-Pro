@@ -32,6 +32,7 @@ import { AccountInformationScreen } from "./src/screens/account/account-informat
 import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
 import { UISettingsScreen }  from "./src/screens/account/ui-setting";
+import { EquipmentSettingsScreen } from "./src/screens/account/equipment-settings";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -211,6 +212,18 @@ const AppNavigator = () => (
     />
 
     <AppStack.Screen
+      name="PaymentSettings"
+      component={PaymentSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+    
+    <AppStack.Screen
+      name="Equipment"
+      component={EquipmentSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
       name="CreateFlight"
       component={CreateFlightScreen}
       options={{ animation: "slide_from_bottom" }} // Hiệu ứng trồi lên từ dưới
@@ -234,6 +247,7 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
+import { PaymentSettingsScreen } from "./src/screens/account/payments";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
