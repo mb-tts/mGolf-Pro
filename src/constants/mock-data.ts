@@ -94,7 +94,7 @@ export const MOCK_PLAYERS: Player[] = [
     hdc: 30,
     voa: 99999,
     isVerified: true,
-  },
+  }
 ];
 
 import { User } from "../types/auth.types";

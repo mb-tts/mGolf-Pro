@@ -8,6 +8,7 @@ import {
   EverythingSection,
   TeamXoaySection,
   TeamCoDefinedSection,
+  ContractSection,
 } from '../../../components/common/SettingsSections';
 import SelectionCard from '../../../components/common/SelectionCard';
 
@@ -35,6 +36,15 @@ export const GameSettingScreen = () => {
     comparison: 'best' | 'all' | 'weakest';
   }>({
     holeCount: 3, comparison: 'best',
+  });
+
+  // Contract section state
+  const [contractSettings, setContractSettings] = useState<{
+    skinsOut: string;
+    skinsIn: string;
+    skinsTotal: string;
+  }>({
+    skinsOut: '', skinsIn: '', skinsTotal: '',
   });
 
   const handleBack = () => {
@@ -117,10 +127,11 @@ export const GameSettingScreen = () => {
                           onSettingsChange={setTeamCoDefinedSettings}
                         />
                       )}
-                      {(section.id === 'hopdong' || section.id === 'quyga') && (
-                        <View style={styles.placeholderSection}>
-                          <Text style={styles.placeholderText}>Chức năng sẽ được phát triển sớm</Text>
-                        </View>
+                      {section.id === 'hopdong' && (
+                        <ContractSection
+                          settings={contractSettings}
+                          onSettingsChange={setContractSettings}
+                        />
                       )}
                     </View>
                   )}

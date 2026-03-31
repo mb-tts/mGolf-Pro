@@ -17,7 +17,7 @@ export default function Boloc() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.sheetContent}
     >
-      {/* Mùa giải */}
+      
       <View>
         <Text style={styles.sectionTitle}>Mùa giải</Text>
       </View>
@@ -26,19 +26,19 @@ export default function Boloc() {
         <Ionicons name="chevron-down" size={18} color="#666" />
       </TouchableOpacity>
 
-      {/* Trạng thái */}
+      
       <View>
         <Text style={styles.sectionTitle}>Trạng thái</Text>
       </View>
       <View style={styles.chipContainer}>
-        {/* Nút Đang chọn */}
+        
         <TouchableOpacity style={[styles.chip, styles.chipActive]}>
           <Ionicons name="calendar-outline" size={16} color="#0066CC" />
           <Text style={[styles.chipText, styles.chipTextActive]}>
             Sắp diễn ra
           </Text>
         </TouchableOpacity>
-        {/* Nút Chưa chọn */}
+       
         <TouchableOpacity style={styles.chip}>
           <Ionicons name="radio-button-on-outline" size={16} color="#666" />
           <Text style={styles.chipText}>Đang diễn ra</Text>
@@ -49,7 +49,7 @@ export default function Boloc() {
         </TouchableOpacity>
       </View>
 
-      {/* Khoảng thời gian */}
+      
       <View>
         <Text style={styles.sectionTitle}>Khoảng thời gian</Text>
       </View>
@@ -71,7 +71,6 @@ export default function Boloc() {
         </View>
       </View>
 
-      {/* Số lượng golfer */}
       <View>
         <Text style={styles.sectionTitle}>Số lượng golfer</Text>
       </View>
@@ -95,7 +94,6 @@ export default function Boloc() {
         </View>
       </View>
 
-      {/* Số lượng fly */}
       <View>
         <Text style={styles.sectionTitle}>Số lượng fly</Text>
       </View>

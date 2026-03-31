@@ -8,7 +8,9 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
+  Platform,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IntroduceScreen from "./introduce";
 import OutingScreen from "./outing";
 import MemberScreen from "./member";
@@ -27,9 +29,11 @@ const tabs = [
 export const ClubScreen = () => {
   const [expanded, setExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const insets = useSafeAreaInsets();
+
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
 
       <View style={styles.container}>
         {/* HEADER */}
@@ -44,15 +48,15 @@ export const ClubScreen = () => {
             style={styles.gradient}
           />
 
-          {/* Top bar */}
-          <View style={styles.topBar}>
+          {/* Top bar — dùng insets.top để luôn dưới icon bar */}
+          <View style={[styles.topBar, { top: insets.top + 6 }]}>
             <Image
               source={require("../../../assets/images/NewImage.png")}
               style={{ width: 40, height: 40 }}
             />
           </View>
 
-          <Text style={styles.headerTitle}>Câu lạc bộ</Text>
+          <Text style={[styles.headerTitle, { top: insets.top + 6 }]}>Câu lạc bộ</Text>
         </View>
 
         {/* CARD */}
@@ -126,7 +130,6 @@ const styles = StyleSheet.create({
 
   topBar: {
     position: "absolute",
-    top: 40,
     right: 16,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -134,7 +137,6 @@ const styles = StyleSheet.create({
 
   headerTitle: {
     position: "absolute",
-    top: 40,
     left: 16,
     color: "#fff",
     fontSize: 20,

@@ -10,7 +10,7 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
-import OutingDetailScreen from "./src/screens/club/detailOuting.tsx/outingDeatil";
+import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
 
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
 import { SplashScreen } from "./src/screens/auth/splash";
@@ -25,11 +25,13 @@ import { HistoryScreen } from "./src/screens/history";
 import { AccountScreen } from "./src/screens/account";
 import { ClubScreen } from "./src/screens/club";
 import { TournamentScreen } from "./src/screens/tournament";
+import { CreateFlightScreen } from "./src/screens/home/create-flight";
 
 // ─── Account Sub-Screens ──────────────────────────────────────────────────────
 import { AccountInformationScreen } from "./src/screens/account/account-information";
 import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
+import { UISettingsScreen }  from "./src/screens/account/ui-setting";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -77,6 +79,7 @@ export type AppStackParamList = {
   Security: undefined;
   // Thêm các screen con khác ở đây khi cần
   OutingDetailScreen: { outingData: any };
+  CreateFlight: undefined;
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -195,7 +198,23 @@ const AppNavigator = () => (
       component={GameSettingScreen}
       options={{ animation: "slide_from_right" }}
     />
-    <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
+
+    <AppStack.Screen 
+    name="OutingDetailScreen" 
+    component={OutingDetailScreen} 
+    />
+
+    <AppStack.Screen
+      name="UISettings"
+      component={UISettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="CreateFlight"
+      component={CreateFlightScreen}
+      options={{ animation: "slide_from_bottom" }} // Hiệu ứng trồi lên từ dưới
+    />
   </AppStack.Navigator>
 );
 
@@ -215,8 +234,6 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
-import UISettingScreen from "./src/screens/account/ui-setting";
-import UISettingsScreen from "./src/screens/account/ui-setting";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
