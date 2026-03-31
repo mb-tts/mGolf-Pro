@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   // Image Viewer Styles
   imageViewer: {
     padding: 16,
-    marginTop: height * 0.2, 
+    marginTop: height * 0.12, 
     width: width,
     height: width, // Square image
     overflow: 'hidden',
