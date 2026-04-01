@@ -257,6 +257,11 @@ const AppNavigator = () => (
       options={{ animation: "slide_from_right" }}
     />
 
+    <AppStack.Screen
+      name="PersonalNotificationScreen"
+      component={PersonalNotificationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
 
     <AppStack.Screen
       name="PasswordChange"
@@ -295,6 +300,7 @@ const RootNavigator = () => {
 
 import { useFonts } from "expo-font";
 import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
+import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
