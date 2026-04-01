@@ -55,7 +55,7 @@ export default function MemberScreen() {
       <FilterSearchBox />
 
       {/* THAY THẾ FLATLIST BẰNG MAP */}
-      <View style={{ paddingBottom: 50 }}>
+      <View style={{ paddingBottom: 20 }}>
         {LEADERBOARD_DATA.map((item) => (
           <MemberRow key={item.id} item={item} />
         ))}

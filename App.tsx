@@ -31,10 +31,9 @@ import ClubIndexScreen from "./src/screens/club";
 import { AccountInformationScreen } from "./src/screens/account/account-information";
 import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
-import { UISettingsScreen }  from "./src/screens/account/ui-setting";
+import { UISettingsScreen } from "./src/screens/account/ui-setting";
 import { EquipmentSettingsScreen } from "./src/screens/account/equipment-setting";
-import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
-import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
+import NotificationSettingsScreen from "./src/screens/account/notification-setting";
 import { PaymentSettingsScreen } from "./src/screens/account/payments";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
@@ -61,7 +60,6 @@ export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
   SetPassword: undefined;
-  
 };
 
 export type MainTabParamList = {
@@ -81,15 +79,12 @@ export type AppStackParamList = {
   PaymentSettings: undefined;
   Equipment: undefined;
   NotificationSettings: undefined;
-  OutingNotificationScreen: undefined;
-  PersonalNotificationScreen: undefined;
   Security: undefined;
   ClubMain: undefined;
   // Thêm các screen con khác ở đây khi cần
   OutingDetailScreen: { outingData: any };
   CreateFlight: undefined;
   ImagesAndVideosScreen: undefined;
-  
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -118,7 +113,6 @@ const AuthNavigator = () => (
     <AuthStack.Screen name="Login" component={LoginScreen} />
     <AuthStack.Screen name="Register" component={RegisterScreen} />
     <AuthStack.Screen name="SetPassword" component={SetPasswordScreen} />
-    
   </AuthStack.Navigator>
 );
 
@@ -179,7 +173,6 @@ const MainNavigator = () => {
         component={AccountScreen}
         options={{ tabBarLabel: "Tài khoản" }}
       />
-      
     </Tab.Navigator>
   );
 };
@@ -191,21 +184,21 @@ const AppNavigator = () => (
   <AppStack.Navigator id="AppStack" screenOptions={{ headerShown: false }}>
     {/* Màn hình mặc định là cái Tab Navigator */}
     <AppStack.Screen name="MainTabs" component={MainNavigator} />
-    
+
     {/* Các màn hình con khi bấm vào từ Account sẽ được push đè lên trên Tab */}
     <AppStack.Screen
       name="AccountInformation"
       component={AccountInformationScreen}
       options={{ animation: "slide_from_right" }}
     />
-    <AppStack.Screen 
-      name="ImagesAndVideosScreen" 
-      component={ImagesAndVideosScreen} 
+    <AppStack.Screen
+      name="ImagesAndVideosScreen"
+      component={ImagesAndVideosScreen}
     />
-    <AppStack.Screen 
-      name="NotificationSettings" 
-      component={NotificationSettingsScreen} 
-      options={{ animation: "slide_from_right" }} 
+    <AppStack.Screen
+      name="NotificationSettings"
+      component={NotificationSettingsScreen}
+      options={{ animation: "slide_from_right" }}
     />
 
     <AppStack.Screen
@@ -220,16 +213,13 @@ const AppNavigator = () => (
       options={{ animation: "slide_from_right" }}
     />
 
-    <AppStack.Screen 
-    name="OutingDetailScreen" 
-    component={OutingDetailScreen} 
-    />
+    <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
 
-    <AppStack.Screen 
-    name="ClubMain" 
-    component={ClubMainScreen} 
-    options={{ headerShown: false }} // Ẩn header mặc định nếu muốn
-  />
+    <AppStack.Screen
+      name="ClubMain"
+      component={ClubMainScreen}
+      options={{ headerShown: false }} // Ẩn header mặc định nếu muốn
+    />
 
     <AppStack.Screen
       name="UISettings"
@@ -242,30 +232,14 @@ const AppNavigator = () => (
       component={PaymentSettingsScreen}
       options={{ animation: "slide_from_right" }}
     />
-    
+
     <AppStack.Screen
       name="Equipment"
       component={EquipmentSettingsScreen}
       options={{ animation: "slide_from_right" }}
     />
 
-    <AppStack.Screen
-      name="NotificationSettings"
-      component={NotificationSettingsScreen}
-      options={{ animation: "slide_from_right" }}
-    />
 
-    <AppStack.Screen
-      name="OutingNotificationScreen"
-      component={OutingNotificationScreen}
-      options={{ animation: "slide_from_right" }}
-    />
-
-    <AppStack.Screen
-      name="PersonalNotificationScreen"
-      component={PersonalNotificationScreen}
-      options={{ animation: "slide_from_right" }}
-    />
 
     <AppStack.Screen
       name="CreateFlight"
@@ -291,7 +265,6 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
-import NotificationSettingsScreen from "./src/screens/account/notification-setting";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
