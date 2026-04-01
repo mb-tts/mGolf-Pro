@@ -32,7 +32,11 @@ import { AccountInformationScreen } from "./src/screens/account/account-informat
 import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
 import { UISettingsScreen }  from "./src/screens/account/ui-setting";
-import { EquipmentSettingsScreen } from "./src/screens/account/equipment-settings";
+import { EquipmentSettingsScreen } from "./src/screens/account/equipment-setting";
+import { NotificationSettingsScreen } from "./src/screens/account/notification-setting";
+import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
+import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
+import { PaymentSettingsScreen } from "./src/screens/account/payments";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -77,6 +81,8 @@ export type AppStackParamList = {
   PaymentSettings: undefined;
   Equipment: undefined;
   NotificationSettings: undefined;
+  OutingNotificationScreen: undefined;
+  PersonalNotificationScreen: undefined;
   Security: undefined;
   // Thêm các screen con khác ở đây khi cần
   OutingDetailScreen: { outingData: any };
@@ -224,6 +230,24 @@ const AppNavigator = () => (
     />
 
     <AppStack.Screen
+      name="NotificationSettings"
+      component={NotificationSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="OutingNotificationScreen"
+      component={OutingNotificationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="PersonalNotificationScreen"
+      component={PersonalNotificationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
       name="CreateFlight"
       component={CreateFlightScreen}
       options={{ animation: "slide_from_bottom" }} // Hiệu ứng trồi lên từ dưới
@@ -247,7 +271,6 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
-import { PaymentSettingsScreen } from "./src/screens/account/payments";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {

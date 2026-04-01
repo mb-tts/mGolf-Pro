@@ -4,26 +4,32 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import { Colors } from '../../../constants/colors';
 
 // Import các logo từ assets/icons
 const BridgestoneLogo = require('../../../../assets/icons/bridgestone.png');
 const PingLogo = require('../../../../assets/icons/ping.png');
 const KatanaGolfLogo = require('../../../../assets/icons/katanagolf.png');
 
+interface OptionItem {
+  id: string;
+  name: string;
+  logo?: any; 
+}
+
 export const EquipmentSettingsScreen = () => {
   const navigation = useNavigation();
   const bottomSheetRef = useRef(null);
 
-  // State quản lý việc đang chọn loại gậy nào và giá trị đã chọn
   const [selectedType, setSelectedType] = useState(null);
   const [equipmentData, setEquipmentData] = useState({
-    driver: { label: 'Gậy driver', value: 'Bridgestone', logo: '' },
-    wood: { label: 'Gậy gỗ', value: 'Bridgestone', logo: '' },
-    hybrid: { label: 'Gậy hybrid', value: 'Bridgestone', logo: '' },
-    iron: { label: 'Gậy bộ gậy sắt', value: 'Katana', logo: '' },
-    technical: { label: 'Gậy kỹ thuật', value: 'Katana', logo: '' },
-    putter: { label: 'Putter', value: 'Ping', logo: '' },
-    ball: { label: 'Hãng bóng', value: 'Ping', logo: '' },
+    driver: { label: 'Gậy driver', value: 'Bridgestone', logo: BridgestoneLogo },
+    wood: { label: 'Gậy gỗ', value: 'Bridgestone', logo: BridgestoneLogo },
+    hybrid: { label: 'Gậy hybrid', value: 'Bridgestone', logo: BridgestoneLogo },
+    iron: { label: 'Gậy bộ gậy sắt', value: 'Katana', logo: KatanaGolfLogo },
+    technical: { label: 'Gậy kỹ thuật', value: 'Katana', logo: KatanaGolfLogo },
+    putter: { label: 'Putter', value: 'Ping', logo: PingLogo },
+    ball: { label: 'Hãng bóng', value: 'Ping', logo: PingLogo },
     hand: { label: 'Tay thuận', value: 'Tay trái' },
     gloveSize: { label: 'Size găng tay', value: '30' },
     shirtSize: { label: 'Size áo', value: 'XL' },
@@ -32,12 +38,47 @@ export const EquipmentSettingsScreen = () => {
     hatSize: { label: 'Size mũ', value: '30' },
   });
 
-  // Danh sách các thương hiệu
   const brands = [
     { id: 'bridgestone', name: 'Bridgestone', logo: BridgestoneLogo },
     { id: 'ping', name: 'Ping', logo: PingLogo },
     { id: 'katana', name: 'Katana Golf', logo: KatanaGolfLogo },
   ];
+
+  // Danh sách các options cho từng loại
+  const handOptions = [
+    { id: 'left', name: 'Tay trái' },
+    { id: 'right', name: 'Tay phải' },
+  ];
+
+  const gloveSizeOptions = ['18', '19', '20', '21', 'M', 'L', 'XL'];
+  const shirtSizeOptions = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+  const pantSizeOptions = ['30', '32', '34', '36', '38', '40', '42', '44'];
+  const shoeSizeOptions = ['36', '37', '38', '39', '40', '41', '42'];
+  const hatSizeOptions = ['56', '57', '58', '59', '60'];
+
+  const getBottomSheetData = (): OptionItem[] => {
+    if (!selectedType) return [];
+    
+    if (['driver', 'wood', 'hybrid', 'iron', 'technical', 'putter', 'ball'].includes(selectedType)) {
+      return brands;
+    } else if (selectedType === 'hand') {
+      return handOptions;
+    } else if (selectedType === 'gloveSize') {
+      return gloveSizeOptions.map(size => ({ id: size, name: size }));
+    } else if (selectedType === 'shirtSize') {
+      return shirtSizeOptions.map(size => ({ id: size, name: size }));
+    } else if (selectedType === 'pantSize') {
+      return pantSizeOptions.map(size => ({ id: size, name: size }));
+    } else if (selectedType === 'shoeSize') {
+      return shoeSizeOptions.map(size => ({ id: size, name: size }));
+    } else if (selectedType === 'hatSize') {
+      return hatSizeOptions.map(size => ({ id: size, name: size }));
+    }
+    return [];
+  };
+
+  const bottomSheetData = getBottomSheetData();
+  const isBrandType = selectedType && ['driver', 'wood', 'hybrid', 'iron', 'technical', 'putter', 'ball'].includes(selectedType);
 
   const snapPoints = useMemo(() => ['40%'], []);
 
@@ -46,14 +87,23 @@ export const EquipmentSettingsScreen = () => {
     bottomSheetRef.current?.expand();
   };
 
-  const handleSelectBrand = (brand) => {
-    setEquipmentData(prev => ({
-      ...prev,
-      [selectedType]: { ...prev[selectedType], value: brand.name, logo: brand.logo }
-    }));
+  const handleSelectOption = (option: any) => {
+    if (isBrandType) {
+      // Cho brand type, lưu cả logo
+      setEquipmentData(prev => ({
+        ...prev,
+        [selectedType]: { ...prev[selectedType], value: option.name, logo: option.logo }
+      }));
+    } else {
+      // Cho non-brand type, chỉ lưu value
+      setEquipmentData(prev => ({
+        ...prev,
+        [selectedType]: { ...prev[selectedType], value: option.name }
+      }));
+    }
     bottomSheetRef.current?.close();
   };
-
+  
   const renderBackdrop = useCallback(
     props => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />,
     []
@@ -84,7 +134,7 @@ export const EquipmentSettingsScreen = () => {
                   {item.logo ? (
                     <Image source={typeof item.logo === 'string' ? { uri: item.logo } : item.logo} style={styles.brandLogoSmall} resizeMode="contain" />
                   ) : (
-                    <Text style={[styles.rowValue, key === 'hand' && styles.textBlue]}>{item.value}</Text>
+                    <Text style={[styles.rowValue, (key === 'hand' || key === 'gloveSize' || key === 'shirtSize' || key === 'pantSize' || key === 'shoeSize' || key === 'hatSize') && styles.textBlue]}>{item.value}</Text>
                   )}
                   <Ionicons name="chevron-forward" size={18} color="#C7C7CC" />
                 </View>
@@ -112,19 +162,19 @@ export const EquipmentSettingsScreen = () => {
           </View>
 
           <View style={styles.brandList}>
-            {brands.map((brand) => (
+            {bottomSheetData.map((option) => (
               <TouchableOpacity 
-                key={brand.id} 
+                key={option.id} 
                 style={styles.brandItem}
-                onPress={() => handleSelectBrand(brand)}
+                onPress={() => handleSelectOption(option)}
               >
-                {brand.logo ? (
-                   <Image source={typeof brand.logo === 'string' ? { uri: brand.logo } : brand.logo} style={styles.brandLogoLarge} resizeMode="contain" />
+                {isBrandType && option.logo ? (
+                   <Image source={typeof option.logo === 'string' ? { uri: option.logo } : option.logo} style={styles.brandLogoLarge} resizeMode="contain" />
                 ) : (
-                  <Text style={styles.brandNameFallback}>{brand.name}</Text>
+                  <Text style={styles.brandNameFallback}>{option.name}</Text>
                 )}
-                {selectedType && equipmentData[selectedType].value === brand.name && (
-                  <Ionicons name="checkmark-circle" size={22} color="#0055D4" />
+                {selectedType && equipmentData[selectedType].value === option.name && (
+                  <Ionicons name="checkmark-circle" size={22} color="#004FA1" />
                 )}
               </TouchableOpacity>
             ))}
@@ -148,7 +198,7 @@ const styles = StyleSheet.create({
   rowLabel: { fontSize: 15, color: '#333' },
   rowRight: { flexDirection: 'row', alignItems: 'center' },
   rowValue: { fontSize: 15, color: '#666', marginRight: 8 },
-  textBlue: { color: '#007AFF' },
+  textBlue: { color: Colors.primary },
   brandLogoSmall: { width: 100, height: 25, marginRight: 8 },
   
   // Sheet Styles

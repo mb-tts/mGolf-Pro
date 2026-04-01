@@ -1,30 +1,32 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
+import React from 'react'
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import type { AppStackParamList } from '../../../../App';
 
-export const UISettingsScreen = () => {
-  const navigation = useNavigation();
-  // State để lưu cấu hình: 'light' hoặc 'dark'
-  const [theme, setTheme] = useState('light');
+type NotificationNavigationProp = NativeStackNavigationProp<AppStackParamList>;
 
+export const NotificationSettingsScreen = () => {
+
+  const navigation = useNavigation<NotificationNavigationProp>();
   const handleBack = () => {
     navigation.goBack();
   };
 
   const options = [
-    { id: 'light', label: 'Giao diện sáng' },
-    { id: 'dark', label: 'Giao diện tối' },
-  ];
-
+    { id: 'outing', label: 'Thông báo outing'},
+    { id: 'personal', label: 'Thông báo cá nhân'},
+  ]
+    
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={20} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Cấu hình giao diện</Text>
+        <Text style={styles.headerTitle}>Thông báo</Text>
         <View style={styles.placeholder} />
       </View>
 
@@ -38,24 +40,17 @@ export const UISettingsScreen = () => {
                 index !== options.length - 1 && styles.borderBottom
               ]}
               activeOpacity={0.7}
-              onPress={() => setTheme(option.id)}
+              onPress={() => navigation.navigate(option.id === 'outing' ? 'OutingNotificationScreen' : 'PersonalNotificationScreen')}
             >
-              <Text style={styles.optionText}>{option.label}</Text>
-              <View style={[
-                styles.checkbox,
-                theme === option.id ? styles.checkboxSelected : styles.checkboxUnselected
-              ]}>
-                {theme === option.id && (
-                  <Ionicons name="checkmark" size={16} color="#FFF" />
-                )}
-              </View>
+            <Text style={styles.optionText}>{option.label}</Text>
+            <Ionicons name="chevron-forward" size={22} color="#999" />
             </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   safeArea: { 
@@ -111,21 +106,5 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 16,
     color: '#333',
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkboxSelected: {
-    backgroundColor: '#0055D4', // Màu xanh đặc trưng
-    borderColor: '#0055D4',
-  },
-  checkboxUnselected: {
-    backgroundColor: '#FFF',
-    borderColor: '#D1D5DB',
   },
 });
