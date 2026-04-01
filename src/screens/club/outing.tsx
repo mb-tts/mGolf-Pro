@@ -5,8 +5,7 @@ import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chu
 
 export default function OutingScreen() {
   return (
-    <View style={styles.container} >
-      
+    <View style={styles.container}>
       <FilterSearchBox />
 
       <View>
