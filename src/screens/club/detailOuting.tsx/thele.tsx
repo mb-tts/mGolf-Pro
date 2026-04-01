@@ -5,11 +5,12 @@ import {
   StyleSheet,
 
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 
 export default function Thele({ rules }: any) {
   return (
-    <View style={styles.tabContent}>
+    <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       {rules.map((rule) => (
         <View key={rule.id} style={styles.ruleSection}>
           {/* Tiêu đề (VD: 1. ĐIỀU HÀNH GIẢI) */}
@@ -39,12 +40,12 @@ export default function Thele({ rules }: any) {
         </View>
       ))}
       <View style={{ height: 40 }} />
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
   // STYLES CHO TAB THỂ LỆ
-  tabContent: { paddingTop: 20 },
+  tabContent: { paddingTop: 20 , flex: 1, },
   ruleSection: {
     marginBottom: 24,
   },

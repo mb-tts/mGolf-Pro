@@ -55,7 +55,6 @@ const MemberRow = ({ item }) => {
 export default function MemberScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      {/* 🟢 GỌI COMPONENT TÌM KIẾM VÀ BỘ LỌC DÙNG CHUNG Ở ĐÂY */}
       <FilterSearchBox />
 
       <FlatList
