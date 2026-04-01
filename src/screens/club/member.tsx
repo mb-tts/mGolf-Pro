@@ -3,9 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   Image,
-  SafeAreaView,
 } from "react-native";
 import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
 
@@ -30,10 +28,8 @@ const MemberRow = ({ item }) => {
 
   return (
     <View style={styles.itemContainer}>
-      
       <Text style={styles.rankText}>{formattedRank}</Text>
 
-      
       <Image source={{ uri: item.image }} style={styles.avatar} />
 
       <View style={styles.infoContainer}>
@@ -54,20 +50,21 @@ const MemberRow = ({ item }) => {
 // 3. COMPONENT CHÍNH
 export default function MemberScreen() {
   return (
-    <SafeAreaView style={styles.container}>
+    // Đổi SafeAreaView thành View
+    <View style={styles.container}>
       <FilterSearchBox />
 
-      <FlatList
-        data={LEADERBOARD_DATA}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <MemberRow item={item} />}
-        showsVerticalScrollIndicator={false}
-      />
-    </SafeAreaView>
+      {/* THAY THẾ FLATLIST BẰNG MAP */}
+      <View style={{ paddingBottom: 50 }}>
+        {LEADERBOARD_DATA.map((item) => (
+          <MemberRow key={item.id} item={item} />
+        ))}
+      </View>
+    </View>
   );
 }
 
-// 4. STYLES (Đã xóa các style của SearchBox thừa)
+// 4. STYLES (Giữ nguyên)
 const styles = StyleSheet.create({
   container: {
     padding: 16,

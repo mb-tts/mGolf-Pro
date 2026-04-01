@@ -1,5 +1,5 @@
 // File: src/screens/club/mainscreen.tsx
-import React, { useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -17,7 +17,10 @@ import IntroduceScreen from "./introduce";
 import OutingScreen from "./outing";
 import MemberScreen from "./member";
 import RankingScreen from "./ranking";
-
+import { ScrollView } from "react-native-gesture-handler";
+interface RankingScreenProps {
+  mainScrollRef?: RefObject<any>; 
+}
 const { width } = Dimensions.get("window");
 
 const tabs = [
@@ -26,8 +29,7 @@ const tabs = [
   { label: "Ranking", key: "Ranking" },
   { label: "Thành viên", key: "Member" },
 ];
-
-export default function ClubMainScreen() {
+export default function ClubMainScreen({ mainScrollRef }: RankingScreenProps) {
   const [activeTab, setActiveTab] = useState(0);
   const insets = useSafeAreaInsets();
 
@@ -35,8 +37,13 @@ export default function ClubMainScreen() {
     <ScreenWrapper>
       <StatusBar barStyle="light-content" />
 
-      <View style={styles.container}>
-        {/* Header với Cover Image */}
+      <ScrollView 
+        style={styles.container}
+        stickyHeaderIndices={[1]} // Ghim cụm View ở index 1
+        showsVerticalScrollIndicator={false}
+        ref={mainScrollRef}
+      >
+        {/* [INDEX 0] Header: Chiều cao khung thu lại còn 180 */}
         <View style={styles.header}>
           <Image
             source={require("../../../assets/images/image.png")}
@@ -57,51 +64,52 @@ export default function ClubMainScreen() {
           </Text>
         </View>
 
-        {/* Thông tin Club đè lên Header */}
-        <View style={styles.card}>
-          <Image
-            source={require("../../../assets/images/NewImage.png")}
-            style={styles.avatar}
-          />
-          <View style={{ flex: 1 }}>
-            <Text style={styles.clubName}>MBF Club</Text>
-            <Text style={styles.memberText}>256 thành viên • 16 outing</Text>
+        <View>
+          
+          <View style={styles.card}>
+            <Image
+              source={require("../../../assets/images/NewImage.png")}
+              style={styles.avatar}
+            />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.clubName}>MBF Club</Text>
+              <Text style={styles.memberText}>256 thành viên • 16 outing</Text>
+            </View>
+          </View>
+
+          {/* Thanh Tabs */}
+          <View style={styles.tabs}>
+            {tabs.map((tab, index) => {
+              const isActive = index === activeTab;
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.tabItemWrap}
+                  onPress={() => setActiveTab(index)}
+                >
+                  <Text style={[styles.tabItem, isActive && styles.tabActive]}>
+                    {tab.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+            <View
+              style={[
+                styles.underline,
+                { left: `${activeTab * 25}%` },
+              ]}
+            />
           </View>
         </View>
 
-        {/* Thanh Tabs */}
-        <View style={styles.tabs}>
-          {tabs.map((tab, index) => {
-            const isActive = index === activeTab;
-            return (
-              <TouchableOpacity
-                key={index}
-                style={styles.tabItemWrap}
-                onPress={() => setActiveTab(index)}
-              >
-                <Text style={[styles.tabItem, isActive && styles.tabActive]}>
-                  {tab.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-          {/* Đường gạch chân di chuyển theo tab đang chọn */}
-          <View
-            style={[
-              styles.underline,
-              { left: `${activeTab * 25}%` }, // chia đều 4 tab nên mỗi tab chiếm 25%
-            ]}
-          />
-        </View>
-
-        {/* Nội dung tương ứng với Tab */}
-        <View style={{ flex: 1 }}>
+        {/* [INDEX 2] Nội dung Tabs */}
+        <View style={{ flex: 1, paddingBottom: 50 }}>
           {activeTab === 0 && <IntroduceScreen />}
           {activeTab === 1 && <OutingScreen />}
-          {activeTab === 2 && <RankingScreen />}
+          {activeTab === 2 && <RankingScreen mainScrollRef={mainScrollRef} />}
           {activeTab === 3 && <MemberScreen />}
         </View>
-      </View>
+      </ScrollView>
     </ScreenWrapper>
   );
 }
@@ -113,16 +121,33 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
   },
   header: {
-    
-    height: 280,
+    height: 180, // GIẢM XUỐNG 180 (280 - 100)
+    zIndex: 1,   // Đẩy header về phía sau cụm Card
   },
   cover: {
     width: "100%",
-    height: "100%",
+    height: 280, // Cố định chiều cao ảnh là 280
     position: "absolute",
+    top: 0,
   },
   gradient: {
-    ...StyleSheet.absoluteFillObject,
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: 280, // Cố định bằng chiều cao ảnh
+  },
+  card: {
+    // ĐÃ XÓA marginTop: -100
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    marginHorizontal: 16,
+    borderRadius: 12,
+    padding: 12,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 3,
   },
   topBar: {
     top: 25, 
@@ -138,19 +163,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     fontWeight: "600",
-  },
-  card: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    marginHorizontal: 16,
-    marginTop: -100, // Kéo thẻ lên đè vào ảnh header
-    borderRadius: 12,
-    padding: 12,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 3,
   },
   avatar: {
     width: 50,

@@ -104,101 +104,96 @@ const PlayerRow = ({ item, isSticky = false }) => {
   else if (item.rank === 3) rankColor = "#CD7F32";
 
   return (
-    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-      <View style={[styles.itemContainer, isSticky && styles.stickyItem]}>
-        {/* Phần Avatar & Rank */}
-        <View style={styles.avatarContainer}>
-          <Image source={{ uri: item.image }} style={styles.avatar} />
-          <View style={styles.overlay} />
-          <Text style={[styles.rankText, { color: rankColor }]}>
-            {item.rank}
-          </Text>
-        </View>
-
-        {/* Phần Thông tin */}
-        <View style={styles.infoContainer}>
-          <Text style={styles.nameText}>{item.name}</Text>
-          <Text style={styles.vgaText}>{item.vgaid}</Text>
-        </View>
-
-        {/* Phần Điểm */}
-        <View style={styles.scoreContainer}>
-          <Text style={styles.scoreText}>{item.score} điểm</Text>
-        </View>
+    // BỎ <ScrollView> đi, chỉ dùng <View>
+    <View style={[styles.itemContainer, isSticky && styles.stickyItem]}>
+      {/* Phần Avatar & Rank */}
+      <View style={styles.avatarContainer}>
+        <Image source={{ uri: item.image }} style={styles.avatar} />
+        <View style={styles.overlay} />
+        <Text style={[styles.rankText, { color: rankColor }]}>
+          {item.rank}
+        </Text>
       </View>
-    </ScrollView>
+
+      {/* Phần Thông tin */}
+      <View style={styles.infoContainer}>
+        <Text style={styles.nameText}>{item.name}</Text>
+        <Text style={styles.vgaText}>{item.vgaid}</Text>
+      </View>
+
+      {/* Phần Điểm */}
+      <View style={styles.scoreContainer}>
+        <Text style={styles.scoreText}>{item.score} điểm</Text>
+      </View>
+    </View>
   );
 };
+// Thêm prop mainScrollRef nhận từ ClubMainScreen
+export default function RankingScreen({ mainScrollRef }) {
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-export default function RankingScreen() {
-  const flatListRef = useRef(null);
-
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false); // Thêm state này
-
-  // Thêm useEffect này để lắng nghe sự kiện bàn phím
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
-      () => setKeyboardVisible(true),
+      () => setKeyboardVisible(true)
     );
     const keyboardDidHideListener = Keyboard.addListener(
       "keyboardDidHide",
-      () => setKeyboardVisible(false),
+      () => setKeyboardVisible(false)
     );
 
-    // Clean up listener khi component unmount
     return () => {
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
     };
   }, []);
 
+  // Hàm xử lý cuộn đến "Tôi"
   const scrollToMe = () => {
-    if (flatListRef.current) {
-      flatListRef.current.scrollToIndex({
-        index: 19,
+    if (mainScrollRef && mainScrollRef.current) {
+      // 1. Tìm vị trí (index) của "Tôi" trong mảng dữ liệu
+      const myIndex = LEADERBOARD_DATA.findIndex(item => item.id === MY_DATA.id);
+      
+      // 2. Tính toạ độ Y. 
+      // - (myIndex * ITEM_HEIGHT) là vị trí trong danh sách.
+      // - Cộng thêm khoảng 300px là chiều cao ước lượng của cái (Header + MBF Card + Tab) ở ClubMainScreen để không bị che khuất.
+      const targetY = (myIndex * ITEM_HEIGHT) + 300; 
+
+      // 3. Ra lệnh cuộn
+      mainScrollRef.current.scrollTo({
+        y: targetY,
         animated: true,
-        viewPosition: 0.5,
       });
     }
   };
 
-  const renderFlatListItem = ({ item }) => {
-    return <PlayerRow item={item} />;
-  };
-
   return (
-    <SafeAreaView style={styles.container}>
+    // Bỏ SafeAreaView, dùng View thường
+    <View style={styles.container}>
       <FilterSearchBox />
 
-      <FlatList
-        ref={flatListRef}
-        data={LEADERBOARD_DATA}
-        keyExtractor={(item) => item.id}
-        renderItem={renderFlatListItem}
-        getItemLayout={(data, index) => ({
-          length: ITEM_HEIGHT,
-          offset: ITEM_HEIGHT * index,
-          index,
-        })}
-        // Nếu bàn phím đang mở thì không cần paddingBottom (vì phần Tôi đã ẩn)
-        contentContainerStyle={{
+      {/* THAY FLATLIST BẰNG HÀM MAP */}
+      <View
+        style={{
           paddingBottom: isKeyboardVisible ? 20 : ITEM_HEIGHT + 20,
         }}
-        showsVerticalScrollIndicator={false}
-      />
+      >
+        {LEADERBOARD_DATA.map((item) => (
+          <PlayerRow key={item.id} item={item} />
+        ))}
+      </View>
 
-      {/*  ẨN PHẦN NÀY ĐI KHI BÀN PHÍM BẬT LÊN */}
+      {/* THẺ "TÔI" GHIM CỐ ĐỊNH Ở ĐÁY */}
       {!isKeyboardVisible && (
         <TouchableOpacity
           style={styles.stickyBottomContainer}
           activeOpacity={0.9}
-          onPress={scrollToMe}
+          onPress={scrollToMe} // Gắn hàm cuộn vào đây
         >
           <PlayerRow item={MY_DATA} isSticky={true} />
         </TouchableOpacity>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 
