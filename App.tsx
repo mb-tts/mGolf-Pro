@@ -82,6 +82,8 @@ export type AppStackParamList = {
   PaymentSettings: undefined;
   Equipment: undefined;
   NotificationSettings: undefined;
+  OutingNotificationScreen: undefined;
+  PersonalNotificationScreen: undefined;
   Security: undefined;
   // Thêm các screen con khác
   OutingDetailScreen: { outingData: any };
@@ -292,6 +294,7 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
+import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {

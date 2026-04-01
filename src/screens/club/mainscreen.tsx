@@ -38,20 +38,20 @@ export default function ClubMainScreen({ mainScrollRef }: RankingScreenProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
-      const keyboardDidShowListener = Keyboard.addListener(
-        "keyboardDidShow",
-        () => setKeyboardVisible(true),
-      );
-      const keyboardDidHideListener = Keyboard.addListener(
-        "keyboardDidHide",
-        () => setKeyboardVisible(false),
-      );
-  
-      return () => {
-        keyboardDidHideListener.remove();
-        keyboardDidShowListener.remove();
-      };
-    }, []);
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardVisible(true),
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardVisible(false),
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
   return (
     <ScreenWrapper>
       <StatusBar barStyle="light-content" />
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   stickyBottomContainer: {
     position: "absolute",
     width: "100%",
-    bottom: 0 ,
+    bottom: 0,
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#E0E0E0",
