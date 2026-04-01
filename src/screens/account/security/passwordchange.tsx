@@ -5,18 +5,20 @@ import {
   TouchableOpacity, 
   StyleSheet, 
   TextInput,
-  KeyboardAvoidingView,
-  Platform,
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { AppStackParamList } from '../../../../App';
 import { Colors } from '../../../constants/colors';
 
+type PasswordChangeNavigationProp = NativeStackNavigationProp<AppStackParamList>;
+
 export const PasswordChangeScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<PasswordChangeNavigationProp>();
   const [oldPassword, setOldPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -26,8 +28,8 @@ export const PasswordChangeScreen = () => {
 
   const handleContinue = () => {
     if (oldPassword.trim().length > 0) {
-      // Logic chuyển sang bước tiếp theo (Nhập mật khẩu mới)
-      console.log('Tiếp tục với mật khẩu:', oldPassword);
+      // Navigate to set password form
+      navigation.navigate('SetPasswordForm');
     }
   };
 
@@ -35,9 +37,9 @@ export const PasswordChangeScreen = () => {
 
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
+      <View style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.innerContainer}>
-            
+          <View style={styles.content}>
             {/* HEADER */}
             <View style={styles.header}>
               <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
@@ -48,7 +50,7 @@ export const PasswordChangeScreen = () => {
             </View>
 
             {/* MAIN CONTENT */}
-            <View style={styles.content}>
+            <View style={styles.contentBody}>
               <Text style={styles.title}>Nhập mật khẩu cũ</Text>
               <Text style={styles.subtitle}>
                 Nhập lại mật khẩu cũ để chắc chắn tài khoản này là của bạn.
@@ -85,24 +87,26 @@ export const PasswordChangeScreen = () => {
             </View>
           </View>
         </TouchableWithoutFeedback>
+
         {/* BOTTOM BUTTON */}
-            <View style={styles.bottomContainer}>
-              <TouchableOpacity 
-                style={[
-                  styles.continueBtn, 
-                  isButtonDisabled ? styles.continueBtnDisabled : styles.continueBtnActive
-                ]}
-                disabled={isButtonDisabled}
-                onPress={handleContinue}
-              >
-                <Text style={[
-                  styles.continueText,
-                  isButtonDisabled ? styles.continueTextDisabled : styles.continueTextActive
-                ]}>
-                  Tiếp tục
-                </Text>
-              </TouchableOpacity>
-            </View>
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity 
+            style={[
+              styles.continueBtn, 
+              isButtonDisabled ? styles.continueBtnDisabled : styles.continueBtnActive
+            ]}
+            disabled={isButtonDisabled}
+            onPress={handleContinue}
+          >
+            <Text style={[
+              styles.continueText,
+              isButtonDisabled ? styles.continueTextDisabled : styles.continueTextActive
+            ]}>
+              Tiếp tục
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -114,9 +118,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-  },
-  innerContainer: {
-    flex: 1,
+    flexDirection: 'column',
   },
   header: { 
     flexDirection: "row", 
@@ -144,6 +146,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    justifyContent: 'flex-start',
+  },
+  contentBody: {
     paddingHorizontal: 20,
     paddingTop: 24,
   },
@@ -195,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     paddingHorizontal: 16,
     paddingVertical: 16,
-    paddingBottom: Platform.OS === 'ios' ? 24 : 30, 
+    paddingBottom: 24, 
     borderTopWidth: 1,
     borderTopColor: Colors.border,
   },

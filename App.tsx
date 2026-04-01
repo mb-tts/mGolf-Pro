@@ -265,6 +265,12 @@ const AppNavigator = () => (
     />
 
     <AppStack.Screen
+      name="SetPasswordForm"
+      component={SetPasswordFormScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
       name="CreateFlight"
       component={CreateFlightScreen}
       options={{ animation: "slide_from_bottom" }} // Hiệu ứng trồi lên từ dưới
