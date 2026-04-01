@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
-// Nhớ import CustomSwitch từ file bạn vừa tạo ở trên
 import CustomSwitch from '../../../components/button/CustomSwitch'; 
 
 export const OutingNotificationScreen = () => {

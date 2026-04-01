@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { SelectionBottomSheet } from "../../../components/account/SelectionBottomSheet";
 import type { SelectionOption } from "../../../components/account/SelectionBottomSheet";
+import { useAuth } from "../../../providers/auth.provider";
 
 interface AccountInfoScreenProps {
   navigation?: any;
@@ -22,10 +23,12 @@ interface AccountInfoScreenProps {
 export const AccountInformationScreen: React.FC<AccountInfoScreenProps> = ({
   navigation,
 }) => {
-  const [fullName, setFullName] = useState("Nguyễn Văn Anh");
-  const [vgaCode, setVgaCode] = useState("1234568");
+  const { user } = useAuth();
+  
+  const [fullName, setFullName] = useState(user?.fullName || "");
+  const [vgaCode, setVgaCode] = useState(user?.vgaCode || "");
   const [handicap, setHandicap] = useState("30");
-  const [phone, setPhone] = useState("0912345678");
+  const [phone, setPhone] = useState(user?.phone || "");
   const [email, setEmail] = useState("nvlinh@mobifone.vn");
   const [memberShip, setMemberShip] = useState("Basic");
   const [teeBox, setTeeBox] = useState("Blue");
@@ -106,7 +109,13 @@ export const AccountInformationScreen: React.FC<AccountInfoScreenProps> = ({
             <View style={styles.fieldGroup}>
               <View style={styles.fieldValueBox}>
                 <Text style={styles.fieldLabel}>Họ và tên</Text>
-                <Text style={styles.fieldValue}>{fullName}</Text>
+                <TextInput
+                  style={styles.inputInBox}
+                  value={fullName}
+                  onChangeText={setFullName}
+                  placeholder="Nhập họ và tên"
+                  placeholderTextColor={Colors.placeholder}
+                />
               </View>
             </View>
 
@@ -114,7 +123,14 @@ export const AccountInformationScreen: React.FC<AccountInfoScreenProps> = ({
             <View style={styles.fieldGroup}>
               <View style={styles.fieldValueBox}>
                 <Text style={styles.fieldLabel}>Mã VGA</Text>
-                <Text style={styles.fieldValue}>{vgaCode}</Text>
+                <TextInput
+                  style={styles.inputInBox}
+                  value={vgaCode}
+                  onChangeText={setVgaCode}
+                  placeholder="Nhập mã VGA"
+                  placeholderTextColor={Colors.placeholder}
+                  editable={false}
+                />
               </View>
             </View>
 
@@ -122,7 +138,14 @@ export const AccountInformationScreen: React.FC<AccountInfoScreenProps> = ({
             <View style={styles.fieldGroup}>
               <View style={styles.fieldValueBox}>
                 <Text style={styles.fieldLabel}>HDC Index</Text>
-                <Text style={styles.fieldValue}>{handicap}</Text>
+                <TextInput
+                  style={styles.inputInBox}
+                  value={handicap}
+                  onChangeText={setHandicap}
+                  placeholder="Nhập HDC Index"
+                  placeholderTextColor={Colors.placeholder}
+                  keyboardType="numeric"
+                />
               </View>
             </View>
 
@@ -308,7 +331,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.1,
     borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: 12, // Tăng padding một chút để vùng bấm thoải mái hơn
+    paddingVertical: 12,
   },
   fieldValue: {
     fontSize: 14,
@@ -326,7 +349,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // Thêm padding dọc vô hình để dễ chạm (tap) trên điện thoại
     paddingVertical: 2, 
   },
   selectText: {
@@ -338,7 +360,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     paddingHorizontal: 16,
     paddingVertical: 16,
-    paddingBottom: 24, // Thêm đệm dưới cho các dòng iPhone có tai thỏ/home bar
+    paddingBottom: 24, 
     borderTopWidth: 1,
     borderTopColor: Colors.border,
   },

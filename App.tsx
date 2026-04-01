@@ -35,6 +35,9 @@ import { UISettingsScreen } from "./src/screens/account/ui-setting";
 import { EquipmentSettingsScreen } from "./src/screens/account/equipment-setting";
 import NotificationSettingsScreen from "./src/screens/account/notification-setting";
 import { PaymentSettingsScreen } from "./src/screens/account/payments";
+import { SecurityScreen } from "./src/screens/account/security";
+import { PasswordChangeScreen } from "./src/screens/account/security/passwordchange";
+import { SetPasswordFormScreen } from "./src/screens/account/security/set-password-form";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -79,12 +82,16 @@ export type AppStackParamList = {
   PaymentSettings: undefined;
   Equipment: undefined;
   NotificationSettings: undefined;
+  OutingNotificationScreen: undefined;
+  PersonalNotificationScreen: undefined;
   Security: undefined;
-  ClubMain: undefined;
-  // Thêm các screen con khác ở đây khi cần
+  // Thêm các screen con khác
   OutingDetailScreen: { outingData: any };
   CreateFlight: undefined;
+  PasswordChange: undefined;
+  SetPasswordForm: undefined;
   ImagesAndVideosScreen: undefined;
+  ClubMain: undefined;
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -238,8 +245,30 @@ const AppNavigator = () => (
       component={EquipmentSettingsScreen}
       options={{ animation: "slide_from_right" }}
     />
+    <AppStack.Screen
+      name="Security"
+      component={SecurityScreen} 
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="OutingNotificationScreen"
+      component={OutingNotificationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
 
 
+    <AppStack.Screen
+      name="PasswordChange"
+      component={PasswordChangeScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="SetPasswordForm"
+      component={SetPasswordFormScreen}
+      options={{ animation: "slide_from_right" }}
+    />
 
     <AppStack.Screen
       name="CreateFlight"
@@ -265,6 +294,7 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
+import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
