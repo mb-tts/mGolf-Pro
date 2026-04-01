@@ -28,7 +28,7 @@ export default function IntroduceScreen() {
   const navigation = useNavigation<any>();
   const [expanded, setExpanded] = useState(false);
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Thông tin chung</Text>
 
@@ -46,20 +46,22 @@ export default function IntroduceScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Ảnh và video</Text>
 
-        <View style={styles.grid} >
+        <View style={styles.grid}>
           {images.map((img, i) => (
-            <TouchableOpacity key={i} onPress={() => navigation.navigate("ImagesAndVideosScreen")}>
+            <TouchableOpacity
+              key={i}
+              onPress={() => navigation.navigate("ImagesAndVideosScreen")}
+            >
               <Image source={img} style={styles.gridItem} />
             </TouchableOpacity>
           ))}
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   section: {
     backgroundColor: "#fff",
     marginTop: 8,

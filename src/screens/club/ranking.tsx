@@ -152,7 +152,7 @@ export default function RankingScreen() {
 
         <View
           style={{
-            paddingBottom: isKeyboardVisible ? 20 : ITEM_HEIGHT,
+            paddingBottom: isKeyboardVisible ? 20 : 20,
           }}
         >
           {LEADERBOARD_DATA.map((item) => (

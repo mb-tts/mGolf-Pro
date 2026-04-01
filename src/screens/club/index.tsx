@@ -232,11 +232,11 @@ const styles = StyleSheet.create({
     marginRight: 8,
     overflow: "hidden",
     elevation: 3,
-    marginBottom:10, 
+    marginBottom: 10,
   },
   myClubBanner: {
     backgroundColor: "#A3E635",
-    height:100,
+    height: 100,
     justifyContent: "center",
     paddingHorizontal: 16,
     position: "relative",
