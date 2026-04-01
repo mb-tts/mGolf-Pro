@@ -147,7 +147,7 @@ export default function RankingScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <View>
         <FilterSearchBox />
 
         <View
@@ -159,7 +159,7 @@ export default function RankingScreen() {
             <PlayerRow key={item.id} item={item} />
           ))}
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 }
