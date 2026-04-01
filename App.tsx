@@ -31,7 +31,12 @@ import ClubIndexScreen from "./src/screens/club";
 import { AccountInformationScreen } from "./src/screens/account/account-information";
 import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
-import { UISettingScreen }  from "./src/screens/account/ui-setting";
+import { UISettingsScreen }  from "./src/screens/account/ui-setting";
+import { EquipmentSettingsScreen } from "./src/screens/account/equipment-setting";
+import { NotificationSettingsScreen } from "./src/screens/account/notification-setting";
+import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
+import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
+import { PaymentSettingsScreen } from "./src/screens/account/payments";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -77,6 +82,8 @@ export type AppStackParamList = {
   PaymentSettings: undefined;
   Equipment: undefined;
   NotificationSettings: undefined;
+  OutingNotificationScreen: undefined;
+  PersonalNotificationScreen: undefined;
   Security: undefined;
   ClubMain: undefined;
   // Thêm các screen con khác ở đây khi cần
@@ -228,6 +235,36 @@ const AppNavigator = () => (
     <AppStack.Screen
       name="UISettings"
       component={UISettingScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="PaymentSettings"
+      component={PaymentSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+    
+    <AppStack.Screen
+      name="Equipment"
+      component={EquipmentSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="NotificationSettings"
+      component={NotificationSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="OutingNotificationScreen"
+      component={OutingNotificationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="PersonalNotificationScreen"
+      component={PersonalNotificationScreen}
       options={{ animation: "slide_from_right" }}
     />
 

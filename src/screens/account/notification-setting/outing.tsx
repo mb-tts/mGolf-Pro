@@ -3,54 +3,62 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
+// Nhớ import CustomSwitch từ file bạn vừa tạo ở trên
+import CustomSwitch from '../../../components/button/CustomSwitch'; 
 
-export const UISettingsScreen = () => {
+export const OutingNotificationScreen = () => {
   const navigation = useNavigation();
-  // State để lưu cấu hình: 'light' hoặc 'dark'
-  const [theme, setTheme] = useState('light');
+  
+  const [isMatchNotify, setIsMatchNotify] = useState(true);
+  const [isRankNotify, setIsRankNotify] = useState(true);
+  const [isBirdieNotify, setIsBirdieNotify] = useState(true);
 
   const handleBack = () => {
     navigation.goBack();
   };
 
-  const options = [
-    { id: 'light', label: 'Giao diện sáng' },
-    { id: 'dark', label: 'Giao diện tối' },
-  ];
-
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
+      
+      {/* HEADER */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={20} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Cấu hình giao diện</Text>
+        <Text style={styles.headerTitle}>Thông báo outing</Text>
         <View style={styles.placeholder} />
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={styles.card}>
-          {options.map((option, index) => (
-            <TouchableOpacity
-              key={option.id}
-              style={[
-                styles.optionItem,
-                index !== options.length - 1 && styles.borderBottom
-              ]}
-              activeOpacity={0.7}
-              onPress={() => setTheme(option.id)}
-            >
-              <Text style={styles.optionText}>{option.label}</Text>
-              <View style={[
-                styles.checkbox,
-                theme === option.id ? styles.checkboxSelected : styles.checkboxUnselected
-              ]}>
-                {theme === option.id && (
-                  <Ionicons name="checkmark" size={16} color="#FFF" />
-                )}
-              </View>
-            </TouchableOpacity>
-          ))}
+          
+          {/* Thông báo kết quả trận đấu */}
+          <View style={[styles.row, styles.borderBottom]}>
+            <Text style={styles.rowLabel}>Thông báo kết quả trận đấu</Text>
+            <CustomSwitch 
+              value={isMatchNotify} 
+              onValueChange={setIsMatchNotify} 
+            />
+          </View>
+
+          {/* Thông báo thứ hạng */}
+          <View style={[styles.row, styles.borderBottom]}>
+            <Text style={styles.rowLabel}>Thông báo thứ hạng</Text>
+            <CustomSwitch 
+              value={isRankNotify} 
+              onValueChange={setIsRankNotify} 
+            />
+          </View>
+
+          {/* Thông báo thành viên đạt birdie */}
+          <View style={styles.row}>
+            <Text style={styles.rowLabel}>Thông báo thành viên đạt birdie</Text>
+            <CustomSwitch 
+              value={isBirdieNotify} 
+              onValueChange={setIsBirdieNotify} 
+            />
+          </View>
+
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -95,9 +103,9 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFF',
     borderRadius: 16,
-    overflow: 'hidden', 
+    overflow: 'hidden',
   },
-  optionItem: {
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -108,24 +116,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0',
   },
-  optionText: {
-    fontSize: 16,
+  rowLabel: {
+    fontSize: 15,
     color: '#333',
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkboxSelected: {
-    backgroundColor: '#0055D4', // Màu xanh đặc trưng
-    borderColor: '#0055D4',
-  },
-  checkboxUnselected: {
-    backgroundColor: '#FFF',
-    borderColor: '#D1D5DB',
+    flex: 1,
+    marginRight: 10,
   },
 });
