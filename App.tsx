@@ -33,7 +33,6 @@ import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
 import { UISettingsScreen }  from "./src/screens/account/ui-setting";
 import { EquipmentSettingsScreen } from "./src/screens/account/equipment-setting";
-import { NotificationSettingsScreen } from "./src/screens/account/notification-setting";
 import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
 import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
 import { PaymentSettingsScreen } from "./src/screens/account/payments";
@@ -234,7 +233,7 @@ const AppNavigator = () => (
 
     <AppStack.Screen
       name="UISettings"
-      component={UISettingScreen}
+      component={UISettingsScreen}
       options={{ animation: "slide_from_right" }}
     />
 
