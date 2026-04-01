@@ -91,51 +91,44 @@ const generateData = () => {
   return { data, myData };
 };
 
-const { data: LEADERBOARD_DATA, myData: MY_DATA } = generateData();
+export const { data: LEADERBOARD_DATA, myData: MY_DATA } = generateData();
 
 // Chiều cao cố định của item để hàm scrollToIndex tính toán chính xác
 const ITEM_HEIGHT = 80;
 
 // Component hiển thị từng người chơi
-const PlayerRow = ({ item, isSticky = false }) => {
+export const PlayerRow = ({ item, isSticky = false }) => {
   let rankColor = "#fff";
   if (item.rank === 1) rankColor = "#FFD700";
   else if (item.rank === 2) rankColor = "#C0C0C0";
   else if (item.rank === 3) rankColor = "#CD7F32";
 
   return (
-    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-      <View style={[styles.itemContainer, isSticky && styles.stickyItem]}>
-        {/* Phần Avatar & Rank */}
-        <View style={styles.avatarContainer}>
-          <Image source={{ uri: item.image }} style={styles.avatar} />
-          <View style={styles.overlay} />
-          <Text style={[styles.rankText, { color: rankColor }]}>
-            {item.rank}
-          </Text>
-        </View>
-
-        {/* Phần Thông tin */}
-        <View style={styles.infoContainer}>
-          <Text style={styles.nameText}>{item.name}</Text>
-          <Text style={styles.vgaText}>{item.vgaid}</Text>
-        </View>
-
-        {/* Phần Điểm */}
-        <View style={styles.scoreContainer}>
-          <Text style={styles.scoreText}>{item.score} điểm</Text>
-        </View>
+    <View style={[styles.itemContainer, isSticky && styles.stickyItem]}>
+      {/* Phần Avatar & Rank */}
+      <View style={styles.avatarContainer}>
+        <Image source={{ uri: item.image }} style={styles.avatar} />
+        <View style={styles.overlay} />
+        <Text style={[styles.rankText, { color: rankColor }]}>{item.rank}</Text>
       </View>
-    </ScrollView>
+
+      {/* Phần Thông tin */}
+      <View style={styles.infoContainer}>
+        <Text style={styles.nameText}>{item.name}</Text>
+        <Text style={styles.vgaText}>{item.vgaid}</Text>
+      </View>
+
+      {/* Phần Điểm */}
+      <View style={styles.scoreContainer}>
+        <Text style={styles.scoreText}>{item.score} điểm</Text>
+      </View>
+    </View>
   );
 };
-
+// Thêm prop mainScrollRef nhận từ ClubMainScreen
 export default function RankingScreen() {
-  const flatListRef = useRef(null);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false); // Thêm state này
-
-  // Thêm useEffect này để lắng nghe sự kiện bàn phím
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -146,66 +139,34 @@ export default function RankingScreen() {
       () => setKeyboardVisible(false),
     );
 
-    // Clean up listener khi component unmount
     return () => {
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
     };
   }, []);
 
-  const scrollToMe = () => {
-    if (flatListRef.current) {
-      flatListRef.current.scrollToIndex({
-        index: 19,
-        animated: true,
-        viewPosition: 0.5,
-      });
-    }
-  };
-
-  const renderFlatListItem = ({ item }) => {
-    return <PlayerRow item={item} />;
-  };
-
   return (
-    <SafeAreaView style={styles.container}>
-      <FilterSearchBox />
+    <View style={styles.container}>
+      <ScrollView>
+        <FilterSearchBox />
 
-      <FlatList
-        ref={flatListRef}
-        data={LEADERBOARD_DATA}
-        keyExtractor={(item) => item.id}
-        renderItem={renderFlatListItem}
-        getItemLayout={(data, index) => ({
-          length: ITEM_HEIGHT,
-          offset: ITEM_HEIGHT * index,
-          index,
-        })}
-        // Nếu bàn phím đang mở thì không cần paddingBottom (vì phần Tôi đã ẩn)
-        contentContainerStyle={{
-          paddingBottom: isKeyboardVisible ? 20 : ITEM_HEIGHT + 20,
-        }}
-        showsVerticalScrollIndicator={false}
-      />
-
-      {/*  ẨN PHẦN NÀY ĐI KHI BÀN PHÍM BẬT LÊN */}
-      {!isKeyboardVisible && (
-        <TouchableOpacity
-          style={styles.stickyBottomContainer}
-          activeOpacity={0.9}
-          onPress={scrollToMe}
+        <View
+          style={{
+            paddingBottom: isKeyboardVisible ? 20 : ITEM_HEIGHT,
+          }}
         >
-          <PlayerRow item={MY_DATA} isSticky={true} />
-        </TouchableOpacity>
-      )}
-    </SafeAreaView>
+          {LEADERBOARD_DATA.map((item) => (
+            <PlayerRow key={item.id} item={item} />
+          ))}
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
-// 2. STYLES (Đã xóa các style của SearchBox thừa)
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 10,
     flex: 1,
     backgroundColor: "#fff",
   },
@@ -213,7 +174,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: ITEM_HEIGHT,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#F0F0F0",
     backgroundColor: "#fff",
@@ -272,9 +233,8 @@ const styles = StyleSheet.create({
   },
   stickyBottomContainer: {
     position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
+    width: "100%",
+    top: 0,
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#E0E0E0",
@@ -282,6 +242,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    elevation: 10,
+    // elevation: 10,
   },
 });

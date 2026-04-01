@@ -1,5 +1,5 @@
 // File: src/screens/club/mainscreen.tsx
-import React, { useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -12,12 +12,18 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScreenWrapper } from "../../components/common/ScreenWrapper"; // Đảm bảo đường dẫn đúng
-
+import { MY_DATA } from "./ranking";
 import IntroduceScreen from "./introduce";
 import OutingScreen from "./outing";
 import MemberScreen from "./member";
 import RankingScreen from "./ranking";
-
+import { PlayerRow } from "./ranking";
+import { ScrollView } from "react-native-gesture-handler";
+import { Keyboard } from "react-native"; // Thêm import Keyboard
+import { useEffect } from "react"; // Thêm import useEffect
+interface RankingScreenProps {
+  mainScrollRef?: RefObject<any>;
+}
 const { width } = Dimensions.get("window");
 
 const tabs = [
@@ -26,17 +32,37 @@ const tabs = [
   { label: "Ranking", key: "Ranking" },
   { label: "Thành viên", key: "Member" },
 ];
-
-export default function ClubMainScreen() {
+export default function ClubMainScreen({ mainScrollRef }: RankingScreenProps) {
   const [activeTab, setActiveTab] = useState(0);
   const insets = useSafeAreaInsets();
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
+  useEffect(() => {
+      const keyboardDidShowListener = Keyboard.addListener(
+        "keyboardDidShow",
+        () => setKeyboardVisible(true),
+      );
+      const keyboardDidHideListener = Keyboard.addListener(
+        "keyboardDidHide",
+        () => setKeyboardVisible(false),
+      );
+  
+      return () => {
+        keyboardDidHideListener.remove();
+        keyboardDidShowListener.remove();
+      };
+    }, []);
   return (
     <ScreenWrapper>
       <StatusBar barStyle="light-content" />
 
-      <View style={styles.container}>
-        {/* Header với Cover Image */}
+      <ScrollView
+        style={styles.container}
+        stickyHeaderIndices={[2]} // Ghim cụm View ở index 1
+        showsVerticalScrollIndicator={false}
+        ref={mainScrollRef}
+      >
+        {/* [INDEX 0] Header: Chiều cao khung thu lại còn 180 */}
         <View style={styles.header}>
           <Image
             source={require("../../../assets/images/image.png")}
@@ -57,7 +83,7 @@ export default function ClubMainScreen() {
           </Text>
         </View>
 
-        {/* Thông tin Club đè lên Header */}
+        {/* <View> */}
         <View style={styles.card}>
           <Image
             source={require("../../../assets/images/NewImage.png")}
@@ -70,62 +96,100 @@ export default function ClubMainScreen() {
         </View>
 
         {/* Thanh Tabs */}
-        <View style={styles.tabs}>
-          {tabs.map((tab, index) => {
-            const isActive = index === activeTab;
-            return (
-              <TouchableOpacity
-                key={index}
-                style={styles.tabItemWrap}
-                onPress={() => setActiveTab(index)}
-              >
-                <Text style={[styles.tabItem, isActive && styles.tabActive]}>
-                  {tab.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-          {/* Đường gạch chân di chuyển theo tab đang chọn */}
-          <View
-            style={[
-              styles.underline,
-              { left: `${activeTab * 25}%` }, // chia đều 4 tab nên mỗi tab chiếm 25%
-            ]}
-          />
+        <View>
+          <View style={styles.tabs}>
+            {tabs.map((tab, index) => {
+              const isActive = index === activeTab;
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.tabItemWrap}
+                  onPress={() => setActiveTab(index)}
+                >
+                  <Text style={[styles.tabItem, isActive && styles.tabActive]}>
+                    {tab.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+            <View style={[styles.underline, { left: `${activeTab * 25}%` }]} />
+          </View>
         </View>
 
-        {/* Nội dung tương ứng với Tab */}
-        <View style={{ flex: 1 }}>
+        {/* </View> */}
+
+        {/* [INDEX 2] Nội dung Tabs */}
+        <View style={{ flex: 1, paddingBottom: 50 }}>
           {activeTab === 0 && <IntroduceScreen />}
           {activeTab === 1 && <OutingScreen />}
           {activeTab === 2 && <RankingScreen />}
           {activeTab === 3 && <MemberScreen />}
         </View>
-      </View>
+      </ScrollView>
+      {tabs[activeTab].key === "Ranking" && !isKeyboardVisible && (
+        <TouchableOpacity
+          style={styles.stickyBottomContainer}
+          activeOpacity={0.9}
+        >
+          <PlayerRow item={MY_DATA} isSticky={true} />
+        </TouchableOpacity>
+      )}
     </ScreenWrapper>
   );
 }
 
 // ─── STYLES ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
+  stickyBottomContainer: {
+    position: "absolute",
+    width: "100%",
+    bottom: 0 ,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    // elevation: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: "#f2f2f2",
   },
   header: {
-    
-    height: 280,
+    // position: "absolute",
+    height: 240, // GIẢM XUỐNG 180 (280 - 100)
+    // zIndex: 1,   // Đẩy header về phía sau cụm Card
   },
   cover: {
     width: "100%",
-    height: "100%",
-    position: "absolute",
+    height: 280, // Cố định chiều cao ảnh là 280
+    // position: "absolute",
+    top: 0,
   },
   gradient: {
-    ...StyleSheet.absoluteFillObject,
+    position: "absolute",
+    top: 0,
+    width: "100%",
+    height: 200, // Cố định bằng chiều cao ảnh
+  },
+  card: {
+    position: "absolute",
+    marginTop: 150,
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    marginHorizontal: 16,
+    borderRadius: 12,
+    padding: 12,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 3,
   },
   topBar: {
-    top: 25, 
+    top: 25,
     position: "absolute",
     right: 16,
     flexDirection: "row",
@@ -138,19 +202,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     fontWeight: "600",
-  },
-  card: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    marginHorizontal: 16,
-    marginTop: -100, // Kéo thẻ lên đè vào ảnh header
-    borderRadius: 12,
-    padding: 12,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 3,
   },
   avatar: {
     width: 50,
@@ -167,12 +218,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   tabs: {
-    borderRadius: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     width: width,
     flexDirection: "row",
     justifyContent: "space-around",
     backgroundColor: "#fff",
-    marginTop: 10,
+    marginTop: 0,
     paddingVertical: 12,
   },
   tabItemWrap: {
