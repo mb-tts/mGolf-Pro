@@ -144,7 +144,7 @@ export const styles = StyleSheet.create({
   },
   toggleLabel: {
     fontSize: 13,
-    fontWeight: '400',
+    fontWeight: 'bold',
     color: '#333',
   },
   toggle: {

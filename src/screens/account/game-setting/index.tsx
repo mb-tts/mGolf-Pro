@@ -9,6 +9,7 @@ import {
   TeamXoaySection,
   TeamCoDefinedSection,
   ContractSection,
+  QuyGaSection,
 } from '../../../components/common/SettingsSections';
 import SelectionCard from '../../../components/common/SelectionCard';
 
@@ -45,6 +46,14 @@ export const GameSettingScreen = () => {
     skinsTotal: string;
   }>({
     skinsOut: '', skinsIn: '', skinsTotal: '',
+  });
+
+  // Quy gà section state
+  const [quyGaSettings, setQuyGaSettings] = useState<{
+    skinsPerHole: string;
+    condition: 'birdie' | 'eagle' | 'par' | '';
+  }>({
+    skinsPerHole: '', condition: '',
   });
 
   const handleBack = () => {
@@ -131,6 +140,12 @@ export const GameSettingScreen = () => {
                         <ContractSection
                           settings={contractSettings}
                           onSettingsChange={setContractSettings}
+                        />
+                      )}
+                      {section.id === 'quyga' && (
+                        <QuyGaSection
+                          settings={quyGaSettings}
+                          onSettingsChange={setQuyGaSettings}
                         />
                       )}
                     </View>

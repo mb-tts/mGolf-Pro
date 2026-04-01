@@ -118,8 +118,7 @@ export default function ClubMainScreen({ mainScrollRef }: RankingScreenProps) {
 
         {/* </View> */}
 
-        {/* [INDEX 2] Nội dung Tabs */}
-        <View style={{ flex: 1, paddingBottom: 50 }}>
+        <View style={{ flex: 1, backgroundColor: "#fff" }}>
           {activeTab === 0 && <IntroduceScreen />}
           {activeTab === 1 && <OutingScreen />}
           {activeTab === 2 && <RankingScreen />}
@@ -155,12 +154,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#fff",
   },
   header: {
-    // position: "absolute",
-    height: 240, // GIẢM XUỐNG 180 (280 - 100)
-    // zIndex: 1,   // Đẩy header về phía sau cụm Card
+    height: 240,
   },
   cover: {
     width: "100%",
