@@ -37,6 +37,9 @@ import { NotificationSettingsScreen } from "./src/screens/account/notification-s
 import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
 import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
 import { PaymentSettingsScreen } from "./src/screens/account/payments";
+import { SecurityScreen } from "./src/screens/account/security";
+import { PasswordChangeScreen } from "./src/screens/account/security/passwordchange";
+import { SetPasswordFormScreen } from "./src/screens/account/security/set-password-form";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -84,9 +87,11 @@ export type AppStackParamList = {
   OutingNotificationScreen: undefined;
   PersonalNotificationScreen: undefined;
   Security: undefined;
-  // Thêm các screen con khác ở đây khi cần
+  // Thêm các screen con khác
   OutingDetailScreen: { outingData: any };
   CreateFlight: undefined;
+  PasswordChange: undefined;
+  SetPasswordForm: undefined;
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -236,6 +241,12 @@ const AppNavigator = () => (
     />
 
     <AppStack.Screen
+      name="Security"
+      component={SecurityScreen} 
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
       name="OutingNotificationScreen"
       component={OutingNotificationScreen}
       options={{ animation: "slide_from_right" }}
@@ -244,6 +255,12 @@ const AppNavigator = () => (
     <AppStack.Screen
       name="PersonalNotificationScreen"
       component={PersonalNotificationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="PasswordChange"
+      component={PasswordChangeScreen}
       options={{ animation: "slide_from_right" }}
     />
 

@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkboxSelected: {
-    backgroundColor: '#0055D4', // Màu xanh đặc trưng
-    borderColor: '#0055D4',
+    backgroundColor: '#004FA1', 
+    borderColor: '#004FA1',
   },
   checkboxUnselected: {
     backgroundColor: '#FFF',
