@@ -67,7 +67,7 @@ export default function MemberScreen() {
 // 4. STYLES (Giữ nguyên)
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 10,
     flex: 1,
     backgroundColor: "#fff",
   },
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#F5F5F5",
     backgroundColor: "#fff",

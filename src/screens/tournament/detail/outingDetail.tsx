@@ -274,7 +274,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
               flex: 1,
               backgroundColor: "#fff",
               paddingHorizontal: 16,
-              paddingBottom: insets.bottom + 50,
+              paddingBottom: insets.bottom ,
             }}
           >
             {activeTab === "Sân đấu" && courseDetails && (

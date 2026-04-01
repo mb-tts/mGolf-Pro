@@ -91,28 +91,25 @@ const generateData = () => {
   return { data, myData };
 };
 
-const { data: LEADERBOARD_DATA, myData: MY_DATA } = generateData();
+export const { data: LEADERBOARD_DATA, myData: MY_DATA } = generateData();
 
 // Chiều cao cố định của item để hàm scrollToIndex tính toán chính xác
 const ITEM_HEIGHT = 80;
 
 // Component hiển thị từng người chơi
-const PlayerRow = ({ item, isSticky = false }) => {
+export const PlayerRow = ({ item, isSticky = false }) => {
   let rankColor = "#fff";
   if (item.rank === 1) rankColor = "#FFD700";
   else if (item.rank === 2) rankColor = "#C0C0C0";
   else if (item.rank === 3) rankColor = "#CD7F32";
 
   return (
-    // BỎ <ScrollView> đi, chỉ dùng <View>
     <View style={[styles.itemContainer, isSticky && styles.stickyItem]}>
       {/* Phần Avatar & Rank */}
       <View style={styles.avatarContainer}>
         <Image source={{ uri: item.image }} style={styles.avatar} />
         <View style={styles.overlay} />
-        <Text style={[styles.rankText, { color: rankColor }]}>
-          {item.rank}
-        </Text>
+        <Text style={[styles.rankText, { color: rankColor }]}>{item.rank}</Text>
       </View>
 
       {/* Phần Thông tin */}
@@ -129,17 +126,17 @@ const PlayerRow = ({ item, isSticky = false }) => {
   );
 };
 // Thêm prop mainScrollRef nhận từ ClubMainScreen
-export default function RankingScreen({ mainScrollRef }) {
+export default function RankingScreen() {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
-      () => setKeyboardVisible(true)
+      () => setKeyboardVisible(true),
     );
     const keyboardDidHideListener = Keyboard.addListener(
       "keyboardDidHide",
-      () => setKeyboardVisible(false)
+      () => setKeyboardVisible(false),
     );
 
     return () => {
@@ -148,59 +145,28 @@ export default function RankingScreen({ mainScrollRef }) {
     };
   }, []);
 
-  // Hàm xử lý cuộn đến "Tôi"
-  const scrollToMe = () => {
-    if (mainScrollRef && mainScrollRef.current) {
-      // 1. Tìm vị trí (index) của "Tôi" trong mảng dữ liệu
-      const myIndex = LEADERBOARD_DATA.findIndex(item => item.id === MY_DATA.id);
-      
-      // 2. Tính toạ độ Y. 
-      // - (myIndex * ITEM_HEIGHT) là vị trí trong danh sách.
-      // - Cộng thêm khoảng 300px là chiều cao ước lượng của cái (Header + MBF Card + Tab) ở ClubMainScreen để không bị che khuất.
-      const targetY = (myIndex * ITEM_HEIGHT) + 300; 
-
-      // 3. Ra lệnh cuộn
-      mainScrollRef.current.scrollTo({
-        y: targetY,
-        animated: true,
-      });
-    }
-  };
-
   return (
-    // Bỏ SafeAreaView, dùng View thường
     <View style={styles.container}>
-      <FilterSearchBox />
+      <ScrollView>
+        <FilterSearchBox />
 
-      {/* THAY FLATLIST BẰNG HÀM MAP */}
-      <View
-        style={{
-          paddingBottom: isKeyboardVisible ? 20 : ITEM_HEIGHT + 20,
-        }}
-      >
-        {LEADERBOARD_DATA.map((item) => (
-          <PlayerRow key={item.id} item={item} />
-        ))}
-      </View>
-
-      {/* THẺ "TÔI" GHIM CỐ ĐỊNH Ở ĐÁY */}
-      {!isKeyboardVisible && (
-        <TouchableOpacity
-          style={styles.stickyBottomContainer}
-          activeOpacity={0.9}
-          onPress={scrollToMe} // Gắn hàm cuộn vào đây
+        <View
+          style={{
+            paddingBottom: isKeyboardVisible ? 20 : ITEM_HEIGHT,
+          }}
         >
-          <PlayerRow item={MY_DATA} isSticky={true} />
-        </TouchableOpacity>
-      )}
+          {LEADERBOARD_DATA.map((item) => (
+            <PlayerRow key={item.id} item={item} />
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
-// 2. STYLES (Đã xóa các style của SearchBox thừa)
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 10,
     flex: 1,
     backgroundColor: "#fff",
   },
@@ -208,7 +174,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: ITEM_HEIGHT,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#F0F0F0",
     backgroundColor: "#fff",
@@ -267,9 +233,8 @@ const styles = StyleSheet.create({
   },
   stickyBottomContainer: {
     position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
+    width: "100%",
+    top: 0,
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#E0E0E0",
@@ -277,6 +242,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    elevation: 10,
+    // elevation: 10,
   },
 });
