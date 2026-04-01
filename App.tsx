@@ -92,6 +92,8 @@ export type AppStackParamList = {
   CreateFlight: undefined;
   PasswordChange: undefined;
   SetPasswordForm: undefined;
+  ImagesAndVideosScreen: undefined;
+  ClubMain: undefined;
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -223,15 +225,10 @@ const AppNavigator = () => (
     />
 
     <AppStack.Screen 
-    name="OutingDetailScreen" 
-    component={OutingDetailScreen} 
-    />
-
-    <AppStack.Screen 
     name="ClubMain" 
     component={ClubMainScreen} 
     options={{ headerShown: false }} // Ẩn header mặc định nếu muốn
-  />
+    />
 
     <AppStack.Screen
       name="UISettings"
@@ -250,13 +247,6 @@ const AppNavigator = () => (
       component={EquipmentSettingsScreen}
       options={{ animation: "slide_from_right" }}
     />
-
-    <AppStack.Screen
-      name="NotificationSettings"
-      component={NotificationSettingsScreen}
-      options={{ animation: "slide_from_right" }}
-    />
-
     <AppStack.Screen
       name="Security"
       component={SecurityScreen} 
