@@ -18,10 +18,15 @@ import {
   QuyGaSection,
 } from "../../../components/common/SettingsSections";
 import SelectionCard from "../../../components/common/SelectionCard";
+import { SavedGameModal, SavedGame } from "./components/SavedGameModal";
+import { MOCK_SAVED_GAMES } from "./mock-data";
 
 export default function InstallGame() {
   const navigation = useNavigation();
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
+
+  // Modal "Game đã lưu"
+  const [savedGameModalVisible, setSavedGameModalVisible] = useState(false);
 
   // Everything section state
   const [everythingFilter, setEverythingFilter] = useState("nothing");
@@ -74,6 +79,17 @@ export default function InstallGame() {
     navigation.goBack();
   };
 
+  // Khôi phục tất cả settings từ game đã lưu
+  const handleSelectSavedGame = (game: SavedGame) => {
+    const { settings } = game;
+    setSelectedSection(settings.selectedSection);
+    setEverythingFilter(settings.everythingFilter);
+    setTeamXoaySettings(settings.teamXoaySettings);
+    setTeamCoDefinedSettings(settings.teamCoDefinedSettings);
+    setContractSettings(settings.contractSettings);
+    setQuyGaSettings(settings.quyGaSettings);
+  };
+
   const settingSections = [
     { id: "everything", label: "Everything", memberCount: 4 },
     { id: "teamxoay", label: "Team xoay", memberCount: 4 },
@@ -96,6 +112,19 @@ export default function InstallGame() {
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Cài đặt game</Text>
             <View style={styles.placeholder} />
+          </View>
+
+          {/* NÚT "GAME ĐÃ LƯU" */}
+          <View style={styles.savedGameBtnWrap}>
+            <TouchableOpacity
+              style={styles.savedGameBtn}
+              activeOpacity={0.7}
+              onPress={() => setSavedGameModalVisible(true)}
+            >
+              <Ionicons name="bookmark-outline" size={18} color={Colors.primary} />
+              <Text style={styles.savedGameBtnText}>Game đã lưu</Text>
+              <Ionicons name="chevron-forward" size={16} color="#999" />
+            </TouchableOpacity>
           </View>
 
           {/* CHECKBOX SECTION LỒNG ACCORDION */}
@@ -171,33 +200,41 @@ export default function InstallGame() {
             })}
           </View>
         </View>
-
-        <View style={styles.footerWrap}>
-          <View style={styles.progressBar}>
-            <View
-              style={[
-                styles.progressFill,
-                // { width: canContinue ? "50%" : "50%" },
-              ]}
-            />
-          </View>
-          <View style={styles.footer}>
-            <TouchableOpacity
-              style={[styles.ReturnBtn]}
-              onPress={() => navigation.goBack()}
-            >
-              <Text style={[styles.continueReturn]}>Quay lại</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.continueBtn]}
-              onPress={() => navigation.goBack()}
-            >
-              <Text style={[styles.continueText]}>Tiếp tục</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </ScrollView>
+
+      {/* MODAL GAME ĐÃ LƯU */}
+      <SavedGameModal
+        visible={savedGameModalVisible}
+        savedGames={MOCK_SAVED_GAMES}
+        onSelect={handleSelectSavedGame}
+        onClose={() => setSavedGameModalVisible(false)}
+      />
+
+      <View style={styles.footerWrap}>
+        <View style={styles.progressBar}>
+          <View
+            style={[
+              styles.progressFill,
+              // { width: canContinue ? "50%" : "50%" },
+            ]}
+          />
+        </View>
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={[styles.ReturnBtn]}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={[styles.continueReturn]}>Quay lại</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.continueBtn]}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={[styles.continueText]}>Tiếp tục</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -214,7 +251,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   backBtn: {
-    top: 10 ,
+    top: 10,
     width: 36,
     height: 36,
     borderRadius: 8,
@@ -234,6 +271,34 @@ const styles = StyleSheet.create({
 
   checkboxSection: { paddingHorizontal: 16, paddingVertical: 8 },
 
+  /* NÚT GAME ĐÃ LƯU */
+  savedGameBtnWrap: {
+    paddingHorizontal: 16,
+    marginBottom: 4,
+  },
+  savedGameBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.white,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#E8E8E8",
+    shadowColor: Colors.shadow,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+    gap: 10,
+  },
+  savedGameBtnText: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: "600",
+    color: Colors.primary,
+  },
+
   /* ACCORDION WRAPPER (Khung bao ngoài) */
   accordionWrapper: {
     marginVertical: 6,
@@ -248,7 +313,7 @@ const styles = StyleSheet.create({
     elevation: 1,
     overflow: "hidden",
   },
-  footerWrap: { backgroundColor: Colors.white,bottom : 0 },
+  footerWrap: { backgroundColor: Colors.white, bottom: 0 },
   progressBar: { height: 3, backgroundColor: "#E8E8E8" },
   progressFill: { height: 3, backgroundColor: Colors.primary },
   footer: {
