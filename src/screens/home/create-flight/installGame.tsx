@@ -75,8 +75,8 @@ export default function InstallGame() {
   };
 
   const settingSections = [
-    { id: "everything", label: "Everything", memberCount: 4 },
-    { id: "teamxoay", label: "Team xoay", memberCount: 4 },
+    { id: "everything", label: "Everything", memberCount: 0 },
+    { id: "teamxoay", label: "Team xoay", memberCount: 0 },
     { id: "teamcodefined", label: "Team cố định", memberCount: 0 },
     { id: "hopdong", label: "Hợp đồng", memberCount: 0 },
     { id: "quyga", label: "Quỹ gà", memberCount: 0 },
@@ -171,33 +171,28 @@ export default function InstallGame() {
             })}
           </View>
         </View>
-
-        <View style={styles.footerWrap}>
-          <View style={styles.progressBar}>
-            <View
-              style={[
-                styles.progressFill,
-                // { width: canContinue ? "50%" : "50%" },
-              ]}
-            />
-          </View>
-          <View style={styles.footer}>
-            <TouchableOpacity
-              style={[styles.ReturnBtn]}
-              onPress={() => navigation.goBack()}
-            >
-              <Text style={[styles.continueReturn]}>Quay lại</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.continueBtn]}
-              onPress={() => navigation.goBack()}
-            >
-              <Text style={[styles.continueText]}>Tiếp tục</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </ScrollView>
+
+      <View style={styles.footerWrap}>
+        <View style={styles.progressBar}>
+          <View style={[styles.progressFill]} />
+        </View>
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={[styles.ReturnBtn]}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={[styles.continueReturn]}>Quay lại</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.continueBtn]}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={[styles.continueText]}>Tiếp tục</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -214,7 +209,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   backBtn: {
-    top: 10 ,
+    top: 10,
     width: 36,
     height: 36,
     borderRadius: 8,
@@ -248,7 +243,7 @@ const styles = StyleSheet.create({
     elevation: 1,
     overflow: "hidden",
   },
-  footerWrap: { backgroundColor: Colors.white,bottom : 0 },
+  footerWrap: { backgroundColor: Colors.white, bottom: 0 },
   progressBar: { height: 3, backgroundColor: "#E8E8E8" },
   progressFill: { height: 3, backgroundColor: Colors.primary },
   footer: {
