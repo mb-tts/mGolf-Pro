@@ -12,7 +12,7 @@ import {
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
 import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
 import ClubMainScreen from "./src/screens/club/mainscreen";
-
+import InstallGameScreen from "./src/screens/home/create-flight/installGame";
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
 import { SplashScreen } from "./src/screens/auth/splash";
 import { OnboardingScreen } from "./src/screens/auth/onboarding";
@@ -92,6 +92,7 @@ export type AppStackParamList = {
   SetPasswordForm: undefined;
   ImagesAndVideosScreen: undefined;
   ClubMain: undefined;
+  InstallGame: undefined;
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -226,6 +227,12 @@ const AppNavigator = () => (
       name="ClubMain"
       component={ClubMainScreen}
       options={{ headerShown: false }} // Ẩn header mặc định nếu muốn
+    />
+
+    <AppStack.Screen
+      name="InstallGame"
+      component={InstallGameScreen}
+      options={{ animation: "slide_from_right" }}
     />
 
     <AppStack.Screen
