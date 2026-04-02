@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
@@ -8,6 +8,7 @@ import CustomSwitch from '../../../components/button/CustomSwitch';
 export const OutingNotificationScreen = () => {
   const navigation = useNavigation();
   
+  // States
   const [isMatchNotify, setIsMatchNotify] = useState(true);
   const [isRankNotify, setIsRankNotify] = useState(true);
   const [isBirdieNotify, setIsBirdieNotify] = useState(true);
@@ -18,6 +19,7 @@ export const OutingNotificationScreen = () => {
 
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#F4F6F9" />
       
       {/* HEADER */}
       <View style={styles.header}>
@@ -30,7 +32,6 @@ export const OutingNotificationScreen = () => {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={styles.card}>
-          
           {/* Thông báo kết quả trận đấu */}
           <View style={[styles.row, styles.borderBottom]}>
             <Text style={styles.rowLabel}>Thông báo kết quả trận đấu</Text>
@@ -57,7 +58,6 @@ export const OutingNotificationScreen = () => {
               onValueChange={setIsBirdieNotify} 
             />
           </View>
-
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -97,12 +97,14 @@ const styles = StyleSheet.create({
   },
   scrollContent: { 
     paddingHorizontal: 16,
-    paddingTop: 20 
+    paddingTop: 20,
+    paddingBottom: 30
   },
   card: {
     backgroundColor: '#FFF',
     borderRadius: 16,
     overflow: 'hidden',
+    marginBottom: 20
   },
   row: {
     flexDirection: 'row',

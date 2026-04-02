@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import CustomSwitch from '../../../components/button/CustomSwitch'; 
 
-
 export const PersonalNotificationScreen = () => {
   const navigation = useNavigation();
 
+  // States
   const [isMatchNotify, setIsMatchNotify] = useState(true);
   const [isMatchJoinNotify, setIsMatchJoinNotify] = useState(true);
 
@@ -18,6 +18,7 @@ export const PersonalNotificationScreen = () => {
 
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#F4F6F9" />
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={20} color="#333" />
@@ -28,7 +29,6 @@ export const PersonalNotificationScreen = () => {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={styles.card}>
-          
           {/* Thông báo kết quả trận đấu */}
           <View style={[styles.row, styles.borderBottom]}>
             <Text style={styles.rowLabel}>Thông báo kết quả trận đấu</Text>
@@ -46,12 +46,11 @@ export const PersonalNotificationScreen = () => {
               onValueChange={setIsMatchJoinNotify} 
             />
           </View>
-
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 
 const styles = StyleSheet.create({
@@ -87,12 +86,14 @@ const styles = StyleSheet.create({
   },
   scrollContent: { 
     paddingHorizontal: 16,
-    paddingTop: 20 
+    paddingTop: 20,
+    paddingBottom: 30
   },
   card: {
     backgroundColor: '#FFF',
     borderRadius: 16,
     overflow: 'hidden',
+    marginBottom: 20
   },
   row: {
     flexDirection: 'row',
