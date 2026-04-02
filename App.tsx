@@ -11,6 +11,7 @@ import {
 } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
 import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
+import HoleListScreen from "./src/screens/tournament/detail/HoleListScreen";
 import ClubMainScreen from "./src/screens/club/mainscreen";
 import InstallGameScreen from "./src/screens/home/create-flight/installGame";
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
@@ -87,6 +88,7 @@ export type AppStackParamList = {
   Security: undefined;
   // Thêm các screen con khác
   OutingDetailScreen: { outingData: any };
+  HoleListScreen: { courseDetails: any };
   CreateFlight: undefined;
   PasswordChange: undefined;
   SetPasswordForm: undefined;
@@ -222,6 +224,7 @@ const AppNavigator = () => (
     />
 
     <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
+    <AppStack.Screen name="HoleListScreen" component={HoleListScreen} />
 
     <AppStack.Screen
       name="ClubMain"

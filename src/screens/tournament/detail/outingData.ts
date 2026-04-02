@@ -28,6 +28,11 @@ export const OUTING_DATA = [
         { hole: 2, black: 2, blue: 2, white: 2, red: 2, par: 3, strokeIndex: 2 },
         { hole: 3, black: 3, blue: 3, white: 3, red: 3, par: 3, strokeIndex: 3 },
         { hole: 4, black: 4, blue: 4, white: 4, red: 4, par: 4, strokeIndex: 4 },
+        { hole: 5, par: 4, yard: 390, strokeIndex: 9, image: "https://picsum.photos/id/105/200" },
+        { hole: 6, par: 3, yard: 165, strokeIndex: 17, image: "https://picsum.photos/id/106/200" },
+        { hole: 7, par: 5, yard: 550, strokeIndex: 5, image: "https://picsum.photos/id/107/200" },
+        { hole: 8, par: 4, yard: 430, strokeIndex: 11, image: "https://picsum.photos/id/108/200" },
+        { hole: 9, par: 4, yard: 405, strokeIndex: 13, image: "https://picsum.photos/id/109/200" },
       ], 
     },
     rules: [
