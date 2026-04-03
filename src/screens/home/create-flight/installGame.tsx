@@ -98,6 +98,16 @@ export default function InstallGame() {
     setQuyGaSettings(settings.quyGaSettings);
   };
 
+  const handleContinue = () => {
+    if (selectedSection === "teamxoay") {
+      navigation.navigate("Teamxoay");
+    } else if (selectedSection === "teamcodefined") {
+      navigation.navigate("TeamCoDinh");
+    } else {
+      console.log("Tính năng đang được phát triển");
+    }
+  };
+
   const settingSections = [
     { id: "everything", label: "Everything", memberCount: 0 },
     { id: "teamxoay", label: "Team xoay", memberCount: 0 },
@@ -237,7 +247,7 @@ export default function InstallGame() {
 
           <TouchableOpacity
             style={[styles.continueBtn]}
-            onPress={() => navigation.navigate("PrepareGame")}
+            onPress={handleContinue}
           >
             <Text style={[styles.continueText]}>Tiếp tục</Text>
           </TouchableOpacity>

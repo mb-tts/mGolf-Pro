@@ -87,7 +87,7 @@ export const PlayerPickerModal: React.FC<PlayerPickerModalProps> = ({
                       <View style={[styles.tag, styles.tagHdc]}>
                         <Text style={styles.tagTextHdc}>HDC {player.hdc}</Text>
                       </View>
-                      <Text style={styles.vgaText}>VGA: {player.voa}</Text>
+                      <Text style={styles.vgaText}>VGA: {player.vga}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>

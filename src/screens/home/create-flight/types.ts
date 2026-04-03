@@ -13,7 +13,7 @@ export interface Player {
   avatar: string;
   index: number;
   hdc: number;
-  vga: string;
+  vga: number;
   phone?: string;
   isOwner: boolean;
 }

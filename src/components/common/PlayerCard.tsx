@@ -8,14 +8,13 @@ import {
   FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
 export interface Player {
   id: string;
   name: string;
   avatar: string;
   index: number;
   hdc: number;
-  voa: number;
+  vga: number;
   isVerified?: boolean;
 }
 
@@ -55,7 +54,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
           </View>
 
           <View style={styles.voaBadge}>
-            <Text style={styles.grayBadgeText}>VOA {player.voa}</Text>
+            <Text style={styles.grayBadgeText}>VOA {player.vga}</Text>
           </View>
         </View>
       </View>
