@@ -19,8 +19,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function OutingDetailScreen({ route, navigation }: any) {
   const { outingData, source } = route.params || {};
   const courseDetails = outingData?.courseDetails || {};
-  const headerImageSource =
-    outingData?.image || require("../../../../assets/images/image.png");
+  const headerImageSource = outingData?.image || require("../../../../assets/images/image.png");
   const isTournament = source === "Tournament";
 
   const [activeTab, setActiveTab] = useState("Sân đấu");
@@ -28,505 +27,234 @@ export default function OutingDetailScreen({ route, navigation }: any) {
   const tabs = ["Sân đấu", "Thể lệ", "Flight", "Kết quả"];
   const insets = useSafeAreaInsets();
 
-  return (
-    <ScreenWrapper
-      extendBehindStatusBar
-      statusBarStyle="light-content"
-      loadingDelay={0}
-    >
-      {isTournament ? (
-        <ScrollView style={styles.container}>
-          {/* HEADER IMAGE */}
-          <View style={styles.headerImageContainer}>
-            <Image source={headerImageSource} style={styles.headerImage} />
-            <View style={styles.headerOverlay} />
-          </View>
+  // ─── 1. GIAO DIỆN DÀNH CHO "SÂN ĐẤU" ──────────────────────────────────────────
+  const renderTournamentView = () => (
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* Ảnh Header */}
+      <View style={styles.headerImageContainer}>
+        <Image source={headerImageSource} style={styles.headerImage} />
+        <View style={styles.headerOverlay} />
+      </View>
 
-          {/* BackHeader */}
-          <BackHeader
-            title="Thông tin sân đấu"
-            onBack={() => navigation.goBack()}
-            variant="blur"
-            tintColor="#fff"
-            rightAction={
-              <TouchableOpacity style={styles.actionButton} onPress={() => {}}>
-                <Ionicons name="settings-outline" size={24} color="#fff" />
-              </TouchableOpacity>
-            }
-          />
+      <BackHeader
+        title="Thông tin sân đấu"
+        onBack={() => navigation.goBack()}
+        variant="blur"
+        tintColor="#fff"
+        rightAction={
+          <TouchableOpacity style={styles.actionButton}>
+            <Ionicons name="settings-outline" size={20} color="#fff" />
+          </TouchableOpacity>
+        }
+      />
 
-          <View style={[styles.mainInfoBox, { flex: 1, marginBottom: 0 }]}>
-            {/* ScrollView lồng bên trong (giữ nguyên như code cũ của bạn) */}
-            <ScrollView
-              style={{ marginTop: 0 }}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{
-                paddingBottom: insets.bottom + 50,
-                flexGrow: 1,
-              }}
+      <View style={[styles.mainInfoBox, { paddingBottom: insets.bottom + 50 }]}>
+        <Text style={styles.tournamentTitle}>
+          {courseDetails?.name || outingData?.title || "Đang cập nhật..."}
+        </Text>
+
+        {/* ĐÃ SỬA: Gộp lại chỉ còn 1 khung duy nhất */}
+        <View style={styles.tournamentCardWrapper}>
+          <InfoRow icon="location-outline" text={courseDetails?.location} color="#2563EB" />
+          <InfoRow icon="flag-outline" text={courseDetails?.holes} color="#2563EB" />
+          <InfoRow icon="time-outline" text={courseDetails?.operatingHours} color="#2563EB" />
+          <InfoRow icon="call-outline" text={courseDetails?.phone} color="#2563EB" />
+        </View>
+
+        {/* Nút Xem bản đồ */}
+        <TouchableOpacity style={styles.tournamentMapButton}
+        onPress={() => {
+            // Lấy dữ liệu hố số 1 làm mặc định
+            const firstHole = outingData?.courseDetails?.scorecard?.[0];
+            
+            navigation.navigate("HoleMapScreen", { 
+              currentHole: firstHole,
+              courseName: outingData?.courseDetails?.name 
+            });
+          }}>
+          <Ionicons name="map-outline" size={18} color="#fff" style={{ marginRight: 8 }} />
+          <Text style={styles.tournamentMapButtonText}>Xem bản đồ sân</Text>
+        </TouchableOpacity>
+
+        {/* Thông tin giới thiệu */}
+        <SectionHeader title="Thông tin giới thiệu" hasLine />
+        <Text style={styles.sectionText} numberOfLines={showFullIntro ? undefined : 4}>
+          {courseDetails?.description || "Nội dung giới thiệu sân golf đang được cập nhật."}
+        </Text>
+        <TouchableOpacity onPress={() => setShowFullIntro(!showFullIntro)}>
+          <Text style={styles.readMoreText}>{showFullIntro ? "thu gọn" : "xem thêm"}</Text>
+        </TouchableOpacity>
+
+        {/* Khám phá 18 lỗ */}
+        <SectionHeader 
+          title="Khám phá 18 lỗ" 
+          rightText="Xem chi tiết" 
+          onRightPress={() => navigation.navigate("HoleListScreen", { courseDetails })}
+        />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.rowScroll}>
+          {(courseDetails.courseImages || []).slice(0, 4).map((uri: string, idx: number) => (
+            <View key={idx} style={styles.holeImageWrapper}>
+              <Image source={{ uri }} style={styles.holeImage} />
+              <View style={styles.holeBadge}>
+                <Text style={styles.holeBadgeText}>{idx + 1}</Text>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
+
+        {/* Hình ảnh và video */}
+        <SectionHeader title="Hình ảnh và video" rightText="Xem tất cả" />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.rowScroll}>
+          {(courseDetails.courseImages || []).map((uri: string, idx: number) => (
+            <Image key={idx} source={{ uri }} style={styles.mediaImage} />
+          ))}
+        </ScrollView>
+      </View>
+    </ScrollView>
+  );
+
+  // ─── 2. GIAO DIỆN DÀNH CHO "OUTING / GIẢI ĐẤU" ───────────────────────────────
+  const renderOutingView = () => (
+    <ScrollView style={styles.container} stickyHeaderIndices={[2]} showsVerticalScrollIndicator={false}>
+      {/* [0] Ảnh Header */}
+      <View style={styles.headerImageContainer}>
+        <Image source={headerImageSource} style={styles.headerImage} />
+        <View style={styles.headerOverlay} />
+      </View>
+
+      {/* [1] Nút Back */}
+      <BackHeader title="Chi tiết outing" onBack={() => navigation.goBack()} variant="blur" tintColor="#fff" />
+
+      {/* [2] Khối Thông Tin Gắn Chặt (Sticky) */}
+      <View style={[styles.mainInfoBox, { marginBottom: 0, paddingBottom: 0 }]}>
+        <Text style={styles.mainTitle}>{outingData?.title || "Giải đấu"}</Text>
+
+        <InfoRow icon="calendar-outline" text={`${outingData?.time || ""} ${outingData?.date || ""}`} color="#666" />
+        <InfoRow icon="location-outline" text={outingData?.address} color="#666" />
+        <InfoRow icon="people-outline" text={`${outingData?.participants || 0} người tham gia`} color="#666" />
+        <InfoRow icon="airplane-outline" text={`${outingData?.fly || 0} fly`} color="#666" />
+
+        <View style={styles.tabContainer}>
+          {tabs.map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              style={[styles.tabItem, activeTab === tab && styles.activeTabItem]}
+              onPress={() => setActiveTab(tab)}
             >
-              <Text style={styles.tournamentTitle}>
-                {String(courseDetails?.name || outingData?.title || "")}
-              </Text>
+              <Text style={[styles.tabText, activeTab === tab && styles.activeTabText]}>{tab}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
 
-              {/* Section thông tin sân */}
-              <View style={styles.tournamentCardWrapper}>
-                <View style={styles.tournamentDetailBox}>
-                  <View style={styles.infoRowSmall}>
-                    <Ionicons
-                      name="location-outline"
-                      size={16}
-                      color="#2563EB"
-                    />
-                    <Text style={styles.infoTextSmall}>
-                      {String(courseDetails?.location || "")}
-                    </Text>
-                  </View>
-                  <View style={styles.infoRowSmall}>
-                    <Ionicons name="flag-outline" size={16} color="#2563EB" />
-                    <Text style={styles.infoTextSmall}>
-                      {String(courseDetails?.holes || "")}
-                    </Text>
-                  </View>
-                  <View style={styles.infoRowSmall}>
-                    <Ionicons name="time-outline" size={16} color="#2563EB" />
-                    <Text style={styles.infoTextSmall}>
-                      {String(courseDetails?.operatingHours || "")}
-                    </Text>
-                  </View>
-                  <View style={styles.infoRowSmall}>
-                    <Ionicons name="call-outline" size={16} color="#2563EB" />
-                    <Text style={styles.infoTextSmall}>
-                      {String(courseDetails?.phone || "")}
-                    </Text>
-                  </View>
-                </View>
-              </View>
+      {/* [3] Nội dung bên dưới Tabs */}
+      <View style={{ flex: 1, backgroundColor: "#fff", paddingHorizontal: 16, paddingBottom: insets.bottom }}>
+        {activeTab === "Sân đấu" && courseDetails && <Sandau courseDetails={courseDetails} />}
+        {activeTab === "Thể lệ" && outingData?.rules && <Thele rules={outingData.rules} />}
+        {activeTab === "Flight" && outingData?.flights && <Filght flights={outingData.flights} />}
+        {activeTab === "Kết quả" && outingData?.results && <KetQua results={outingData.results} />}
+      </View>
+    </ScrollView>
+  );
 
-              {/* Button xem bản đồ */}
-              <TouchableOpacity
-                style={styles.tournamentMapButton}
-                onPress={() => {}}
-              >
-                <Ionicons
-                  name="map-outline"
-                  size={18}
-                  color="#fff"
-                  style={{ marginRight: 8 }}
-                />
-                <Text style={styles.tournamentMapButtonText}>
-                  Xem bản đồ sân
-                </Text>
-              </TouchableOpacity>
-
-              {/* Thông tin giới thiệu */}
-              <View style={styles.sectionTitleRow}>
-                <Text style={styles.sectionTitle}>Thông tin giới thiệu</Text>
-                <View style={styles.sectionTitleLine} />
-              </View>
-              <Text
-                style={styles.sectionText}
-                numberOfLines={showFullIntro ? undefined : 4}
-                ellipsizeMode="tail"
-              >
-                {String(
-                  courseDetails?.description ||
-                    "Nội dung giới thiệu sân golf được cập nhật.",
-                )}
-              </Text>
-              {!showFullIntro ? (
-                <TouchableOpacity onPress={() => setShowFullIntro(true)}>
-                  <Text style={styles.readMoreText}>xem thêm</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={() => setShowFullIntro(false)}>
-                  <Text style={styles.readMoreText}>thu gọn</Text>
-                </TouchableOpacity>
-              )}
-
-              {/* Khám phá 18 lỗ */}
-              <View style={[styles.sectionHeaderRow, { marginTop: 18 }]}>
-                <Text style={styles.sectionSubTitle}>Khám phá 18 lỗ</Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("HoleListScreen", {
-                      courseDetails,
-                    })
-                  }
-                >
-                  <Text style={styles.linkText}>Xem chi tiết</Text>
-                </TouchableOpacity>
-              </View>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={styles.rowScroll}
-              >
-                {(courseDetails.courseImages || [])
-                  .slice(0, 4)
-                  .map((uri: string, idx: number) => (
-                    <View key={idx} style={styles.holeImageWrapper}>
-                      <Image source={{ uri }} style={styles.holeImage} />
-                      <View style={styles.holeBadge}>
-                        <Text style={styles.holeBadgeText}>{idx + 1}</Text>
-                      </View>
-                    </View>
-                  ))}
-              </ScrollView>
-
-              {/* Hình ảnh và video */}
-              <View style={[styles.sectionHeaderRow, { marginTop: 18 }]}>
-                <Text style={styles.sectionSubTitle}>Hình ảnh và video</Text>
-                <TouchableOpacity onPress={() => {}}>
-                  <Text style={styles.linkText}>Xem tất cả</Text>
-                </TouchableOpacity>
-              </View>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={styles.rowScroll}
-              >
-                {(courseDetails.courseImages || []).map((uri: string, idx: number) => (
-                  <Image key={idx} source={{ uri }} style={styles.mediaImage} />
-                ))}
-              </ScrollView>
-            </ScrollView>
-          </View>
-        </ScrollView>
-      ) : (
-        <ScrollView
-          style={styles.container}
-          stickyHeaderIndices={[2]} // Ghim phần tử ở vị trí Index 2
-          showsVerticalScrollIndicator={false}
-        >
-          {/* [INDEX 0] HEADER IMAGE */}
-          <View style={styles.headerImageContainer}>
-            <Image source={headerImageSource} style={styles.headerImage} />
-            <View style={styles.headerOverlay} />
-          </View>
-
-          {/* [INDEX 1] BackHeader */}
-          <BackHeader
-            title="Chi tiết outing"
-            onBack={() => navigation.goBack()}
-            variant="blur"
-            tintColor="#fff"
-          />
-
-          {/* [INDEX 2] CỤM STICKY: Tiêu đề Outing & Thanh Tab */}
-          <View
-            style={[
-              styles.mainInfoBox,
-              { marginBottom: 0, paddingBottom: 0, backgroundColor: "#fff" },
-            ]}
-          >
-            <Text style={styles.mainTitle}>
-              {String(outingData?.title || "")}
-            </Text>
-
-            <View style={styles.infoRow}>
-              <Ionicons name="calendar-outline" size={16} color="#666" />
-              <Text style={styles.infoText}>
-                {String(outingData?.time || "")}{" "}
-                {String(outingData?.date || "")}
-              </Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Ionicons name="location-outline" size={16} color="#666" />
-              <Text style={styles.infoText}>
-                {String(outingData?.address || "")}
-              </Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Ionicons name="people-outline" size={16} color="#666" />
-              <Text style={styles.infoText}>
-                {String(outingData?.participants || 0)} người tham gia
-              </Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Ionicons name="airplane-outline" size={16} color="#666" />
-              <Text style={styles.infoText}>
-                {String(outingData?.fly || 0)} fly
-              </Text>
-            </View>
-
-            {/* Thanh Tab */}
-            <View style={styles.tabContainer}>
-              {tabs.map((tab) => (
-                <TouchableOpacity
-                  key={tab}
-                  style={[
-                    styles.tabItem,
-                    activeTab === tab && styles.activeTabItem,
-                  ]}
-                  onPress={() => setActiveTab(tab)}
-                >
-                  <Text
-                    style={[
-                      styles.tabText,
-                      activeTab === tab && styles.activeTabText,
-                    ]}
-                  >
-                    {tab}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-
-          {/* [INDEX 3] PHẦN NỘI DUNG CONTENT (Cuộn dưới Tab) */}
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-              paddingHorizontal: 16,
-              paddingBottom: insets.bottom ,
-            }}
-          >
-            {activeTab === "Sân đấu" && courseDetails && (
-              <Sandau courseDetails={courseDetails} />
-            )}
-            {activeTab === "Thể lệ" && outingData?.rules && (
-              <Thele rules={outingData.rules} />
-            )}
-            {activeTab === "Flight" && outingData?.flights && (
-              <Filght flights={outingData.flights} />
-            )}
-            {activeTab === "Kết quả" && outingData?.results && (
-              <KetQua results={outingData.results} />
-            )}
-          </View>
-        </ScrollView>
-      )}
+  return (
+    <ScreenWrapper extendBehindStatusBar statusBarStyle="light-content" loadingDelay={0}>
+      {isTournament ? renderTournamentView() : renderOutingView()}
     </ScreenWrapper>
   );
 }
 
-const bold = { fontWeight: "bold" } as const;
+// ─── CÁC COMPONENT TÁI SỬ DỤNG LẠI (TỐI ƯU CODE) ─────────────────────────────
 
+const InfoRow = ({ icon, text, color }: { icon: any, text: string, color: string }) => {
+  if (!text) return null;
+  return (
+    <View style={styles.infoRowShared}>
+      <Ionicons name={icon} size={16} color={color} />
+      <Text style={[styles.infoTextShared, { color: color === "#666" ? "#555" : "#1F2937" }]}>
+        {text}
+      </Text>
+    </View>
+  );
+};
+
+const SectionHeader = ({ title, rightText, hasLine, onRightPress }: any) => (
+  <View style={styles.sectionHeaderRow}>
+    <Text style={styles.sectionTitle}>{title}</Text>
+    {hasLine && <View style={styles.sectionTitleLine} />}
+    {rightText && (
+      <TouchableOpacity onPress={onRightPress}>
+        <Text style={styles.linkText}>{rightText}</Text>
+      </TouchableOpacity>
+    )}
+  </View>
+);
+
+// ─── STYLES ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   headerImageContainer: { height: 240 },
   headerImage: { width: "100%", height: "100%", position: "absolute" },
-  headerOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.24)",
+  headerOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0, 0, 0, 0.24)" },
+  
+  actionButton: {
+    width: 40, height: 40, borderRadius: 20, backgroundColor: "rgba(0,0,0,0.3)",
+    justifyContent: "center", alignItems: "center",
   },
-
-  headerTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 12,
-    marginTop: 10,
-  },
-
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(0,0,0,0.3)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  headerTitle: { color: "#fff", fontSize: 18, fontWeight: "bold" },
-
+  
   mainInfoBox: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 3,
-    paddingHorizontal: 16,
-
-    marginTop: -24,
-    overflow: "hidden",
+    backgroundColor: "#fff", borderTopLeftRadius: 30, borderTopRightRadius: 30,
+    paddingTop: 3, paddingHorizontal: 16, marginTop: -24, overflow: "hidden",
   },
-
-  mainTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 12,
-    marginTop: 15,
-  },
-
-  infoRow: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
-  infoText: { marginLeft: 8, color: "#555" },
-
-  tabContainer: {
-    flexDirection: "row",
-    marginTop: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: "#EEE",
-  },
-
+  
+  mainTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 12, marginTop: 15 },
+  tournamentTitle: { fontSize: 22, fontWeight: "700", marginTop: 12, marginBottom: 10, color: "#0F172A" },
+  
+  infoRowShared: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
+  infoTextShared: { marginLeft: 10, fontSize: 14 },
+  
+  tabContainer: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#EEE" },
   tabItem: { flex: 1, alignItems: "center", paddingVertical: 12 },
   activeTabItem: { borderBottomWidth: 2, borderBottomColor: "#0055A5" },
-
   tabText: { color: "#888" },
   activeTabText: { color: "#0055A5", fontWeight: "bold" },
-
-  tabContent: { paddingTop: 20 },
-
-  actionButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(0,0,0,0.3)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
+  
+  // ĐÃ SỬA: Card hợp nhất 1 lớp viền
   tournamentCardWrapper: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 28,
-    shadowColor: "#000",
-    shadowOpacity: 0.12,
-    shadowRadius: 14,
-    elevation: 8,
-    borderWidth: 1,
-    borderColor: "rgba(15, 23, 42, 0.06)",
-    marginHorizontal: 0,
-    justifyContent: "center",
+    backgroundColor: "#fff", 
+    borderRadius: 16, 
+    padding: 16, 
+    marginBottom: 20,
+    shadowColor: "#000", 
+    shadowOpacity: 0.08, 
+    shadowRadius: 10, 
+    elevation: 4,
+    borderWidth: 1, 
+    borderColor: "#EFF6FF", // Đường viền xanh mỏng cho sang trọng
   },
-  tournamentTitle: {
-    fontSize: 22,
-    fontWeight: "700",
-    marginTop: 12,
-    marginBottom: 10,
-    color: "#0F172A",
-  },
-  tournamentInfos: {
-    backgroundColor: "#F8FAFC",
-    borderRadius: 12,
-    padding: 13,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
-  },
-  tournamentDetailBox: {
-    backgroundColor: "#fff",
-    borderRadius: 14,
-    padding: 14,
-    marginTop: 6,
-    borderWidth: 1,
-    borderColor: "#EFF6FF",
-  },
-  infoRowSmall: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  infoTextSmall: {
-    marginLeft: 8,
-    color: "#1F2937",
-    fontSize: 14,
-  },
+  
   tournamentMapButton: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 18,
-    marginBottom: 16,
-    backgroundColor: "#1D4ED8",
-    borderRadius: 12,
-    paddingVertical: 11,
-    paddingHorizontal: 12,
-    alignSelf: "flex-start",
+    flexDirection: "row", justifyContent: "center", alignItems: "center",
+    marginBottom: 20, backgroundColor: "#1D4ED8", borderRadius: 12,
+    paddingVertical: 11, paddingHorizontal: 16, alignSelf: "flex-start",
   },
-  tournamentMapButtonText: {
-    color: "#fff",
-    fontWeight: "600",
-    fontSize: 14,
-  },
+  tournamentMapButtonText: { color: "#fff", fontWeight: "600", fontSize: 14 },
 
-  sectionTitleRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 20,
-    marginBottom: 8,
-  },
-  sectionTitleLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#2563EB",
-    opacity: 0.2,
-    marginLeft: 8,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: "#111827",
-  },
-  sectionText: {
-    marginBottom: 14,
-    color: "#111827",
-    lineHeight: 20,
-  },
-  readMoreText: {
-    fontSize: 13,
-    color: "#6B7280",
-    fontWeight: "600",
-    textDecorationLine: "none",
-  },
-  linkText: {
-    fontFamily: "Inter", // 👈 font Inter
-    fontWeight: "600", // SemiBold
-    fontSize: 12, // 👈 giảm từ 13 → 12
-    lineHeight: 12 * 1.4, // 140%
-    letterSpacing: -0.12, // -1%
-    color: "#004FA1", // 👈 màu mới
-    textDecorationLine: "none", // 👈 bỏ gạch chân
-  },
-  sectionHeaderRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  sectionSubTitle: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#334155",
-  },
-
-  rowScroll: {
-    marginBottom: 16,
-  },
-  holeImageWrapper: {
-    width: 96,
-    height: 96,
-    marginRight: 12,
-    borderRadius: 12,
-    overflow: "hidden",
-  },
-  holeImage: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 12,
-  },
+  sectionHeaderRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginVertical: 12 },
+  sectionTitle: { fontSize: 16, fontWeight: "700", color: "#111827" },
+  sectionTitleLine: { flex: 1, height: 1, backgroundColor: "#2563EB", opacity: 0.2, marginLeft: 8 },
+  linkText: { fontFamily: "Inter", fontWeight: "600", fontSize: 12, color: "#004FA1" },
+  
+  sectionText: { marginBottom: 14, color: "#111827", lineHeight: 20 },
+  readMoreText: { fontSize: 13, color: "#6B7280", fontWeight: "600", marginBottom: 20 },
+  
+  rowScroll: { marginBottom: 16 },
+  holeImageWrapper: { width: 96, height: 96, marginRight: 12, borderRadius: 12, overflow: "hidden" },
+  holeImage: { width: "100%", height: "100%", borderRadius: 12 },
   holeBadge: {
-    position: "absolute",
-    top: 8,
-    left: 8,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
+    position: "absolute", top: 8, left: 8, backgroundColor: "rgba(0,0,0,0.5)",
+    width: 24, height: 24, borderRadius: 12, justifyContent: "center", alignItems: "center",
   },
-  holeBadgeText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 12,
-  },
-  mediaImage: {
-    width: 160,
-    height: 110,
-    borderRadius: 12,
-    marginRight: 12,
-  },
+  holeBadgeText: { color: "#fff", fontWeight: "bold", fontSize: 12 },
+  mediaImage: { width: 160, height: 110, borderRadius: 12, marginRight: 12 },
 });

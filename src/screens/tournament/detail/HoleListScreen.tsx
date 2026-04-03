@@ -59,7 +59,11 @@ const HoleListScreen = ({ route, navigation }: any) => {
           </View>
 
           <View style={styles.actionRow}>
-            <TouchableOpacity style={styles.actionButton} activeOpacity={0.6}>
+            <TouchableOpacity style={styles.actionButton} activeOpacity={0.6} 
+            onPress={() => navigation.navigate("HoleMapScreen", { 
+            currentHole: item,       // item chính là dữ liệu của hố đang được render
+            courseName: route.params?.courseName || "Sân Golf"   // Biến lưu tên sân (hoặc lấy từ route.params tùy code của bạn)
+          })}>
               <Ionicons name="map-outline" size={16} color="#0066FF" />
               <Text style={styles.actionText}>Xem bản đồ hố</Text>
             </TouchableOpacity>

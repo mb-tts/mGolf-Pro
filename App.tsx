@@ -60,6 +60,7 @@ import ImagesAndVideosScreen from "./src/screens/club/imagesAndvideos";
 import HoleDetailScreen from './src/screens/tournament/detail/HoleDetailScreen';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
+import HoleMapScreen from './src/screens/tournament/detail/HoleMapScreen';
 export type AuthStackParamList = {
   Splash: undefined;
   Onboarding: undefined;
@@ -91,6 +92,7 @@ export type AppStackParamList = {
   OutingDetailScreen: { outingData: any };
   HoleListScreen: { courseDetails: any };
   HoleDetailScreen: any; // <-- ĐÃ ĐĂNG KÝ TYPE CHO MÀN HÌNH CHI TIẾT HỐ
+  HoleMapScreen: any;
   CreateFlight: undefined;
   PasswordChange: undefined;
   SetPasswordForm: undefined;
@@ -231,7 +233,11 @@ const AppNavigator = () => (
       component={HoleDetailScreen}
       options={{ animation: "slide_from_right" }}
     />
-
+    <AppStack.Screen
+      name="HoleMapScreen"
+      component={HoleMapScreen}
+      options={{ animation: "slide_from_right" }}
+    />
     <AppStack.Screen
       name="ClubMain"
       component={ClubMainScreen}
