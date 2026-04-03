@@ -223,6 +223,10 @@ const AppNavigator = () => (
       options={{ animation: "slide_from_right" }}
     />
     
+
+    <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
+    <AppStack.Screen name="HoleListScreen" component={HoleListScreen} />
+
     <AppStack.Screen
       name="ClubMain"
       component={ClubMainScreen}
