@@ -6,7 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../../constants/colors";
 import { ScreenWrapper } from "../../../components/common/ScreenWrapper";
@@ -23,6 +26,7 @@ import { CoursePickerModal } from "./components/CoursePickerModal";
 import { PlayerPickerModal } from "./components/PlayerPickerModal";
 import { ScorerPickerModal } from "./components/ScorerPickerModal";
 import { TeeTimePickerModal } from "./components/TeeTimePickerModal";
+
 
 // ─── Component chính ─────────────────────────────────────────────────────────
 export const CreateFlightScreen = ({ navigation }: any) => {
@@ -45,7 +49,8 @@ export const CreateFlightScreen = ({ navigation }: any) => {
   const [showTeeTime, setShowTeeTime] = useState(false);
 
   // ── Derived ──
-  const canContinue = !!course && players.length > 0;
+  const canContinue =
+    !!course && players.length > 0 && !!scorerId && !!teeDate && !!teeTime;
 
   const scorerLabel =
     scorerId === "all"
@@ -62,20 +67,20 @@ export const CreateFlightScreen = ({ navigation }: any) => {
     if (scorerId === id) setScorerId("all");
   };
 
-  const handleContinue = () => {
-    if (!canContinue) return;
-    console.log("── Flight Data ──", {
-      courseId: course?.id,
-      holeCount,
-      routeGo,
-      routeBack,
-      players: players.map((p) => p.id),
-      scorerId,
-      teeDate,
-      teeTime,
-    });
-    // TODO: navigation.navigate("FlightScoring", { ... });
-  };
+  // const handleContinue = () => {
+  //   if (!canContinue) return;
+  //   console.log("── Flight Data ──", {
+  //     courseId: course?.id,
+  //     holeCount,
+  //     routeGo,
+  //     routeBack,
+  //     players: players.map((p) => p.id),
+  //     scorerId,
+  //     teeDate,
+  //     teeTime,
+  //   });
+  //   // TODO: navigation.navigate("FlightScoring", { ... });
+  // };
 
   return (
     <ScreenWrapper extendBehindStatusBar statusBarStyle="dark-content">
@@ -196,7 +201,7 @@ export const CreateFlightScreen = ({ navigation }: any) => {
             <View
               style={[
                 styles.progressFill,
-                { width: canContinue ? "100%" : "50%" },
+                { width: canContinue ? "50%" : "50%" },
               ]}
             />
           </View>
@@ -206,7 +211,7 @@ export const CreateFlightScreen = ({ navigation }: any) => {
                 styles.continueBtn,
                 canContinue && styles.continueBtnActive,
               ]}
-              onPress={handleContinue}
+              onPress={() => navigation.navigate("InstallGame")}
               disabled={!canContinue}
             >
               <Text

@@ -147,7 +147,13 @@ export default function OutingDetailScreen({ route, navigation }: any) {
               {/* Khám phá 18 lỗ */}
               <View style={[styles.sectionHeaderRow, { marginTop: 18 }]}>
                 <Text style={styles.sectionSubTitle}>Khám phá 18 lỗ</Text>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("HoleListScreen", {
+                      courseDetails,
+                    })
+                  }
+                >
                   <Text style={styles.linkText}>Xem chi tiết</Text>
                 </TouchableOpacity>
               </View>
@@ -158,7 +164,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
               >
                 {(courseDetails.courseImages || [])
                   .slice(0, 4)
-                  .map((uri, idx) => (
+                  .map((uri: string, idx: number) => (
                     <View key={idx} style={styles.holeImageWrapper}>
                       <Image source={{ uri }} style={styles.holeImage} />
                       <View style={styles.holeBadge}>
@@ -180,7 +186,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
                 showsHorizontalScrollIndicator={false}
                 style={styles.rowScroll}
               >
-                {(courseDetails.courseImages || []).map((uri, idx) => (
+                {(courseDetails.courseImages || []).map((uri: string, idx: number) => (
                   <Image key={idx} source={{ uri }} style={styles.mediaImage} />
                 ))}
               </ScrollView>

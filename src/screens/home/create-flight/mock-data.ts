@@ -1,4 +1,85 @@
 import { Course, Player } from "./types";
+import { SavedGame } from "./components/SavedGameModal";
+
+// ─── Mock Game đã lưu ─────────────────────────────────────────────────────────
+export const MOCK_SAVED_GAMES: SavedGame[] = [
+  {
+    id: "sg1",
+    name: "Giải giao lưu ae F4",
+    gameTypes: ["Everything", "Team xoay"],
+    settings: {
+      selectedSection: "everything",
+      everythingFilter: "nothing",
+      teamXoaySettings: {
+        holeCount: 3,
+        comparison: "best",
+        byMonth: false,
+        playBest: true,
+        restrictions: false,
+      },
+      teamCoDefinedSettings: { holeCount: 3, comparison: "best" },
+      contractSettings: { skinsOut: "", skinsIn: "", skinsTotal: "" },
+      quyGaSettings: { skinsPerHole: "", condition: "" },
+    },
+  },
+  {
+    id: "sg2",
+    name: "Giải giao ae F5",
+    gameTypes: ["Team cố định", "Hợp đồng"],
+    settings: {
+      selectedSection: "teamcodefined",
+      everythingFilter: "nothing",
+      teamXoaySettings: {
+        holeCount: 3,
+        comparison: "best",
+        byMonth: false,
+        playBest: true,
+        restrictions: false,
+      },
+      teamCoDefinedSettings: { holeCount: 6, comparison: "all" },
+      contractSettings: { skinsOut: "50", skinsIn: "50", skinsTotal: "100" },
+      quyGaSettings: { skinsPerHole: "", condition: "" },
+    },
+  },
+  {
+    id: "sg3",
+    name: "Giải giao lưu ae F4",
+    gameTypes: ["Team cố định", "Hợp đồng"],
+    settings: {
+      selectedSection: "teamcodefined",
+      everythingFilter: "nothing",
+      teamXoaySettings: {
+        holeCount: 3,
+        comparison: "best",
+        byMonth: false,
+        playBest: true,
+        restrictions: false,
+      },
+      teamCoDefinedSettings: { holeCount: 3, comparison: "weakest" },
+      contractSettings: { skinsOut: "30", skinsIn: "30", skinsTotal: "60" },
+      quyGaSettings: { skinsPerHole: "", condition: "" },
+    },
+  },
+  {
+    id: "sg4",
+    name: "Giải giao lưu ae F4",
+    gameTypes: ["Team cố định", "Hợp đồng"],
+    settings: {
+      selectedSection: "hopdong",
+      everythingFilter: "nothing",
+      teamXoaySettings: {
+        holeCount: 3,
+        comparison: "best",
+        byMonth: false,
+        playBest: true,
+        restrictions: false,
+      },
+      teamCoDefinedSettings: { holeCount: 9, comparison: "best" },
+      contractSettings: { skinsOut: "100", skinsIn: "100", skinsTotal: "200" },
+      quyGaSettings: { skinsPerHole: "", condition: "" },
+    },
+  },
+];
 
 // ─── Mock Sân đấu ────────────────────────────────────────────────────────────
 export const MOCK_COURSES: Course[] = [

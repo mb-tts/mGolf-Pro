@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 const { width } = Dimensions.get("window");
 // ─── COMPONENT CON ─────────────────────────────────────────────────────────────
 const SearchBar = () => (
@@ -147,7 +148,7 @@ export default function ClubIndexScreen({ navigation }: any) {
   ];
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <ScreenWrapper >
       <Text style={styles.headerTitle}>Câu lạc bộ</Text>
 
       <ScrollView
@@ -179,7 +180,7 @@ export default function ClubIndexScreen({ navigation }: any) {
           </ScrollView>
         </View>
       </ScrollView>
-    </View>
+    </ScreenWrapper>
   );
 }
 
