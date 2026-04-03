@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Animated } from "react-native";
+import { View, StyleSheet, Animated, StatusBar, Platform } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { LoadingScreen } from "./LoadingScreen";
 
 interface ScreenWrapperProps {
   children: React.ReactNode;
   loadingDelay?: number;
+  // Cho phép background tràn ra phía sau status bar (icon bar)
+  // Khi bật, StatusBar sẽ trong suốt và nội dung sẽ kéo lên phía sau
+  extendBehindStatusBar?: boolean;
+  // Kiểu chữ status bar: 'light' cho nền tối, 'dark' cho nền sáng
+  statusBarStyle?: "light-content" | "dark-content";
+  // Màu nền status bar (chỉ ảnh hưởng trên Android khi KHÔNG extend)
+  statusBarBackgroundColor?: string;
 }
 
 export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   children,
-  loadingDelay = 400, // Giảm nhẹ delay cho mượt hơn
+  loadingDelay = 400,
+  extendBehindStatusBar = false,
+  statusBarStyle = "dark-content",
+  statusBarBackgroundColor = "transparent",
 }) => {
   const [showLoading, setShowLoading] = useState(true);
-  const [hasLoadedOnce, setHasLoadedOnce] = useState(false); // Theo dõi việc đã từng load thành công chưa
-  const fadeOutAnim = React.useRef(new Animated.Value(1)).current; 
-  const slideAnim = React.useRef(new Animated.Value(30)).current; 
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+  const fadeOutAnim = React.useRef(new Animated.Value(1)).current;
+  const slideAnim = React.useRef(new Animated.Value(30)).current;
 
   const isFocused = useIsFocused();
 
@@ -24,7 +34,7 @@ export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
       if (!hasLoadedOnce) {
         // --- LẦN ĐẦU TIÊN: Có hiện Loading xoay xoay ---
         setShowLoading(true);
-        fadeOutAnim.setValue(1); 
+        fadeOutAnim.setValue(1);
         slideAnim.setValue(30);
 
         const timer = setTimeout(() => {
@@ -43,15 +53,15 @@ export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
           ]).start(({ finished }) => {
             if (finished) {
               setShowLoading(false);
-              setHasLoadedOnce(true); // Đánh dấu đã load xong lần đầu
+              setHasLoadedOnce(true);
             }
           });
         }, loadingDelay);
         return () => clearTimeout(timer);
       } else {
-        // --- CÁC LẦN SAU: Không hiện Loading nữa, chỉ chạy Animation trồi lên cực nhanh ---
-        setShowLoading(false); // Ẩn hoàn toàn spinner
-        slideAnim.setValue(15); // Hạ thấp độ cao đẩy lên cho mượt nhẹ
+        // --- CÁC LẦN SAU: Không hiện Loading nữa ---
+        setShowLoading(false);
+        slideAnim.setValue(15);
         Animated.spring(slideAnim, {
           toValue: 0,
           tension: 80,
@@ -64,6 +74,15 @@ export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
 
   return (
     <View style={styles.container}>
+      {/* StatusBar: khi extendBehindStatusBar = true → translucent + transparent */}
+      <StatusBar
+        barStyle={statusBarStyle}
+        translucent={extendBehindStatusBar}
+        backgroundColor={
+          extendBehindStatusBar ? "transparent" : statusBarBackgroundColor
+        }
+      />
+
       {/* Nội dung thực đã nằm sẵn ở dưới, chỉ việc trồi lên */}
       <Animated.View
         style={[
@@ -80,7 +99,10 @@ export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
       {showLoading && (
         <Animated.View
           pointerEvents="none"
-          style={[StyleSheet.absoluteFillObject, { opacity: fadeOutAnim, zIndex: 99 }]}
+          style={[
+            StyleSheet.absoluteFillObject,
+            { opacity: fadeOutAnim, zIndex: 99 },
+          ]}
         >
           <LoadingScreen />
         </Animated.View>
@@ -92,6 +114,7 @@ export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
   content: {
     flex: 1,

@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function Sandau({ courseDetails }: any) {
   return (
-    <View style={styles.tabContent}>
+    <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       <Text style={styles.sectionTitle}>{courseDetails.name}</Text>
 
       <View style={styles.courseContactBox}>
@@ -116,11 +116,11 @@ export default function Sandau({ courseDetails }: any) {
         </View>
       </ScrollView>
       <View style={{ height: 40 }} />
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
-  tabContent: { paddingTop: 20 },
+  tabContent: { paddingTop: 10 , flex: 1  },
   sectionTitle: {
     fontSize: 16,
     fontWeight: "bold",
@@ -132,14 +132,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F9FA",
     borderRadius: 12,
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 0,
   },
   courseInfoText: { marginLeft: 12, color: "#444", fontSize: 14 },
 
-  descText: { fontSize: 14, color: "#555", lineHeight: 22, marginBottom: 20 },
+  descText: { fontSize: 14, color: "#555", lineHeight: 22, marginBottom: 10 },
   readMore: { color: "#999", fontWeight: "bold" },
 
-  imageList: { flexDirection: "row", marginBottom: 24 },
+  imageList: { flexDirection: "row", marginBottom: 10 },
   courseImg: { width: 220, height: 160, borderRadius: 12, marginRight: 12 },
 
   tableWrapper: {

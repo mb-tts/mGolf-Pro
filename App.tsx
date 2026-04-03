@@ -10,8 +10,10 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
-import OutingDetailScreen from "./src/screens/club/detailOuting.tsx/outingDeatil";
-
+import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
+import HoleListScreen from "./src/screens/tournament/detail/HoleListScreen";
+import ClubMainScreen from "./src/screens/club/mainscreen";
+import InstallGameScreen from "./src/screens/home/create-flight/installGame";
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
 import { SplashScreen } from "./src/screens/auth/splash";
 import { OnboardingScreen } from "./src/screens/auth/onboarding";
@@ -23,13 +25,20 @@ import { SetPasswordScreen } from "./src/screens/auth/set-password";
 import { HomeScreen } from "./src/screens/home";
 import { HistoryScreen } from "./src/screens/history";
 import { AccountScreen } from "./src/screens/account";
-import { ClubScreen } from "./src/screens/club";
 import { TournamentScreen } from "./src/screens/tournament";
-
+import { CreateFlightScreen } from "./src/screens/home/create-flight";
+import ClubIndexScreen from "./src/screens/club";
 // ─── Account Sub-Screens ──────────────────────────────────────────────────────
 import { AccountInformationScreen } from "./src/screens/account/account-information";
 import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
+import { UISettingsScreen } from "./src/screens/account/ui-setting";
+import { EquipmentSettingsScreen } from "./src/screens/account/equipment-setting";
+import NotificationSettingsScreen from "./src/screens/account/notification-setting";
+import { PaymentSettingsScreen } from "./src/screens/account/payments";
+import { SecurityScreen } from "./src/screens/account/security";
+import { PasswordChangeScreen } from "./src/screens/account/security/passwordchange";
+import { SetPasswordFormScreen } from "./src/screens/account/security/set-password-form";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 // Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
@@ -47,7 +56,7 @@ import GolfCourseActiveIcon from "./assets/icons/tabbar/golf-course2.svg";
 
 import ProfileIcon from "./assets/icons/tabbar/profile-circle.svg";
 import ProfileActiveIcon from "./assets/icons/tabbar/profile-circle2.svg";
-
+import ImagesAndVideosScreen from "./src/screens/club/imagesAndvideos";
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type AuthStackParamList = {
   Splash: undefined;
@@ -74,9 +83,18 @@ export type AppStackParamList = {
   PaymentSettings: undefined;
   Equipment: undefined;
   NotificationSettings: undefined;
+  OutingNotificationScreen: undefined;
+  PersonalNotificationScreen: undefined;
   Security: undefined;
-  // Thêm các screen con khác ở đây khi cần
+  // Thêm các screen con khác
   OutingDetailScreen: { outingData: any };
+  HoleListScreen: { courseDetails: any };
+  CreateFlight: undefined;
+  PasswordChange: undefined;
+  SetPasswordForm: undefined;
+  ImagesAndVideosScreen: undefined;
+  ClubMain: undefined;
+  InstallGame: undefined;
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -152,7 +170,7 @@ const MainNavigator = () => {
       />
       <Tab.Screen
         name="Club"
-        component={ClubScreen}
+        component={ClubIndexScreen}
         options={{ tabBarLabel: "Câu lạc bộ" }}
       />
       <Tab.Screen
@@ -183,6 +201,15 @@ const AppNavigator = () => (
       component={AccountInformationScreen}
       options={{ animation: "slide_from_right" }}
     />
+    <AppStack.Screen
+      name="ImagesAndVideosScreen"
+      component={ImagesAndVideosScreen}
+    />
+    <AppStack.Screen
+      name="NotificationSettings"
+      component={NotificationSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
 
     <AppStack.Screen
       name="Achievements"
@@ -195,7 +222,67 @@ const AppNavigator = () => (
       component={GameSettingScreen}
       options={{ animation: "slide_from_right" }}
     />
+
     <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
+    <AppStack.Screen name="HoleListScreen" component={HoleListScreen} />
+
+    <AppStack.Screen
+      name="ClubMain"
+      component={ClubMainScreen}
+      options={{ headerShown: false }}
+    />
+
+    <AppStack.Screen
+      name="UISettings"
+      component={UISettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="PaymentSettings"
+      component={PaymentSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="Equipment"
+      component={EquipmentSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+    <AppStack.Screen
+      name="Security"
+      component={SecurityScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+    <AppStack.Screen
+      name="OutingNotificationScreen"
+      component={OutingNotificationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="PersonalNotificationScreen"
+      component={PersonalNotificationScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="PasswordChange"
+      component={PasswordChangeScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="SetPasswordForm"
+      component={SetPasswordFormScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="CreateFlight"
+      component={CreateFlightScreen}
+      options={{ animation: "slide_from_bottom" }} // Hiệu ứng trồi lên từ dưới
+    />
   </AppStack.Navigator>
 );
 
@@ -215,8 +302,8 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
-import UISettingScreen from "./src/screens/account/ui-setting";
-import UISettingsScreen from "./src/screens/account/ui-setting";
+import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
+import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {

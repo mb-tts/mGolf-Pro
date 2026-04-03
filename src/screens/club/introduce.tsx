@@ -8,8 +8,10 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
+  Pressable,
 } from "react-native";
-
+import ImagesAndVideosScreen from "./imagesAndvideos";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 const { width } = Dimensions.get("window");
 
@@ -23,9 +25,10 @@ const images = [
 ];
 
 export default function IntroduceScreen() {
+  const navigation = useNavigation<any>();
   const [expanded, setExpanded] = useState(false);
   return (
-    <ScrollView>
+    <View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Thông tin chung</Text>
 
@@ -45,16 +48,20 @@ export default function IntroduceScreen() {
 
         <View style={styles.grid}>
           {images.map((img, i) => (
-            <Image key={i} source={img} style={styles.gridItem} />
+            <TouchableOpacity
+              key={i}
+              onPress={() => navigation.navigate("ImagesAndVideosScreen")}
+            >
+              <Image source={img} style={styles.gridItem} />
+            </TouchableOpacity>
           ))}
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   section: {
     backgroundColor: "#fff",
     marginTop: 8,

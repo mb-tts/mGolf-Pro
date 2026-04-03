@@ -1,243 +1,349 @@
-import React, { useState } from "react";
+// File: src/screens/club/index.tsx
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
+  TextInput,
   Image,
   ScrollView,
-  Dimensions,
   TouchableOpacity,
-  StatusBar,
+  Dimensions,
 } from "react-native";
-import IntroduceScreen from "./introduce";
-import OutingScreen from "./outing";
-import MemberScreen from "./member";
-
-import { LinearGradient } from "expo-linear-gradient";
-import RankingScreen from "./ranking";
+import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 const { width } = Dimensions.get("window");
+// ─── COMPONENT CON ─────────────────────────────────────────────────────────────
+const SearchBar = () => (
+  <View style={styles.searchContainer}>
+    <Ionicons
+      name="search-outline"
+      size={20}
+      color="#3B82F6"
+      style={styles.searchIcon}
+    />
+    <TextInput
+      style={styles.searchInput}
+      placeholder="Nhập tên hoặc mã câu lạc bộ"
+      placeholderTextColor="#9CA3AF"
+    />
+  </View>
+);
 
-const tabs = [
-  { label: "Giới thiệu", key: "Introduce" },
-  { label: "Outing", key: "Outing" },
-  { label: "Ranking", key: "Ranking" },
-  { label: "Thành viên", key: "Member" },
-];
+const MyClubCard = ({ onPressDetail }: { onPressDetail: () => void }) => (
+  <View style={styles.myClubCard}>
+    <View style={styles.myClubBanner}>
+      <View style={styles.myClubBannerContent}>
+        <Text style={styles.myClubTitle}>MBF Club</Text>
+        <Image
+          source={require("../../../assets/images/image2.png")} // Chỉnh lại đường dẫn ảnh logo nếu cần
+          style={styles.myClubLogo}
+        />
+      </View>
+      <View style={styles.golfBallPattern} />
+    </View>
 
-export const ClubScreen = () => {
-  const [expanded, setExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  return (
-    <View style={{ flex: 1 }}>
-      <StatusBar barStyle="light-content" />
-
-      <View style={styles.container}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <Image
-            source={require("../../../assets/images/image.png")}
-            style={styles.cover}
-          />
-
-          <LinearGradient
-            colors={["rgba(0,0,0,0.4)", "transparent"]}
-            style={styles.gradient}
-          />
-
-          {/* Top bar */}
-          <View style={styles.topBar}>
-            <Image
-              source={require("../../../assets/images/NewImage.png")}
-              style={{ width: 40, height: 40 }}
-            />
-          </View>
-
-          <Text style={styles.headerTitle}>Câu lạc bộ</Text>
-        </View>
-
-        {/* CARD */}
-        <View style={styles.card}>
-          <Image
-            source={require("../../../assets/images/NewImage.png")}
-            style={styles.avatar}
-          />
-
-          <View style={{ flex: 1 }}>
-            <Text style={styles.clubName}>MBF Club</Text>
-            <Text style={styles.memberText}>256 thành viên • 16 outing</Text>
-          </View>
-        </View>
-
-        {/* TABS */}
-        <View style={styles.tabs}>
-          {tabs.map((tab, index) => {
-            const isActive = index === activeTab; // activeTab vẫn là index số
-
-            return (
-              <TouchableOpacity
-                key={index}
-                style={styles.tabItemWrap}
-                onPress={() => setActiveTab(index)}
-              >
-                <Text style={[styles.tabItem, isActive && styles.tabActive]}>
-                  {tab.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-
-          {/* UNDERLINE */}
-          <View
-            style={[
-              styles.underline,
-              { left: `${activeTab * 25}%` }, // chia đều 4 tab
-            ]}
-          />
-        </View>
-        <View style={{ flex: 1 }}>
-            {activeTab === 0 && <IntroduceScreen /> }
-            {activeTab === 1 && <OutingScreen />}
-            {activeTab === 2 && <RankingScreen />}
-            {activeTab === 3 && <MemberScreen />}
-          </View>
+    <View style={styles.myClubStats}>
+      <View style={styles.statBox}>
+        <Text style={styles.statNumber}>256</Text>
+        <Text style={styles.statLabel}>Thành viên</Text>
+        <Ionicons
+          name="people"
+          size={40}
+          color="rgba(59, 130, 246, 0.1)"
+          style={styles.statIconBg}
+        />
+      </View>
+      <View style={styles.statBox}>
+        <Text style={styles.statNumber}>16</Text>
+        <Text style={styles.statLabel}>Outing</Text>
+        <Ionicons
+          name="golf"
+          size={40}
+          color="rgba(59, 130, 246, 0.1)"
+          style={styles.statIconBg}
+        />
       </View>
     </View>
+
+    <TouchableOpacity style={styles.detailButton} onPress={onPressDetail}>
+      <Text style={styles.detailButtonText}>Xem chi tiết Câu lạc bộ</Text>
+    </TouchableOpacity>
+  </View>
+);
+
+const OutingCard = ({ item }: { item: any }) => (
+  <TouchableOpacity style={styles.outingCard} activeOpacity={0.9}>
+    <View style={styles.outingImageContainer}>
+      <Image
+        source={require("../../../assets/images/image.png")} // Chỉnh lại đường dẫn ảnh sân golf nếu cần
+        style={styles.outingImage}
+      />
+      <View style={styles.clubBadge}>
+        <Text style={styles.clubBadgeText}>MBF CLB</Text>
+        <Image
+          source={require("../../../assets/images/NewImage.png")}
+          style={styles.clubBadgeIcon}
+        />
+      </View>
+
+      {item.isHappening ? (
+        <View style={[styles.statusBadge, { backgroundColor: "#EF4444" }]}>
+          <Ionicons name="radio-button-on" size={12} color="#fff" />
+          <Text style={styles.statusBadgeText}>Đang diễn ra</Text>
+        </View>
+      ) : (
+        <View
+          style={[styles.statusBadge, { backgroundColor: "rgba(0,0,0,0.6)" }]}
+        >
+          <Ionicons name="calendar-outline" size={12} color="#fff" />
+          <Text style={styles.statusBadgeText}>{item.time}</Text>
+        </View>
+      )}
+    </View>
+
+    <View style={styles.outingInfo}>
+      <Text style={styles.outingTitle}>{item.title}</Text>
+      <View style={styles.infoRow}>
+        <Ionicons name="location-outline" size={16} color="#6B7280" />
+        <Text style={styles.infoText} numberOfLines={1}>
+          {item.location}
+        </Text>
+      </View>
+      <View style={styles.infoRow}>
+        <Ionicons name="people-outline" size={16} color="#6B7280" />
+        <Text style={styles.infoText}>{item.participants} người tham gia</Text>
+      </View>
+      <View style={styles.infoRow}>
+        <Ionicons name="airplane-outline" size={16} color="#6B7280" />
+        <Text style={styles.infoText}>{item.fly} fly</Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+);
+
+// ─── MÀN HÌNH CHÍNH ────────────────────────────────────────────────────────────
+export default function ClubIndexScreen({ navigation }: any) {
+  const insets = useSafeAreaInsets();
+
+  const dummyEvents = [
+    {
+      id: "1",
+      title: "Dalat Place Golf",
+      location: "12 Trần Phú, Lâm Đồng, Đà Lạt",
+      participants: 4,
+      fly: 10,
+      isHappening: true,
+    },
+    {
+      id: "2",
+      title: "Dalat Place Golf 2",
+      location: "12 Trần Phú, Lâm Đồng, Đà Lạt",
+      participants: 4,
+      fly: 10,
+      isHappening: false,
+      time: "8:00 12/12/2024",
+    },
+  ];
+
+  return (
+    <ScreenWrapper >
+      <Text style={styles.headerTitle}>Câu lạc bộ</Text>
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <SearchBar />
+
+        <View style={styles.sectionContainer}>
+          <Text style={styles.sectionTitle}>Câu lạc bộ của tôi</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {/* Đảm bảo "ClubMain" khớp với tên route khai báo trong Navigation của bạn */}
+            <MyClubCard onPressDetail={() => navigation.navigate("ClubMain")} />
+            <MyClubCard onPressDetail={() => navigation.navigate("ClubMain")} />
+          </ScrollView>
+        </View>
+
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Sự kiện outing</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllText}>Xem tất cả</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {dummyEvents.map((item) => (
+              <OutingCard key={item.id} item={item} />
+            ))}
+          </ScrollView>
+        </View>
+      </ScrollView>
+    </ScreenWrapper>
   );
-};
+}
+
+// ─── STYLES ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f2f2f2",
-  },
-
-  header: {
-    height: 280,
-  },
-
-  cover: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-  },
-
-  gradient: {
-    ...StyleSheet.absoluteFillObject,
-  },
-
-  topBar: {
-    position: "absolute",
-    top: 40,
-    right: 16,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-
+  container: { flex: 1, backgroundColor: "#F4F6F8" },
   headerTitle: {
-    position: "absolute",
-    top: 40,
-    left: 16,
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "600",
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#1F2937",
+    marginHorizontal: 16,
+    marginVertical: 12,
   },
-
-  card: {
+  scrollContent: { paddingBottom: 40 },
+  searchContainer: {
     flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#fff",
     marginHorizontal: 16,
-    marginTop: -100,
-    borderRadius: 12,
-    padding: 12,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 3,
-  },
-
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 12,
-  },
-
-  clubName: {
-    fontWeight: "600",
-    fontSize: 16,
-  },
-
-  memberText: {
-    color: "#777",
-    fontSize: 13,
-  },
-
-  tabs: {
-    borderRadius: 20,
-    width: width,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "#fff",
-    marginTop: 10,
+    borderRadius: 24,
+    paddingHorizontal: 16,
     paddingVertical: 12,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
   },
-
-  tabItem: {
-    color: "#888",
-    fontSize: 14,
+  searchIcon: { marginRight: 8 },
+  searchInput: { flex: 1, fontSize: 15, color: "#1F2937" },
+  sectionContainer: { marginBottom: 24 },
+  sectionHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    marginBottom: 12,
   },
-
-  tabActive: {
-    color: "#007AFF",
+  sectionTitle: {
+    fontSize: 18,
     fontWeight: "600",
+    color: "#1F2937",
+    paddingHorizontal: 16,
+    marginBottom: 12,
   },
-
-  section: {
+  seeAllText: { fontSize: 14, fontWeight: "600", color: "#0055A5" },
+  myClubCard: {
+    width: width * 0.85,
     backgroundColor: "#fff",
-    marginTop: 8,
+    borderRadius: 16,
+    marginLeft: 16,
+    marginRight: 8,
+    overflow: "hidden",
+    elevation: 3,
+    marginBottom: 10,
+  },
+  myClubBanner: {
+    backgroundColor: "#A3E635",
+    height: 100,
+    justifyContent: "center",
+    paddingHorizontal: 16,
+    position: "relative",
+  },
+  myClubBannerContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    zIndex: 2,
+  },
+  myClubTitle: { fontSize: 18, fontWeight: "bold", color: "#111827" },
+  myClubLogo: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 2,
+    borderColor: "#fff",
+  },
+  golfBallPattern: {
+    position: "absolute",
+    right: -20,
+    top: -20,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "rgba(255,255,255,0.3)",
+    zIndex: 1,
+  },
+  myClubStats: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 16,
   },
-
-  sectionTitle: {
-    fontWeight: "600",
-    marginBottom: 10,
-    fontSize: 15,
-  },
-
-  content: {
-    color: "#555",
-    lineHeight: 20,
-  },
-
-  more: {
-    color: "#007AFF",
-    marginTop: 6,
-  },
-
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-
-  gridItem: {
-    width: width / 2 - 30,
-    height: 200,
-    margin: 4,
-    borderRadius: 10,
-  },
-
-  tabItemWrap: {
-    alignContent: "center",
+  statBox: {
     flex: 1,
+    backgroundColor: "#F0F9FF",
+    borderRadius: 12,
+    padding: 12,
+    marginHorizontal: 4,
+    borderWidth: 1,
+    borderColor: "#BAE6FD",
+    overflow: "hidden",
+  },
+  statNumber: { fontSize: 18, fontWeight: "bold", color: "#0284C7" },
+  statLabel: { fontSize: 13, color: "#0284C7", marginTop: 4 },
+  statIconBg: { position: "absolute", right: -5, bottom: -5 },
+  detailButton: {
+    borderTopWidth: 1,
+    borderTopColor: "#F3F4F6",
+    paddingVertical: 14,
     alignItems: "center",
-    paddingVertical: 5,
   },
-
-  underline: {
+  detailButtonText: { color: "#0055A5", fontWeight: "600", fontSize: 14 },
+  outingCard: {
+    width: width * 0.7,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    marginLeft: 16,
+    marginRight: 8,
+    overflow: "hidden",
+    elevation: 3,
+    marginBottom: 10,
+  },
+  outingImageContainer: { height: 140, position: "relative" },
+  outingImage: { width: "100%", height: "100%" },
+  clubBadge: {
     position: "absolute",
-    bottom: 0,
-    width: "25%",
-    height: 2,
-    backgroundColor: "#007AFF",
+    top: 12,
+    left: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#0055A5",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 20,
   },
+  clubBadgeText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "bold",
+    marginRight: 6,
+  },
+  clubBadgeIcon: { width: 16, height: 16, borderRadius: 8 },
+  statusBadge: {
+    position: "absolute",
+    bottom: 12,
+    left: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  statusBadgeText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "600",
+    marginLeft: 4,
+  },
+  outingInfo: { padding: 16 },
+  outingTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#1F2937",
+    marginBottom: 10,
+  },
+  infoRow: { flexDirection: "row", alignItems: "center", marginBottom: 6 },
+  infoText: { fontSize: 13, color: "#6B7280", marginLeft: 6, flex: 1 },
 });
