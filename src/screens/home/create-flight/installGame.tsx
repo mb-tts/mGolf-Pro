@@ -21,8 +21,16 @@ import SelectionCard from "../../../components/common/SelectionCard";
 import { SavedGameModal, SavedGame } from "./components/SavedGameModal";
 import { MOCK_SAVED_GAMES } from "./mock-data";
 
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppStackParamList } from "../../../../App";
+
+
+type NavigationProp = NativeStackNavigationProp<
+  AppStackParamList,
+  'InstallGame'
+>;
 export default function InstallGame() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
 
   // Modal "Game đã lưu"
@@ -229,7 +237,7 @@ export default function InstallGame() {
 
           <TouchableOpacity
             style={[styles.continueBtn]}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("PrepareGame")}
           >
             <Text style={[styles.continueText]}>Tiếp tục</Text>
           </TouchableOpacity>

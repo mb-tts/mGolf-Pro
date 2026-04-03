@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-interface Player {
+export interface Player {
   id: string;
   name: string;
   avatar: string;
@@ -72,7 +72,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
   );
 };
 
-interface PlayerListProps {
+export interface PlayerListProps {
   players: Player[];
   onPlayerPress?: (player: Player) => void;
 }

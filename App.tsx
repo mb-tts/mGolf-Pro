@@ -9,6 +9,7 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import PrepareGameScreen from "./src/screens/home/create-flight/PrepareGame";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
 import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
 import HoleListScreen from "./src/screens/tournament/detail/HoleListScreen";
@@ -95,6 +96,7 @@ export type AppStackParamList = {
   ImagesAndVideosScreen: undefined;
   ClubMain: undefined;
   InstallGame: undefined;
+  PrepareGame: undefined;
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -220,6 +222,12 @@ const AppNavigator = () => (
     <AppStack.Screen
       name="GameSettings"
       component={GameSettingScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="PrepareGame"
+      component={PrepareGameScreen}
       options={{ animation: "slide_from_right" }}
     />
 

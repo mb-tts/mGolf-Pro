@@ -26,10 +26,16 @@ import { CoursePickerModal } from "./components/CoursePickerModal";
 import { PlayerPickerModal } from "./components/PlayerPickerModal";
 import { ScorerPickerModal } from "./components/ScorerPickerModal";
 import { TeeTimePickerModal } from "./components/TeeTimePickerModal";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppStackParamList } from '../../../../App';
+
+type Props = {
+  navigation: NativeStackNavigationProp<AppStackParamList, 'CreateFlight'>;
+};
 
 
 // ─── Component chính ─────────────────────────────────────────────────────────
-export const CreateFlightScreen = ({ navigation }: any) => {
+export const CreateFlightScreen = ({ navigation }: Props) => {
   const insets = useSafeAreaInsets();
 
   // ── Form State ──
