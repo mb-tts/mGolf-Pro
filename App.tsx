@@ -224,11 +224,11 @@ const AppNavigator = () => (
 
     <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
     <AppStack.Screen name="HoleListScreen" component={HoleListScreen} />
-    
+
     {/* ─── ĐÃ ĐĂNG KÝ MÀN HÌNH HOLEDETAILSCREEN Ở ĐÂY ─── */}
-    <AppStack.Screen 
-      name="HoleDetailScreen" 
-      component={HoleDetailScreen} 
+    <AppStack.Screen
+      name="HoleDetailScreen"
+      component={HoleDetailScreen}
       options={{ animation: "slide_from_right" }}
     />
 
