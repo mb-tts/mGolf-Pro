@@ -29,7 +29,7 @@ export const PersonalNotificationScreen = () => {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={styles.card}>
-          {/* Thông báo kết quả trận đấu */}
+
           <View style={[styles.row, styles.borderBottom]}>
             <Text style={styles.rowLabel}>Thông báo kết quả trận đấu</Text>
             <CustomSwitch 
@@ -38,7 +38,6 @@ export const PersonalNotificationScreen = () => {
             />
           </View>
 
-          {/* Thông báo tham gia trận đấu */}
           <View style={styles.row}>
             <Text style={styles.rowLabel}>Thông báo tham gia trận đấu</Text>
             <CustomSwitch 

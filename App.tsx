@@ -250,6 +250,12 @@ const AppNavigator = () => (
     />
 
     <AppStack.Screen
+      name="OutingDetailScreen"
+      component={OutingDetailScreen}
+    />
+
+
+    <AppStack.Screen
       name="OutingNotificationScreen"
       component={OutingNotificationScreen}
       options={{ animation: "slide_from_right" }}

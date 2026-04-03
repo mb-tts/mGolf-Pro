@@ -21,7 +21,6 @@ export const OutingNotificationScreen = () => {
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#F4F6F9" />
       
-      {/* HEADER */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={20} color="#333" />
@@ -32,7 +31,7 @@ export const OutingNotificationScreen = () => {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={styles.card}>
-          {/* Thông báo kết quả trận đấu */}
+
           <View style={[styles.row, styles.borderBottom]}>
             <Text style={styles.rowLabel}>Thông báo kết quả trận đấu</Text>
             <CustomSwitch 
@@ -41,7 +40,6 @@ export const OutingNotificationScreen = () => {
             />
           </View>
 
-          {/* Thông báo thứ hạng */}
           <View style={[styles.row, styles.borderBottom]}>
             <Text style={styles.rowLabel}>Thông báo thứ hạng</Text>
             <CustomSwitch 
@@ -50,7 +48,6 @@ export const OutingNotificationScreen = () => {
             />
           </View>
 
-          {/* Thông báo thành viên đạt birdie */}
           <View style={styles.row}>
             <Text style={styles.rowLabel}>Thông báo thành viên đạt birdie</Text>
             <CustomSwitch 
