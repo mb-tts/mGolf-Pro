@@ -28,7 +28,6 @@ export const PasswordChangeScreen = () => {
 
   const handleContinue = () => {
     if (oldPassword.trim().length > 0) {
-      // Navigate to set password form
       navigation.navigate('SetPasswordForm');
     }
   };

@@ -263,10 +263,9 @@ const AppNavigator = () => (
     />
     <AppStack.Screen
       name="Security"
-      component={SecurityScreen} 
+      component={SecurityScreen}
       options={{ animation: "slide_from_right" }}
     />
-
     <AppStack.Screen
       name="OutingNotificationScreen"
       component={OutingNotificationScreen}
