@@ -41,7 +41,6 @@ import { PasswordChangeScreen } from "./src/screens/account/security/passwordcha
 import { SetPasswordFormScreen } from "./src/screens/account/security/set-password-form";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
-// Đường dẫn từ root (App.tsx nằm cùng cấp với assets/)
 import HomeIcon from "./assets/icons/tabbar/Home.svg";
 import HomeActiveIcon from "./assets/icons/tabbar/Home2.svg";
 
@@ -57,6 +56,9 @@ import GolfCourseActiveIcon from "./assets/icons/tabbar/golf-course2.svg";
 import ProfileIcon from "./assets/icons/tabbar/profile-circle.svg";
 import ProfileActiveIcon from "./assets/icons/tabbar/profile-circle2.svg";
 import ImagesAndVideosScreen from "./src/screens/club/imagesAndvideos";
+// ─── ĐÃ IMPORT MÀN HÌNH HOLEDETAILSCREEN ──────────────────────────────────────
+import HoleDetailScreen from './src/screens/tournament/detail/HoleDetailScreen';
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type AuthStackParamList = {
   Splash: undefined;
@@ -86,9 +88,9 @@ export type AppStackParamList = {
   OutingNotificationScreen: undefined;
   PersonalNotificationScreen: undefined;
   Security: undefined;
-  // Thêm các screen con khác
   OutingDetailScreen: { outingData: any };
   HoleListScreen: { courseDetails: any };
+  HoleDetailScreen: any; // <-- ĐÃ ĐĂNG KÝ TYPE CHO MÀN HÌNH CHI TIẾT HỐ
   CreateFlight: undefined;
   PasswordChange: undefined;
   SetPasswordForm: undefined;
@@ -98,7 +100,6 @@ export type AppStackParamList = {
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
-// Đầy đủ 5 tab, đúng tên biến
 const TAB_ICONS: Record<
   string,
   { active: React.FC<SvgProps>; inactive: React.FC<SvgProps> }
@@ -116,7 +117,7 @@ const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const AuthNavigator = () => (
   <AuthStack.Navigator
     id="AuthStack"
-    screenOptions={{ headerShown: false, animation: "default" }} // Để hệ điều hành tự chọn hiệu ứng chuyển màn native (Samsung khác, iPhone khác)
+    screenOptions={{ headerShown: false, animation: "default" }}
   >
     <AuthStack.Screen name="Splash" component={SplashScreen} />
     <AuthStack.Screen name="Onboarding" component={OnboardingScreen} />
@@ -192,10 +193,8 @@ const AppStack = createNativeStackNavigator<AppStackParamList>();
 
 const AppNavigator = () => (
   <AppStack.Navigator id="AppStack" screenOptions={{ headerShown: false }}>
-    {/* Màn hình mặc định là cái Tab Navigator */}
     <AppStack.Screen name="MainTabs" component={MainNavigator} />
 
-    {/* Các màn hình con khi bấm vào từ Account sẽ được push đè lên trên Tab */}
     <AppStack.Screen
       name="AccountInformation"
       component={AccountInformationScreen}
@@ -225,11 +224,18 @@ const AppNavigator = () => (
 
     <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
     <AppStack.Screen name="HoleListScreen" component={HoleListScreen} />
+    
+    {/* ─── ĐÃ ĐĂNG KÝ MÀN HÌNH HOLEDETAILSCREEN Ở ĐÂY ─── */}
+    <AppStack.Screen 
+      name="HoleDetailScreen" 
+      component={HoleDetailScreen} 
+      options={{ animation: "slide_from_right" }}
+    />
 
     <AppStack.Screen
       name="ClubMain"
       component={ClubMainScreen}
-      options={{ headerShown: false }} // Ẩn header mặc định nếu muốn
+      options={{ headerShown: false }}
     />
 
     <AppStack.Screen
@@ -288,7 +294,7 @@ const AppNavigator = () => (
     <AppStack.Screen
       name="CreateFlight"
       component={CreateFlightScreen}
-      options={{ animation: "slide_from_bottom" }} // Hiệu ứng trồi lên từ dưới
+      options={{ animation: "slide_from_bottom" }}
     />
   </AppStack.Navigator>
 );
