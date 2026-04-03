@@ -70,7 +70,7 @@ export const MOCK_PLAYERS: Player[] = [
   },
   {
     id: "p2",
-    name: "Nguyễn Văn Trung",
+    name: "Nguyễn Văn A",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
     index: 21.8,
     hdc: 30,
@@ -79,7 +79,7 @@ export const MOCK_PLAYERS: Player[] = [
   },
   {
     id: "p3",
-    name: "Nguyễn Văn Trung",
+    name: "Nguyễn Văn B",
     avatar: "https://images.unsplash.com/photo-1501746074465-4cebaf45b800?w=100&h=100&fit=crop",
     index: 21.8,
     hdc: 30,

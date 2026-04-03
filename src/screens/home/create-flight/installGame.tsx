@@ -21,8 +21,16 @@ import SelectionCard from "../../../components/common/SelectionCard";
 import { SavedGameModal, SavedGame } from "./components/SavedGameModal";
 import { MOCK_SAVED_GAMES } from "./mock-data";
 
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppStackParamList } from "../../../../App";
+
+
+type NavigationProp = NativeStackNavigationProp<
+  AppStackParamList,
+  'InstallGame'
+>;
 export default function InstallGame() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
 
   // Modal "Game đã lưu"
@@ -90,9 +98,19 @@ export default function InstallGame() {
     setQuyGaSettings(settings.quyGaSettings);
   };
 
+  const handleContinue = () => {
+    if (selectedSection === "teamxoay") {
+      navigation.navigate("Teamxoay");
+    } else if (selectedSection === "teamcodefined") {
+      navigation.navigate("TeamCoDinh");
+    } else {
+      console.log("Tính năng đang được phát triển");
+    }
+  };
+
   const settingSections = [
-    { id: "everything", label: "Everything", memberCount: 4 },
-    { id: "teamxoay", label: "Team xoay", memberCount: 4 },
+    { id: "everything", label: "Everything", memberCount: 0 },
+    { id: "teamxoay", label: "Team xoay", memberCount: 0 },
     { id: "teamcodefined", label: "Team cố định", memberCount: 0 },
     { id: "hopdong", label: "Hợp đồng", memberCount: 0 },
     { id: "quyga", label: "Quỹ gà", memberCount: 0 },
@@ -229,7 +247,7 @@ export default function InstallGame() {
 
           <TouchableOpacity
             style={[styles.continueBtn]}
-            onPress={() => navigation.goBack()}
+            onPress={handleContinue}
           >
             <Text style={[styles.continueText]}>Tiếp tục</Text>
           </TouchableOpacity>

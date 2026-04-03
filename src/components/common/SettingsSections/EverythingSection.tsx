@@ -5,7 +5,7 @@ import { styles } from './styles';
 import { EverythingSectionProps, FilterOption } from './types';
 import { PlayerList } from '../PlayerCard';
 import { MOCK_PLAYERS } from '../../../constants/mock-data';
-
+import { MOCK_ALL_PLAYERS } from '../../../screens/home/create-flight/mock-data';
 export const EverythingSection: React.FC<EverythingSectionProps> = ({
   selectedFilter,
   onFilterChange,
@@ -42,7 +42,7 @@ export const EverythingSection: React.FC<EverythingSectionProps> = ({
 
       <View style={styles.playerListWrapper}>
         <PlayerList
-          players={MOCK_PLAYERS}
+          players={MOCK_ALL_PLAYERS}
           onPlayerPress={(player) => console.log(player.name)}
         />
       </View>

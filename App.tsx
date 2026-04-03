@@ -9,6 +9,8 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import TeamCoDinhScreen from "./src/screens/home/create-flight/teamcodinh";
+import PrepareGameScreen from "./src/screens/home/create-flight/teamcodinh";
 import { AuthProvider, useAuth } from "./src/providers/auth.provider";
 import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
 import HoleListScreen from "./src/screens/tournament/detail/HoleListScreen";
@@ -99,6 +101,8 @@ export type AppStackParamList = {
   ImagesAndVideosScreen: undefined;
   ClubMain: undefined;
   InstallGame: undefined;
+  TeamCoDinh: undefined;
+  Teamxoay: undefined;
 };
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
@@ -213,6 +217,12 @@ const AppNavigator = () => (
     />
 
     <AppStack.Screen
+      name="TeamCoDinh"
+      component={TeamCoDinhScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
       name="Achievements"
       component={AchievementsScreen}
       options={{ animation: "slide_from_right" }}
@@ -221,6 +231,12 @@ const AppNavigator = () => (
     <AppStack.Screen
       name="GameSettings"
       component={GameSettingScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="Teamxoay"
+      component={TeamXoayScreen}
       options={{ animation: "slide_from_right" }}
     />
 
@@ -322,6 +338,7 @@ const RootNavigator = () => {
 import { useFonts } from "expo-font";
 import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
 import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
+import TeamXoayScreen from "./src/screens/home/create-flight/teamxoay";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {

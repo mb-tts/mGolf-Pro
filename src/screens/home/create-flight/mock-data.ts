@@ -123,7 +123,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     avatar: "https://i.pravatar.cc/150?img=3",
     index: 21.8,
     hdc: 30,
-    vga: "99999",
+    vga: 99999,
     isOwner: true,
   },
   {
@@ -132,7 +132,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     avatar: "https://i.pravatar.cc/150?img=5",
     index: 21.8,
     hdc: 30,
-    vga: "99999",
+    vga: 99999,
     isOwner: false,
   },
   {
@@ -141,7 +141,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     avatar: "https://i.pravatar.cc/150?img=7",
     index: 21.8,
     hdc: 30,
-    vga: "99999",
+    vga: 99999,
     isOwner: false,
   },
   {
@@ -150,7 +150,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     avatar: "https://i.pravatar.cc/150?img=11",
     index: 18.5,
     hdc: 24,
-    vga: "88888",
+    vga: 88888,
     isOwner: false,
   },
   {
@@ -159,7 +159,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     avatar: "https://i.pravatar.cc/150?img=12",
     index: 15.2,
     hdc: 20,
-    vga: "77777",
+    vga: 77777,
     isOwner: false,
   },
 ];
