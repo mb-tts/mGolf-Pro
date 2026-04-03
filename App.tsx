@@ -222,20 +222,11 @@ const AppNavigator = () => (
       component={GameSettingScreen}
       options={{ animation: "slide_from_right" }}
     />
-
-    <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
-    <AppStack.Screen name="HoleListScreen" component={HoleListScreen} />
-
+    
     <AppStack.Screen
       name="ClubMain"
       component={ClubMainScreen}
-      options={{ headerShown: false }} // Ẩn header mặc định nếu muốn
-    />
-
-    <AppStack.Screen
-      name="InstallGame"
-      component={InstallGameScreen}
-      options={{ animation: "slide_from_right" }}
+      options={{ headerShown: false }} 
     />
 
     <AppStack.Screen
@@ -260,6 +251,12 @@ const AppNavigator = () => (
       component={SecurityScreen} 
       options={{ animation: "slide_from_right" }}
     />
+
+    <AppStack.Screen
+      name="OutingDetailScreen"
+      component={OutingDetailScreen}
+    />
+
 
     <AppStack.Screen
       name="OutingNotificationScreen"

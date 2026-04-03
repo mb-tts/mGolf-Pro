@@ -16,38 +16,48 @@ import { useAuth } from "../../providers/auth.provider";
 import { Colors } from "../../constants/colors";
 import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 import BackgroundProfile from "../../../assets/icons/profile/backgroundProfile.svg";
+import InformationIcon from "../../../assets/icons/information.svg";
+import AchievementsIcon from "../../../assets/icons/achievements.svg";
+import GameSettingsIcon from "../../../assets/icons/game_settings.svg";
+import UISettingsIcon from "../../../assets/icons/ui_settings.svg";
+import PaymentsIcon from "../../../assets/icons/payments.svg";
+import EquipmentsIcon from "../../../assets/icons/equipments.svg";
+import NotificationIcon from "../../../assets/icons/notification.svg";
+import PrivacyIcon from "../../../assets/icons/privacy.svg";
+import ContactUsIcon from "../../../assets/icons/contactus.svg";
+import AboutUsIcon from "../../../assets/icons/aboutus.svg";
 
 const MENU_GROUP_1 = [
   {
     label: "Thông tin tài khoản",
-    icon: "person-outline",
+    icon: InformationIcon,
     id: "AccountInformation",
   },
-  { label: "Thành tích", icon: "podium-outline", id: "Achievements" },
+  { label: "Thành tích", icon: AchievementsIcon, id: "Achievements" },
   {
     label: "Cài đặt game",
-    icon: "game-controller-outline",
+    icon: GameSettingsIcon,
     id: "GameSettings",
   },
-  { label: "Cài đặt giao diện", icon: "contrast-outline", id: "UISettings" },
-  { label: "Cài đặt thanh toán", icon: "cash-outline", id: "PaymentSettings" },
-  { label: "Trang bị", icon: "golf-outline", id: "Equipment" },
+  { label: "Cài đặt giao diện", icon: UISettingsIcon, id: "UISettings" },
+  { label: "Cài đặt thanh toán", icon: PaymentsIcon, id: "PaymentSettings" },
+  { label: "Trang bị", icon: EquipmentsIcon, id: "Equipment" },
   {
     label: "Cài đặt thông báo",
-    icon: "notifications-outline",
+    icon: NotificationIcon,
     id: "NotificationSettings",
   },
   {
     label: "Bảo mật và Quyền riêng tư",
-    icon: "shield-checkmark-outline",
+    icon: PrivacyIcon,
     id: "Security",
   },
 ];
 
 const MENU_GROUP_2 = [
-  { label: "Liên hệ với chúng tôi", icon: "call-outline", id: "Contact" },
-  { label: "Về chúng tôi", icon: "document-text-outline", id: "About" },
-  { label: "Luật chơi", icon: "book-outline", id: "Rules" },
+  { label: "Liên hệ với chúng tôi", icon: ContactUsIcon, id: "Contact" },
+  { label: "Về chúng tôi", icon: AboutUsIcon, id: "About" },
+  { label: "Luật chơi", icon: NotificationIcon, id: "Rules" },
 ];
 
 interface MenuItemProps {
@@ -55,19 +65,22 @@ interface MenuItemProps {
   onPress: (screenName: string) => void;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ item, onPress }) => (
-  <TouchableOpacity
-    style={styles.menuItem}
-    activeOpacity={0.7}
-    onPress={() => onPress(item.id)}
-  >
-    <View style={styles.menuIconBox}>
-      <Ionicons name={item.icon} size={20} color="#4A4A4A" />
-    </View>
-    <Text style={styles.menuLabel}>{item.label}</Text>
-    <Ionicons name="chevron-forward" size={20} color="#C4C4C4" />
-  </TouchableOpacity>
-);
+const MenuItem: React.FC<MenuItemProps> = ({ item, onPress }) => {
+  const IconComponent = item.icon;
+  return (
+    <TouchableOpacity
+      style={styles.menuItem}
+      activeOpacity={0.7}
+      onPress={() => onPress(item.id)}
+    >
+      <View style={styles.menuIconBox}>
+        <IconComponent width={20} height={20} />
+      </View>
+      <Text style={styles.menuLabel}>{item.label}</Text>
+      <Ionicons name="chevron-forward" size={20} color="#C4C4C4" />
+    </TouchableOpacity>
+  );
+};
 
 export const AccountScreen = () => {
   const { user, logout } = useAuth();

@@ -9,45 +9,33 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { AppStackParamList } from '../../../../App';
-
-type NotificationNavigationProp = NativeStackNavigationProp<AppStackParamList>;
 
 export default function NotificationSettingsScreen() {
-  const navigation = useNavigation<NotificationNavigationProp>();
+  const navigation = useNavigation<any>();
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
-
-  const handleOutingPress = () => {
-    navigation.navigate('OutingNotificationScreen');
-  };
-
-  const handlePersonalPress = () => {
-    navigation.navigate('PersonalNotificationScreen');
-  };
-
-  // --- RENDER CHÍNH ---
   return (
     <SafeAreaView edges={["top"]} style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#F4F6F8" />
 
-      {/* HEADER */}
+      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
           <Ionicons name="chevron-back" size={20} color="#555" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Thông báo</Text>
         <View style={{ width: 40 }} />
       </View>
 
-      {/* MAIN CONTENT */}
+      {/* Main Card */}
       <View style={styles.card}>
         <TouchableOpacity
           style={styles.row}
-          onPress={handleOutingPress}
+          onPress={() => {
+            navigation.navigate("OutingNotificationScreen");
+          }}
         >
           <Text style={styles.rowText}>Thông báo outing</Text>
           <Ionicons name="chevron-forward" size={20} color="#C4C4C4" />
@@ -57,7 +45,9 @@ export default function NotificationSettingsScreen() {
 
         <TouchableOpacity
           style={styles.row}
-          onPress={handlePersonalPress}
+          onPress={() => {
+            navigation.navigate("PersonalNotificationScreen");
+          }}
         >
           <Text style={styles.rowText}>Thông báo cá nhân</Text>
           <Ionicons name="chevron-forward" size={20} color="#C4C4C4" />
@@ -70,7 +60,7 @@ export default function NotificationSettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F4F6F8",
+    backgroundColor: "#F4F6F8", // Nền xám nhạt giống thiết kế
   },
 
   // Header Styles
@@ -86,7 +76,7 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: "#E5E7EB", // Viền nhạt
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF",
@@ -103,7 +93,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 20,
     borderRadius: 16,
-    overflow: "hidden",
+    overflow: "hidden", // Quan trọng: Để bo góc thẻ cắt đi phần thừa của dòng
   },
   row: {
     flexDirection: "row",
@@ -119,6 +109,6 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: "#F3F4F6",
-    marginLeft: 16,
+    marginLeft: 16, // Kẻ viền thụt vào trong một chút giống iOS
   },
 });
