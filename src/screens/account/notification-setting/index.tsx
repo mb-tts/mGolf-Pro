@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function NotificationSettingsScreen() {
+export const NotificationSettingsScreen = () => {
   const navigation = useNavigation<any>();
 
   return (
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     borderColor: "#E5E7EB", // Viền nhạt
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFF",
   },
   headerTitle: {
     fontSize: 17,

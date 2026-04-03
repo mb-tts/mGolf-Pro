@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     borderColor: "#E5E7EB", 
     alignItems: "center", 
     justifyContent: "center",
-    backgroundColor: '#FFF'
   },
   headerTitle: { 
     fontSize: 18, 

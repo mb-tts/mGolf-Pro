@@ -36,11 +36,16 @@ import { AchievementsScreen } from "./src/screens/account/achievements";
 import { GameSettingScreen } from "./src/screens/account/game-setting";
 import { UISettingsScreen } from "./src/screens/account/ui-setting";
 import { EquipmentSettingsScreen } from "./src/screens/account/equipment-setting";
-import NotificationSettingsScreen from "./src/screens/account/notification-setting";
+import { NotificationSettingsScreen } from "./src/screens/account/notification-setting";
 import { PaymentSettingsScreen } from "./src/screens/account/payments";
 import { SecurityScreen } from "./src/screens/account/security";
 import { PasswordChangeScreen } from "./src/screens/account/security/passwordchange";
-import { SetPasswordFormScreen } from "./src/screens/account/security/set-password-form";
+import { SetPasswordFormScreen } from "./src/screens/account/security/set-password-form"; 
+import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
+import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
+import { ContactScreen } from "./src/screens/account/contact";
+import { AboutUsScreen } from "./src/screens/account/aboutus";
+import { RuleScreen } from "./src/screens/account/rules";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 import HomeIcon from "./assets/icons/tabbar/Home.svg";
@@ -91,6 +96,10 @@ export type AppStackParamList = {
   OutingNotificationScreen: undefined;
   PersonalNotificationScreen: undefined;
   Security: undefined;
+  Contact: undefined;
+  About: undefined;
+  Rules: undefined;
+  // Thêm các screen con khác
   OutingDetailScreen: { outingData: any };
   HoleListScreen: { courseDetails: any };
   HoleDetailScreen: any; // <-- ĐÃ ĐĂNG KÝ TYPE CHO MÀN HÌNH CHI TIẾT HỐ
@@ -283,11 +292,31 @@ const AppNavigator = () => (
       component={EquipmentSettingsScreen}
       options={{ animation: "slide_from_right" }}
     />
+
     <AppStack.Screen
       name="Security"
       component={SecurityScreen}
       options={{ animation: "slide_from_right" }}
     />
+
+    <AppStack.Screen
+      name="Contact"
+      component={ContactScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="About"
+      component={AboutUsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="Rules"
+      component={RuleScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
     <AppStack.Screen
       name="OutingNotificationScreen"
       component={OutingNotificationScreen}
@@ -336,9 +365,6 @@ const RootNavigator = () => {
 };
 
 import { useFonts } from "expo-font";
-import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
-import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
-import TeamXoayScreen from "./src/screens/home/create-flight/teamxoay";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
