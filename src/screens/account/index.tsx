@@ -74,7 +74,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, onPress }) => {
       onPress={() => onPress(item.id)}
     >
       <View style={styles.menuIconBox}>
-        <IconComponent width={20} height={20} />
+        <IconComponent width={24} height={24} />
       </View>
       <Text style={styles.menuLabel}>{item.label}</Text>
       <Ionicons name="chevron-forward" size={20} color="#C4C4C4" />
@@ -87,7 +87,8 @@ export const AccountScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const handleMenuPress = (screenName: string) => {
-    const appStackScreens = ["AccountInformation", "Achievements", "GameSettings", "UISettings", "PaymentSettings", "Equipment", "NotificationSettings", "Security"];
+    const appStackScreens = ["AccountInformation", "Achievements", "GameSettings", 
+      "UISettings", "PaymentSettings", "Equipment", "NotificationSettings", "Security"];
     
     if (appStackScreens.includes(screenName)) {
       navigation.getParent()?.navigate(screenName);
@@ -305,7 +306,6 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "#F8F9FA",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,
