@@ -46,7 +46,8 @@ import { PersonalNotificationScreen } from "./src/screens/account/notification-s
 import { ContactScreen } from "./src/screens/account/contact";
 import { AboutUsScreen } from "./src/screens/account/aboutus";
 import { RuleScreen } from "./src/screens/account/rules";
-
+import TeamXoayScreen from "./src/screens/home/create-flight/teamxoay";
+import HoleVideoScreen from "./src/screens/tournament/detail/HoleVideoScreen";
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 import HomeIcon from "./assets/icons/tabbar/Home.svg";
 import HomeActiveIcon from "./assets/icons/tabbar/Home2.svg";
@@ -104,6 +105,7 @@ export type AppStackParamList = {
   HoleListScreen: { courseDetails: any };
   HoleDetailScreen: any; // <-- ĐÃ ĐĂNG KÝ TYPE CHO MÀN HÌNH CHI TIẾT HỐ
   HoleMapScreen: any;
+  HoleVideoScreen: any;
   CreateFlight: undefined;
   PasswordChange: undefined;
   SetPasswordForm: undefined;
@@ -346,6 +348,7 @@ const AppNavigator = () => (
       component={CreateFlightScreen}
       options={{ animation: "slide_from_bottom" }}
     />
+    <AppStack.Screen name="HoleVideoScreen" component={HoleVideoScreen} options={{ headerShown: false }} />
   </AppStack.Navigator>
 );
 

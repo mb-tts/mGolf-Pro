@@ -122,7 +122,8 @@ const HoleDetailScreen = ({ route, navigation }: any) => {
             <Text style={styles.primaryBtnText}>Xem bản đồ hố</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.primaryBtn} activeOpacity={0.8}>
+          <TouchableOpacity style={styles.primaryBtn} activeOpacity={0.8}
+          onPress={() => navigation.navigate("HoleVideoScreen", { currentHole })}>
             <Ionicons name="videocam-outline" size={16} color="#FFFFFF" />
             <Text style={styles.primaryBtnText}>Xem video hố</Text>
           </TouchableOpacity>
