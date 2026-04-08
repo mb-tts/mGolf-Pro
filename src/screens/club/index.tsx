@@ -14,6 +14,27 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScreenWrapper } from "../../components/common/ScreenWrapper";
 const { width } = Dimensions.get("window");
+import MyClubCardScreen from "./myclubcard";
+import { useNavigation } from "@react-navigation/native";
+import ClubMainScreen from "./mainscreen";
+// ─── DỮ LIỆU MẪU CHO CLUBS ─────────────────────────────────────────────────────
+const dummyClubs = [
+  {
+    id: 1,
+    name: "MBF Club",
+    members: 256,
+    outings: 16,
+    logo: require("../../../assets/images/image2.png"),
+  },
+  {
+    id: 2,
+    name: "Green Golfers",
+    members: 180,
+    outings: 10,
+    logo: require("../../../assets/images/image3.png"),
+  },
+];
+
 // ─── COMPONENT CON ─────────────────────────────────────────────────────────────
 const SearchBar = () => (
   <View style={styles.searchContainer}>
@@ -31,53 +52,11 @@ const SearchBar = () => (
   </View>
 );
 
-const MyClubCard = ({ onPressDetail }: { onPressDetail: () => void }) => (
-  <View style={styles.myClubCard}>
-    <View style={styles.myClubBanner}>
-      <View style={styles.myClubBannerContent}>
-        <Text style={styles.myClubTitle}>MBF Club</Text>
-        <Image
-          source={require("../../../assets/images/image2.png")} // Chỉnh lại đường dẫn ảnh logo nếu cần
-          style={styles.myClubLogo}
-        />
-      </View>
-      <View style={styles.golfBallPattern} />
-    </View>
-
-    <View style={styles.myClubStats}>
-      <View style={styles.statBox}>
-        <Text style={styles.statNumber}>256</Text>
-        <Text style={styles.statLabel}>Thành viên</Text>
-        <Ionicons
-          name="people"
-          size={40}
-          color="rgba(59, 130, 246, 0.1)"
-          style={styles.statIconBg}
-        />
-      </View>
-      <View style={styles.statBox}>
-        <Text style={styles.statNumber}>16</Text>
-        <Text style={styles.statLabel}>Outing</Text>
-        <Ionicons
-          name="golf"
-          size={40}
-          color="rgba(59, 130, 246, 0.1)"
-          style={styles.statIconBg}
-        />
-      </View>
-    </View>
-
-    <TouchableOpacity style={styles.detailButton} onPress={onPressDetail}>
-      <Text style={styles.detailButtonText}>Xem chi tiết Câu lạc bộ</Text>
-    </TouchableOpacity>
-  </View>
-);
-
 const OutingCard = ({ item }: { item: any }) => (
   <TouchableOpacity style={styles.outingCard} activeOpacity={0.9}>
     <View style={styles.outingImageContainer}>
       <Image
-        source={require("../../../assets/images/image.png")} // Chỉnh lại đường dẫn ảnh sân golf nếu cần
+        source={require("../../../assets/images/image.png")}
         style={styles.outingImage}
       />
       <View style={styles.clubBadge}>
@@ -124,9 +103,9 @@ const OutingCard = ({ item }: { item: any }) => (
 );
 
 // ─── MÀN HÌNH CHÍNH ────────────────────────────────────────────────────────────
-export default function ClubIndexScreen({ navigation }: any) {
+export default function ClubIndexScreen() {
   const insets = useSafeAreaInsets();
-
+  const navigation = useNavigation<any>();
   const dummyEvents = [
     {
       id: "1",
@@ -147,8 +126,14 @@ export default function ClubIndexScreen({ navigation }: any) {
     },
   ];
 
+  // Hàm xử lý khi bấm vào chi tiết CLB
+  const handlePressDetail = (clubName: string) => {
+    console.log("Xem chi tiết CLB:", clubName);
+    navigation.navigate("ClubMainScreen", { clubName }); // Truyền thêm clubName nếu cần
+  };
+
   return (
-    <ScreenWrapper >
+    <ScreenWrapper>
       <Text style={styles.headerTitle}>Câu lạc bộ</Text>
 
       <ScrollView
@@ -157,15 +142,22 @@ export default function ClubIndexScreen({ navigation }: any) {
       >
         <SearchBar />
 
+        {/* ─── PHẦN CÂU LẠC BỘ CỦA TÔI ─── */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Câu lạc bộ của tôi</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {/* Đảm bảo "ClubMain" khớp với tên route khai báo trong Navigation của bạn */}
-            <MyClubCard onPressDetail={() => navigation.navigate("ClubMain")} />
-            <MyClubCard onPressDetail={() => navigation.navigate("ClubMain")} />
+            {/* Sử dụng map để duyệt qua mảng dummyClubs */}
+            {dummyClubs.map((clubItem) => (
+              <MyClubCardScreen
+                key={clubItem.id}
+                club={clubItem}
+                onPressDetail={() => handlePressDetail(clubItem.name)}
+              />
+            ))}
           </ScrollView>
         </View>
 
+        {/* ─── PHẦN SỰ KIỆN OUTING ─── */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Sự kiện outing</Text>
@@ -225,72 +217,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   seeAllText: { fontSize: 14, fontWeight: "600", color: "#0055A5" },
-  myClubCard: {
-    width: width * 0.85,
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    marginLeft: 16,
-    marginRight: 8,
-    overflow: "hidden",
-    elevation: 3,
-    marginBottom: 10,
-  },
-  myClubBanner: {
-    backgroundColor: "#A3E635",
-    height: 100,
-    justifyContent: "center",
-    paddingHorizontal: 16,
-    position: "relative",
-  },
-  myClubBannerContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    zIndex: 2,
-  },
-  myClubTitle: { fontSize: 18, fontWeight: "bold", color: "#111827" },
-  myClubLogo: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 2,
-    borderColor: "#fff",
-  },
-  golfBallPattern: {
-    position: "absolute",
-    right: -20,
-    top: -20,
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "rgba(255,255,255,0.3)",
-    zIndex: 1,
-  },
-  myClubStats: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 16,
-  },
-  statBox: {
-    flex: 1,
-    backgroundColor: "#F0F9FF",
-    borderRadius: 12,
-    padding: 12,
-    marginHorizontal: 4,
-    borderWidth: 1,
-    borderColor: "#BAE6FD",
-    overflow: "hidden",
-  },
-  statNumber: { fontSize: 18, fontWeight: "bold", color: "#0284C7" },
-  statLabel: { fontSize: 13, color: "#0284C7", marginTop: 4 },
-  statIconBg: { position: "absolute", right: -5, bottom: -5 },
-  detailButton: {
-    borderTopWidth: 1,
-    borderTopColor: "#F3F4F6",
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  detailButtonText: { color: "#0055A5", fontWeight: "600", fontSize: 14 },
   outingCard: {
     width: width * 0.7,
     backgroundColor: "#fff",

@@ -110,7 +110,7 @@ export type AppStackParamList = {
   PasswordChange: undefined;
   SetPasswordForm: undefined;
   ImagesAndVideosScreen: undefined;
-  ClubMain: undefined;
+  ClubMainScreen: undefined;
   InstallGame: undefined;
   TeamCoDinh: undefined;
   Teamxoay: undefined;
@@ -266,7 +266,7 @@ const AppNavigator = () => (
       options={{ animation: "slide_from_right" }}
     />
     <AppStack.Screen
-      name="ClubMain"
+      name="ClubMainScreen"
       component={ClubMainScreen}
       options={{ headerShown: false }}
     />

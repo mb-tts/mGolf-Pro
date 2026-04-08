@@ -50,7 +50,8 @@ export default function IntroduceScreen() {
           {images.map((img, i) => (
             <TouchableOpacity
               key={i}
-              onPress={() => navigation.navigate("ImagesAndVideosScreen")}
+              // TRUYỀN THÊM { selectedIndex: i } VÀO ĐÂY:
+              onPress={() => navigation.navigate("ImagesAndVideosScreen", { selectedIndex: i })}
             >
               <Image source={img} style={styles.gridItem} />
             </TouchableOpacity>

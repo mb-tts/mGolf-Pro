@@ -21,6 +21,7 @@ import { PlayerRow } from "./ranking";
 import { ScrollView } from "react-native-gesture-handler";
 import { Keyboard } from "react-native"; // Thêm import Keyboard
 import { useEffect } from "react"; // Thêm import useEffect
+import { useRoute } from "@react-navigation/native";
 interface RankingScreenProps {
   mainScrollRef?: RefObject<any>;
 }
@@ -36,7 +37,8 @@ export default function ClubMainScreen({ mainScrollRef }: RankingScreenProps) {
   const [activeTab, setActiveTab] = useState(0);
   const insets = useSafeAreaInsets();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
+  const route = useRoute<any>();
+  const { clubName = "MBF Club" } = route.params || {};
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -90,7 +92,7 @@ export default function ClubMainScreen({ mainScrollRef }: RankingScreenProps) {
             style={styles.avatar}
           />
           <View style={{ flex: 1 }}>
-            <Text style={styles.clubName}>MBF Club</Text>
+            <Text style={styles.clubName}>{clubName}</Text>
             <Text style={styles.memberText}>256 thành viên • 16 outing</Text>
           </View>
         </View>
