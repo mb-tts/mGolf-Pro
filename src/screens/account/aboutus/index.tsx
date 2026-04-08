@@ -73,7 +73,7 @@ export const AboutUsScreen = () => {
 const styles = StyleSheet.create({
   safeArea: { 
     flex: 1, 
-    backgroundColor: "#F4F6F9" // Màu nền xám nhạt đồng bộ
+    backgroundColor: "#F4F6F9" 
   },
   header: { 
     flexDirection: "row", 

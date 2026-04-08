@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
-import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 import Pdf from 'react-native-pdf';
 
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
   pdfViewer: {
     flex: 1,
     width: screenWidth - 30, 
-    alignSelf: 'center', // Căn giữa trang giấy
+    alignSelf: 'center', 
     marginTop: 8, 
     backgroundColor: '#F4F6F9', 
     borderRadius: 8,
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D1D1D6', 
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 4, // Bo góc nhẹ
+    borderRadius: 4, 
   },
   pageText: {
     fontSize: 12,
