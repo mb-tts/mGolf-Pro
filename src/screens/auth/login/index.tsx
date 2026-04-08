@@ -151,9 +151,9 @@ export const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  forgotRow: { alignItems: "flex-end", marginBottom: 5 }, // Theo mẫu khoảng cách ở đây rộng hơn
+  forgotRow: { alignItems: "flex-end", marginBottom: 5 }, 
   forgotText: { color: Colors.link, fontSize: 16, fontWeight: "500" },
-  loginBtn: { height: 52, borderRadius: 16, marginTop: 10 }, // Nút đăng nhập to và bo góc nhiều
+  loginBtn: { height: 52, borderRadius: 16, marginTop: 10 }, 
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
