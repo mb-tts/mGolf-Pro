@@ -9,13 +9,12 @@ import {
   Modal,
   SafeAreaView,
   StatusBar,
+  FlatList, // 👈 thêm
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { id } from "zod/v4/locales";
 
 const { width, height } = Dimensions.get("window");
 
-// Mock text data for course description (Vietnamese)
 const shortDescription =
   "Sân golf Vân Trì Golf Club là sân golf tư nhân đầu tiên và duy nhất tại Việt Nam đạt tiêu chuẩn quốc tế, nằm tại Đông Anh... ";
 const fullDescription =
@@ -33,16 +32,26 @@ const images = [
 export default function ImagesAndVideosScreen({ navigation, route }: any) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isMoreOptionsVisible, setIsMoreOptionsVisible] = useState(false);
-  const selectedIndex = route.params?.selectedIndex || 0; // Lấy index được truyền từ IntroduceScreen
-  const [currentIndex, setCurrentIndex] = useState(selectedIndex); // Khởi tạo currentIndex với selectedIndex
+  const selectedIndex = route.params?.selectedIndex || 0;
+  const [currentIndex, setCurrentIndex] = useState(selectedIndex);
+
+
+  const onViewableItemsChanged = ({ viewableItems }: any) => {
+    if (viewableItems.length > 0) {
+      setCurrentIndex(viewableItems[0].index);
+    }
+  };
+
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 50,
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1A1A1A" />
 
-      {/* 1. THANH TIÊU ĐỀ (HEADER) */}
+      {/* HEADER */}
       <View style={styles.header}>
-        {/* Nút Back */}
         <TouchableOpacity
           style={styles.headerIcon}
           onPress={() => navigation.goBack()}
@@ -50,12 +59,10 @@ export default function ImagesAndVideosScreen({ navigation, route }: any) {
           <Ionicons name="chevron-back" size={28} color="#A0A0A0" />
         </TouchableOpacity>
 
-        {/* Số trang (Ở giữa) */}
         <Text style={styles.headerTitle}>
           {currentIndex + 1}/{images.length}
         </Text>
 
-        {/* Nút 3 chấm (Bên phải) */}
         <TouchableOpacity
           style={styles.headerIcon}
           onPress={() => setIsMoreOptionsVisible(true)}
@@ -64,17 +71,34 @@ export default function ImagesAndVideosScreen({ navigation, route }: any) {
         </TouchableOpacity>
       </View>
 
-      {/* 2. ẢNH CHÍNH (Square image) */}
       <View style={styles.imageViewer}>
-        <Image
-          // Thay phần gắn cứng bằng source lấy từ mảng images theo currentIndex
-          source={images[currentIndex].source}
-          style={styles.mainImage}
-          resizeMode="cover"
+        <FlatList
+          data={images}
+          horizontal
+          pagingEnabled
+          decelerationRate="fast"
+          snapToInterval={width}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <Image
+              source={item.source}
+              style={{ width: width, height: width  }}
+              resizeMode="cover"
+            />
+          )}
+          onViewableItemsChanged={onViewableItemsChanged}
+          viewabilityConfig={viewabilityConfig}
+          initialScrollIndex={selectedIndex}
+          getItemLayout={(_, index) => ({
+            length: width,
+            offset: width * index,
+            index,
+          })}
         />
       </View>
 
-      {/* 3. PHẦN GIỚI THIỆU VÀ 'XEM THÊM' */}
+      {/* DESCRIPTION */}
       <View style={styles.descriptionSection}>
         <Text style={styles.courseTitle}>
           Hình ảnh và giới thiệu sân Golf Vân Trì
@@ -86,6 +110,7 @@ export default function ImagesAndVideosScreen({ navigation, route }: any) {
         >
           {isDescriptionExpanded ? fullDescription : shortDescription}
         </Text>
+
         <TouchableOpacity
           onPress={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
         >
@@ -95,10 +120,7 @@ export default function ImagesAndVideosScreen({ navigation, route }: any) {
         </TouchableOpacity>
       </View>
 
-      {/* Mock home indicator */}
-      <View style={styles.homeIndicator} />
-
-      {/* 5. MODAL LỰA CHỌN KHÁC (ACTION SHEET) */}
+      {/* MODAL */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -110,21 +132,18 @@ export default function ImagesAndVideosScreen({ navigation, route }: any) {
             Hình ảnh và giới thiệu sân Golf Vân Trì
           </Text>
 
-          {/* Lựa chọn 'Lưu' (Blue text) */}
           <TouchableOpacity style={styles.optionRow}>
             <Text style={[styles.optionText, { color: "#007AFF" }]}>
               Lưu phương tiện
             </Text>
           </TouchableOpacity>
 
-          {/* Lựa chọn 'Xóa' (Red text) */}
           <TouchableOpacity style={styles.optionRow}>
             <Text style={[styles.optionText, { color: "#FF3B30" }]}>
               Xoá phương tiện
             </Text>
           </TouchableOpacity>
 
-          {/* Nút 'Đóng' (Blue text, bottom box) */}
           <TouchableOpacity
             style={styles.optionRowClose}
             onPress={() => setIsMoreOptionsVisible(false)}
@@ -140,6 +159,8 @@ export default function ImagesAndVideosScreen({ navigation, route }: any) {
           </TouchableOpacity>
         </View>
       </Modal>
+
+      <View style={styles.homeIndicator} />
     </SafeAreaView>
   );
 }
@@ -147,10 +168,9 @@ export default function ImagesAndVideosScreen({ navigation, route }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1A1A1A", // Nền tối
+    backgroundColor: "#1A1A1A",
   },
 
-  // Header Styles
   header: {
     position: "absolute",
     top: StatusBar.currentHeight || 20,
@@ -161,7 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 16,
-    zIndex: 100, // Đảm bảo header luôn nằm trên
+    zIndex: 100, 
   },
   headerIcon: {
     width: 40,
@@ -169,7 +189,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.1)", // Vòng tròn mờ nhẹ
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
   headerTitle: {
     fontSize: 18,
@@ -177,12 +197,11 @@ const styles = StyleSheet.create({
     color: "#A0A0A0",
   },
 
-  // Image Viewer Styles
   imageViewer: {
     padding: 16,
     marginTop: height * 0.12,
     width: width,
-    height: width, // Square image
+    height: width * 1.5,
     overflow: "hidden",
   },
   mainImage: {
@@ -190,10 +209,9 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 
-  // Description Styles
   descriptionSection: {
     position: "absolute",
-    bottom: 40,
+    bottom: 100,
     left: 0,
     right: 0,
     paddingHorizontal: 16,
@@ -216,20 +234,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  // Dimming Overlay Style
+
   dimmingOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.6)", // Nền mờ requested
-    zIndex: 200, // Nằm trên content, dưới modals
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    zIndex: 200, 
   },
 
-  // Full Description Modal Styles
+
   modalContent: {
     position: "absolute",
     bottom: height * 0.05,
     left: width * 0.05,
     right: width * 0.05,
-    backgroundColor: "rgba(255, 255, 255, 0.15)", // Semi-translucent dark view
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
     borderRadius: 16,
     padding: 20,
     zIndex: 300,
