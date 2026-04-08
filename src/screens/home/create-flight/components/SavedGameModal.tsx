@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
   footerBtn: {
     paddingHorizontal: 20,
     paddingTop: 12,
+    paddingBottom: 50, // SafeArea cho iPhone X+
   },
   confirmBtn: {
     height: 56,

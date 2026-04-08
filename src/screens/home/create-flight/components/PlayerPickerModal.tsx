@@ -52,7 +52,7 @@ export const PlayerPickerModal: React.FC<PlayerPickerModalProps> = ({
     .filter((p) => !ownerIds.includes(p.id))
     .filter((p) =>
       search
-        ? p.name.toLowerCase().includes(search.toLowerCase()) || p.vga.includes(search)
+        ? p.name.toLowerCase().includes(search.toLowerCase()) || p.vga.toString().includes(search)
         : true
     );
 
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
   fieldDisabledText: { fontSize: 15, color: "#999" },
 
   // Footer
-  footerBtn: { paddingHorizontal: 20, paddingTop: 12 },
+  footerBtn: { paddingHorizontal: 20, paddingTop: 12 , paddingBottom: 50, },
   confirmBtn: {
     height: 56, borderRadius: 16, backgroundColor: Colors.primary,
     justifyContent: "center", alignItems: "center",
