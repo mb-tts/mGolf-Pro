@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../constants/colors";
+import { Colors } from "@/constants/colors";
 
 const { height } = Dimensions.get("window");
 

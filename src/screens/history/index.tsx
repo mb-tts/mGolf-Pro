@@ -9,17 +9,17 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../constants/colors";
-import { MOCK_HISTORY_MATCHES } from "../../constants/mock-data";
+import { Colors } from "@/constants/colors";
+import { MOCK_HISTORY_MATCHES } from "@/constants/mock-data";
 import HistoryCard from "./historycard";
 import FilterBottomSheet from "./filter";
-import { ScreenWrapper } from "../../components/common/ScreenWrapper";
+import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 
 export const HistoryScreen = () => {
   const [searchText, setSearchText] = useState("");
   const [isFilterVisible, setIsFilterVisible] = useState(false);
 
-  // Search logic
+  // Search logic — filtered data có thể thay đổi → dùng FlatList
   const filteredMatches = useMemo(() => {
     if (!searchText.trim()) return MOCK_HISTORY_MATCHES;
     const lower = searchText.toLowerCase();
@@ -66,6 +66,7 @@ export const HistoryScreen = () => {
             </TouchableOpacity>
           </View>
 
+          {/* FlatList ✓ — dữ liệu động (search filtering), có thể nhiều items */}
           <FlatList
             data={filteredMatches}
             keyExtractor={(item) => item.id}
@@ -96,11 +97,11 @@ export const HistoryScreen = () => {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: Colors.white, // Trả lại màu trắng cho SafeArea (tai thỏ)
+    backgroundColor: Colors.white,
   },
   container: {
     flex: 1,
-    backgroundColor: "#DFE5EB", // Chuyển background xuống vùng nội dung
+    backgroundColor: "#DFE5EB",
   },
   searchRow: {
     flexDirection: "row",
@@ -124,12 +125,12 @@ const styles = StyleSheet.create({
     height: "100%",
     marginLeft: 8,
     fontSize: 14,
-    color: Colors.text || "#1A1A1A",
+    color: Colors.text,
   },
   filterButton: {
     width: 44,
     height: 44,
-    backgroundColor: Colors.white || "#FFF",
+    backgroundColor: Colors.white,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -145,12 +146,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: Colors.white, // Header màu trắng theo yêu cầu
+    backgroundColor: Colors.white,
     paddingHorizontal: 20,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: "700",
-    color: Colors.text || "#1A1A1A",
+    color: Colors.text,
   },
 });

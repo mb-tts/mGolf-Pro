@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
+import type { SettingsSectionProps } from '@/types/golf.types';
 
-
-export const TeamCoDefinedSection: React.FC<any> = ({
+export const TeamCoDefinedSection: React.FC<SettingsSectionProps> = ({
   settings = {},
   onSettingsChange,
 }) => {

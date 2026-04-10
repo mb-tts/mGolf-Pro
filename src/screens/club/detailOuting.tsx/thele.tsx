@@ -7,8 +7,9 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
+import type { OutingRule } from "@/types/golf.types";
 
-export default function Thele({ rules }: any) {
+export default function Thele({ rules }: { rules: OutingRule[] }) {
   return (
     <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       {rules.map((rule) => (

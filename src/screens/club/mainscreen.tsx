@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { ScreenWrapper } from "../../components/common/ScreenWrapper"; // Đảm bảo đường dẫn đúng
+import { ScreenWrapper } from "@/components/common/ScreenWrapper"; // Đảm bảo đường dẫn đúng
 import { MY_DATA } from "./ranking";
 import IntroduceScreen from "./introduce";
 import OutingScreen from "./outing";
@@ -22,8 +22,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Keyboard } from "react-native"; // Thêm import Keyboard
 import { useEffect } from "react"; // Thêm import useEffect
 import { useRoute } from "@react-navigation/native";
+import type { RouteProp } from "@react-navigation/native";
+import type { AppStackParamList } from "@/types/navigation.types";
+
 interface RankingScreenProps {
-  mainScrollRef?: RefObject<any>;
+  mainScrollRef?: RefObject<ScrollView>;
 }
 const { width } = Dimensions.get("window");
 
@@ -37,7 +40,7 @@ export default function ClubMainScreen({ mainScrollRef }: RankingScreenProps) {
   const [activeTab, setActiveTab] = useState(0);
   const insets = useSafeAreaInsets();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const route = useRoute<any>();
+  const route = useRoute<RouteProp<AppStackParamList, 'ClubMainScreen'>>();
   const { clubName = "MBF Club" } = route.params || {};
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(

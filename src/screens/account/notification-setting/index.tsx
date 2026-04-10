@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useAppNavigation } from "@/hooks/useNavigation";
 
 export const NotificationSettingsScreen = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useAppNavigation();
 
   return (
     <SafeAreaView edges={["top"]} style={styles.container}>

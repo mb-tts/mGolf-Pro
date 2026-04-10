@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { PlayerList } from '../PlayerCard';
 import { MOCK_PLAYERS } from '../../../constants/mock-data';
+import type { SettingsSectionProps } from '@/types/golf.types';
 
-export const QuyGaSection: React.FC<any> = ({ settings = {}, onSettingsChange }) => {
+export const QuyGaSection: React.FC<SettingsSectionProps> = ({ settings = {}, onSettingsChange }) => {
   const [isChecked, setIsChecked] = useState(true);
 
   const conditions = [

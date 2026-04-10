@@ -32,7 +32,12 @@ const MOCK_PLAYERS: Player[] = [
   { id: "p4", name: "N. Duy", avatar: "https://images.unsplash.com/photo-1493247527751-218270055e9d?w=100&h=100&fit=crop", index: 21.8, hdc: 30, vga: 99999, isVerified: true }
 ];
 
-export default function TeamCoDinhScreen({ navigation }: any) {
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { AppStackParamList } from "@/types/navigation.types";
+
+type Props = NativeStackScreenProps<AppStackParamList, "TeamCoDinh">;
+
+export default function TeamCoDinhScreen({ navigation }: Props) {
   const insets = useSafeAreaInsets();
 
   const [selectedPlayers, setSelectedPlayers] = useState<Record<string, Player | null>>({

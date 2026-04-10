@@ -1,13 +1,13 @@
 import React, { memo } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Colors } from "../../constants/colors"; 
-import { Match } from "../../constants/mock-data";
-import { ScoreTable } from "../../components/home/ScoreTable";
+import { Colors } from "@/constants/colors"; 
+import { Match } from "@/constants/mock-data";
+import { ScoreTable } from "@/components/home/ScoreTable";
 
 // SVG Icons
-import LocationIcon from "../../../assets/icons/home/Location.svg";
-import ClubIcon from "../../../assets/icons/home/3User.svg";
-import CalendarIcon from "../../../assets/icons/home/calender2.svg";
+import LocationIcon from "@assets/icons/home/Location.svg";
+import ClubIcon from "@assets/icons/home/3User.svg";
+import CalendarIcon from "@assets/icons/home/calender2.svg";
 
 interface HistoryCardProps {
   match: Match;

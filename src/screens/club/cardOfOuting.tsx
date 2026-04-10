@@ -8,15 +8,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useAppNavigation } from "@/hooks/useNavigation";
 
 // Import file data của bạn
 import { OUTING_DATA } from "../tournament/detail/outingData";
 
-export default function CardOfOuting() {
-  const navigation = useNavigation<any>();
+import type { OutingData } from "@/types/golf.types";
 
-  const handlePressCard = (item: any) => {
+export default function CardOfOuting() {
+  const navigation = useAppNavigation();
+
+  const handlePressCard = (item: OutingData) => {
     // Gọi đích danh OutingDetailScreen
     navigation.navigate("OutingDetailScreen", { outingData: item });
   };

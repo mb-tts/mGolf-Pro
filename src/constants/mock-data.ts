@@ -97,7 +97,7 @@ export const MOCK_PLAYERS: Player[] = [
   }
 ];
 
-import { User } from "../types/auth.types";
+import { User } from "@/types/auth.types";
 
 export const MOCK_USERS: Record<string, User> = {
   a: {

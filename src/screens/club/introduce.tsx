@@ -25,7 +25,7 @@ const images = [
 ];
 
 export default function IntroduceScreen() {
-  const navigation = useNavigation<any>();
+  const navigation = useAppNavigation();
   const [expanded, setExpanded] = useState(false);
   return (
     <View>

@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Player } from "../../../components/common/PlayerCard"; // Đảm bảo đường dẫn này đúng với project của bạn
+import { Player } from "@/components/common/PlayerCard"; // Đảm bảo đường dẫn này đúng với project của bạn
 
 export interface PlayerPickerModalProps {
   visible: boolean;

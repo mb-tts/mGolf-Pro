@@ -8,16 +8,17 @@ import {
   ActivityIndicator
 } from "react-native";
 import { Video, ResizeMode } from "expo-av";
+import type { AVPlaybackStatus } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useAppNavigation } from "@/hooks/useNavigation";
 
 const { width, height } = Dimensions.get("window");
 
 export default function HoleVideoScreen() {
-  const navigation = useNavigation();
+  const navigation = useAppNavigation();
   const videoRef = useRef<Video>(null);
 
-  const [status, setStatus] = useState<any>({});
+  const [status, setStatus] = useState<AVPlaybackStatus | null>(null);
   const [loading, setLoading] = useState(true);
 
   const videoSource = require("../../../../assets/images/videogolf.mp4");
@@ -59,7 +60,7 @@ export default function HoleVideoScreen() {
       </TouchableOpacity>
 
       {/* CUSTOM PLAY BUTTON (Ẩn đi khi đang dùng Native Controls cho đỡ vướng) */}
-      {!loading && !status.isPlaying && (
+      {!loading && status && 'isLoaded' in status && status.isLoaded && !status.isPlaying && (
         <TouchableOpacity
           style={styles.playBtn}
           onPress={() => videoRef.current?.playAsync()}
