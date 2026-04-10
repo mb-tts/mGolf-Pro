@@ -9,7 +9,8 @@ import {
   Modal,
   SafeAreaView,
   StatusBar,
-  FlatList, // 👈 thêm
+  FlatList,
+  ViewToken,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -41,7 +42,7 @@ export default function ImagesAndVideosScreen({ navigation, route }: Props) {
   const [currentIndex, setCurrentIndex] = useState(selectedIndex);
 
 
-  const onViewableItemsChanged = ({ viewableItems }: any) => {
+  const onViewableItemsChanged = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
     if (viewableItems.length > 0) {
       setCurrentIndex(viewableItems[0].index);
     }
