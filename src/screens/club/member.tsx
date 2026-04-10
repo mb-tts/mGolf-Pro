@@ -21,9 +21,19 @@ const generateData = () => {
   }));
 };
 
+export interface Member {
+  id: string;
+  rank: number;
+  name: string;
+  hdc: number;
+  vga: string;
+  image: string;
+  role: string | null;
+}
+
 const LEADERBOARD_DATA = generateData();
 
-const MemberRow = ({ item }) => {
+const MemberRow = ({ item }: { item: Member }) => {
   const formattedRank = item.rank.toString().padStart(2, "0");
 
   return (
