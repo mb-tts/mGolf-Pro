@@ -17,7 +17,7 @@ interface AuthLayoutProps {
   children: ReactNode;
 }
 
-export const AuthLayout: React.FC<AuthLayoutProps> = ({
+export const AuthLayout: FC<AuthLayoutProps> = ({
   title,
   subtitle,
   children,

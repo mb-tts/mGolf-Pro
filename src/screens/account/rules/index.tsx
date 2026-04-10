@@ -63,10 +63,10 @@ export const RuleScreen = () => {
             maxScale={3}
             fitPolicy={2}   
             horizontal={false}
-            onLoadComplete={(numberOfPages, filePath) => {
+            onLoadComplete={(numberOfPages, _filePath) => {
               setTotalPages(numberOfPages);
             }}
-            onPageChanged={(page, numberOfPages) => {
+            onPageChanged={(page, _numberOfPages) => {
               setCurrentPage(page);
             }}
             onError={(error) => {

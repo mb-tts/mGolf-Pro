@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { FC } from 'react';
 import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
 import type { SettingsSectionProps } from '@/types/golf.types';
 
-export const TeamCoDefinedSection: React.FC<SettingsSectionProps> = ({
+export const TeamCoDefinedSection: FC<SettingsSectionProps> = ({
   settings = {},
   onSettingsChange,
 }) => {
 
   // So sánh chỉ còn 2 option theo như ảnh
-  const comparisonOptions = [
+  const comparisonOptions: { label: string; value: 'best' | 'all' | 'weakest' }[] = [
     { label: 'Golfer tốt nhất', value: 'best' },
     { label: 'Tất cả', value: 'all' },
   ];

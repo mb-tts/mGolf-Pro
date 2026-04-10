@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { FC } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { PlayerList } from '../PlayerCard';
 import { MOCK_PLAYERS } from '../../../constants/mock-data';
 import type { SettingsSectionProps } from '@/types/golf.types';
 
-export const QuyGaSection: React.FC<SettingsSectionProps> = ({ settings = {}, onSettingsChange }) => {
+export const QuyGaSection: FC<SettingsSectionProps> = ({ settings = {}, onSettingsChange }) => {
 
-  const conditions = [
+  const conditions: { label: string; value: 'birdie' | 'eagle' | 'par' }[] = [
     { label: 'Birdie', value: 'birdie' },
     { label: 'Eagle', value: 'eagle' },
     { label: 'Par', value: 'par' },

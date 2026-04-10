@@ -53,7 +53,7 @@ const ACHIEVEMENTS = [
 
 export const AchievementsScreen = () => {
   const navigation = useNavigation();
-  const [selectedSeason, setSelectedSeason] = useState("all");
+
 
   const handleBack = () => {
     navigation.goBack();

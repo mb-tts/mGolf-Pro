@@ -6,7 +6,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
+
 } from "react-native";
 import type { Flight } from "@/types/golf.types";
 

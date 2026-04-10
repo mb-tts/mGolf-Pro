@@ -5,8 +5,8 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
+
+
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import type { CourseDetails, HoleData } from "@/types/golf.types";

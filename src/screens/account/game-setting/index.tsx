@@ -1,9 +1,10 @@
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { Colors } from "@/constants/colors";
+import { GameSettings } from "@/types/golf.types";
 import {
   EverythingSection,
   TeamXoaySection,
@@ -21,38 +22,22 @@ export const GameSettingScreen = () => {
   const [everythingFilter, setEverythingFilter] = useState('nothing');
 
   // Team Xoay section state
-  const [teamXoaySettings, setTeamXoaySettings] = useState<{
-    holeCount: number;
-    comparison: 'best' | 'all' | 'weakest';
-    byMonth: boolean;
-    playBest: boolean;
-    restrictions: boolean;
-  }>({
+  const [teamXoaySettings, setTeamXoaySettings] = useState<GameSettings>({
     holeCount: 3, comparison: 'best', byMonth: false, playBest: true, restrictions: false,
   });
 
   // Team Cố Định section state
-  const [teamCoDefinedSettings, setTeamCoDefinedSettings] = useState<{
-    holeCount: number;
-    comparison: 'best' | 'all' | 'weakest';
-  }>({
+  const [teamCoDefinedSettings, setTeamCoDefinedSettings] = useState<GameSettings>({
     holeCount: 3, comparison: 'best',
   });
 
   // Contract section state
-  const [contractSettings, setContractSettings] = useState<{
-    skinsOut: string;
-    skinsIn: string;
-    skinsTotal: string;
-  }>({
+  const [contractSettings, setContractSettings] = useState<GameSettings>({
     skinsOut: '', skinsIn: '', skinsTotal: '',
   });
 
   // Quy gà section state
-  const [quyGaSettings, setQuyGaSettings] = useState<{
-    skinsPerHole: string;
-    condition: 'birdie' | 'eagle' | 'par' | '';
-  }>({
+  const [quyGaSettings, setQuyGaSettings] = useState<GameSettings>({
     skinsPerHole: '', condition: '',
   });
 
