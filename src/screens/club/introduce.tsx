@@ -23,7 +23,7 @@ export default function IntroduceScreen() {
   const navigation = useAppNavigation();
   const [expanded, setExpanded] = useState(false);
   return (
-    <View>
+    <View style= {{paddingBottom: 50}}>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Thông tin chung</Text>
 
