@@ -1,5 +1,5 @@
 // File: src/screens/club/index.tsx
-import React from "react";
+
 import {
   View,
   Text,
@@ -11,12 +11,12 @@ import {
   Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScreenWrapper } from "../../components/common/ScreenWrapper";
+import { ScreenWrapper } from "@/components/common/ScreenWrapper";
+import { useAppNavigation } from "@/hooks/useNavigation";
+
 const { width } = Dimensions.get("window");
 import MyClubCardScreen from "./myclubcard";
-import { useNavigation } from "@react-navigation/native";
-import ClubMainScreen from "./mainscreen";
+
 // ─── DỮ LIỆU MẪU CHO CLUBS ─────────────────────────────────────────────────────
 const dummyClubs = [
   {
@@ -24,18 +24,29 @@ const dummyClubs = [
     name: "MBF Club",
     members: 256,
     outings: 16,
-    logo: require("../../../assets/images/image2.png"),
+    logo: require("@assets/images/image2.png"),
   },
   {
     id: 2,
     name: "Green Golfers",
     members: 180,
     outings: 10,
-    logo: require("../../../assets/images/image3.png"),
+    logo: require("@assets/images/image3.png"),
   },
 ];
 
 // ─── COMPONENT CON ─────────────────────────────────────────────────────────────
+
+interface OutingEvent {
+  id: string;
+  title: string;
+  location: string;
+  participants: number;
+  fly: number;
+  isHappening: boolean;
+  time?: string;
+}
+
 const SearchBar = () => (
   <View style={styles.searchContainer}>
     <Ionicons
@@ -52,17 +63,17 @@ const SearchBar = () => (
   </View>
 );
 
-const OutingCard = ({ item }: { item: any }) => (
+const OutingCard = ({ item }: { item: OutingEvent }) => (
   <TouchableOpacity style={styles.outingCard} activeOpacity={0.9}>
     <View style={styles.outingImageContainer}>
       <Image
-        source={require("../../../assets/images/image.png")}
+        source={require("@assets/images/image.png")}
         style={styles.outingImage}
       />
       <View style={styles.clubBadge}>
         <Text style={styles.clubBadgeText}>MBF CLB</Text>
         <Image
-          source={require("../../../assets/images/NewImage.png")}
+          source={require("@assets/images/NewImage.png")}
           style={styles.clubBadgeIcon}
         />
       </View>
@@ -104,9 +115,9 @@ const OutingCard = ({ item }: { item: any }) => (
 
 // ─── MÀN HÌNH CHÍNH ────────────────────────────────────────────────────────────
 export default function ClubIndexScreen() {
-  const insets = useSafeAreaInsets();
-  const navigation = useNavigation<any>();
-  const dummyEvents = [
+  const navigation = useAppNavigation();
+
+  const dummyEvents: OutingEvent[] = [
     {
       id: "1",
       title: "Dalat Place Golf",
@@ -126,27 +137,26 @@ export default function ClubIndexScreen() {
     },
   ];
 
-  // Hàm xử lý khi bấm vào chi tiết CLB
   const handlePressDetail = (clubName: string) => {
     console.log("Xem chi tiết CLB:", clubName);
-    navigation.navigate("ClubMainScreen", { clubName }); // Truyền thêm clubName nếu cần
+    navigation.navigate("ClubMainScreen");
   };
 
   return (
     <ScreenWrapper>
       <Text style={styles.headerTitle}>Câu lạc bộ</Text>
 
+      {/* ScrollView ✓ — nội dung ít, cố định (2 clubs + 2 events) */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
         <SearchBar />
 
-        {/* ─── PHẦN CÂU LẠC BỘ CỦA TÔI ─── */}
+        {/* ─── PHẦN CÂU LẠC BỘ CỦA TÔI — dữ liệu ít, cố định → ScrollView + .map() ─── */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Câu lạc bộ của tôi</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {/* Sử dụng map để duyệt qua mảng dummyClubs */}
             {dummyClubs.map((clubItem) => (
               <MyClubCardScreen
                 key={clubItem.id}
@@ -157,7 +167,7 @@ export default function ClubIndexScreen() {
           </ScrollView>
         </View>
 
-        {/* ─── PHẦN SỰ KIỆN OUTING ─── */}
+        {/* ─── PHẦN SỰ KIỆN OUTING — dữ liệu ít, cố định → ScrollView + .map() ─── */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Sự kiện outing</Text>
@@ -178,7 +188,6 @@ export default function ClubIndexScreen() {
 
 // ─── STYLES ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F4F6F8" },
   headerTitle: {
     fontSize: 22,
     fontWeight: "bold",

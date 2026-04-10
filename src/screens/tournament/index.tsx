@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -7,31 +7,19 @@ import {
   ImageBackground,
   TouchableOpacity,
   TextInput,
-  SafeAreaView,
   StatusBar,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useAppNavigation } from "@/hooks/useNavigation";
 import { OUTING_DATA } from "./detail/outingData";
-
-const FALLBACK_DATA = [
-  {
-    id: "demo-1",
-    title: "Sân Golf Vân Trì",
-    address: "Kim Nỗ, Đông Anh, Hà Nội",
-    image: require("../../../assets/images/image2.png"),
-    courseDetails: {
-      name: "Sân Golf Vân Trì",
-      location: "Kim Nỗ, Đông Anh, Hà Nội",
-    },
-  },
-];
+import type { OutingData } from "@/types/golf.types";
 
 export const TournamentScreen = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useAppNavigation();
   const [searchText, setSearchText] = useState("");
 
-  const data = OUTING_DATA?.length > 0 ? OUTING_DATA : FALLBACK_DATA;
+  const data: OutingData[] = OUTING_DATA as OutingData[];
 
   const filteredData = useMemo(() => {
     const query = searchText.toLowerCase().trim();
@@ -51,15 +39,13 @@ export const TournamentScreen = () => {
     );
   }, [data, searchText]);
 
-  const handlePressCourse = (item: any) => {
+  const handlePressCourse = (item: OutingData) => {
     navigation.navigate("OutingDetailScreen", {
       outingData: item,
-      source: "Tournament",
     });
   };
 
-  // ĐÃ SỬA LỖI: Thêm : { item: any } để hết báo lỗi TypeScript
-  const renderCourse = ({ item }: { item: any }) => (
+  const renderCourse = ({ item }: { item: OutingData }) => (
     <TouchableOpacity
       key={item.id}
       style={styles.card}
@@ -67,7 +53,9 @@ export const TournamentScreen = () => {
       onPress={() => handlePressCourse(item)}
     >
       <ImageBackground
-        source={typeof item.image === 'string' ? { uri: item.image } : item.image}
+        source={
+          typeof item.image === "string" ? { uri: item.image } : item.image
+        }
         style={styles.image}
         imageStyle={styles.imageRadius}
       >
@@ -88,7 +76,7 @@ export const TournamentScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
         <Text style={styles.title}>Sân đấu</Text>
@@ -104,6 +92,7 @@ export const TournamentScreen = () => {
           />
         </View>
 
+        {/* FlatList ✓ — dữ liệu động (search filtering + API data) */}
         <FlatList
           data={filteredData}
           renderItem={renderCourse}
@@ -122,14 +111,14 @@ export const TournamentScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  safeArea: { 
-    flex: 1, 
-    backgroundColor: "#fff" 
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#fff",
   },
-  container: { 
-    flex: 1, 
-    backgroundColor: "#fff", 
-    paddingHorizontal: 16 
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
   },
   title: {
     fontSize: 28,
@@ -149,51 +138,49 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginBottom: 20,
   },
-  input: { 
-    flex: 1, 
-    marginLeft: 8, 
-    fontSize: 15, 
-    color: "#1F2937" 
+  input: {
+    flex: 1,
+    marginLeft: 8,
+    fontSize: 15,
+    color: "#1F2937",
   },
-  scroll: { 
-    paddingBottom: 40 
+  scroll: {
+    paddingBottom: 40,
   },
   card: {
     borderRadius: 16,
     overflow: "hidden",
     marginBottom: 16,
-    // Shadow cho iOS
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 4 },
-    // Elevation cho Android
     elevation: 3,
   },
-  image: { 
-    width: "100%", 
-    height: 180, 
-    justifyContent: "flex-end" 
+  image: {
+    width: "100%",
+    height: 180,
+    justifyContent: "flex-end",
   },
-  imageRadius: { 
-    borderRadius: 16 
+  imageRadius: {
+    borderRadius: 16,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.3)", // Làm tối ảnh nhẹ để nổi chữ
+    backgroundColor: "rgba(0,0,0,0.3)",
   },
-  info: { 
-    padding: 16 
+  info: {
+    padding: 16,
   },
-  name: { 
-    color: "#fff", 
-    fontSize: 18, 
-    fontWeight: "700", 
-    marginBottom: 4 
+  name: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "700",
+    marginBottom: 4,
   },
-  location: { 
-    flexDirection: "row", 
-    alignItems: "center" 
+  location: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   locationText: {
     color: "rgba(255,255,255,0.9)",
@@ -206,8 +193,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 100,
   },
-  emptyText: { 
-    color: "#9CA3AF", 
-    fontSize: 15 
+  emptyText: {
+    color: "#9CA3AF",
+    fontSize: 15,
   },
 });

@@ -4,121 +4,86 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { SvgProps } from "react-native-svg";
+import type { SvgProps } from "react-native-svg";
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import TeamCoDinhScreen from "./src/screens/home/create-flight/teamcodinh";
-import PrepareGameScreen from "./src/screens/home/create-flight/teamcodinh";
-import { AuthProvider, useAuth } from "./src/providers/auth.provider";
-import OutingDetailScreen from "./src/screens/tournament/detail/outingDetail";
-import HoleListScreen from "./src/screens/tournament/detail/HoleListScreen";
-import ClubMainScreen from "./src/screens/club/mainscreen";
-import InstallGameScreen from "./src/screens/home/create-flight/installGame";
+import { useFonts } from "expo-font";
+
+// ─── Types (tập trung trong 1 file) ──────────────────────────────────────────
+import type {
+  AuthStackParamList,
+  MainTabParamList,
+  AppStackParamList,
+} from "@/types/navigation.types";
+// Re-export để các file cũ import từ App.tsx vẫn hoạt động
+export type { AuthStackParamList, MainTabParamList, AppStackParamList };
+
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
-import { SplashScreen } from "./src/screens/auth/splash";
-import { OnboardingScreen } from "./src/screens/auth/onboarding";
-import { LoginScreen } from "./src/screens/auth/login";
-import { RegisterScreen } from "./src/screens/auth/register";
-import { SetPasswordScreen } from "./src/screens/auth/set-password";
+import { SplashScreen } from "@/screens/auth/splash";
+import { OnboardingScreen } from "@/screens/auth/onboarding";
+import { LoginScreen } from "@/screens/auth/login";
+import { RegisterScreen } from "@/screens/auth/register";
+import { SetPasswordScreen } from "@/screens/auth/set-password";
 
 // ─── Main Screens ─────────────────────────────────────────────────────────────
-import { HomeScreen } from "./src/screens/home";
-import { HistoryScreen } from "./src/screens/history";
-import { AccountScreen } from "./src/screens/account";
-import { TournamentScreen } from "./src/screens/tournament";
-import { CreateFlightScreen } from "./src/screens/home/create-flight";
-import ClubIndexScreen from "./src/screens/club";
+import { HomeScreen } from "@/screens/home";
+import { HistoryScreen } from "@/screens/history";
+import { AccountScreen } from "@/screens/account";
+import { TournamentScreen } from "@/screens/tournament";
+import { CreateFlightScreen } from "@/screens/home/create-flight";
+import ClubIndexScreen from "@/screens/club";
+
 // ─── Account Sub-Screens ──────────────────────────────────────────────────────
-import { AccountInformationScreen } from "./src/screens/account/account-information";
-import { AchievementsScreen } from "./src/screens/account/achievements";
-import { GameSettingScreen } from "./src/screens/account/game-setting";
-import { UISettingsScreen } from "./src/screens/account/ui-setting";
-import { EquipmentSettingsScreen } from "./src/screens/account/equipment-setting";
-import { NotificationSettingsScreen } from "./src/screens/account/notification-setting";
-import { PaymentSettingsScreen } from "./src/screens/account/payments";
-import { SecurityScreen } from "./src/screens/account/security";
-import { PasswordChangeScreen } from "./src/screens/account/security/passwordchange";
-import { SetPasswordFormScreen } from "./src/screens/account/security/set-password-form"; 
-import { OutingNotificationScreen } from "./src/screens/account/notification-setting/outing";
-import { PersonalNotificationScreen } from "./src/screens/account/notification-setting/personal";
-import { ContactScreen } from "./src/screens/account/contact";
-import { AboutUsScreen } from "./src/screens/account/aboutus";
-import { RuleScreen } from "./src/screens/account/rules";
-import TeamXoayScreen from "./src/screens/home/create-flight/teamxoay";
-import HoleVideoScreen from "./src/screens/tournament/detail/HoleVideoScreen";
+import { AccountInformationScreen } from "@/screens/account/account-information";
+import { AchievementsScreen } from "@/screens/account/achievements";
+import { GameSettingScreen } from "@/screens/account/game-setting";
+import { UISettingsScreen } from "@/screens/account/ui-setting";
+import { EquipmentSettingsScreen } from "@/screens/account/equipment-setting";
+import { NotificationSettingsScreen } from "@/screens/account/notification-setting";
+import { PaymentSettingsScreen } from "@/screens/account/payments";
+import { SecurityScreen } from "@/screens/account/security";
+import { PasswordChangeScreen } from "@/screens/account/security/passwordchange";
+import { SetPasswordFormScreen } from "@/screens/account/security/set-password-form";
+import { OutingNotificationScreen } from "@/screens/account/notification-setting/outing";
+import { PersonalNotificationScreen } from "@/screens/account/notification-setting/personal";
+import { ContactScreen } from "@/screens/account/contact";
+import { AboutUsScreen } from "@/screens/account/aboutus";
+import { RuleScreen } from "@/screens/account/rules";
+
+// ─── Tournament / Club Sub-Screens ────────────────────────────────────────────
+import OutingDetailScreen from "@/screens/tournament/detail/outingDetail";
+import HoleListScreen from "@/screens/tournament/detail/HoleListScreen";
+import HoleDetailScreen from "@/screens/tournament/detail/HoleDetailScreen";
+import HoleMapScreen from "@/screens/tournament/detail/HoleMapScreen";
+import HoleVideoScreen from "@/screens/tournament/detail/HoleVideoScreen";
+import ClubMainScreen from "@/screens/club/mainscreen";
+import ImagesAndVideosScreen from "@/screens/club/imagesAndvideos";
+
+// ─── Create Flight Sub-Screens ────────────────────────────────────────────────
+import InstallGameScreen from "@/screens/home/create-flight/installGame";
+import TeamCoDinhScreen from "@/screens/home/create-flight/teamcodinh";
+import TeamXoayScreen from "@/screens/home/create-flight/teamxoay";
+
+// ─── Provider ─────────────────────────────────────────────────────────────────
+import { AuthProvider, useAuth } from "@/providers/auth.provider";
+
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
-import HomeIcon from "./assets/icons/tabbar/Home.svg";
-import HomeActiveIcon from "./assets/icons/tabbar/Home2.svg";
-
-import HistoryIcon from "./assets/icons/tabbar/history.svg";
-import HistoryActiveIcon from "./assets/icons/tabbar/history2.svg";
-
-import ClubIcon from "./assets/icons/tabbar/club.svg";
-import ClubActiveIcon from "./assets/icons/tabbar/club2.svg";
-
-import GolfCourseIcon from "./assets/icons/tabbar/golf-course.svg";
-import GolfCourseActiveIcon from "./assets/icons/tabbar/golf-course2.svg";
-
-import ProfileIcon from "./assets/icons/tabbar/profile-circle.svg";
-import ProfileActiveIcon from "./assets/icons/tabbar/profile-circle2.svg";
-import ImagesAndVideosScreen from "./src/screens/club/imagesAndvideos";
-// ─── ĐÃ IMPORT MÀN HÌNH HOLEDETAILSCREEN ──────────────────────────────────────
-import HoleDetailScreen from './src/screens/tournament/detail/HoleDetailScreen';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-import HoleMapScreen from './src/screens/tournament/detail/HoleMapScreen';
-export type AuthStackParamList = {
-  Splash: undefined;
-  Onboarding: undefined;
-  Login: undefined;
-  Register: undefined;
-  SetPassword: undefined;
-};
-
-export type MainTabParamList = {
-  Home: undefined;
-  History: undefined;
-  Club: undefined;
-  Tournament: undefined;
-  Account: undefined;
-};
-
-export type AppStackParamList = {
-  MainTabs: undefined;
-  AccountInformation: undefined;
-  Achievements: undefined;
-  GameSettings: undefined;
-  UISettings: undefined;
-  PaymentSettings: undefined;
-  Equipment: undefined;
-  NotificationSettings: undefined;
-  OutingNotificationScreen: undefined;
-  PersonalNotificationScreen: undefined;
-  Security: undefined;
-  Contact: undefined;
-  About: undefined;
-  Rules: undefined;
-  // Thêm các screen con khác
-  OutingDetailScreen: { outingData: any };
-  HoleListScreen: { courseDetails: any };
-  HoleDetailScreen: any; // <-- ĐÃ ĐĂNG KÝ TYPE CHO MÀN HÌNH CHI TIẾT HỐ
-  HoleMapScreen: any;
-  HoleVideoScreen: any;
-  CreateFlight: undefined;
-  PasswordChange: undefined;
-  SetPasswordForm: undefined;
-  ImagesAndVideosScreen: undefined;
-  ClubMainScreen: undefined;
-  InstallGame: undefined;
-  TeamCoDinh: undefined;
-  Teamxoay: undefined;
-};
+import HomeIcon from "@assets/icons/tabbar/Home.svg";
+import HomeActiveIcon from "@assets/icons/tabbar/Home2.svg";
+import HistoryIcon from "@assets/icons/tabbar/history.svg";
+import HistoryActiveIcon from "@assets/icons/tabbar/history2.svg";
+import ClubIcon from "@assets/icons/tabbar/club.svg";
+import ClubActiveIcon from "@assets/icons/tabbar/club2.svg";
+import GolfCourseIcon from "@assets/icons/tabbar/golf-course.svg";
+import GolfCourseActiveIcon from "@assets/icons/tabbar/golf-course2.svg";
+import ProfileIcon from "@assets/icons/tabbar/profile-circle.svg";
+import ProfileActiveIcon from "@assets/icons/tabbar/profile-circle2.svg";
 
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
 const TAB_ICONS: Record<
-  string,
+  keyof MainTabParamList,
   { active: React.FC<SvgProps>; inactive: React.FC<SvgProps> }
 > = {
   Home: { active: HomeActiveIcon, inactive: HomeIcon },
@@ -254,7 +219,6 @@ const AppNavigator = () => (
     <AppStack.Screen name="OutingDetailScreen" component={OutingDetailScreen} />
     <AppStack.Screen name="HoleListScreen" component={HoleListScreen} />
 
-    {/* ─── ĐÃ ĐĂNG KÝ MÀN HÌNH HOLEDETAILSCREEN Ở ĐÂY ─── */}
     <AppStack.Screen
       name="HoleDetailScreen"
       component={HoleDetailScreen}
@@ -348,7 +312,11 @@ const AppNavigator = () => (
       component={CreateFlightScreen}
       options={{ animation: "slide_from_bottom" }}
     />
-    <AppStack.Screen name="HoleVideoScreen" component={HoleVideoScreen} options={{ headerShown: false }} />
+    <AppStack.Screen
+      name="HoleVideoScreen"
+      component={HoleVideoScreen}
+      options={{ headerShown: false }}
+    />
   </AppStack.Navigator>
 );
 
@@ -366,8 +334,6 @@ const RootNavigator = () => {
     </NavigationContainer>
   );
 };
-
-import { useFonts } from "expo-font";
 
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {

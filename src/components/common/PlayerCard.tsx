@@ -14,7 +14,7 @@ export interface Player {
   avatar: string;
   index: number;
   hdc: number;
-  vga: number;
+  vga: string;
   isVerified?: boolean;
 }
 

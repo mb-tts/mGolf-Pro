@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import { FC } from 'react';
 import { View, TouchableOpacity, Text, TextInput } from 'react-native';
 import { styles } from './styles';
 import { TeamXoaySectionProps } from './types';
 import { PlayerList } from '../PlayerCard';
 import { MOCK_PLAYERS } from '../../../constants/mock-data';
 
-export const TeamXoaySection: React.FC<TeamXoaySectionProps> = ({
+export const TeamXoaySection: FC<TeamXoaySectionProps> = ({
   settings,
   onSettingsChange,
 }) => {
-  const [isTeamChecked, setIsTeamChecked] = useState(true);
 
   const holeOptions = [
     { label: '3 hố', value: 3 },

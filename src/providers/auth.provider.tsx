@@ -1,21 +1,21 @@
-import React, {
+import {
   createContext,
   useContext,
   useReducer,
   useCallback,
   useEffect,
-  ReactNode,
+  type ReactNode,
 } from "react";
-import {
+import type {
   AuthContextType,
   AuthState,
   LoginPayload,
   RegisterPayload,
   SetPasswordPayload,
-} from "../types/auth.types";
-import { AuthStorage } from "../store/auth.store";
-import { MOCK_USERS } from "../constants/mock-data"; 
-import { User } from "../types/auth.types";
+  User,
+} from "@/types/auth.types";
+import { AuthStorage } from "@/store/auth.store";
+import { MOCK_USERS } from "@/constants/mock-data";
 
 // ─── Reducer ──────────────────────────────────────────────────────────────────
 type Action =
@@ -70,28 +70,23 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Restore session khi app khởi động
+  // Restore session khi app khởi động — giờ là synchronous nhờ MMKV
   useEffect(() => {
-    const restoreSession = async () => {
-      try {
-        const [user, token] = await Promise.all([
-          AuthStorage.getUser(),
-          AuthStorage.getToken(),
-        ]);
-        console.log("--- Auth: Khôi phục session:", {
-          user: user?.vgaCode ?? null,
-          hasToken: !!token,
-        });
-        dispatch({ type: "RESTORE_SESSION", payload: { user, token } });
-      } catch (err) {
-        console.error("--- Auth: Lỗi khôi phục session:", err);
-        dispatch({
-          type: "RESTORE_SESSION",
-          payload: { user: null, token: null },
-        });
-      }
-    };
-    restoreSession();
+    try {
+      const user = AuthStorage.getUser();
+      const token = AuthStorage.getToken();
+      console.log("--- Auth: Khôi phục session:", {
+        user: user?.vgaCode ?? null,
+        hasToken: !!token,
+      });
+      dispatch({ type: "RESTORE_SESSION", payload: { user, token } });
+    } catch (err) {
+      console.error("--- Auth: Lỗi khôi phục session:", err);
+      dispatch({
+        type: "RESTORE_SESSION",
+        payload: { user: null, token: null },
+      });
+    }
   }, []);
 
   // Login
@@ -100,15 +95,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "SET_LOADING", payload: true });
     try {
       await new Promise((r) => setTimeout(r, 1000)); // TODO: replace with API
-      
+
       const user = MOCK_USERS[payload.vgaCode];
       if (!user || payload.password !== "123456") {
         throw new Error("Sai mã VGA hoặc mật khẩu");
       }
 
       console.log("--- Auth: Login thành công cho user:", user.vgaCode);
-      await AuthStorage.setUser(user);
-      await AuthStorage.setToken(user.token);
+      // MMKV synchronous — nhanh hơn, không cần await
+      AuthStorage.setUser(user);
+      AuthStorage.setToken(user.token);
       dispatch({
         type: "LOGIN_SUCCESS",
         payload: { user, token: user.token },
@@ -136,8 +132,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   // Logout
-  const logout = useCallback(async () => {
-    await AuthStorage.clear();
+  const logout = useCallback(() => {
+    AuthStorage.clear(); // Synchronous nhờ MMKV
     dispatch({ type: "LOGOUT" });
   }, []);
 

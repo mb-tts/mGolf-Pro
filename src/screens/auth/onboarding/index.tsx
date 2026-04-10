@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useAuthNavigation } from "@/hooks/useNavigation";
 import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
@@ -36,7 +36,7 @@ const SLIDES = [
 ];
 
 export const OnboardingScreen = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useAuthNavigation();
   const flatListRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 

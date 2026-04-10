@@ -1,16 +1,12 @@
-import React, { useRef, useState, useEffect } from "react"; // Thêm useState, useEffect
+import { useState, useEffect } from "react"; // Thêm useState, useEffect
 import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   Image,
-  TouchableOpacity,
-  SafeAreaView,
   Keyboard, // Thêm Keyboard vào đây
 } from "react-native";
 import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
-import { ScrollView } from "react-native-gesture-handler";
 
 // 1. TẠO DỮ LIỆU ẢO (DUMMY DATA)
 const generateData = () => {

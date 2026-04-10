@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -8,17 +8,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Sandau from "../../club/detailOuting.tsx/sandau";
 import Thele from "../../club/detailOuting.tsx/thele";
 import Filght from "../../club/detailOuting.tsx/flight";
 import KetQua from "../../club/detailOuting.tsx/ketqua";
-import { ScreenWrapper } from "../../../components/common/ScreenWrapper";
-import { BackHeader } from "../../../components/common/BackHeader";
+import { ScreenWrapper } from "@/components/common/ScreenWrapper";
+import { BackHeader } from "@/components/common/BackHeader";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import type { AppStackParamList } from "@/types/navigation.types";
+import type { IoniconsName, OutingSectionHeaderProps } from "@/types/golf.types";
 
-export default function OutingDetailScreen({ route, navigation }: any) {
-  const { outingData, source } = route.params || {};
-  const courseDetails = outingData?.courseDetails || {};
+type Props = NativeStackScreenProps<AppStackParamList, "OutingDetailScreen">;
+
+export default function OutingDetailScreen({ route, navigation }: Props) {
+  const { outingData } = route.params;
+  const source = route.params.source;
+  const courseDetails = outingData?.courseDetails;
   const headerImageSource = outingData?.image || require("../../../../assets/images/image.png");
   const isTournament = source === "Tournament";
 
@@ -166,7 +172,7 @@ export default function OutingDetailScreen({ route, navigation }: any) {
 
 // ─── CÁC COMPONENT TÁI SỬ DỤNG LẠI (TỐI ƯU CODE) ─────────────────────────────
 
-const InfoRow = ({ icon, text, color }: { icon: any, text: string, color: string }) => {
+const InfoRow = ({ icon, text, color }: { icon: IoniconsName; text: string; color: string }) => {
   if (!text) return null;
   return (
     <View style={styles.infoRowShared}>
@@ -178,7 +184,7 @@ const InfoRow = ({ icon, text, color }: { icon: any, text: string, color: string
   );
 };
 
-const SectionHeader = ({ title, rightText, hasLine, onRightPress }: any) => (
+const SectionHeader = ({ title, rightText, hasLine, onRightPress }: OutingSectionHeaderProps) => (
   <View style={styles.sectionHeaderRow}>
     <Text style={styles.sectionTitle}>{title}</Text>
     {hasLine && <View style={styles.sectionTitleLine} />}

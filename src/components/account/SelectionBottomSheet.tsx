@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useCallback } from "react";
+import { useMemo, useRef, useCallback, useEffect, FC } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../constants/colors";
+import { Colors } from "@/constants/colors";
 
 const { height } = Dimensions.get("window");
 
@@ -30,7 +30,7 @@ interface SelectionBottomSheetProps {
 
 export type { SelectionOption };
 
-export const SelectionBottomSheet: React.FC<SelectionBottomSheetProps> = ({
+export const SelectionBottomSheet: FC<SelectionBottomSheetProps> = ({
   isVisible,
   selectedValue,
   title,
@@ -45,7 +45,7 @@ export const SelectionBottomSheet: React.FC<SelectionBottomSheetProps> = ({
     return [Math.min(itemHeight, height * 0.7)];
   }, [options.length]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isVisible) {
       bottomSheetRef.current?.snapToIndex(0);
     } else {

@@ -1,9 +1,9 @@
-import React from 'react';
+import { FC } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { styles } from './styles';
 import { ToggleOptionProps } from './types';
 
-export const ToggleOption: React.FC<ToggleOptionProps> = ({
+export const ToggleOption: FC<ToggleOptionProps> = ({
   label,
   value,
   onChange,

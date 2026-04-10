@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Player } from "../../../components/common/PlayerCard"; // Đảm bảo đường dẫn này đúng với project của bạn
+import { Player } from "@/components/common/PlayerCard"; // Đảm bảo đường dẫn này đúng với project của bạn
 
 export interface PlayerPickerModalProps {
   visible: boolean;
@@ -20,7 +20,7 @@ export interface PlayerPickerModalProps {
 }
 
 // Đã thêm export và đổi tên chuẩn thành PlayerPickerModal
-export const PlayerPickerModal: React.FC<PlayerPickerModalProps> = ({
+export const PlayerPickerModal: FC<PlayerPickerModalProps> = ({
   visible,
   allPlayers,
   onSelect,

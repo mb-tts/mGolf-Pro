@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -29,7 +29,12 @@ const images = [
   { id: 6, source: require("../../../assets/images/image6.png") },
 ];
 
-export default function ImagesAndVideosScreen({ navigation, route }: any) {
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { AppStackParamList } from "@/types/navigation.types";
+
+type Props = NativeStackScreenProps<AppStackParamList, "ImagesAndVideosScreen">;
+
+export default function ImagesAndVideosScreen({ navigation, route }: Props) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isMoreOptionsVisible, setIsMoreOptionsVisible] = useState(false);
   const selectedIndex = route.params?.selectedIndex || 0;
@@ -71,6 +76,7 @@ export default function ImagesAndVideosScreen({ navigation, route }: any) {
         </TouchableOpacity>
       </View>
 
+      {/* 2. ẢNH CHÍNH (FlatList with horizontal swiping) */}
       <View style={styles.imageViewer}>
         <FlatList
           data={images}
@@ -198,7 +204,6 @@ const styles = StyleSheet.create({
   },
 
   imageViewer: {
-    padding: 16,
     marginTop: height * 0.12,
     width: width,
     height: width * 1.5,

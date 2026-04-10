@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -11,8 +11,8 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../../constants/colors";
-import { ScreenWrapper } from "../../../components/common/ScreenWrapper";
+import { Colors } from "@/constants/colors";
+import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 
 // ── Types & Data ──
 import { Course, Player, HoleCount, Route } from "./types";

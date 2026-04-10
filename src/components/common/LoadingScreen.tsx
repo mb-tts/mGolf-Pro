@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ActivityIndicator, StyleSheet, Text, Animated } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "@/constants/colors";
 
 export const LoadingScreen = () => {
   const fadeAnim = React.useRef(new Animated.Value(0)).current;

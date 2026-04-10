@@ -1,21 +1,21 @@
-import React from "react";
 
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigation } from "@react-navigation/native";
+import { useAuthNavigation } from "@/hooks/useNavigation";
 
-import { AuthLayout } from "../../../components/auth/AuthLayout";
-import { AppInput } from "../../../components/auth/AppInput";
-import { AppButton } from "../../../components/auth/AppButton";
-import { useAuth } from "../../../providers/auth.provider";
-import { Colors } from "../../../constants/colors";
+import { AuthLayout } from "@/components/auth/AuthLayout";
+import { AppInput } from "@/components/auth/AppInput";
+import { AppButton } from "@/components/auth/AppButton";
+import { useAuth } from "@/providers/auth.provider";
+import { Colors } from "@/constants/colors";
 import { registerSchema, RegisterForm } from "./register.schema";
 import { KeyboardAvoidingView, Platform } from "react-native";
 
 export const RegisterScreen = () => {
   const { register, isLoading } = useAuth();
-  const navigation = useNavigation<any>();
+  const navigation = useAuthNavigation();
 
   const {
     control,
@@ -30,8 +30,8 @@ export const RegisterScreen = () => {
     try {
       await register(data);
       navigation.navigate("SetPassword");
-    } catch (e: any) {
-      alert(e.message);
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "Đăng ký thất bại");
     }
   };
 

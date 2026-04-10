@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+
+import { View, StyleSheet } from "react-native";
 import CardOfOuting from "./cardOfOuting";
 import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
 

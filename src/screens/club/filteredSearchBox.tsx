@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -7,11 +7,9 @@ import {
   TouchableOpacity,
   Modal,
   SafeAreaView,
-  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Boloc from "./bolocInOuting"; 
-import { KeyboardAvoidingView } from "react-native";
 export default function FilterSearchBox() {
   const [filterVisible, setFilterVisible] = useState(false);
 

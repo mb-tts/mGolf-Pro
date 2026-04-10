@@ -1,6 +1,6 @@
-import React from "react";
+import { FC } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "@/constants/colors";
 
 interface ScoreTableProps {
   hdc: number;
@@ -12,7 +12,7 @@ interface ScoreTableProps {
 
 const HEADERS = ["HDC", "NET", "Gross", "Ranking", "Skins"];
 
-export const ScoreTable: React.FC<ScoreTableProps> = ({
+export const ScoreTable: FC<ScoreTableProps> = ({
   hdc,
   net,
   gross,

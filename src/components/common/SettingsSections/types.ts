@@ -11,11 +11,11 @@ export interface EverythingSectionProps {
 
 // ============ TEAM XOAY SECTION ============
 export interface TeamXoaySettings {
-  holeCount: number;
-  comparison: 'best' | 'all' | 'weakest';
-  byMonth: boolean;
-  playBest: boolean;
-  restrictions: boolean;
+  holeCount?: number;
+  comparison?: 'best' | 'all' | 'weakest';
+  byMonth?: boolean;
+  playBest?: boolean;
+  restrictions?: boolean;
 }
 
 export interface TeamXoaySectionProps {
@@ -25,8 +25,8 @@ export interface TeamXoaySectionProps {
 
 // ============ TEAM CỐ ĐỊNH SECTION ============
 export interface TeamCoDefinedSettings {
-  holeCount: number;
-  comparison: 'best' | 'all' | 'weakest';
+  holeCount?: number;
+  comparison?: 'best' | 'all' | 'weakest';
 }
 
 export interface TeamCoDefinedSectionProps {
