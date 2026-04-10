@@ -1,4 +1,4 @@
-import React from "react";
+
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -123,7 +123,7 @@ export const LoginScreen = () => {
 
         <View style={styles.socialRow}>
           {SOCIAL_LOGIN_LIST.map(({ key, icon, color }) => (
-            <TouchableOpacity key={key} style={styles.socialBtn}>
+            <TouchableOpacity key={key} style={styles.socialBtn} onPress={() => onSocialLogin(key)}>
               <Ionicons name={icon as React.ComponentProps<typeof Ionicons>["name"]} size={28} color={color} />
             </TouchableOpacity>
           ))}

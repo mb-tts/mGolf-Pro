@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Achievement } from "@/constants/mock-data";
@@ -26,7 +26,6 @@ const ICON_LABEL: Record<Achievement["type"], string | null> = {
 
 export const AchievementCard: React.FC<{ item: Achievement }> = ({ item }) => {
   const Icon = ICONS[item.type];
-  const topLabel = ICON_LABEL[item.type];
 
   return (
     <View style={styles.card}>

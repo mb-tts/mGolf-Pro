@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo, FC } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "@/constants/colors"; 
 import { Match } from "@/constants/mock-data";
@@ -14,7 +14,7 @@ interface HistoryCardProps {
   onPress: () => void;
 }
 
-const HistoryCard: React.FC<HistoryCardProps> = ({ match, onPress }) => (
+const HistoryCard: FC<HistoryCardProps> = ({ match, onPress }) => (
   <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.7}>
      
     <View style={styles.header}>

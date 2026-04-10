@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 import { User } from "@/types/auth.types";
@@ -13,7 +13,7 @@ interface HomeHeaderProps {
   onPressAvatar?: () => void;
 }
 
-export const HomeHeader: React.FC<HomeHeaderProps> = ({
+export const HomeHeader: FC<HomeHeaderProps> = ({
   user,
   clubName = "MBF Club",
   onPressAvatar,

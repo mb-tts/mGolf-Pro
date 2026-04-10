@@ -1,5 +1,5 @@
 // File: src/screens/club/index.tsx
-import React from "react";
+
 import {
   View,
   Text,

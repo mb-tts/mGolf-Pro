@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import {
   View,
   Text,
@@ -32,7 +32,7 @@ import type { SvgProps } from "react-native-svg";
 // ─── Menu Item Interface ──────────────────────────────────────────────────────
 interface MenuItem {
   label: string;
-  icon: React.FC<SvgProps>;
+  icon: FC<SvgProps>;
   id: keyof AppStackParamList;
 }
 
@@ -75,7 +75,7 @@ interface MenuItemComponentProps {
   onPress: (screenName: keyof AppStackParamList) => void;
 }
 
-const MenuItemComponent: React.FC<MenuItemComponentProps> = ({
+const MenuItemComponent: FC<MenuItemComponentProps> = ({
   item,
   onPress,
 }) => {

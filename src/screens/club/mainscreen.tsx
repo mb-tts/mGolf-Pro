@@ -1,5 +1,5 @@
 // File: src/screens/club/mainscreen.tsx
-import React, { RefObject, useRef, useState } from "react";
+import { RefObject, useState } from "react";
 import {
   View,
   Text,

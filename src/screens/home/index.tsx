@@ -1,14 +1,15 @@
-import React from "react";
+
 import {
   View,
   ScrollView,
   FlatList,
   StyleSheet,
   Text,
+  Image,
+  TouchableOpacity,
 } from "react-native";
 import {
   SafeAreaView,
-  useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { FABButton } from "@/components/home/FABButton";
 import { HomeHeader } from "@/components/home/HomeHeader";
@@ -21,14 +22,12 @@ import { useAuth } from "@/providers/auth.provider";
 import { AchievementCard } from "@/components/home/AchievementCard";
 import AchiveBg from "@assets/icons/home/achive.svg";
 import GolfPersonIcon from "@assets/icons/home/golfPerson.svg";
-import { Image, TouchableOpacity } from "react-native";
 import LogoBackground from "@assets/icons/home/logobackground.svg";
 import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 import { useAppNavigation } from "@/hooks/useNavigation";
 
 export const HomeScreen = () => {
   const { user } = useAuth();
-  const insets = useSafeAreaInsets();
   const navigation = useAppNavigation();
 
   // Clone Chưa có data -> dành cho user b

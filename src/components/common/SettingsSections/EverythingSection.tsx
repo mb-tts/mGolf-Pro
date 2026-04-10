@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { styles } from './styles';
 import { EverythingSectionProps, FilterOption } from './types';
 import { PlayerList } from '../PlayerCard';
-import { MOCK_PLAYERS } from '../../../constants/mock-data';
 import { MOCK_ALL_PLAYERS } from '../../../screens/home/create-flight/mock-data';
 export const EverythingSection: React.FC<EverythingSectionProps> = ({
   selectedFilter,

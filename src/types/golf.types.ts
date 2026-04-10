@@ -1,7 +1,4 @@
-import type { ImageSourcePropType, ViewStyle } from "react-native";
-import type { SvgProps } from "react-native-svg";
-import type { AVPlaybackStatus } from "expo-av";
-import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
+import type { ImageSourcePropType, ViewStyle, StyleProp } from "react-native";
 
 // ─── Golf Scorecard / Hole ────────────────────────────────────────────────────
 
@@ -117,12 +114,16 @@ export interface OutingData {
 /** Settings dùng chung cho các section: TeamCoDefined, QuyGa, Contract */
 export interface GameSettings {
   skinsUp?: string;
-  comparison?: string;
+  comparison?: "best" | "all" | "weakest";
   compareTotalScore?: boolean;
   skinsPerScore?: string;
   accumulate?: boolean;
+  holeCount?: number;
+  byMonth?: boolean;
+  playBest?: boolean;
+  restrictions?: boolean;
   skinsPerHole?: string;
-  condition?: string;
+  condition?: "birdie" | "eagle" | "par" | "";
   splitFund?: boolean;
   skinsOut?: string;
   skinsIn?: string;
@@ -164,7 +165,7 @@ export interface SelectionCardProps {
   initialChecked?: boolean;
   isChecked?: boolean;
   onChange?: (checked: boolean) => void;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   onPress?: () => void;
   children?: React.ReactNode;
 }

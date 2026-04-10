@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
-  ScrollView,
   Dimensions,
   TouchableOpacity,
-  StatusBar,
-  Pressable,
 } from "react-native";
-import ImagesAndVideosScreen from "./imagesAndvideos";
 import { useAppNavigation } from "@/hooks/useNavigation";
-import { LinearGradient } from "expo-linear-gradient";
 const { width } = Dimensions.get("window");
 
 const images = [

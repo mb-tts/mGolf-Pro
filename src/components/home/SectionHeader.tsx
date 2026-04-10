@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 
@@ -8,7 +8,7 @@ interface SectionHeaderProps {
   onAction?: () => void;
 }
 
-export const SectionHeader: React.FC<SectionHeaderProps> = ({
+export const SectionHeader: FC<SectionHeaderProps> = ({
   title,
   actionLabel,
   onAction,

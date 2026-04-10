@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,7 +16,7 @@ export const RuleScreen = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [pdfPath, setPdfPath] = useState<string>('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     const loadPdf = async () => {
       try {
         const asset = Asset.fromModule(require('../../../../assets/docs/rules.pdf'));

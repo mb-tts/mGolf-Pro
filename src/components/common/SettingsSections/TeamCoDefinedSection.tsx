@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
 import type { SettingsSectionProps } from '@/types/golf.types';
 
@@ -6,7 +6,6 @@ export const TeamCoDefinedSection: React.FC<SettingsSectionProps> = ({
   settings = {},
   onSettingsChange,
 }) => {
-  const [isTeamChecked, setIsTeamChecked] = useState(true);
 
   // So sánh chỉ còn 2 option theo như ảnh
   const comparisonOptions = [

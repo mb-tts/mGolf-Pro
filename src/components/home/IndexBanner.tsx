@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import {
   View,
   Text,
@@ -18,7 +18,7 @@ interface IndexBannerProps {
   onReset?: () => void;
 }
 
-export const IndexBanner: React.FC<IndexBannerProps> = ({
+export const IndexBanner: FC<IndexBannerProps> = ({
   index,
   onEdit,
   onReset,
