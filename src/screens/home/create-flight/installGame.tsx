@@ -9,15 +9,15 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Colors } from "../../../constants/colors";
+import { Colors } from "@/constants/colors";
 import {
   EverythingSection,
   TeamXoaySection,
   TeamCoDefinedSection,
   ContractSection,
   QuyGaSection,
-} from "../../../components/common/SettingsSections";
-import SelectionCard from "../../../components/common/SelectionCard";
+} from "@/components/common/SettingsSections";
+import SelectionCard from "@/components/common/SelectionCard";
 import { SavedGameModal, SavedGame } from "./components/SavedGameModal";
 import { MOCK_SAVED_GAMES } from "./mock-data";
 

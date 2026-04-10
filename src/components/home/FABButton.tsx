@@ -1,9 +1,9 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "@/constants/colors";
 
 // ✅ Import SVG icon
-import GolfPersonIcon from "../../../assets/icons/home/golfPerson.svg";
+import GolfPersonIcon from "@assets/icons/home/golfPerson.svg";
 
 interface FABButtonProps {
   onPress: () => void;

@@ -30,7 +30,12 @@ const images = [
   { id: 6, source: require("../../../assets/images/image6.png") },
 ];
 
-export default function ImagesAndVideosScreen({ navigation, route }: any) {
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { AppStackParamList } from "@/types/navigation.types";
+
+type Props = NativeStackScreenProps<AppStackParamList, "ImagesAndVideosScreen">;
+
+export default function ImagesAndVideosScreen({ navigation, route }: Props) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isMoreOptionsVisible, setIsMoreOptionsVisible] = useState(false);
   const selectedIndex = route.params?.selectedIndex || 0; // Lấy index được truyền từ IntroduceScreen

@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from "@react-navigation/native";
-import PhoneSvg from '../../../../assets/icons/phone.svg';
-import MessageSvg from '../../../../assets/icons/message.svg';
-import WebsiteSvg from '../../../../assets/icons/website.svg';
+import PhoneSvg from "@assets/icons/phone.svg";
+import MessageSvg from "@assets/icons/message.svg";
+import WebsiteSvg from "@assets/icons/website.svg";
 import { Ionicons } from '@expo/vector-icons';
-import { Colors } from '../../../constants/colors';
+import { Colors } from "@/constants/colors";
 
 export const ContactScreen = () => {
 const navigation = useNavigation();

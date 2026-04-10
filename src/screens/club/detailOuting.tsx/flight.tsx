@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
+import type { Flight } from "@/types/golf.types";
 
-export default function Filght({ flights }: any) {
+export default function Filght({ flights }: { flights: Flight[] }) {
   return (
     <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       {flights.map((flight) => (

@@ -11,18 +11,15 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../../constants/colors";
+import { Colors } from "@/constants/colors";
 import { SelectionBottomSheet } from "../../../components/account/SelectionBottomSheet";
 import type { SelectionOption } from "../../../components/account/SelectionBottomSheet";
-import { useAuth } from "../../../providers/auth.provider";
+import { useAuth } from "@/providers/auth.provider";
 
-interface AccountInfoScreenProps {
-  navigation?: any;
-}
+import { useNavigation } from "@react-navigation/native";
 
-export const AccountInformationScreen: React.FC<AccountInfoScreenProps> = ({
-  navigation,
-}) => {
+export const AccountInformationScreen = () => {
+  const navigation = useNavigation();
   const { user } = useAuth();
   
   const [fullName, setFullName] = useState(user?.fullName || "");

@@ -9,12 +9,14 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 
-export default function KetQua({ results }: any) {
+import type { OutingResult } from "@/types/golf.types";
+
+export default function KetQua({ results }: { results: OutingResult[] }) {
   // State để lưu trữ từ khóa tìm kiếm
   const [searchText, setSearchText] = useState("");
 
   // Lọc dữ liệu dựa trên từ khóa gõ vào ô tìm kiếm
-  const filteredResults = results?.filter((item: any) =>
+  const filteredResults = results?.filter((item: OutingResult) =>
     item.name.toLowerCase().includes(searchText.toLowerCase())
   ) || [];
 
@@ -45,7 +47,7 @@ export default function KetQua({ results }: any) {
         </View>
 
 
-        {filteredResults.map((item: any, index: number) => (
+        {filteredResults.map((item: OutingResult, index: number) => (
           <View key={item.id} style={styles.tableRow}>
            
             <Text style={[styles.cellText, styles.colSTT]}>{item.rank}</Text>

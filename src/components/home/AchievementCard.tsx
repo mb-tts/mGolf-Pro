@@ -1,15 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Colors } from "../../constants/colors";
-import { Achievement } from "../../constants/mock-data";
+import { Colors } from "@/constants/colors";
+import { Achievement } from "@/constants/mock-data";
 import { SvgProps } from "react-native-svg";
 import { LinearGradient } from "expo-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
 
 //  Import SVG icons
-import RankingIcon from "../../../assets/icons/home/ranking.svg";
-import NetIcon from "../../../assets/icons/home/net.svg";
-import GrossIcon from "../../../assets/icons/home/gross.svg";
+import RankingIcon from "@assets/icons/home/ranking.svg";
+import NetIcon from "@assets/icons/home/net.svg";
+import GrossIcon from "@assets/icons/home/gross.svg";
 
 //  Map type → SVG component
 const ICONS: Record<Achievement["type"], React.FC<SvgProps>> = {

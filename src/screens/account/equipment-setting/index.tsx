@@ -1,10 +1,12 @@
 import React, { useState, useRef, useMemo, useCallback } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Image } from 'react-native';
+import type { ImageSourcePropType } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import { Colors } from '../../../constants/colors';
+import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
+import { Colors } from "@/constants/colors";
 
 // Import các logo từ assets/icons
 const BridgestoneLogo = require('../../../../assets/icons/bridgestone.png');
@@ -18,13 +20,13 @@ type EquipmentKey = BrandType | 'hand' | 'gloveSize' | 'shirtSize' | 'pantSize' 
 interface OptionItem {
   id: string;
   name: string;
-  logo?: any; 
+  logo?: ImageSourcePropType; 
 }
 
 interface EquipmentItem {
   label: string;
   value: string;
-  logo?: any;
+  logo?: ImageSourcePropType;
 }
 
 // --- 2. ĐƯA DỮ LIỆU TĨNH RA NGOÀI COMPONENT ---
@@ -70,7 +72,7 @@ export const EquipmentSettingsScreen = () => {
   const snapPoints = useMemo(() => ['40%'], []);
 
   // --- 3. TỐI ƯU LOGIC TÌM DATA CHO BOTTOM SHEET ---
-  const isBrandType = selectedType ? BRAND_TYPES.includes(selectedType as any) : false;
+  const isBrandType = selectedType ? (BRAND_TYPES as readonly string[]).includes(selectedType) : false;
   const bottomSheetData = selectedType 
     ? (isBrandType ? BRANDS : OPTIONS_MAP[selectedType] || []) 
     : [];
@@ -95,7 +97,7 @@ export const EquipmentSettingsScreen = () => {
   };
   
   const renderBackdrop = useCallback(
-    (props: any) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />,
+    (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />,
     []
   );
 
@@ -115,7 +117,7 @@ export const EquipmentSettingsScreen = () => {
         <View style={styles.card}>
           {Object.entries(equipmentData).map(([key, item], index, arr) => {
             const eqKey = key as EquipmentKey;
-            const isBlueText = !BRAND_TYPES.includes(eqKey as any);
+            const isBlueText = !(BRAND_TYPES as readonly string[]).includes(eqKey);
 
             return (
               <TouchableOpacity 

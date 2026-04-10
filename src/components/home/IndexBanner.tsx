@@ -6,11 +6,11 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "@/constants/colors";
 
-import EditIcon from "../../../assets/icons/home/edit-2.svg";
-import ResetIcon from "../../../assets/icons/home/rotate-left.svg";
-import IndexBannerImage from "../../../assets/images/IndexBanner.png";
+import EditIcon from "@assets/icons/home/edit-2.svg";
+import ResetIcon from "@assets/icons/home/rotate-left.svg";
+import IndexBannerImage from "@assets/images/IndexBanner.png";
 
 interface IndexBannerProps {
   index: number;

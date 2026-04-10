@@ -10,16 +10,15 @@ import {
   StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { AppStackParamList } from '@/types/navigation.types';
+import type { HoleData } from '@/types/golf.types';
 
-export interface HoleData {
-  hole: number;
-  par: number;
-  yard?: number;
-  strokeIndex?: number;
-  image?: string;
-}
+export type { HoleData };
 
-const HoleListScreen = ({ route, navigation }: any) => {
+type Props = NativeStackScreenProps<AppStackParamList, 'HoleListScreen'>;
+
+const HoleListScreen = ({ route, navigation }: Props) => {
   const scorecard = route?.params?.courseDetails?.scorecard || [];
 
   const renderHoleItem = ({ item }: { item: HoleData }) => (
