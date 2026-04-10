@@ -9,8 +9,9 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import type { CourseDetails, HoleData } from "@/types/golf.types";
 
-export default function Sandau({ courseDetails }: any) {
+export default function Sandau({ courseDetails }: { courseDetails: CourseDetails }) {
   return (
     <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       <Text style={styles.sectionTitle}>{courseDetails.name}</Text>
@@ -64,7 +65,7 @@ export default function Sandau({ courseDetails }: any) {
             <Text style={[styles.cell, styles.colHole, { fontWeight: "bold" }]}>
               Hole
             </Text>
-            {courseDetails.scorecard.map((s: any) => (
+            {courseDetails.scorecard.map((s: HoleData) => (
               <Text
                 key={`h${s.hole}`}
                 style={[styles.cell, styles.colNum, { fontWeight: "bold" }]}
@@ -77,7 +78,7 @@ export default function Sandau({ courseDetails }: any) {
             <Text style={[styles.cell, styles.colHole, { fontWeight: "bold" }]}>
               Black
             </Text>
-            {courseDetails.scorecard.map((s: any) => (
+            {courseDetails.scorecard.map((s: HoleData) => (
               <Text key={`b${s.hole}`} style={[styles.cell, styles.colNum]}>
                 {s.black}
               </Text>
@@ -87,7 +88,7 @@ export default function Sandau({ courseDetails }: any) {
             <Text style={[styles.cell, styles.colHole, { fontWeight: "bold" }]}>
               Blue
             </Text>
-            {courseDetails.scorecard.map((s: any) => (
+            {courseDetails.scorecard.map((s: HoleData) => (
               <Text key={`bl${s.hole}`} style={[styles.cell, styles.colNum]}>
                 {s.blue}
               </Text>
@@ -97,7 +98,7 @@ export default function Sandau({ courseDetails }: any) {
             <Text style={[styles.cell, styles.colHole, { fontWeight: "bold" }]}>
               White
             </Text>
-            {courseDetails.scorecard.map((s: any) => (
+            {courseDetails.scorecard.map((s: HoleData) => (
               <Text key={`w${s.hole}`} style={[styles.cell, styles.colNum]}>
                 {s.white}
               </Text>
@@ -107,7 +108,7 @@ export default function Sandau({ courseDetails }: any) {
             <Text style={[styles.cell, styles.colHole, { fontWeight: "bold" }]}>
               Red
             </Text>
-            {courseDetails.scorecard.map((s: any) => (
+            {courseDetails.scorecard.map((s: HoleData) => (
               <Text key={`r${s.hole}`} style={[styles.cell, styles.colNum]}>
                 {s.red}
               </Text>

@@ -11,19 +11,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 // Import SVG icons
-import RankingIcon from "../../../../assets/icons/achievements/ranking.svg";
-import NetIcon from "../../../../assets/icons/achievements/net.svg";
-import GrossIcon from "../../../../assets/icons/achievements/gross.svg";
-import ParIcon from "../../../../assets/icons/achievements/par.svg";
-import BirdieIcon from "../../../../assets/icons/achievements/birdie 1.svg";
-import EagleIcon from "../../../../assets/icons/achievements/eagle.svg";
-import HoleInOneIcon from "../../../../assets/icons/achievements/hole-in-one.svg";
-import WinSkillsIcon from "../../../../assets/icons/achievements/win-skills.svg";
-import LoseSkillsIcon from "../../../../assets/icons/achievements/lose-skills.svg";
-import GroupIcon from "../../../../assets/icons/achievements/Group.svg";
+import RankingIcon from "@assets/icons/achievements/ranking.svg";
+import NetIcon from "@assets/icons/achievements/net.svg";
+import GrossIcon from "@assets/icons/achievements/gross.svg";
+import ParIcon from "@assets/icons/achievements/par.svg";
+import BirdieIcon from "@assets/icons/achievements/birdie 1.svg";
+import EagleIcon from "@assets/icons/achievements/eagle.svg";
+import HoleInOneIcon from "@assets/icons/achievements/hole-in-one.svg";
+import WinSkillsIcon from "@assets/icons/achievements/win-skills.svg";
+import LoseSkillsIcon from "@assets/icons/achievements/lose-skills.svg";
+import GroupIcon from "@assets/icons/achievements/Group.svg";
 
+import type { SvgProps } from 'react-native-svg';
 
-const SVG_ICONS: Record<string, React.FC<any>> = {
+const SVG_ICONS: Record<string, React.FC<SvgProps>> = {
   ranking: RankingIcon,
   matches: GroupIcon,
   net: NetIcon,
@@ -35,10 +36,6 @@ const SVG_ICONS: Record<string, React.FC<any>> = {
   winSkills: WinSkillsIcon,
   loseSkills: LoseSkillsIcon,
 };
-
-interface AchievementsScreenProps {
-  navigation?: any;
-}
 
 // Thêm trường badge vào data để hiển thị badge "MBF Club" ở ô đầu tiên
 const ACHIEVEMENTS = [
@@ -54,7 +51,7 @@ const ACHIEVEMENTS = [
   { id: 10, label: "Skill thua nhiều nhất", value: "5", icon: "loseSkills" },
 ];
 
-export const AchievementsScreen: React.FC<AchievementsScreenProps> = () => {
+export const AchievementsScreen = () => {
   const navigation = useNavigation();
   const [selectedSeason, setSelectedSeason] = useState("all");
 

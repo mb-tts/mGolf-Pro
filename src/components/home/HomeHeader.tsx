@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { Colors } from "../../constants/colors";
-import { User } from "../../types/auth.types";
+import { Colors } from "@/constants/colors";
+import { User } from "@/types/auth.types";
 
-import SearchIcon from "../../../assets/icons/home/Search.svg";
-import NotificationIcon from "../../../assets/icons/home/Notification.svg";
-import DotImage from "../../../assets/icons/home/Dot.png";
+import SearchIcon from "@assets/icons/home/Search.svg";
+import NotificationIcon from "@assets/icons/home/Notification.svg";
+import DotImage from "@assets/icons/home/Dot.png";
 
 interface HomeHeaderProps {
   user: User;

@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   courseName: { fontSize: 15, fontWeight: "600", color: "#1A1A1A" },
   courseNameSelected: { color: Colors.primary },
   courseAddr: { fontSize: 12, color: "#999", marginTop: 2 },
-  footerBtn: { paddingHorizontal: 20, paddingTop: 12 },
+  footerBtn: { paddingHorizontal: 20, paddingTop: 12 , paddingBottom: 50},
   confirmBtn: {
     height: 56, borderRadius: 16,
     backgroundColor: Colors.primary,

@@ -1,20 +1,39 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { User } from "../types/auth.types";
+import { createMMKV } from "react-native-mmkv";
+import type { MMKV } from "react-native-mmkv";
+import type { User } from "@/types/auth.types";
+
+// Khởi tạo MMKV instance cho auth — dùng createMMKV() (v4 API)
+const storage: MMKV = createMMKV({ id: "auth-storage" });
 
 const KEYS = {
   USER: "auth.user",
   TOKEN: "auth.token",
 } as const;
 
+/**
+ * AuthStorage dùng MMKV (đồng bộ, nhanh hơn AsyncStorage ~30x).
+ * Không cần await vì MMKV là synchronous.
+ */
 export const AuthStorage = {
-  getUser: async (): Promise<User | null> => {
-    const raw = await AsyncStorage.getItem(KEYS.USER);
-    return raw ? JSON.parse(raw) : null;
+  getUser: (): User | null => {
+    const raw = storage.getString(KEYS.USER);
+    return raw ? (JSON.parse(raw) as User) : null;
   },
-  setUser: async (user: User) =>
-    AsyncStorage.setItem(KEYS.USER, JSON.stringify(user)),
-  getToken: async (): Promise<string | null> =>
-    AsyncStorage.getItem(KEYS.TOKEN),
-  setToken: async (token: string) => AsyncStorage.setItem(KEYS.TOKEN, token),
-  clear: async () => AsyncStorage.multiRemove([KEYS.USER, KEYS.TOKEN]),
+
+  setUser: (user: User): void => {
+    storage.set(KEYS.USER, JSON.stringify(user));
+  },
+
+  getToken: (): string | null => {
+    return storage.getString(KEYS.TOKEN) ?? null;
+  },
+
+  setToken: (token: string): void => {
+    storage.set(KEYS.TOKEN, token);
+  },
+
+  clear: (): void => {
+    storage.remove(KEYS.USER);
+    storage.remove(KEYS.TOKEN);
+  },
 };

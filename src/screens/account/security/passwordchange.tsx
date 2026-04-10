@@ -13,7 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { AppStackParamList } from '../../../../App';
-import { Colors } from '../../../constants/colors';
+import { Colors } from "@/constants/colors";
 
 type PasswordChangeNavigationProp = NativeStackNavigationProp<AppStackParamList>;
 

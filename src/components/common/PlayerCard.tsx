@@ -71,7 +71,7 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
   );
 };
 
-export interface PlayerListProps {
+export default interface PlayerListProps {
   players: Player[];
   onPlayerPress?: (player: Player) => void;
 }

@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "@/constants/colors";
 import { SvgProps } from "react-native-svg";
 
 // Import SVG icons
-import LiveIcon from "../../../assets/icons/home/airdrop.svg"; // 📍 live
-import FinishedIcon from "../../../assets/icons/home/calendar.svg"; // 📅 finished
-import UpcomingIcon from "../../../assets/icons/home/clock.svg"; // ⏰ upcoming
+import LiveIcon from "@assets/icons/home/airdrop.svg"; // 📍 live
+import FinishedIcon from "@assets/icons/home/calendar.svg"; // 📅 finished
+import UpcomingIcon from "@assets/icons/home/clock.svg"; // ⏰ upcoming
 
 type Status = "live" | "finished" | "upcoming";
 

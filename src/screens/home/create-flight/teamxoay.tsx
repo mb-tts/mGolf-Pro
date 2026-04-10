@@ -214,11 +214,16 @@ export default function TeamXoayScreen() {
       </ScrollView>
 
       {/* FOOTER NÚT VÀO TRẬN ĐẤU */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.mainBtn}>
-          <Text style={styles.mainBtnText}>Vào trận đấu</Text>
-        </TouchableOpacity>
-      </View>
+      <View style={styles.footerWrap}>
+                <View style={styles.footer}>
+                  <TouchableOpacity
+                    style={styles.continueBtn}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={styles.continueText}>Vào trận đấu</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
 
       {/* MODAL CHỌN NGƯỜI CHƠI */}
       <Modal visible={modalVisible} transparent={true} animationType="slide">
@@ -415,7 +420,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     backgroundColor: "#FFF",
     borderTopWidth: 1,
-    borderColor: "#EEE",
+    borderColor: "#EEE", 
   },
   mainBtn: {
     backgroundColor: "#0061AF",
@@ -520,4 +525,10 @@ const styles = StyleSheet.create({
     borderColor: "#EEE",
     paddingBottom: 30, // SafeArea cho iPhone X+
   },
+  footerWrap: { backgroundColor: "#FFF", borderTopWidth: 1, borderTopColor: "#F0F0F0" },
+  continueBtn: {
+    height: 56, borderRadius: 16, backgroundColor: "#0061AF",
+    justifyContent: "center", alignItems: "center",
+  },
+  continueText: { fontSize: 16, fontWeight: "700", color: "#FFF" },
 });

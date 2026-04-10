@@ -13,12 +13,17 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { AppStackParamList } from '@/types/navigation.types';
+import type { HoleData } from '@/types/golf.types';
 
-const HoleDetailScreen = ({ route, navigation }: any) => {
+type Props = NativeStackScreenProps<AppStackParamList, 'HoleDetailScreen'>;
+
+const HoleDetailScreen = ({ route, navigation }: Props) => {
   const { holeData, scorecard, courseName } = route.params || {};
   const [currentHole, setCurrentHole] = useState(holeData || scorecard?.[0]);
 
-  const renderBottomHoleItem = ({ item }: { item: any }) => {
+  const renderBottomHoleItem = ({ item }: { item: HoleData }) => {
     const isActive = currentHole?.hole === item.hole;
     
     // Xử lý ảnh cho thanh trượt dưới cùng

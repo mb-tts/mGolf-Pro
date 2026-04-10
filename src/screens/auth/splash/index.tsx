@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { View, Image, Text, StyleSheet, StatusBar } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useAuthNavigation } from "@/hooks/useNavigation";
 
 export const SplashScreen = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useAuthNavigation();
 
   // Tự động chuyển sang Onboarding sau 2.5 giây
   useEffect(() => {

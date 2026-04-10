@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   indexText: { fontSize: 11, fontWeight: "700", color: "#E65100" },
   metaText: { fontSize: 12, color: "#888", fontWeight: "500" },
 
-  footerBtn: { paddingHorizontal: 20, paddingTop: 12 },
+  footerBtn: { paddingHorizontal: 20, paddingTop: 12 , paddingBottom: 50},
   confirmBtn: {
     height: 56,
     borderRadius: 16,

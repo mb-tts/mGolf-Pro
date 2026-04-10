@@ -9,7 +9,7 @@ import {
   DimensionValue
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useAppNavigation } from "@/hooks/useNavigation";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import Svg, { Line, Text as SvgText } from 'react-native-svg';
@@ -46,7 +46,7 @@ const AVATAR_LOCATIONS = [
 ];
 
 const HoleMapScreen = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useAppNavigation();
   const insets = useSafeAreaInsets();
 
   const localMapImage = require("../../../../assets/images/golfmap2.jpg");
