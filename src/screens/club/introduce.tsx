@@ -11,7 +11,7 @@ import {
   Pressable,
 } from "react-native";
 import ImagesAndVideosScreen from "./imagesAndvideos";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useAppNavigation } from "@/hooks/useNavigation";
 import { LinearGradient } from "expo-linear-gradient";
 const { width } = Dimensions.get("window");
 
