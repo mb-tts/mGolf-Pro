@@ -9,9 +9,9 @@ import {
   Modal,
   SafeAreaView,
   StatusBar,
+  FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { id } from "zod/v4/locales";
 
 const { width, height } = Dimensions.get("window");
 
@@ -69,13 +69,29 @@ export default function ImagesAndVideosScreen({ navigation, route }: Props) {
         </TouchableOpacity>
       </View>
 
-      {/* 2. ẢNH CHÍNH (Square image) */}
+      {/* 2. ẢNH CHÍNH (FlatList with horizontal swiping) */}
       <View style={styles.imageViewer}>
-        <Image
-          // Thay phần gắn cứng bằng source lấy từ mảng images theo currentIndex
-          source={images[currentIndex].source}
-          style={styles.mainImage}
-          resizeMode="cover"
+        <FlatList
+          data={images}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          initialScrollIndex={selectedIndex}
+          getItemLayout={(_, index) => ({
+            length: width,
+            offset: width * index,
+            index,
+          })}
+          onMomentumScrollEnd={(e) => {
+            const index = Math.round(e.nativeEvent.contentOffset.x / width);
+            setCurrentIndex(index);
+          }}
+          renderItem={({ item }) => (
+            <View style={{ width: width, height: width }}>
+              <Image source={item.source} style={styles.mainImage} resizeMode="cover" />
+            </View>
+          )}
+          keyExtractor={(item) => item.id.toString()}
         />
       </View>
 
@@ -184,7 +200,6 @@ const styles = StyleSheet.create({
 
   // Image Viewer Styles
   imageViewer: {
-    padding: 16,
     marginTop: height * 0.12,
     width: width,
     height: width, // Square image
