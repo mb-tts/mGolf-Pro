@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { FC } from 'react';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { PlayerList } from '../PlayerCard';
 import { MOCK_PLAYERS } from '../../../constants/mock-data';
 import type { SettingsSectionProps } from '@/types/golf.types';
 
-export const ContractSection: React.FC<SettingsSectionProps> = ({ settings = {}, onSettingsChange }) => {
-  const [isChecked, setIsChecked] = useState(true);
+export const ContractSection: FC<SettingsSectionProps> = ({ settings = {}, onSettingsChange }) => {
 
   return (
     <View style={styles.container}>

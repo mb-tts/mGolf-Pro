@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
-import { Colors } from "@/constants/colors";
 
 interface AuthLayoutProps {
   title: string;
@@ -18,7 +17,7 @@ interface AuthLayoutProps {
   children: ReactNode;
 }
 
-export const AuthLayout: React.FC<AuthLayoutProps> = ({
+export const AuthLayout: FC<AuthLayoutProps> = ({
   title,
   subtitle,
   children,

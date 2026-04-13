@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Animated, StatusBar, Platform } from "react-native";
+import { View, StyleSheet, Animated, StatusBar } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { LoadingScreen } from "./LoadingScreen";
 

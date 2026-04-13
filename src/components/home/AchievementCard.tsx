@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Achievement } from "@/constants/mock-data";
@@ -12,21 +12,15 @@ import NetIcon from "@assets/icons/home/net.svg";
 import GrossIcon from "@assets/icons/home/gross.svg";
 
 //  Map type → SVG component
-const ICONS: Record<Achievement["type"], React.FC<SvgProps>> = {
+const ICONS: Record<Achievement["type"], FC<SvgProps>> = {
   ranking: RankingIcon,
   net: NetIcon,
   gross: GrossIcon,
 };
-//  Label trên đầu icon (NET, GROSS — ranking không có)
-const ICON_LABEL: Record<Achievement["type"], string | null> = {
-  ranking: null,
-  net: "NET",
-  gross: "GROSS",
-};
 
-export const AchievementCard: React.FC<{ item: Achievement }> = ({ item }) => {
+
+export const AchievementCard: FC<{ item: Achievement }> = ({ item }) => {
   const Icon = ICONS[item.type];
-  const topLabel = ICON_LABEL[item.type];
 
   return (
     <View style={styles.card}>

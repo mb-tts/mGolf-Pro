@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
-  ScrollView,
   Dimensions,
   TouchableOpacity,
-  StatusBar,
-  Pressable,
 } from "react-native";
-import ImagesAndVideosScreen from "./imagesAndvideos";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
+import { useAppNavigation } from "@/hooks/useNavigation";
 const { width } = Dimensions.get("window");
 
 const images = [
@@ -28,7 +23,7 @@ export default function IntroduceScreen() {
   const navigation = useAppNavigation();
   const [expanded, setExpanded] = useState(false);
   return (
-    <View>
+    <View style= {{paddingBottom: 50}}>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Thông tin chung</Text>
 

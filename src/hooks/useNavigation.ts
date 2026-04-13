@@ -19,8 +19,9 @@ import type {
 // ─── App Stack ────────────────────────────────────────────────────────────────
 
 /** Navigation cho toàn bộ App Stack (sau khi đăng nhập) */
-export const useAppNavigation = () =>
-  useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+export function useAppNavigation() {
+  return useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+}
 
 /** Route params cho 1 screen cụ thể trong App Stack */
 export const useAppRoute = <T extends keyof AppStackParamList>() =>

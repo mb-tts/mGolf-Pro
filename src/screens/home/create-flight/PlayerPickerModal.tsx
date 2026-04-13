@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import {
   View,
   Text,
@@ -20,7 +20,7 @@ export interface PlayerPickerModalProps {
 }
 
 // Đã thêm export và đổi tên chuẩn thành PlayerPickerModal
-export const PlayerPickerModal: React.FC<PlayerPickerModalProps> = ({
+export const PlayerPickerModal: FC<PlayerPickerModalProps> = ({
   visible,
   allPlayers,
   onSelect,

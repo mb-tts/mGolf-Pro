@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC } from "react";
 import {
   View,
   Text,
@@ -24,7 +24,7 @@ import GroupIcon from "@assets/icons/achievements/Group.svg";
 
 import type { SvgProps } from 'react-native-svg';
 
-const SVG_ICONS: Record<string, React.FC<SvgProps>> = {
+const SVG_ICONS: Record<string, FC<SvgProps>> = {
   ranking: RankingIcon,
   matches: GroupIcon,
   net: NetIcon,
@@ -53,7 +53,7 @@ const ACHIEVEMENTS = [
 
 export const AchievementsScreen = () => {
   const navigation = useNavigation();
-  const [selectedSeason, setSelectedSeason] = useState("all");
+
 
   const handleBack = () => {
     navigation.goBack();

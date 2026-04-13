@@ -1,16 +1,12 @@
-import React, { useRef, useState, useEffect } from "react"; // Thêm useState, useEffect
+import { useState, useEffect } from "react"; // Thêm useState, useEffect
 import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   Image,
-  TouchableOpacity,
-  SafeAreaView,
   Keyboard, // Thêm Keyboard vào đây
 } from "react-native";
 import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
-import { ScrollView } from "react-native-gesture-handler";
 
 // 1. TẠO DỮ LIỆU ẢO (DUMMY DATA)
 const generateData = () => {
@@ -91,13 +87,22 @@ const generateData = () => {
   return { data, myData };
 };
 
+export interface PlayerRanking {
+  id: string;
+  rank: number;
+  name: string;
+  vgaid: string;
+  score: number;
+  image: string;
+}
+
 export const { data: LEADERBOARD_DATA, myData: MY_DATA } = generateData();
 
 // Chiều cao cố định của item để hàm scrollToIndex tính toán chính xác
 const ITEM_HEIGHT = 80;
 
 // Component hiển thị từng người chơi
-export const PlayerRow = ({ item, isSticky = false }) => {
+export const PlayerRow = ({ item, isSticky = false }: { item: PlayerRanking; isSticky?: boolean }) => {
   let rankColor = "#fff";
   if (item.rank === 1) rankColor = "#FFD700";
   else if (item.rank === 2) rankColor = "#C0C0C0";

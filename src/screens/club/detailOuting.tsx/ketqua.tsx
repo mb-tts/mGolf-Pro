@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -47,7 +47,7 @@ export default function KetQua({ results }: { results: OutingResult[] }) {
         </View>
 
 
-        {filteredResults.map((item: OutingResult, index: number) => (
+        {filteredResults.map((item: OutingResult, _index: number) => (
           <View key={item.id} style={styles.tableRow}>
            
             <Text style={[styles.cellText, styles.colSTT]}>{item.rank}</Text>

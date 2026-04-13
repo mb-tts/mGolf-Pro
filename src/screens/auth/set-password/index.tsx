@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,7 +9,7 @@ import { AppButton } from "@/components/auth/AppButton";
 import { useAuth } from "@/providers/auth.provider";
 import { Colors } from "@/constants/colors";
 import { setPasswordSchema, SetPasswordForm } from "./set-password.schema";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 export const SetPasswordScreen = () => {
   const { setPassword, isLoading } = useAuth();

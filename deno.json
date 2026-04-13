@@ -1,0 +1,16 @@
+{
+  "tasks": {
+    "test": "deno test -A",
+    "lint": "deno lint",
+    "dev": "expo start"
+  },
+  "lint": {
+    "include": ["src/"],
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "test": {
+    "include": ["src/**/*.test.ts"]
+  }
+}

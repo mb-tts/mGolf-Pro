@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 import { SvgProps } from "react-native-svg";
@@ -16,7 +16,7 @@ const STATUS_CONFIG: Record<
     label: string;
     bg: string;
     color: string;
-    Icon: React.FC<SvgProps>; // dùng component thay vì string emoji
+    Icon: FC<SvgProps>; // dùng component thay vì string emoji
   }
 > = {
   live: {
@@ -39,7 +39,7 @@ const STATUS_CONFIG: Record<
   },
 };
 
-export const MatchStatusBadge: React.FC<{ status: Status }> = ({ status }) => {
+export const MatchStatusBadge: FC<{ status: Status }> = ({ status }) => {
   const { bg, color, label, Icon } = STATUS_CONFIG[status];
   return (
     <View style={[styles.badge, { backgroundColor: bg }]}>

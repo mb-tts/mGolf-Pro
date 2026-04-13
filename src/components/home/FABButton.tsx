@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "@/constants/colors";
 
@@ -9,7 +9,7 @@ interface FABButtonProps {
   onPress: () => void;
 }
 
-export const FABButton: React.FC<FABButtonProps> = ({ onPress }) => (
+export const FABButton: FC<FABButtonProps> = ({ onPress }) => (
   <TouchableOpacity style={styles.fab} onPress={onPress} activeOpacity={0.85}>
     <GolfPersonIcon width={30} height={30} color={Colors.white} />
   </TouchableOpacity>

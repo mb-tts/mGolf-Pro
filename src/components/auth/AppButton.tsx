@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -14,7 +14,7 @@ interface AppButtonProps extends TouchableOpacityProps {
   variant?: "primary" | "outline";
 }
 
-export const AppButton: React.FC<AppButtonProps> = ({
+export const AppButton: FC<AppButtonProps> = ({
   title,
   loading,
   variant = "primary",
