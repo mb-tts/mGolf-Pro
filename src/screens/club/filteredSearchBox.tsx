@@ -6,8 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
-  SafeAreaView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Boloc from "./bolocInOuting"; 
 export default function FilterSearchBox() {

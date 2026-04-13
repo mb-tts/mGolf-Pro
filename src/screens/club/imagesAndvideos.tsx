@@ -7,11 +7,11 @@ import {
   Dimensions,
   TouchableOpacity,
   Modal,
-  SafeAreaView,
   StatusBar,
   FlatList,
   ViewToken,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");

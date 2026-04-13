@@ -91,7 +91,7 @@ export interface PlayerRanking {
   id: string;
   rank: number;
   name: string;
-  vgaid: string;
+  vgaCode: string;
   score: number;
   image: string;
 }
@@ -120,7 +120,7 @@ export const PlayerRow = ({ item, isSticky = false }: { item: PlayerRanking; isS
       {/* Phần Thông tin */}
       <View style={styles.infoContainer}>
         <Text style={styles.nameText}>{item.name}</Text>
-        <Text style={styles.vgaText}>{item.vgaid}</Text>
+        <Text style={styles.vgaText}>{item.vgaCode}</Text>
       </View>
 
       {/* Phần Điểm */}

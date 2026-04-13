@@ -34,3 +34,15 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Android
+android/app/build/
+android/build/
+android/.gradle/
+
+# Expo / React Native
+*.apk
+*.aab
+
+# build locked (cái bạn dính)
+android/app/build_locked_*
