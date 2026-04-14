@@ -1,5 +1,4 @@
-// File: src/screens/club/index.tsx
-
+import { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -9,7 +8,9 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  StatusBar,
 } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 import { useAppNavigation } from "@/hooks/useNavigation";
@@ -47,7 +48,13 @@ interface OutingEvent {
   time?: string;
 }
 
-const SearchBar = () => (
+const SearchBar = ({
+  value,
+  onChangeText,
+}: {
+  value: string;
+  onChangeText: (text: string) => void;
+}) => (
   <View style={styles.searchContainer}>
     <Ionicons
       name="search-outline"
@@ -59,6 +66,8 @@ const SearchBar = () => (
       style={styles.searchInput}
       placeholder="Nhập tên hoặc mã câu lạc bộ"
       placeholderTextColor="#9CA3AF"
+      value={value}
+      onChangeText={onChangeText}
     />
   </View>
 );
@@ -116,6 +125,8 @@ const OutingCard = ({ item }: { item: OutingEvent }) => (
 // ─── MÀN HÌNH CHÍNH ────────────────────────────────────────────────────────────
 export default function ClubIndexScreen() {
   const navigation = useAppNavigation();
+  const insets = useSafeAreaInsets();
+  const [searchText, setSearchText] = useState("");
 
   const dummyEvents: OutingEvent[] = [
     {
@@ -137,51 +148,85 @@ export default function ClubIndexScreen() {
     },
   ];
 
+  const filteredClubs = useMemo(() => {
+    const query = searchText.toLowerCase().trim();
+    if (!query) return dummyClubs;
+    return dummyClubs.filter((club) =>
+      club.name.toLowerCase().includes(query)
+    );
+  }, [searchText]);
+
+  const filteredEvents = useMemo(() => {
+    const query = searchText.toLowerCase().trim();
+    if (!query) return dummyEvents;
+    return dummyEvents.filter((event) =>
+      event.title.toLowerCase().includes(query) ||
+      event.location.toLowerCase().includes(query)
+    );
+  }, [searchText]);
+
   const handlePressDetail = (clubName: string) => {
     console.log("Xem chi tiết CLB:", clubName);
-    navigation.navigate("ClubMainScreen");
+    navigation.navigate("ClubMainScreen", { clubName });
   };
 
   return (
     <ScreenWrapper>
-      <Text style={styles.headerTitle}>Câu lạc bộ</Text>
+      <SafeAreaView style={styles.safe} edges={["top"]}>
+        <StatusBar barStyle="dark-content" />
+        <Text style={styles.headerTitle}>Câu lạc bộ</Text>
 
-      {/* ScrollView ✓ — nội dung ít, cố định (2 clubs + 2 events) */}
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        <SearchBar />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[
+            styles.scrollContent,
+            { paddingBottom: 80 + insets.bottom },
+          ]}
+        >
+          <SearchBar value={searchText} onChangeText={setSearchText} />
 
-        {/* ─── PHẦN CÂU LẠC BỘ CỦA TÔI — dữ liệu ít, cố định → ScrollView + .map() ─── */}
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Câu lạc bộ của tôi</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {dummyClubs.map((clubItem) => (
-              <MyClubCardScreen
-                key={clubItem.id}
-                club={clubItem}
-                onPressDetail={() => handlePressDetail(clubItem.name)}
-              />
-            ))}
-          </ScrollView>
-        </View>
-
-        {/* ─── PHẦN SỰ KIỆN OUTING — dữ liệu ít, cố định → ScrollView + .map() ─── */}
-        <View style={styles.sectionContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Sự kiện outing</Text>
-            <TouchableOpacity>
-              <Text style={styles.seeAllText}>Xem tất cả</Text>
-            </TouchableOpacity>
+          {/* ─── PHẦN CÂU LẠC BỘ CỦA TÔI ─── */}
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionTitle}>Câu lạc bộ của tôi</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {filteredClubs.length > 0 ? (
+                filteredClubs.map((clubItem) => (
+                  <MyClubCardScreen
+                    key={clubItem.id}
+                    club={clubItem}
+                    onPressDetail={() => handlePressDetail(clubItem.name)}
+                  />
+                ))
+              ) : (
+                <View style={styles.emptyContainer}>
+                  <Text style={styles.emptyText}>Không tìm thấy câu lạc bộ</Text>
+                </View>
+              )}
+            </ScrollView>
           </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {dummyEvents.map((item) => (
-              <OutingCard key={item.id} item={item} />
-            ))}
-          </ScrollView>
-        </View>
-      </ScrollView>
+
+          {/* ─── PHẦN SỰ KIỆN OUTING ─── */}
+          <View style={styles.sectionContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Sự kiện outing</Text>
+              <TouchableOpacity>
+                <Text style={styles.seeAllText}>Xem tất cả</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {filteredEvents.length > 0 ? (
+                filteredEvents.map((item) => (
+                  <OutingCard key={item.id} item={item} />
+                ))
+              ) : (
+                <View style={[styles.emptyContainer, { marginLeft: 16 }]}>
+                  <Text style={styles.emptyText}>Không tìm thấy sự kiện</Text>
+                </View>
+              )}
+            </ScrollView>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     </ScreenWrapper>
   );
 }
@@ -194,6 +239,18 @@ const styles = StyleSheet.create({
     color: "#1F2937",
     marginHorizontal: 16,
     marginVertical: 12,
+  },
+  safe: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  emptyContainer: {
+    padding: 20,
+    alignItems: "center",
+  },
+  emptyText: {
+    color: "#9CA3AF",
+    fontSize: 14,
   },
   scrollContent: { paddingBottom: 40 },
   searchContainer: {

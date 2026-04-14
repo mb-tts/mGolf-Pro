@@ -19,11 +19,14 @@ const images = [
   require("../../../assets/images/image6.png"),
 ];
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 export default function IntroduceScreen() {
   const navigation = useAppNavigation();
   const [expanded, setExpanded] = useState(false);
+  const insets = useSafeAreaInsets();
   return (
-    <View style= {{paddingBottom: 50}}>
+    <View style= {{paddingBottom: insets.bottom + 50}}>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Thông tin chung</Text>
 

@@ -15,7 +15,7 @@ import { OUTING_DATA } from "../tournament/detail/outingData";
 
 import type { OutingData } from "@/types/golf.types";
 
-export default function CardOfOuting() {
+export default function CardOfOuting({ data }: { data: OutingData[] }) {
   const navigation = useAppNavigation();
 
   const handlePressCard = (item: OutingData) => {
@@ -23,9 +23,17 @@ export default function CardOfOuting() {
     navigation.navigate("OutingDetailScreen", { outingData: item });
   };
 
+  if (data.length === 0) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>Không tìm thấy sự kiện nào</Text>
+      </View>
+    );
+  }
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      {OUTING_DATA.map((item) => (
+      {data.map((item) => (
         <TouchableOpacity
           key={item.id}
           style={styles.card}
@@ -33,7 +41,14 @@ export default function CardOfOuting() {
           onPress={() => handlePressCard(item)}
         >
           <View>
-            <Image source={item.image} style={styles.image} />
+            <Image
+              source={
+                typeof item.image === "string"
+                  ? { uri: item.image }
+                  : item.image
+              }
+              style={styles.image}
+            />
             <View style={styles.timeBadge}>
               <Ionicons name="calendar-outline" size={14} color="#fff" />
               <Text style={styles.timeText}>
@@ -61,11 +76,20 @@ export default function CardOfOuting() {
           </View>
         </TouchableOpacity>
       ))}
+      <View style={{ height: 100 }} />
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  emptyContainer: {
+    padding: 40,
+    alignItems: "center",
+  },
+  emptyText: {
+    color: "#999",
+    fontSize: 15,
+  },
   card: {
     backgroundColor: "#fff",
     borderRadius: 16,

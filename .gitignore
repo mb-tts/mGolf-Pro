@@ -46,3 +46,5 @@ android/.gradle/
 
 # build locked (cái bạn dính)
 android/app/build_locked_*
+
+.idea/

@@ -132,7 +132,10 @@ export default function ClubMainScreen({ mainScrollRef }: RankingScreenProps) {
       </ScrollView>
       {tabs[activeTab].key === "Ranking" && !isKeyboardVisible && (
         <TouchableOpacity
-          style={styles.stickyBottomContainer}
+          style={[
+            styles.stickyBottomContainer,
+            { bottom: 0, paddingBottom: insets.bottom },
+          ]}
           activeOpacity={0.9}
         >
           <PlayerRow item={MY_DATA} isSticky={true} />

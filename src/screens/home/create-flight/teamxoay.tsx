@@ -10,7 +10,7 @@ import {
   Alert,
   Dimensions,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
@@ -170,8 +170,10 @@ export default function TeamXoayScreen() {
     );
   };
 
+  const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.container} edges={["top"]}>
       {/* HEADER */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
@@ -214,16 +216,17 @@ export default function TeamXoayScreen() {
       </ScrollView>
 
       {/* FOOTER NÚT VÀO TRẬN ĐẤU */}
-      <View style={styles.footerWrap}>
-                <View style={styles.footer}>
-                  <TouchableOpacity
-                    style={styles.continueBtn}
-                    activeOpacity={0.8}
-                  >
-                    <Text style={styles.continueText}>Vào trận đấu</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+      <View style={[styles.footerWrap, { paddingBottom: insets.bottom }]}>
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={styles.continueBtn}
+            activeOpacity={0.8}
+            onPress={() => console.log("Vào trận đấu")}
+          >
+            <Text style={styles.continueText}>Vào trận đấu</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
       {/* MODAL CHỌN NGƯỜI CHƠI */}
       <Modal visible={modalVisible} transparent={true} animationType="slide">

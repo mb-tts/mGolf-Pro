@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { useAuthNavigation } from "@/hooks/useNavigation";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 
@@ -37,6 +38,7 @@ const SLIDES = [
 
 export const OnboardingScreen = () => {
   const navigation = useAuthNavigation();
+  const insets = useSafeAreaInsets();
   const flatListRef = useRef<FlatList>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -100,7 +102,7 @@ export const OnboardingScreen = () => {
       />
 
       {/* Phần dưới: Dots + Buttons */}
-      <View style={styles.bottomSection}>
+      <View style={[styles.bottomSection, { paddingBottom: Math.max(insets.bottom, 24) }]}>
         {/* Dot indicators */}
         <View style={styles.dotRow}>
           {SLIDES.map((_, index) => (
@@ -183,7 +185,6 @@ const styles = StyleSheet.create({
   // Phần dưới cùng
   bottomSection: {
     paddingHorizontal: 24,
-    paddingBottom: 40,
   },
   dotRow: {
     flexDirection: "row",
