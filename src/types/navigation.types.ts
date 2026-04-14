@@ -54,7 +54,7 @@ export type AppStackParamList = {
   PasswordChange: undefined;
   SetPasswordForm: undefined;
   ImagesAndVideosScreen: { selectedIndex?: number };
-  ClubMainScreen: { clubName?: string };
+  ClubMainScreen: undefined;
   InstallGame: undefined;
   TeamCoDinh: undefined;
   Teamxoay: undefined;

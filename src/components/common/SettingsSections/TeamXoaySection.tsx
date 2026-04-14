@@ -4,6 +4,7 @@ import { styles } from './styles';
 import { TeamXoaySectionProps } from './types';
 import { PlayerList } from '../PlayerCard';
 import { MOCK_PLAYERS } from '../../../constants/mock-data';
+import { MOCK_ALL_PLAYERS } from '@/screens/home/create-flight/mock-data';
 
 export const TeamXoaySection: FC<TeamXoaySectionProps> = ({
   settings,
@@ -159,7 +160,7 @@ export const TeamXoaySection: FC<TeamXoaySectionProps> = ({
       {/* Danh sách người chơi */}
       <View style={styles.playerListWrapper}>
         <PlayerList
-          players={MOCK_PLAYERS}
+          players={MOCK_ALL_PLAYERS.filter((p) => p.isSelected)}
           onPlayerPress={(player) => console.log(player.name)}
         />
       </View>

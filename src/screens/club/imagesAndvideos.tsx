@@ -43,7 +43,7 @@ export default function ImagesAndVideosScreen({ navigation, route }: Props) {
 
 
   const onViewableItemsChanged = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-    if (viewableItems.length > 0) {
+    if (viewableItems.length > 0 && viewableItems[0].index !== null) {
       setCurrentIndex(viewableItems[0].index);
     }
   };

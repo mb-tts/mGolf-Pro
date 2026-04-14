@@ -73,21 +73,6 @@ export const CreateFlightScreen = ({ navigation }: Props) => {
     if (scorerId === id) setScorerId("all");
   };
 
-  // const handleContinue = () => {
-  //   if (!canContinue) return;
-  //   console.log("── Flight Data ──", {
-  //     courseId: course?.id,
-  //     holeCount,
-  //     routeGo,
-  //     routeBack,
-  //     players: players.map((p) => p.id),
-  //     scorerId,
-  //     teeDate,
-  //     teeTime,
-  //   });
-  //   // TODO: navigation.navigate("FlightScoring", { ... });
-  // };
-
   return (
     <ScreenWrapper extendBehindStatusBar statusBarStyle="dark-content">
       <SafeAreaView style={styles.container} edges={["bottom"]}>
@@ -244,7 +229,15 @@ export const CreateFlightScreen = ({ navigation }: Props) => {
           visible={showPlayer}
           allPlayers={MOCK_ALL_PLAYERS}
           selectedPlayers={players}
-          onConfirm={setPlayers}
+          onConfirm={(selected) => {
+            // Cập nhật state local
+            setPlayers(selected);
+            // Đồng bộ trạng thái isSelected trên MOCK_ALL_PLAYERS
+            const selectedIds = selected.map((p) => p.id);
+            for (let i = 0; i < MOCK_ALL_PLAYERS.length; i++) {
+              MOCK_ALL_PLAYERS[i].isSelected = selectedIds.includes(MOCK_ALL_PLAYERS[i].id);
+            }
+          }}
           onClose={() => setShowPlayer(false)}
         />
         <ScorerPickerModal

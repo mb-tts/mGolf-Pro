@@ -13,7 +13,7 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
+import { MOCK_ALL_PLAYERS } from "./mock-data";
 // ─── TYPES & MOCK DATA (Lấy từ file của bạn) ──────────────────────────────────
 export interface Player {
   id: string;
@@ -23,15 +23,8 @@ export interface Player {
   hdc: number;
   vga: string;
   isOwner: boolean;
+  isSelected?: boolean;
 }
-
-export const MOCK_ALL_PLAYERS: Player[] = [
-  { id: "1", name: "Nguyễn Văn Anh", avatar: "https://i.pravatar.cc/150?img=3", index: 21.8, hdc: 30, vga: "99999", isOwner: true },
-  { id: "2", name: "Nguyễn Văn Trung", avatar: "https://i.pravatar.cc/150?img=5", index: 21.8, hdc: 30, vga: "99999", isOwner: false },
-  { id: "3", name: "Tuấn Anh", avatar: "https://i.pravatar.cc/150?img=7", index: 21.8, hdc: 30, vga: "99999", isOwner: false },
-  { id: "4", name: "Trần Minh Quân", avatar: "https://i.pravatar.cc/150?img=11", index: 18.5, hdc: 24, vga: "88888", isOwner: false },
-  { id: "5", name: "Lê Hoàng Nam", avatar: "https://i.pravatar.cc/150?img=12", index: 15.2, hdc: 20, vga: "77777", isOwner: false },
-];
 
 type Team = Player[]; // Sẽ chứa 0 hoặc 2 Player
 type Match = { id: number; teamA: Team; teamB: Team };
@@ -53,6 +46,21 @@ export default function TeamXoayScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [targetSlot, setTargetSlot] = useState<{ matchIndex: number; isTeamA: boolean } | null>(null);
   const [tempSelectedPlayers, setTempSelectedPlayers] = useState<Player[]>([]);
+
+  // Helper: compute IDs that are already assigned in other slots (to hide in modal)
+  const computeAssignedIds = (currentMatchIndex?: number, selectingTeamA?: boolean) => {
+    const ids = new Set<string>();
+    if (currentMatchIndex === undefined) return ids;
+    const match = matches[currentMatchIndex];
+    if (!match) return ids;
+    // Only exclude players assigned in the opposite team within the same match
+    if (selectingTeamA) {
+      match.teamB.forEach((p) => ids.add(p.id));
+    } else {
+      match.teamA.forEach((p) => ids.add(p.id));
+    }
+    return ids;
+  };
 
   // ─── LOGIC KIỂM TRA ĐỒNG ĐỘI ───────────────────────────────────────────────
   // Trả về true nếu 2 người này đã từng là đồng đội trong một team ở bất kỳ trận nào
@@ -125,8 +133,9 @@ export default function TeamXoayScreen() {
 
   // Tính năng random chia team xoay vòng tiêu chuẩn cho 4 người đầu tiên
   const generateRandomTeams = () => {
-    if (MOCK_ALL_PLAYERS.length < 4) return;
-    const p = MOCK_ALL_PLAYERS.slice(0, 4); // Lấy 4 người đầu
+    const available = MOCK_ALL_PLAYERS.filter((p) => p.isSelected);
+    if (available.length < 4) return;
+    const p = available.slice(0, 4); // Lấy 4 người đầu đã chọn
     setMatches([
       { id: 1, teamA: [p[0], p[1]], teamB: [p[2], p[3]] },
       { id: 2, teamA: [p[0], p[2]], teamB: [p[1], p[3]] },
@@ -240,30 +249,42 @@ export default function TeamXoayScreen() {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-              {MOCK_ALL_PLAYERS.map((player) => {
-                const isSelected = tempSelectedPlayers.some((p) => p.id === player.id);
-                return (
-                  <TouchableOpacity
-                    key={player.id}
-                    style={styles.playerItem}
-                    activeOpacity={0.7}
-                    onPress={() => togglePlayerSelection(player)}
-                  >
-                    <Image source={{ uri: player.avatar }} style={styles.modalAvatar} />
-                    <View style={styles.playerInfo}>
-                      <Text style={styles.playerName}>{player.name}</Text>
-                      <View style={styles.playerStatsRow}>
-                        <Text style={styles.statTag}>Index {player.index}</Text>
-                        <Text style={styles.statTag}>HDC {player.hdc}</Text>
-                        <Text style={styles.statTagText}>VGA: {player.vga}</Text>
+              {(() => {
+                const assignedIds = computeAssignedIds(targetSlot?.matchIndex, targetSlot?.isTeamA);
+                const available = MOCK_ALL_PLAYERS
+                  .filter((p) => p.isSelected)
+                  .filter((p) => {
+                    // keep those already in tempSelectedPlayers so user can unselect
+                    if (tempSelectedPlayers.some((tp) => tp.id === p.id)) return true;
+                    // hide if assigned in other slots or (if selecting teamB) already in any teamA
+                    return !assignedIds.has(p.id);
+                  });
+
+                return available.map((player) => {
+                  const isSelected = tempSelectedPlayers.some((p) => p.id === player.id);
+                  return (
+                    <TouchableOpacity
+                      key={player.id}
+                      style={styles.playerItem}
+                      activeOpacity={0.7}
+                      onPress={() => togglePlayerSelection(player)}
+                    >
+                      <Image source={{ uri: player.avatar }} style={styles.modalAvatar} />
+                      <View style={styles.playerInfo}>
+                        <Text style={styles.playerName}>{player.name}</Text>
+                        <View style={styles.playerStatsRow}>
+                          <Text style={styles.statTag}>Index {player.index}</Text>
+                          <Text style={styles.statTag}>HDC {player.hdc}</Text>
+                          <Text style={styles.statTagText}>VGA: {player.vga}</Text>
+                        </View>
                       </View>
-                    </View>
-                    <View style={[styles.checkbox, isSelected && styles.checkboxActive]}>
-                      {isSelected && <Ionicons name="checkmark" size={14} color="#FFF" />}
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
+                      <View style={[styles.checkbox, isSelected && styles.checkboxActive]}>
+                        {isSelected && <Ionicons name="checkmark" size={14} color="#FFF" />}
+                      </View>
+                    </TouchableOpacity>
+                  );
+                });
+              })()}
             </ScrollView>
 
             <View style={styles.modalFooter}>
