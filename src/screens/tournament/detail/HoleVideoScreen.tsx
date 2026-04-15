@@ -21,7 +21,7 @@ export default function HoleVideoScreen({ navigation, route }: Props) {
 
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
+      <StatusBar hidden translucent backgroundColor="transparent" />
 
       <VideoView
         style={styles.video}
