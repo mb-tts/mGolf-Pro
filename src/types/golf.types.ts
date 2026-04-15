@@ -65,7 +65,7 @@ export interface FlightPlayer {
   id: string;
   name: string;
   hdc: number;
-  vga: string;
+  vgaCode: string;
   image: string;
 }
 
@@ -84,7 +84,7 @@ export interface OutingResult {
   rank: number;
   name: string;
   hdc: number;
-  vga: string;
+  vgaCode: string;
   net: number;
   points: number;
   image: string;

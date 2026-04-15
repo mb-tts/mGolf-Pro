@@ -16,6 +16,8 @@ export interface Player {
   vga: string;
   phone?: string;
   isOwner: boolean;
+  // Trạng thái đã được chọn trong flow tạo flight
+  isSelected?: boolean;
 }
 
 export type HoleCount = 9 | 18;

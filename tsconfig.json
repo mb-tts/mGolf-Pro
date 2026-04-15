@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+<<<<<<< HEAD
+=======
+
+    "baseUrl": ".",
+>>>>>>> c129f3fc70b920ad1078aa6e803613291f837778
     "paths": {
       "@/*": ["./src/*"],
       "@assets/*": ["./assets/*"]

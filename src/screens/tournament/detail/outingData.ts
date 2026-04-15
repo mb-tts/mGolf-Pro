@@ -76,14 +76,14 @@ export const OUTING_DATA = [
         id: "f1",
         name: "Flight 1",
         players: [
-          { id: "p1", name: "Nguyễn Hải Linh", hdc: 20, vga: "123568", image: "https://picsum.photos/id/64/100" },
-          { id: "p2", name: "Trần Văn B", hdc: 15, vga: "123569", image: "https://picsum.photos/id/65/100" },
+          { id: "p1", name: "Nguyễn Hải Linh", hdc: 20, vgaCode: "123568", image: "https://picsum.photos/id/64/100" },
+          { id: "p2", name: "Trần Văn B", hdc: 15, vgaCode: "123569", image: "https://picsum.photos/id/65/100" },
         ]
       }
     ], 
     results: [
-      { id: "r1", rank: 1, name: "Nguyễn Hải Linh", hdc: 20, vga: "123568", net: 2, points: 92, image: "https://picsum.photos/id/64/100" },
-      { id: "r2", rank: 2, name: "Trần Văn Nam", hdc: 15, vga: "123569", net: 2, points: 92, image: "https://picsum.photos/id/65/100" },
+      { id: "r1", rank: 1, name: "Nguyễn Hải Linh", hdc: 20, vgaCode: "123568", net: 2, points: 92, image: "https://picsum.photos/id/64/100" },
+      { id: "r2", rank: 2, name: "Trần Văn Nam", hdc: 15, vgaCode: "123569", net: 2, points: 92, image: "https://picsum.photos/id/65/100" },
     ]
   },
   {

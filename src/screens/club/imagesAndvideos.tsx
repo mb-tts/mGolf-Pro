@@ -7,11 +7,11 @@ import {
   Dimensions,
   TouchableOpacity,
   Modal,
-  SafeAreaView,
   StatusBar,
   FlatList,
   ViewToken,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
@@ -43,7 +43,7 @@ export default function ImagesAndVideosScreen({ navigation, route }: Props) {
 
 
   const onViewableItemsChanged = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-    if (viewableItems.length > 0) {
+    if (viewableItems.length > 0 && viewableItems[0].index !== null) {
       setCurrentIndex(viewableItems[0].index);
     }
   };

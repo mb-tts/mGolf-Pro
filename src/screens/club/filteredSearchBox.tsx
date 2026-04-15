@@ -6,11 +6,17 @@ import {
   TextInput,
   TouchableOpacity,
   Modal,
-  SafeAreaView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Boloc from "./bolocInOuting"; 
-export default function FilterSearchBox() {
+export default function FilterSearchBox({
+  value,
+  onChangeText,
+}: {
+  value: string;
+  onChangeText: (text: string) => void;
+}) {
   const [filterVisible, setFilterVisible] = useState(false);
 
   return (
@@ -26,6 +32,8 @@ export default function FilterSearchBox() {
               placeholder="Tìm kiếm"
               style={styles.input}
               placeholderTextColor="#999"
+              value={value}
+              onChangeText={onChangeText}
             />
           </View>
 
