@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import {
   SafeAreaView,
@@ -71,6 +72,16 @@ export const CreateFlightScreen = ({ navigation }: Props) => {
   const handleRemovePlayer = (id: string) => {
     setPlayers((prev) => prev.filter((p) => p.id !== id));
     if (scorerId === id) setScorerId("all");
+  };
+
+  const handleContinue = () => {
+    // Nếu đang có đúng 3 người chơi thì báo cần thêm người
+    if (players.length === 3) {
+      Alert.alert("Thông báo", "Cần chọn thêm người chơi để có thể bắt đầu.");
+      return;
+    }
+
+    navigation.navigate("InstallGame");
   };
 
   return (
@@ -202,7 +213,7 @@ export const CreateFlightScreen = ({ navigation }: Props) => {
                 styles.continueBtn,
                 canContinue && styles.continueBtnActive,
               ]}
-              onPress={() => navigation.navigate("InstallGame")}
+              onPress={handleContinue}
               disabled={!canContinue}
             >
               <Text

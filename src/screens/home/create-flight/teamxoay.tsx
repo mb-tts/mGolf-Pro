@@ -547,9 +547,9 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopWidth: 1,
     borderColor: "#EEE",
-    paddingBottom: 30, // SafeArea cho iPhone X+
+    marginBottom: 60 // SafeArea cho iPhone X+
   },
-  footerWrap: { backgroundColor: "#FFF", borderTopWidth: 1, borderTopColor: "#F0F0F0" },
+  footerWrap: { backgroundColor: "#FFF", borderTopWidth: 1, borderTopColor: "#F0F0F0", marginBottom: 40 },
   continueBtn: {
     height: 56, borderRadius: 16, backgroundColor: "#0061AF",
     justifyContent: "center", alignItems: "center",
