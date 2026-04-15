@@ -17,6 +17,8 @@ export interface HoleData {
   yard?: number;
   strokeIndex?: number;
   image?: string;
+  /** Link video flyover / giới thiệu riêng cho từng hố */
+  videoUrl?: string;
   black?: number;
   blue?: number;
   white?: number;

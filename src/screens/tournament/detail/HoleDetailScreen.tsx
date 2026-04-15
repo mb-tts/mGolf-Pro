@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   View,
   Text,
@@ -22,6 +23,7 @@ type Props = NativeStackScreenProps<AppStackParamList, 'HoleDetailScreen'>;
 const HoleDetailScreen = ({ route, navigation }: Props) => {
   const { holeData, scorecard, courseName } = route.params || {};
   const [currentHole, setCurrentHole] = useState(holeData || scorecard?.[0]);
+  const insets = useSafeAreaInsets();
 
   const renderBottomHoleItem = ({ item }: { item: HoleData }) => {
     const isActive = currentHole?.hole === item.hole;
@@ -66,7 +68,7 @@ const HoleDetailScreen = ({ route, navigation }: Props) => {
     : require("../../../../assets/images/golfmap1.png");
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       
       {/* ─── HEADER ─── */}
@@ -82,7 +84,7 @@ const HoleDetailScreen = ({ route, navigation }: Props) => {
         <View style={styles.headerRight} />
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.scrollContent, { paddingBottom: 24 }]}>
         
         {/* ─── ẢNH COVER (HERO IMAGE) ─── */}
         <ImageBackground
@@ -173,7 +175,7 @@ const HoleDetailScreen = ({ route, navigation }: Props) => {
       </ScrollView>
 
       {/* ─── THANH TRƯỢT CHỌN HỐ Ở ĐÁY ─── */}
-      <View style={styles.bottomSliderContainer}>
+      <View style={[styles.bottomSliderContainer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
         <FlatList
           data={scorecard}
           horizontal
@@ -203,7 +205,7 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 18, fontWeight: '700', color: '#1F2937' },
   headerRight: { width: 40 },
 
-  scrollContent: { padding: 16, paddingBottom: 100 },
+  scrollContent: { padding: 16 },
 
   heroImage: {
     width: '100%', height: 280, borderRadius: 16, marginBottom: 16,
@@ -253,8 +255,7 @@ const styles = StyleSheet.create({
   },
 
   bottomSliderContainer: {
-    position: 'absolute', bottom: 0, left: 0, right: 0,
-    backgroundColor: '#FFFFFF', paddingVertical: 12,
+    backgroundColor: '#FFFFFF', paddingTop: 12,
     borderTopWidth: 1, borderTopColor: '#F3F4F6',
     elevation: 10, shadowColor: '#000', shadowOffset: { width: 0, height: -3 }, shadowOpacity: 0.05, shadowRadius: 5,
   },
