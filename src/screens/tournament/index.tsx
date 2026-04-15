@@ -42,6 +42,7 @@ export const TournamentScreen = () => {
   const handlePressCourse = (item: OutingData) => {
     navigation.navigate("OutingDetailScreen", {
       outingData: item,
+      source: "Tournament",
     });
   };
 

@@ -172,7 +172,7 @@ export default function OutingDetailScreen({ route, navigation }: Props) {
 
 // ─── CÁC COMPONENT TÁI SỬ DỤNG LẠI (TỐI ƯU CODE) ─────────────────────────────
 
-const InfoRow = ({ icon, text, color }: { icon: IoniconsName; text: string; color: string }) => {
+const InfoRow = ({ icon, text, color }: { icon: IoniconsName; text?: string; color: string }) => {
   if (!text) return null;
   return (
     <View style={styles.infoRowShared}>
