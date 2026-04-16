@@ -17,6 +17,8 @@ export interface HoleData {
   yard?: number;
   strokeIndex?: number;
   image?: string;
+  /** Link video flyover / giới thiệu riêng cho từng hố */
+  videoUrl?: string;
   black?: number;
   blue?: number;
   white?: number;
@@ -65,7 +67,7 @@ export interface FlightPlayer {
   id: string;
   name: string;
   hdc: number;
-  vga: string;
+  vgaCode: string;
   image: string;
 }
 
@@ -84,7 +86,7 @@ export interface OutingResult {
   rank: number;
   name: string;
   hdc: number;
-  vga: string;
+  vgaCode: string;
   net: number;
   points: number;
   image: string;

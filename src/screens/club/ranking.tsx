@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react"; // Thêm useState, useEffect
+import { useState, useEffect, useMemo } from "react"; 
 import {
   View,
   Text,
   StyleSheet,
   Image,
-  Keyboard, // Thêm Keyboard vào đây
+  Keyboard, 
 } from "react-native";
-import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import FilterSearchBox from "./filteredSearchBox"; 
 
 // 1. TẠO DỮ LIỆU ẢO (DUMMY DATA)
 const generateData = () => {
@@ -15,7 +16,7 @@ const generateData = () => {
       id: "1",
       rank: 1,
       name: "Nguyễn Hùng",
-      vgaid: "VGA 123568",
+      vgaCode: "VGA 123568",
       score: 48,
       image: "https://picsum.photos/id/10/100",
     },
@@ -23,7 +24,7 @@ const generateData = () => {
       id: "2",
       rank: 2,
       name: "Nguyễn Hùng",
-      vgaid: "VGA 123568",
+      vgaCode: "VGA 123568",
       score: 44,
       image: "https://picsum.photos/id/11/100",
     },
@@ -31,7 +32,7 @@ const generateData = () => {
       id: "3",
       rank: 3,
       name: "Nguyễn Hùng",
-      vgaid: "VGA 123568",
+      vgaCode: "VGA 123568",
       score: 40,
       image: "https://picsum.photos/id/12/100",
     },
@@ -39,7 +40,7 @@ const generateData = () => {
       id: "4",
       rank: 4,
       name: "Nguyễn Hùng",
-      vgaid: "VGA 123568",
+      vgaCode: "VGA 123568",
       score: 38,
       image: "https://picsum.photos/id/13/100",
     },
@@ -47,7 +48,7 @@ const generateData = () => {
       id: "5",
       rank: 5,
       name: "Lan Anh Phạm",
-      vgaid: "VGA 190900",
+      vgaCode: "VGA 190900",
       score: 36,
       image: "https://picsum.photos/id/14/100",
     },
@@ -55,7 +56,7 @@ const generateData = () => {
       id: "6",
       rank: 6,
       name: "Nguyễn Văn An",
-      vgaid: "VGA 190901",
+      vgaCode: "VGA 190901",
       score: 35,
       image: "https://picsum.photos/id/15/100",
     },
@@ -67,7 +68,7 @@ const generateData = () => {
       id: i.toString(),
       rank: i,
       name: `Người chơi ${i}`,
-      vgaid: `VGA ${100000 + i}`,
+      vgaCode: `VGA ${100000 + i}`,
       score: 35 - (i - 6),
       image: `https://picsum.photos/id/${10 + i}/100`,
     });
@@ -78,7 +79,7 @@ const generateData = () => {
     id: "20",
     rank: 20,
     name: "Tôi",
-    vgaid: "VGA 123368",
+    vgaCode: "VGA 123368",
     score: 10,
     image: "https://picsum.photos/id/30/100",
   };
@@ -91,7 +92,7 @@ export interface PlayerRanking {
   id: string;
   rank: number;
   name: string;
-  vgaid: string;
+  vgaCode: string;
   score: number;
   image: string;
 }
@@ -120,7 +121,7 @@ export const PlayerRow = ({ item, isSticky = false }: { item: PlayerRanking; isS
       {/* Phần Thông tin */}
       <View style={styles.infoContainer}>
         <Text style={styles.nameText}>{item.name}</Text>
-        <Text style={styles.vgaText}>{item.vgaid}</Text>
+        <Text style={styles.vgaText}>{item.vgaCode}</Text>
       </View>
 
       {/* Phần Điểm */}
@@ -133,6 +134,8 @@ export const PlayerRow = ({ item, isSticky = false }: { item: PlayerRanking; isS
 // Thêm prop mainScrollRef nhận từ ClubMainScreen
 export default function RankingScreen() {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -150,19 +153,34 @@ export default function RankingScreen() {
     };
   }, []);
 
+  const filteredData = useMemo(() => {
+    const query = searchText.toLowerCase().trim();
+    if (!query) return LEADERBOARD_DATA;
+    return LEADERBOARD_DATA.filter((p) =>
+      p.name.toLowerCase().includes(query) ||
+      (p.vgaCode && p.vgaCode.toLowerCase().includes(query))
+    );
+  }, [searchText]);
+
   return (
     <View style={styles.container}>
       <View>
-        <FilterSearchBox />
+        <FilterSearchBox value={searchText} onChangeText={setSearchText} />
 
         <View
           style={{
-            paddingBottom: isKeyboardVisible ? 20 : 20,
+            paddingBottom: isKeyboardVisible ? 20 : 100 + insets.bottom,
           }}
         >
-          {LEADERBOARD_DATA.map((item) => (
-            <PlayerRow key={item.id} item={item} />
-          ))}
+          {filteredData.length > 0 ? (
+            filteredData.map((item) => (
+              <PlayerRow key={item.id} item={item} />
+            ))
+          ) : (
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>Không tìm thấy golfer</Text>
+            </View>
+          )}
         </View>
       </View>
     </View>
@@ -170,6 +188,13 @@ export default function RankingScreen() {
 }
 
 const styles = StyleSheet.create({
+  emptyContainer: {
+    padding: 40,
+    alignItems: "center",
+  },
+  emptyText: {
+    color: "#999",
+  },
   container: {
     padding: 10,
     flex: 1,

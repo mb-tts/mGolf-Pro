@@ -13,6 +13,7 @@ import {
 } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { PlayerPickerModal } from "./PlayerPickerModal"; 
+import { MOCK_ALL_PLAYERS } from "./mock-data";
 // Trong file teamcodinh.tsx
 
 export interface Player {
@@ -24,13 +25,6 @@ export interface Player {
   vga: string;
   isVerified?: boolean;
 }
-
-const MOCK_PLAYERS: Player[] = [
-  { id: "p1", name: "N.Linh", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop", index: 21.8, hdc: 30, vga: "99999", isVerified: true },
-  { id: "p2", name: "N.Nam", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop", index: 21.8, hdc: 30, vga: "99999", isVerified: true },
-  { id: "p3", name: "N.Anh", avatar: "https://images.unsplash.com/photo-1501746074465-4cebaf45b800?w=100&h=100&fit=crop", index: 21.8, hdc: 30, vga: "99999", isVerified: true },
-  { id: "p4", name: "N. Duy", avatar: "https://images.unsplash.com/photo-1493247527751-218270055e9d?w=100&h=100&fit=crop", index: 21.8, hdc: 30, vga: "99999", isVerified: true }
-];
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { AppStackParamList } from "@/types/navigation.types";
@@ -52,7 +46,9 @@ export default function TeamCoDinhScreen({ navigation }: Props) {
 
   // 1. LOGIC LỌC NGƯỜI CHƠI TRỐNG
   const getAvailablePlayers = () => {
-    return MOCK_PLAYERS.filter((player) => {
+    return MOCK_ALL_PLAYERS.filter((player) => {
+      // Lọc chỉ những người đã được đánh dấu isSelected === true từ CreateFlight
+      if (!player.isSelected) return false;
       // Kiểm tra xem player này đã được gán vào ô nào KHÁC với ô đang mở (pickingPos) hay chưa
       const isSelectedInOtherSlot = Object.entries(selectedPlayers).some(
         ([pos, selectedPlayer]) => selectedPlayer?.id === player.id && pos !== pickingPos

@@ -125,6 +125,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     hdc: 30,
     vga: "99999",
     isOwner: true,
+    isSelected: false,
   },
   {
     id: "2",
@@ -134,6 +135,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     hdc: 30,
     vga: "99999",
     isOwner: false,
+    isSelected: false,
   },
   {
     id: "3",
@@ -143,6 +145,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     hdc: 30,
     vga: "99999",
     isOwner: false,
+    isSelected: false,
   },
   {
     id: "4",
@@ -152,6 +155,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     hdc: 24,
     vga: "88888",
     isOwner: false,
+    isSelected: false,
   },
   {
     id: "5",
@@ -161,6 +165,7 @@ export const MOCK_ALL_PLAYERS: Player[] = [
     hdc: 20,
     vga: "77777",
     isOwner: false,
+    isSelected: false,
   },
 ];
 

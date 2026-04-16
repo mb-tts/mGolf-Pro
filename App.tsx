@@ -314,7 +314,12 @@ const AppNavigator = () => (
     <AppStack.Screen
       name="HoleVideoScreen"
       component={HoleVideoScreen}
-      options={{ headerShown: false }}
+      options={{
+        headerShown: false,
+        animation: "none",
+        contentStyle: { backgroundColor: "#000000" },
+        gestureEnabled: false,
+      }}
     />
   </AppStack.Navigator>
 );
