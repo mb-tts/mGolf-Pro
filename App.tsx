@@ -17,7 +17,6 @@ import type {
   MainTabParamList,
   AppStackParamList,
 } from "@/types/navigation.types";
-// Re-export để các file cũ import từ App.tsx vẫn hoạt động
 export type { AuthStackParamList, MainTabParamList, AppStackParamList };
 
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
@@ -359,7 +358,7 @@ export default function App() {
         <BottomSheetModalProvider>
           <AuthProvider>
             <RootNavigator />
-          </AuthProvider>
+           </AuthProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
