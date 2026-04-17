@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "test": "echo \"No tests specified\" && exit 0",
     "commit": "git-cz",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "gen-commit": "node scripts/gen-commit.js"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
