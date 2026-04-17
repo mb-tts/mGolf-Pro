@@ -13,6 +13,8 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppStackParamList } from "@/types/navigation.types";
 import { MOCK_ALL_PLAYERS } from "./mock-data";
 // ─── TYPES & MOCK DATA (Lấy từ file của bạn) ──────────────────────────────────
 export interface Player {
@@ -33,7 +35,7 @@ const { height } = Dimensions.get("window");
 
 // ─── COMPONENT MAIN ──────────────────────────────────────────────────────────
 export default function TeamXoayScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
 
   // State lưu 3 trận đấu
   const [matches, setMatches] = useState<Match[]>([
@@ -230,7 +232,7 @@ export default function TeamXoayScreen() {
           <TouchableOpacity
             style={styles.continueBtn}
             activeOpacity={0.8}
-            onPress={() => console.log("Vào trận đấu")}
+            onPress={() => navigation.navigate("ScoreInputScreen")}
           >
             <Text style={styles.continueText}>Vào trận đấu</Text>
           </TouchableOpacity>
