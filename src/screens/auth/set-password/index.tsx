@@ -1,19 +1,19 @@
-import React from "react";
+
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigation } from "@react-navigation/native";
-import { AuthLayout } from "../../../components/auth/AuthLayout";
-import { AppInput } from "../../../components/auth/AppInput";
-import { AppButton } from "../../../components/auth/AppButton";
-import { useAuth } from "../../../providers/auth.provider";
-import { Colors } from "../../../constants/colors";
+import { useAuthNavigation } from "@/hooks/useNavigation";
+import { AuthLayout } from "@/components/auth/AuthLayout";
+import { AppInput } from "@/components/auth/AppInput";
+import { AppButton } from "@/components/auth/AppButton";
+import { useAuth } from "@/providers/auth.provider";
+import { Colors } from "@/constants/colors";
 import { setPasswordSchema, SetPasswordForm } from "./set-password.schema";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 export const SetPasswordScreen = () => {
   const { setPassword, isLoading } = useAuth();
-  const navigation = useNavigation<any>();
+  const navigation = useAuthNavigation();
 
   const {
     control,
@@ -28,8 +28,8 @@ export const SetPasswordScreen = () => {
     try {
       await setPassword(data);
       navigation.navigate("Login");
-    } catch (e: any) {
-      alert(e.message);
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "Thiết lập mật khẩu thất bại");
     }
   };
 

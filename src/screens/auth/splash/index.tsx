@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { View, Image, Text, StyleSheet, StatusBar } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useAuthNavigation } from "@/hooks/useNavigation";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const SplashScreen = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useAuthNavigation();
+  const insets = useSafeAreaInsets();
 
   // Tự động chuyển sang Onboarding sau 2.5 giây
   useEffect(() => {
@@ -28,7 +30,7 @@ export const SplashScreen = () => {
       </View>
 
       {/* Dòng chữ "Phát triển bởi mobifone" ở đáy */}
-      <View style={styles.footer}>
+      <View style={[styles.footer, { bottom: Math.max(insets.bottom, 24) }]}>
         <Text style={styles.footerText}>
           Phát triển bởi
           <Text style={styles.footerBrand}>mobifone</Text>
@@ -61,7 +63,6 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: "absolute",
-    bottom: 40,
   },
   footerText: {
     fontSize: 13,

@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import {
   View,
   Text,
@@ -6,11 +6,11 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "@/constants/colors";
 
-import EditIcon from "../../../assets/icons/home/edit-2.svg";
-import ResetIcon from "../../../assets/icons/home/rotate-left.svg";
-import IndexBannerImage from "../../../assets/images/IndexBanner.png";
+import EditIcon from "@assets/icons/home/edit-2.svg";
+import ResetIcon from "@assets/icons/home/rotate-left.svg";
+import IndexBannerImage from "@assets/images/IndexBanner.png";
 
 interface IndexBannerProps {
   index: number;
@@ -18,7 +18,7 @@ interface IndexBannerProps {
   onReset?: () => void;
 }
 
-export const IndexBanner: React.FC<IndexBannerProps> = ({
+export const IndexBanner: FC<IndexBannerProps> = ({
   index,
   onEdit,
   onReset,

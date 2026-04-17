@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -11,8 +11,8 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../../constants/colors";
-import { ScreenWrapper } from "../../../components/common/ScreenWrapper";
+import { Colors } from "@/constants/colors";
+import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 
 // ── Types & Data ──
 import { Course, Player, HoleCount, Route } from "./types";
@@ -26,10 +26,15 @@ import { CoursePickerModal } from "./components/CoursePickerModal";
 import { PlayerPickerModal } from "./components/PlayerPickerModal";
 import { ScorerPickerModal } from "./components/ScorerPickerModal";
 import { TeeTimePickerModal } from "./components/TeeTimePickerModal";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppStackParamList } from "../../../../App";
 
+type Props = {
+  navigation: NativeStackNavigationProp<AppStackParamList, "CreateFlight">;
+};
 
 // ─── Component chính ─────────────────────────────────────────────────────────
-export const CreateFlightScreen = ({ navigation }: any) => {
+export const CreateFlightScreen = ({ navigation }: Props) => {
   const insets = useSafeAreaInsets();
 
   // ── Form State ──
@@ -66,21 +71,6 @@ export const CreateFlightScreen = ({ navigation }: any) => {
     setPlayers((prev) => prev.filter((p) => p.id !== id));
     if (scorerId === id) setScorerId("all");
   };
-
-  // const handleContinue = () => {
-  //   if (!canContinue) return;
-  //   console.log("── Flight Data ──", {
-  //     courseId: course?.id,
-  //     holeCount,
-  //     routeGo,
-  //     routeBack,
-  //     players: players.map((p) => p.id),
-  //     scorerId,
-  //     teeDate,
-  //     teeTime,
-  //   });
-  //   // TODO: navigation.navigate("FlightScoring", { ... });
-  // };
 
   return (
     <ScreenWrapper extendBehindStatusBar statusBarStyle="dark-content">
@@ -238,7 +228,17 @@ export const CreateFlightScreen = ({ navigation }: any) => {
           visible={showPlayer}
           allPlayers={MOCK_ALL_PLAYERS}
           selectedPlayers={players}
-          onConfirm={setPlayers}
+          onConfirm={(selected) => {
+            // Cập nhật state local
+            setPlayers(selected);
+            // Đồng bộ trạng thái isSelected trên MOCK_ALL_PLAYERS
+            const selectedIds = selected.map((p) => p.id);
+            for (let i = 0; i < MOCK_ALL_PLAYERS.length; i++) {
+              MOCK_ALL_PLAYERS[i].isSelected = selectedIds.includes(
+                MOCK_ALL_PLAYERS[i].id,
+              );
+            }
+          }}
           onClose={() => setShowPlayer(false)}
         />
         <ScorerPickerModal

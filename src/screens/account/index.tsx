@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import {
   View,
   Text,
@@ -10,24 +10,33 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAuth } from "../../providers/auth.provider";
-import { Colors } from "../../constants/colors";
-import { ScreenWrapper } from "../../components/common/ScreenWrapper";
-import BackgroundProfile from "../../../assets/icons/profile/backgroundProfile.svg";
-import InformationIcon from "../../../assets/icons/information.svg";
-import AchievementsIcon from "../../../assets/icons/achievements.svg";
-import GameSettingsIcon from "../../../assets/icons/game_settings.svg";
-import UISettingsIcon from "../../../assets/icons/ui_settings.svg";
-import PaymentsIcon from "../../../assets/icons/payments.svg";
-import EquipmentsIcon from "../../../assets/icons/equipments.svg";
-import NotificationIcon from "../../../assets/icons/notification.svg";
-import PrivacyIcon from "../../../assets/icons/privacy.svg";
-import ContactUsIcon from "../../../assets/icons/contactus.svg";
-import AboutUsIcon from "../../../assets/icons/aboutus.svg";
+import { useAuth } from "@/providers/auth.provider";
+import { Colors } from "@/constants/colors";
+import { ScreenWrapper } from "@/components/common/ScreenWrapper";
+import { useAppNavigation } from "@/hooks/useNavigation";
+import type { AppStackParamList } from "@/types/navigation.types";
 
-const MENU_GROUP_1 = [
+import BackgroundProfile from "@assets/icons/profile/backgroundProfile.svg";
+import InformationIcon from "@assets/icons/information.svg";
+import AchievementsIcon from "@assets/icons/achievements.svg";
+import GameSettingsIcon from "@assets/icons/game_settings.svg";
+import UISettingsIcon from "@assets/icons/ui_settings.svg";
+import PaymentsIcon from "@assets/icons/payments.svg";
+import EquipmentsIcon from "@assets/icons/equipments.svg";
+import NotificationIcon from "@assets/icons/notification.svg";
+import PrivacyIcon from "@assets/icons/privacy.svg";
+import ContactUsIcon from "@assets/icons/contactus.svg";
+import AboutUsIcon from "@assets/icons/aboutus.svg";
+import type { SvgProps } from "react-native-svg";
+
+// ─── Menu Item Interface ──────────────────────────────────────────────────────
+interface MenuItem {
+  label: string;
+  icon: FC<SvgProps>;
+  id: keyof AppStackParamList;
+}
+
+const MENU_GROUP_1: MenuItem[] = [
   {
     label: "Thông tin tài khoản",
     icon: InformationIcon,
@@ -54,18 +63,22 @@ const MENU_GROUP_1 = [
   },
 ];
 
-const MENU_GROUP_2 = [
+const MENU_GROUP_2: MenuItem[] = [
   { label: "Liên hệ với chúng tôi", icon: ContactUsIcon, id: "Contact" },
   { label: "Về chúng tôi", icon: AboutUsIcon, id: "About" },
   { label: "Luật chơi", icon: NotificationIcon, id: "Rules" },
 ];
 
-interface MenuItemProps {
-  item: any;
-  onPress: (screenName: string) => void;
+// ─── Menu Item Component ──────────────────────────────────────────────────────
+interface MenuItemComponentProps {
+  item: MenuItem;
+  onPress: (screenName: keyof AppStackParamList) => void;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ item, onPress }) => {
+const MenuItemComponent: FC<MenuItemComponentProps> = ({
+  item,
+  onPress,
+}) => {
   const IconComponent = item.icon;
   return (
     <TouchableOpacity
@@ -82,24 +95,20 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, onPress }) => {
   );
 };
 
+// ─── Account Screen ───────────────────────────────────────────────────────────
 export const AccountScreen = () => {
   const { user, logout } = useAuth();
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const navigation = useAppNavigation();
 
-  const handleMenuPress = (screenName: string) => {
-    const appStackScreens = ["AccountInformation", "Achievements", "GameSettings", 
-      "UISettings", "PaymentSettings", "Equipment", "NotificationSettings", "Security"];
-    
-    if (appStackScreens.includes(screenName)) {
-      navigation.getParent()?.navigate(screenName);
-    } else {
-      navigation.navigate(screenName);
-    }
+  const handleMenuPress = (screenName: keyof AppStackParamList) => {
+    // Tất cả các screen này đều nằm trong AppStack, navigate trực tiếp từ parent
+    navigation.getParent()?.navigate(screenName as string);
   };
 
   return (
     <ScreenWrapper>
       <View style={styles.container}>
+        {/* ScrollView hợp lý — nội dung cố định (profile + menu items) */}
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
@@ -131,7 +140,6 @@ export const AccountScreen = () => {
 
           {/* THẺ PROFILE */}
           <View style={styles.profileCard}>
-            {/* SVG nền có bo góc riêng */}
             <View style={styles.svgContainer}>
               <BackgroundProfile
                 width="100%"
@@ -140,7 +148,6 @@ export const AccountScreen = () => {
               />
             </View>
 
-            {/* Avatar lồi lên (không bị ảnh hưởng bởi overflow hidden của svgContainer) */}
             <View style={styles.avatarWrapper}>
               <Image
                 source={{ uri: "https://i.pravatar.cc/150?img=11" }}
@@ -170,17 +177,24 @@ export const AccountScreen = () => {
             </View>
           </View>
 
-          {/* MENU NHÓM 1 */}
+          {/* MENU — dữ liệu cố định, ít → dùng .map() thay FlatList */}
           <View style={styles.menuGroup}>
             {MENU_GROUP_1.map((item) => (
-              <MenuItem key={item.id} item={item} onPress={handleMenuPress} />
+              <MenuItemComponent
+                key={item.id}
+                item={item}
+                onPress={handleMenuPress}
+              />
             ))}
           </View>
 
-          {/* MENU NHÓM 2 */}
           <View style={styles.menuGroup}>
             {MENU_GROUP_2.map((item) => (
-              <MenuItem key={item.id} item={item} onPress={handleMenuPress} />
+              <MenuItemComponent
+                key={item.id}
+                item={item}
+                onPress={handleMenuPress}
+              />
             ))}
           </View>
 

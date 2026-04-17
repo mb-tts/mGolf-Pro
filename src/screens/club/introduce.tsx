@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
-  ScrollView,
   Dimensions,
   TouchableOpacity,
-  StatusBar,
-  Pressable,
 } from "react-native";
-import ImagesAndVideosScreen from "./imagesAndvideos";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
+import { useAppNavigation } from "@/hooks/useNavigation";
 const { width } = Dimensions.get("window");
 
 const images = [
@@ -24,11 +19,14 @@ const images = [
   require("../../../assets/images/image6.png"),
 ];
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 export default function IntroduceScreen() {
-  const navigation = useNavigation<any>();
+  const navigation = useAppNavigation();
   const [expanded, setExpanded] = useState(false);
+  const insets = useSafeAreaInsets();
   return (
-    <View>
+    <View style= {{paddingBottom: insets.bottom + 50}}>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Thông tin chung</Text>
 
@@ -50,7 +48,8 @@ export default function IntroduceScreen() {
           {images.map((img, i) => (
             <TouchableOpacity
               key={i}
-              onPress={() => navigation.navigate("ImagesAndVideosScreen")}
+              // TRUYỀN THÊM { selectedIndex: i } VÀO ĐÂY:
+              onPress={() => navigation.navigate("ImagesAndVideosScreen", { selectedIndex: i })}
             >
               <Image source={img} style={styles.gridItem} />
             </TouchableOpacity>

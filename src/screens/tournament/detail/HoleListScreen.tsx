@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {
   View,
   Text,
@@ -6,67 +6,79 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  SafeAreaView,
   StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { AppStackParamList } from '@/types/navigation.types';
+import type { HoleData } from '@/types/golf.types';
 
-export interface HoleData {
-  hole: number;
-  par: number;
-  yard?: number;
-  strokeIndex?: number;
-  image?: string;
-}
+export type { HoleData };
 
+type Props = NativeStackScreenProps<AppStackParamList, 'HoleListScreen'>;
 
-
-const HoleListScreen = ({ route, navigation }: any) => {
+const HoleListScreen = ({ route, navigation }: Props) => {
   const scorecard = route?.params?.courseDetails?.scorecard || [];
 
   const renderHoleItem = ({ item }: { item: HoleData }) => (
-    <View style={styles.cardContainer}>
-      <View style={styles.thumbnailContainer}>
-        <Image
-          source={{ uri: item.image || 'https://picsum.photos/200' }}
-          style={styles.holeThumbnail}
-        />
-        <View style={styles.holeNumberContainer}>
-          <Text style={styles.holeNumberText}>{item.hole}</Text>
-        </View>
-      </View>
-
-      <View style={styles.infoContainer}>
-        <View style={styles.specRow}>
-          <View style={styles.specBadge}>
-            <Text style={styles.specText}>Par {item.par}</Text>
-          </View>
-          <View style={styles.specBadge}>
-            <Text style={styles.specText}>{item.yard || 0} yards</Text>
-          </View>
-          <View style={styles.specBadge}>
-            <Text style={styles.specText}>Độ khó {item.strokeIndex || '?'}</Text>
+    // ĐÃ THÊM TouchableOpacity Ở ĐÂY ĐỂ CÓ THỂ BẤM VÀO
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => {
+        navigation.navigate("HoleDetailScreen", {
+          holeData: item, // Chuyển dữ liệu của hố hiện tại sang
+          scorecard: scorecard, // Chuyển cả mảng để làm thanh trượt ở dưới
+          courseName: route?.params?.courseDetails?.name // Chuyển tên sân sang
+        });
+      }}
+    >
+      <View style={styles.cardContainer}>
+        <View style={styles.thumbnailContainer}>
+          <Image
+            source={{ uri: item.image || 'https://picsum.photos/200' }}
+            style={styles.holeThumbnail}
+          />
+          <View style={styles.holeNumberContainer}>
+            <Text style={styles.holeNumberText}>{item.hole}</Text>
           </View>
         </View>
 
-        <View style={styles.actionRow}>
-          <TouchableOpacity style={styles.actionButton} activeOpacity={0.6}>
-            <Ionicons name="map-outline" size={16} color="#0066FF" />
-            <Text style={styles.actionText}>Xem bản đồ hố</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton} activeOpacity={0.6}>
-            <Ionicons name="videocam-outline" size={16} color="#0066FF" />
-            <Text style={styles.actionText}>Xem video hố</Text>
-          </TouchableOpacity>
+        <View style={styles.infoContainer}>
+          <View style={styles.specRow}>
+            <View style={styles.specBadge}>
+              <Text style={styles.specText}>Par {item.par}</Text>
+            </View>
+            <View style={styles.specBadge}>
+              <Text style={styles.specText}>{item.yard || 0} yards</Text>
+            </View>
+            <View style={styles.specBadge}>
+              <Text style={styles.specText}>Độ khó {item.strokeIndex || '?'}</Text>
+            </View>
+          </View>
+
+          <View style={styles.actionRow}>
+            <TouchableOpacity style={styles.actionButton} activeOpacity={0.6} 
+            onPress={() => navigation.navigate("HoleMapScreen", { 
+            currentHole: item,       // item chính là dữ liệu của hố đang được render
+            courseName: route.params?.courseName || "Sân Golf"   // Biến lưu tên sân (hoặc lấy từ route.params tùy code của bạn)
+          })}>
+              <Ionicons name="map-outline" size={16} color="#0066FF" />
+              <Text style={styles.actionText}>Xem bản đồ hố</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton} activeOpacity={0.6}>
+              <Ionicons name="videocam-outline" size={16} color="#0066FF" />
+              <Text style={styles.actionText}>Xem video hố</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      
       
       <View style={styles.headerContainer}>
         <TouchableOpacity 
@@ -104,7 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F4F6F8',
   },
-  
   
   headerContainer: {
     flexDirection: 'row',

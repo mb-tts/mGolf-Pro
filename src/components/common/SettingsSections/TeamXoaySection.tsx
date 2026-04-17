@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { FC } from 'react';
 import { View, TouchableOpacity, Text, TextInput } from 'react-native';
 import { styles } from './styles';
 import { TeamXoaySectionProps } from './types';
 import { PlayerList } from '../PlayerCard';
 import { MOCK_PLAYERS } from '../../../constants/mock-data';
+import { MOCK_ALL_PLAYERS } from '@/screens/home/create-flight/mock-data';
 
-export const TeamXoaySection: React.FC<TeamXoaySectionProps> = ({
+export const TeamXoaySection: FC<TeamXoaySectionProps> = ({
   settings,
   onSettingsChange,
 }) => {
-  const [isTeamChecked, setIsTeamChecked] = useState(true);
 
   const holeOptions = [
     { label: '3 hố', value: 3 },
@@ -160,7 +160,7 @@ export const TeamXoaySection: React.FC<TeamXoaySectionProps> = ({
       {/* Danh sách người chơi */}
       <View style={styles.playerListWrapper}>
         <PlayerList
-          players={MOCK_PLAYERS}
+          players={MOCK_ALL_PLAYERS.filter((p) => p.isSelected)}
           onPlayerPress={(player) => console.log(player.name)}
         />
       </View>

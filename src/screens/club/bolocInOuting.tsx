@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+
 import {
   View,
   Text,
@@ -6,8 +6,6 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Modal,
-  SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 

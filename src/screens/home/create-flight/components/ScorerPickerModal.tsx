@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect, FC } from "react";
 import {
   View,
   Text,
@@ -22,7 +22,7 @@ interface ScorerPickerModalProps {
 }
 
 /** Modal chọn người nhập điểm: "Tất cả" với avatar chồng + từng người chơi */
-export const ScorerPickerModal: React.FC<ScorerPickerModalProps> = ({
+export const ScorerPickerModal: FC<ScorerPickerModalProps> = ({
   visible,
   players,
   selected,
@@ -31,7 +31,7 @@ export const ScorerPickerModal: React.FC<ScorerPickerModalProps> = ({
 }) => {
   const [tempSelected, setTempSelected] = useState(selected);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (visible) setTempSelected(selected);
   }, [visible]);
 
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   indexText: { fontSize: 11, fontWeight: "700", color: "#E65100" },
   metaText: { fontSize: 12, color: "#888", fontWeight: "500" },
 
-  footerBtn: { paddingHorizontal: 20, paddingTop: 12 },
+  footerBtn: { paddingHorizontal: 20, paddingTop: 12 , paddingBottom: 50},
   confirmBtn: {
     height: 56,
     borderRadius: 16,

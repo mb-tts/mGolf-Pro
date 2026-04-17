@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
   timeBtnTextActive: { color: Colors.primary, fontWeight: "700" },
 
   // Footer
-  footerBtn: { paddingHorizontal: 20, paddingTop: 12 },
+  footerBtn: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 50, },
   confirmBtn: {
     height: 56, borderRadius: 16, backgroundColor: Colors.primary,
     justifyContent: "center", alignItems: "center",

@@ -1,11 +1,9 @@
-import React from "react";
+import { FC } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  Platform,
-  StatusBar,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -30,7 +28,7 @@ interface BackHeaderProps {
  * Khi dùng cùng ScreenWrapper có extendBehindStatusBar=true,
  * header này sẽ nằm chồng lên background image nhưng vẫn dưới icon bar.
  */
-export const BackHeader: React.FC<BackHeaderProps> = ({
+export const BackHeader: FC<BackHeaderProps> = ({
   title,
   onBack,
   tintColor = "#fff",

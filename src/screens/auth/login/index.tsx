@@ -1,14 +1,14 @@
-import React from "react";
+
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigation } from "@react-navigation/native";
+import { useAuthNavigation } from "@/hooks/useNavigation";
 import { Ionicons } from "@expo/vector-icons";
-import { AuthLayout } from "../../../components/auth/AuthLayout";
-import { AppInput } from "../../../components/auth/AppInput";
-import { AppButton } from "../../../components/auth/AppButton";
-import { useAuth } from "../../../providers/auth.provider";
-import { Colors } from "../../../constants/colors";
+import { AuthLayout } from "@/components/auth/AuthLayout";
+import { AppInput } from "@/components/auth/AppInput";
+import { AppButton } from "@/components/auth/AppButton";
+import { useAuth } from "@/providers/auth.provider";
+import { Colors } from "@/constants/colors";
 import { loginSchema, LoginForm } from "./login.schema";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -21,7 +21,7 @@ const SOCIAL_LOGIN_LIST = [
 
 export const LoginScreen = () => {
   const { login, isLoading } = useAuth();
-  const navigation = useNavigation<any>();
+  const navigation = useAuthNavigation();
 
   const {
     control,
@@ -56,8 +56,8 @@ export const LoginScreen = () => {
   const onSubmit = async (data: LoginForm) => {
     try {
       await login(data);
-    } catch (e: any) {
-      alert(e.message);
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "Đăng nhập thất bại");
     }
   };
 
@@ -123,8 +123,8 @@ export const LoginScreen = () => {
 
         <View style={styles.socialRow}>
           {SOCIAL_LOGIN_LIST.map(({ key, icon, color }) => (
-            <TouchableOpacity key={key} style={styles.socialBtn}>
-              <Ionicons name={icon as any} size={28} color={color} />
+            <TouchableOpacity key={key} style={styles.socialBtn} onPress={() => onSocialLogin(key)}>
+              <Ionicons name={icon as React.ComponentProps<typeof Ionicons>["name"]} size={28} color={color} />
             </TouchableOpacity>
           ))}
         </View>
@@ -151,9 +151,9 @@ export const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  forgotRow: { alignItems: "flex-end", marginBottom: 5 }, // Theo mẫu khoảng cách ở đây rộng hơn
+  forgotRow: { alignItems: "flex-end", marginBottom: 5 }, 
   forgotText: { color: Colors.link, fontSize: 16, fontWeight: "500" },
-  loginBtn: { height: 52, borderRadius: 16, marginTop: 10 }, // Nút đăng nhập to và bo góc nhiều
+  loginBtn: { height: 52, borderRadius: 16, marginTop: 10 }, 
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",

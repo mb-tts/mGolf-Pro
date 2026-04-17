@@ -1,11 +1,12 @@
-import React from "react";
+import { useMemo, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
 } from "react-native";
-import FilterSearchBox from "./filteredSearchBox"; // Import Component dùng chung
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import FilterSearchBox from "./filteredSearchBox"; 
 
 // 1. TẠO DỮ LIỆU ẢO (DUMMY DATA) 20 NGƯỜI
 const generateData = () => {
@@ -21,9 +22,19 @@ const generateData = () => {
   }));
 };
 
+export interface Member {
+  id: string;
+  rank: number;
+  name: string;
+  hdc: number;
+  vga: string;
+  image: string;
+  role: string | null;
+}
+
 const LEADERBOARD_DATA = generateData();
 
-const MemberRow = ({ item }) => {
+const MemberRow = ({ item }: { item: Member }) => {
   const formattedRank = item.rank.toString().padStart(2, "0");
 
   return (
@@ -49,16 +60,33 @@ const MemberRow = ({ item }) => {
 
 // 3. COMPONENT CHÍNH
 export default function MemberScreen() {
+  const [searchText, setSearchText] = useState("");
+  const insets = useSafeAreaInsets();
+
+  const filteredMembers = useMemo(() => {
+    const query = searchText.toLowerCase().trim();
+    if (!query) return LEADERBOARD_DATA;
+    return LEADERBOARD_DATA.filter((m) =>
+      m.name.toLowerCase().includes(query) ||
+      (m.vga && m.vga.toLowerCase().includes(query))
+    );
+  }, [searchText]);
+
   return (
-    // Đổi SafeAreaView thành View
     <View style={styles.container}>
-      <FilterSearchBox />
+      <FilterSearchBox value={searchText} onChangeText={setSearchText} />
 
       {/* THAY THẾ FLATLIST BẰNG MAP */}
-      <View style={{ paddingBottom: 20 }}>
-        {LEADERBOARD_DATA.map((item) => (
-          <MemberRow key={item.id} item={item} />
-        ))}
+      <View style={{ paddingBottom: 60 + insets.bottom }}>
+        {filteredMembers.length > 0 ? (
+          filteredMembers.map((item) => (
+            <MemberRow key={item.id} item={item} />
+          ))
+        ) : (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>Không tìm thấy thành viên</Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -66,6 +94,13 @@ export default function MemberScreen() {
 
 // 4. STYLES (Giữ nguyên)
 const styles = StyleSheet.create({
+  emptyContainer: {
+    padding: 40,
+    alignItems: "center",
+  },
+  emptyText: {
+    color: "#999",
+  },
   container: {
     padding: 10,
     flex: 1,

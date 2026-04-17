@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     borderColor: "#E5E7EB", 
     alignItems: "center", 
     justifyContent: "center",
-    backgroundColor: '#FFF'
   },
   headerTitle: { 
     fontSize: 18, 

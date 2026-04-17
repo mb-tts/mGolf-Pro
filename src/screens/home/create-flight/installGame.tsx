@@ -5,24 +5,32 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Colors } from "../../../constants/colors";
+import { Colors } from "@/constants/colors";
 import {
   EverythingSection,
   TeamXoaySection,
   TeamCoDefinedSection,
   ContractSection,
   QuyGaSection,
-} from "../../../components/common/SettingsSections";
-import SelectionCard from "../../../components/common/SelectionCard";
+} from "@/components/common/SettingsSections";
+import { GameSettings } from "@/types/golf.types";
+import SelectionCard from "@/components/common/SelectionCard";
 import { SavedGameModal, SavedGame } from "./components/SavedGameModal";
 import { MOCK_SAVED_GAMES } from "./mock-data";
 
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppStackParamList } from "../../../../App";
+
+type NavigationProp = NativeStackNavigationProp<
+  AppStackParamList,
+  "InstallGame"
+>;
 export default function InstallGame() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
 
   // Modal "Game đã lưu"
@@ -32,13 +40,7 @@ export default function InstallGame() {
   const [everythingFilter, setEverythingFilter] = useState("nothing");
 
   // Team Xoay section state
-  const [teamXoaySettings, setTeamXoaySettings] = useState<{
-    holeCount: number;
-    comparison: "best" | "all" | "weakest";
-    byMonth: boolean;
-    playBest: boolean;
-    restrictions: boolean;
-  }>({
+  const [teamXoaySettings, setTeamXoaySettings] = useState<GameSettings>({
     holeCount: 3,
     comparison: "best",
     byMonth: false,
@@ -47,30 +49,21 @@ export default function InstallGame() {
   });
 
   // Team Cố Định section state
-  const [teamCoDefinedSettings, setTeamCoDefinedSettings] = useState<{
-    holeCount: number;
-    comparison: "best" | "all" | "weakest";
-  }>({
-    holeCount: 3,
-    comparison: "best",
-  });
+  const [teamCoDefinedSettings, setTeamCoDefinedSettings] =
+    useState<GameSettings>({
+      holeCount: 3,
+      comparison: "best",
+    });
 
   // Contract section state
-  const [contractSettings, setContractSettings] = useState<{
-    skinsOut: string;
-    skinsIn: string;
-    skinsTotal: string;
-  }>({
+  const [contractSettings, setContractSettings] = useState<GameSettings>({
     skinsOut: "",
     skinsIn: "",
     skinsTotal: "",
   });
 
   // Quy gà section state
-  const [quyGaSettings, setQuyGaSettings] = useState<{
-    skinsPerHole: string;
-    condition: "birdie" | "eagle" | "par" | "";
-  }>({
+  const [quyGaSettings, setQuyGaSettings] = useState<GameSettings>({
     skinsPerHole: "",
     condition: "",
   });
@@ -90,9 +83,19 @@ export default function InstallGame() {
     setQuyGaSettings(settings.quyGaSettings);
   };
 
+  const handleContinue = () => {
+    if (selectedSection === "teamxoay") {
+      navigation.navigate("Teamxoay");
+    } else if (selectedSection === "teamcodefined") {
+      navigation.navigate("TeamCoDinh");
+    } else {
+      console.log("Tính năng đang được phát triển");
+    }
+  };
+
   const settingSections = [
-    { id: "everything", label: "Everything", memberCount: 4 },
-    { id: "teamxoay", label: "Team xoay", memberCount: 4 },
+    { id: "everything", label: "Everything", memberCount: 0 },
+    { id: "teamxoay", label: "Team xoay", memberCount: 0 },
     { id: "teamcodefined", label: "Team cố định", memberCount: 0 },
     { id: "hopdong", label: "Hợp đồng", memberCount: 0 },
     { id: "quyga", label: "Quỹ gà", memberCount: 0 },
@@ -121,7 +124,11 @@ export default function InstallGame() {
               activeOpacity={0.7}
               onPress={() => setSavedGameModalVisible(true)}
             >
-              <Ionicons name="bookmark-outline" size={18} color={Colors.primary} />
+              <Ionicons
+                name="bookmark-outline"
+                size={18}
+                color={Colors.primary}
+              />
               <Text style={styles.savedGameBtnText}>Game đã lưu</Text>
               <Ionicons name="chevron-forward" size={16} color="#999" />
             </TouchableOpacity>
@@ -229,7 +236,7 @@ export default function InstallGame() {
 
           <TouchableOpacity
             style={[styles.continueBtn]}
-            onPress={() => navigation.goBack()}
+            onPress={handleContinue}
           >
             <Text style={[styles.continueText]}>Tiếp tục</Text>
           </TouchableOpacity>

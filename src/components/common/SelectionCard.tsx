@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import { useState, FC } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import type { ViewStyle, StyleProp } from 'react-native';
 
 interface SelectionCardProps {
   label?: string;
   initialChecked?: boolean;
   isChecked?: boolean;
   onChange?: (checked: boolean) => void;
-  style?: any;
+  style?: StyleProp<ViewStyle>;
   onPress?: () => void;
   children?: React.ReactNode;
 }
 
-const SelectionCard: React.FC<SelectionCardProps> = ({ 
+const SelectionCard: FC<SelectionCardProps> = ({ 
   label = "Everything", 
   initialChecked = false,
   isChecked: isCheckedProp,

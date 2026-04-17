@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     borderColor: "#E5E7EB", 
     alignItems: "center", 
     justifyContent: "center",
-    backgroundColor: '#FFF'
   },
   headerTitle: { 
     fontSize: 18, 

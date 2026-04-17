@@ -1,17 +1,17 @@
-import React from "react";
+import { FC } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import { MatchStatusBadge } from "./MatchStatusBadge";
 import { ScoreTable } from "./ScoreTable";
-import { Match } from "../../constants/mock-data";
-import { Colors } from "../../constants/colors";
+import { Match } from "@/constants/mock-data";
+import { Colors } from "@/constants/colors";
 
 // ✅ Import SVG icons
-import LocationIcon from "../../../assets/icons/home/Location.svg";
-import ClubIcon from "../../../assets/icons/home/3User.svg";
-import CalendarIcon from "../../../assets/icons/home/calender2.svg";
+import LocationIcon from "@assets/icons/home/Location.svg";
+import ClubIcon from "@assets/icons/home/3User.svg";
+import CalendarIcon from "@assets/icons/home/calender2.svg";
 
-export const MatchCard: React.FC<{ match: Match }> = ({ match }) => (
+export const MatchCard: FC<{ match: Match }> = ({ match }) => (
   <View style={styles.card}>
     <Text style={styles.title}>{match.title}</Text>
     <MatchStatusBadge status={match.status} />
