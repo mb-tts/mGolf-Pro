@@ -165,7 +165,7 @@ export default function TeamCoDinhScreen({ navigation }: Props) {
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.continueBtn}
-          onPress={() => console.log("Data:", selectedPlayers)}
+          onPress={() => navigation.navigate("ScoreInputScreen")}
           activeOpacity={0.8}
         >
           <Text style={styles.continueText}>Vào trận đấu</Text>

@@ -51,6 +51,7 @@ export type AppStackParamList = {
   };
   HoleVideoScreen: { currentHole?: HoleData; videoUrl?: string };
   CreateFlight: undefined;
+  ScoreInputScreen: undefined;
   PasswordChange: undefined;
   SetPasswordForm: undefined;
   ImagesAndVideosScreen: { selectedIndex?: number };

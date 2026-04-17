@@ -230,7 +230,7 @@ export default function TeamXoayScreen() {
           <TouchableOpacity
             style={styles.continueBtn}
             activeOpacity={0.8}
-            onPress={() => console.log("Vào trận đấu")}
+            onPress={() => navigation.navigate("ScoreInputScreen" as any)}
           >
             <Text style={styles.continueText}>Vào trận đấu</Text>
           </TouchableOpacity>
