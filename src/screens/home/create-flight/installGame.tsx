@@ -25,10 +25,9 @@ import { MOCK_SAVED_GAMES } from "./mock-data";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../../../App";
 
-
 type NavigationProp = NativeStackNavigationProp<
   AppStackParamList,
-  'InstallGame'
+  "InstallGame"
 >;
 export default function InstallGame() {
   const navigation = useNavigation<NavigationProp>();
@@ -50,10 +49,11 @@ export default function InstallGame() {
   });
 
   // Team Cố Định section state
-  const [teamCoDefinedSettings, setTeamCoDefinedSettings] = useState<GameSettings>({
-    holeCount: 3,
-    comparison: "best",
-  });
+  const [teamCoDefinedSettings, setTeamCoDefinedSettings] =
+    useState<GameSettings>({
+      holeCount: 3,
+      comparison: "best",
+    });
 
   // Contract section state
   const [contractSettings, setContractSettings] = useState<GameSettings>({
@@ -124,7 +124,11 @@ export default function InstallGame() {
               activeOpacity={0.7}
               onPress={() => setSavedGameModalVisible(true)}
             >
-              <Ionicons name="bookmark-outline" size={18} color={Colors.primary} />
+              <Ionicons
+                name="bookmark-outline"
+                size={18}
+                color={Colors.primary}
+              />
               <Text style={styles.savedGameBtnText}>Game đã lưu</Text>
               <Ionicons name="chevron-forward" size={16} color="#999" />
             </TouchableOpacity>

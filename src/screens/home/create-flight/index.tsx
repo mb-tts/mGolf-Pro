@@ -26,13 +26,12 @@ import { CoursePickerModal } from "./components/CoursePickerModal";
 import { PlayerPickerModal } from "./components/PlayerPickerModal";
 import { ScorerPickerModal } from "./components/ScorerPickerModal";
 import { TeeTimePickerModal } from "./components/TeeTimePickerModal";
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AppStackParamList } from '../../../../App';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppStackParamList } from "../../../../App";
 
 type Props = {
-  navigation: NativeStackNavigationProp<AppStackParamList, 'CreateFlight'>;
+  navigation: NativeStackNavigationProp<AppStackParamList, "CreateFlight">;
 };
-
 
 // ─── Component chính ─────────────────────────────────────────────────────────
 export const CreateFlightScreen = ({ navigation }: Props) => {
@@ -235,7 +234,9 @@ export const CreateFlightScreen = ({ navigation }: Props) => {
             // Đồng bộ trạng thái isSelected trên MOCK_ALL_PLAYERS
             const selectedIds = selected.map((p) => p.id);
             for (let i = 0; i < MOCK_ALL_PLAYERS.length; i++) {
-              MOCK_ALL_PLAYERS[i].isSelected = selectedIds.includes(MOCK_ALL_PLAYERS[i].id);
+              MOCK_ALL_PLAYERS[i].isSelected = selectedIds.includes(
+                MOCK_ALL_PLAYERS[i].id,
+              );
             }
           }}
           onClose={() => setShowPlayer(false)}

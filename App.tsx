@@ -319,6 +319,9 @@ const AppNavigator = () => (
         animation: "none",
         contentStyle: { backgroundColor: "#000000" },
         gestureEnabled: false,
+        statusBarHidden: true,
+        statusBarStyle: "light",
+        statusBarAnimation: "none",
       }}
     />
   </AppStack.Navigator>
