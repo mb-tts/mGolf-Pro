@@ -31,7 +31,7 @@ export const PaymentSettingsScreen = () => {
 }
 
 const styles = StyleSheet.create({
-      safeArea: { 
+  safeArea: { 
     flex: 1, 
     backgroundColor: "#F4F6F9" 
   },

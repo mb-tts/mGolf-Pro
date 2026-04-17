@@ -353,7 +353,7 @@ export default function App() {
         <BottomSheetModalProvider>
           <AuthProvider>
             <RootNavigator />
-          </AuthProvider>
+           </AuthProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
