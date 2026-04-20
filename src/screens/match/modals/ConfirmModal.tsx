@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   summaryHeader: {
     flexDirection: "row",
-    backgroundColor: "#F9FAFB",
+    backgroundColor: "#F1F9FF",
     paddingVertical: 10,
     paddingHorizontal: 12,
   },
