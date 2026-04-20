@@ -80,7 +80,8 @@ import GolfCourseIcon from "@assets/icons/tabbar/golf-course.svg";
 import GolfCourseActiveIcon from "@assets/icons/tabbar/golf-course2.svg";
 import ProfileIcon from "@assets/icons/tabbar/profile-circle.svg";
 import ProfileActiveIcon from "@assets/icons/tabbar/profile-circle2.svg";
-
+import overviewSCreen from "@/screens/match/detialFlight/overviewScreen";
+import setIndexRegret from "@/screens/match/detialFlight/component/setIndexRegret";
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
 const TAB_ICONS: Record<
   keyof MainTabParamList,
@@ -190,6 +191,12 @@ const AppNavigator = () => (
     <AppStack.Screen
       name="NotificationSettings"
       component={NotificationSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="overviewScreen"
+      component={overviewSCreen}
       options={{ animation: "slide_from_right" }}
     />
 
