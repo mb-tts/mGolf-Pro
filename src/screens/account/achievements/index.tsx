@@ -78,7 +78,7 @@ export const AchievementsScreen = () => {
         <View style={styles.filterSection}>
             <TouchableOpacity style={styles.filterTagActive}>
               <Text style={styles.filterTagTextActive}>Mùa giải</Text>
-              <Ionicons name="close-circle" size={16} color="#0056D2" style={{ marginLeft: 4 }} />
+              <Ionicons name="close-circle" size={16} color="#004FA1" style={{ marginLeft: 4 }} />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.filterDropdown}>
