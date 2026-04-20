@@ -29,9 +29,8 @@ const HoleDetailScreen = ({ route, navigation }: Props) => {
     const isActive = currentHole?.hole === item.hole;
     
     // Xử lý ảnh cho thanh trượt dưới cùng
-    const thumbSource = typeof item.image === 'string' 
-      ? { uri: item.image } 
-      : (item.image || { uri: 'https://picsum.photos/200' });
+    const rawImage = item.image || { uri: 'https://picsum.photos/200' };
+    const thumbSource = typeof rawImage === 'string' ? { uri: rawImage } : rawImage;
 
     return (
       <TouchableOpacity 

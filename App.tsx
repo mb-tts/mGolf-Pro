@@ -17,7 +17,6 @@ import type {
   MainTabParamList,
   AppStackParamList,
 } from "@/types/navigation.types";
-// Re-export để các file cũ import từ App.tsx vẫn hoạt động
 export type { AuthStackParamList, MainTabParamList, AppStackParamList };
 
 // ─── Auth Screens ─────────────────────────────────────────────────────────────
@@ -60,6 +59,7 @@ import HoleMapScreen from "@/screens/tournament/detail/HoleMapScreen";
 import HoleVideoScreen from "@/screens/tournament/detail/HoleVideoScreen";
 import ClubMainScreen from "@/screens/club/mainscreen";
 import ImagesAndVideosScreen from "@/screens/club/imagesAndvideos";
+import ScoreInputScreen from "@/screens/match/ScoreInputScreen";
 
 // ─── Create Flight Sub-Screens ────────────────────────────────────────────────
 import InstallGameScreen from "@/screens/home/create-flight/installGame";
@@ -176,6 +176,7 @@ const AppStack = createNativeStackNavigator<AppStackParamList>();
 const AppNavigator = () => (
   <AppStack.Navigator id="AppStack" screenOptions={{ headerShown: false }}>
     <AppStack.Screen name="MainTabs" component={MainNavigator} />
+    <AppStack.Screen name="ScoreInputScreen" component={ScoreInputScreen} />
 
     <AppStack.Screen
       name="AccountInformation"
@@ -320,6 +321,9 @@ const AppNavigator = () => (
         animation: "none",
         contentStyle: { backgroundColor: "#000000" },
         gestureEnabled: false,
+        statusBarHidden: true,
+        statusBarStyle: "light",
+        statusBarAnimation: "none",
       }}
     />
   </AppStack.Navigator>
@@ -354,7 +358,7 @@ export default function App() {
         <BottomSheetModalProvider>
           <AuthProvider>
             <RootNavigator />
-          </AuthProvider>
+           </AuthProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>

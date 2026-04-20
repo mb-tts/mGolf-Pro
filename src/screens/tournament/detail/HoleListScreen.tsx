@@ -36,7 +36,7 @@ const HoleListScreen = ({ route, navigation }: Props) => {
       <View style={styles.cardContainer}>
         <View style={styles.thumbnailContainer}>
           <Image
-            source={{ uri: item.image || 'https://picsum.photos/200' }}
+            source={typeof item.image === 'string' ? { uri: item.image } : (item.image || { uri: 'https://picsum.photos/200' })}
             style={styles.holeThumbnail}
           />
           <View style={styles.holeNumberContainer}>
