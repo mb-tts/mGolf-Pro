@@ -20,13 +20,14 @@ export const OUTING_DATA = [
       phone: "024 9999 678",
       description: "Sân golf Vân Trì Golf Club là sân golf tư nhân đầu tiên và duy nhất tại Việt Nam đạt tiêu chuẩn quốc tế, nằm tại Đông Anh...",
       courseImages: [
-        "https://picsum.photos/id/28/300/200",
-        "https://picsum.photos/id/29/300/200"
+       require("../../../../assets/images/anh1.png"),
+      require("../../../../assets/images/anh2.png"),
+      require("../../../../assets/images/anh3.png"),
       ],
       scorecard: [
         { 
           hole: 1, black: 1, blue: 1, white: 1, red: 1, par: 4, strokeIndex: 1, yard: 450, 
-          image: "https://images.pexels.com/photos/1018080/pexels-photo-1018080.jpeg?auto=compress&cs=tinysrgb&w=600", 
+          image: require("../../../../assets/images/image3.png"),
           teeTournament: "450 yards", teeMen: "420 yards", teeWomen: "380 yards", 
           layout: "Hình chữ S, fairway uốn nhẹ sang phải.", obstacles: "Bunker phải fairway, hồ nước trước và bên phải green.", greenDetail: "Green tròn, hơi dốc xuống phía trước.",
           // 👇 ĐÃ CẬP NHẬT ẢNH BẢN ĐỒ VÀ CÁC CHẤM TỌA ĐỘ CHO HỐ 1
@@ -105,7 +106,8 @@ export const OUTING_DATA = [
       description: "Sân Golf Tân Sơn Nhất được thiết kế bởi Nelson & Haworth, là sân golf duy nhất nằm trong nội thành TP.HCM với 36 hố tiêu chuẩn PGA...",
       courseImages: [
         "https://picsum.photos/id/10/300/200",
-        "https://picsum.photos/id/11/300/200"
+        "https://picsum.photos/id/11/300/200",
+        "https://picsum.photos/id/12/300/200"
       ],
       scorecard: [
         { hole: 1, black: 4, blue: 4, white: 4, red: 5, par: 4, strokeIndex: 9, yard: 420, image: "https://picsum.photos/id/201/200", teeTournament: "420 yards", teeMen: "400 yards", teeWomen: "360 yards", layout: "Đường băng thẳng, fairway rộng.", obstacles: "Bunker dọc hai bên, có hồ nước bên trái sát green.", greenDetail: "Green bằng phẳng, dễ put." },
@@ -136,7 +138,8 @@ export const OUTING_DATA = [
       description: "Được thiết kế bởi huyền thoại Greg Norman, mang phong cách Links truyền thống với những bãi cát dọc bờ biển đầy thách thức...",
       courseImages: [
         "https://picsum.photos/id/13/300/200",
-        "https://picsum.photos/id/14/300/200"
+        "https://picsum.photos/id/14/300/200",
+        "https://picsum.photos/id/15/300/200"
       ],
       scorecard: [
         { hole: 1, par: 4, strokeIndex: 7, yard: 390, image: "https://picsum.photos/id/301/200", teeTournament: "390 yards", teeMen: "370 yards", teeWomen: "340 yards", layout: "Hướng ra biển, fairway gợn sóng đặc trưng phong cách Links.", obstacles: "Bãi cát tự nhiên (waste area) dọc hai bên.", greenDetail: "Green rất nhanh và cứng." },
@@ -180,7 +183,8 @@ export const OUTING_DATA = [
       description: "Tọa lạc trên đồi cao, sở hữu tầm nhìn ngoạn mục bao quát toàn cảnh Vịnh Hạ Long, mang lại trải nghiệm đánh golf không thể quên...",
       courseImages: [
         "https://picsum.photos/id/16/300/200",
-        "https://picsum.photos/id/17/300/200"
+        "https://picsum.photos/id/17/300/200",
+        "https://picsum.photos/id/18/300/200"
       ],
       scorecard: [
         { hole: 1, par: 4, strokeIndex: 13, yard: 380, image: "https://picsum.photos/id/401/200", teeTournament: "380 yards", teeMen: "360 yards", teeWomen: "320 yards", layout: "Xuất phát từ trên đồi cao đánh xuống.", obstacles: "Vách núi bên phải, vực bên trái.", greenDetail: "Green bằng phẳng nhìn thẳng ra vịnh." },
