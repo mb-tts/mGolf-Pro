@@ -1,6 +1,6 @@
 export const Colors = {
   primary: "#004FA1",
-  primaryDark: "#003366", // Xanh đậm hơn (Deep Blue)
+  primaryDark: "#003366", 
   primaryLight: "#007FFF",
   white: "#FFFFFF",
   background: "#F5F6FA",
