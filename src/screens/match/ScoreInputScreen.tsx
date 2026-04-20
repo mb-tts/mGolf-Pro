@@ -163,9 +163,36 @@ const ScoreInputScreen = () => {
                     </TouchableOpacity>
                   );
                 })}
-              </TouchableOpacity>
+              </TouchableOpacity>             
+            ))}
+            <View style={styles.courseHeader}><Text style={styles.courseHeaderText}>Đường B</Text></View>
+            {courseA.map((hole) => (
+              <TouchableOpacity key={hole.id} style={styles.holeRow} onPress={() => handleOpenHole(hole.id)}>
+                <View style={styles.holeInfoCell}>
+                  <View style={styles.holeNumberBadge}><Text style={styles.holeNumberText}>{hole.id}</Text></View>
+                  <Text style={styles.holeSubText}>Index: {hole.index}</Text>
+                  <Text style={styles.parText}>{hole.par}</Text>
+                </View>
+                {players.map((p, idx) => {
+                  const key = `${hole.id}_${idx}`;
+                  const cellData = scoreData[key] || p;
+                  return (
+                    <TouchableOpacity
+                      key={idx}
+                      style={[styles.scoreCell, hole.id % 2 === 0 && styles.scoreCellHighlight]}
+                      onPress={() => setSelectedCell({ holeId: hole.id, playerIdx: idx })}
+                    >
+                      <Text style={styles.scoreValueText}>{cellData.score}</Text>
+                      <Text style={[styles.relativeTextSmall, { color: cellData.relative > 0 ? "#ED1C24" : "#1A7C24" }]}>
+                        {cellData.relative > 0 ? `+${cellData.relative}` : cellData.relative === 0 ? "E" : cellData.relative}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </TouchableOpacity>             
             ))}
           </View>
+          
         </ScrollView>
 
         {/* Persistant Keypad Section */}
@@ -274,8 +301,8 @@ const styles = StyleSheet.create({
   tableContainer: { borderTopWidth: 1, borderTopColor: "#DFE5EB", borderRadius: 12, overflow: "hidden" },
   tableHeader: { flexDirection: "row", backgroundColor: Colors.primary },
   headerText: { color: "#FFF", fontSize: 14 },
-  holeHeaderCell: { width: 50, paddingVertical: 12, alignItems: "center", borderRightWidth: 0.5, borderRightColor: "rgba(255,255,255,0.2)" },
-  playerHeaderCell: { flex: 1, paddingVertical: 8, alignItems: "center", borderRightWidth: 0.5, borderRightColor: "rgba(255,255,255,0.2)" },
+  holeHeaderCell: { width: 50, paddingVertical: 12, alignItems: "center", borderRightWidth: 1, borderRightColor: "#FFF" },
+  playerHeaderCell: { flex: 1, paddingVertical: 8, alignItems: "center", borderRightWidth: 1, borderRightColor: "#FFF" },
   playerIdTag: { backgroundColor: "#E0F2FF", paddingHorizontal: 5, paddingVertical: 1, borderRadius: 10, marginTop: 2 },
   playerIdText: { color: "#0061AF", fontSize: 11 },
   courseHeader: { backgroundColor: "#EAF6FF", paddingVertical: 13, alignItems: "center" },
@@ -291,7 +318,7 @@ const styles = StyleSheet.create({
   scoreValueText: { fontSize: 16, fontWeight: "500" },
   relativeTextSmall: { fontSize: 10, position: "absolute", top: 2, right: 4, fontWeight: "600" },
 
-  bottomKeypadSection: { backgroundColor: "#FFF", paddingHorizontal: 16, paddingVertical: 12, borderTopWidth: 1, borderTopColor: "#EEE" },
+  bottomKeypadSection: { backgroundColor: "#FFF", paddingHorizontal: 16, paddingVertical: 12, paddingBottom: 24, borderTopWidth: 1, borderTopColor: "#EEE" },
   keypadGrid: { marginBottom: 12 },
   keypadRow: { flexDirection: "row", gap: 6, marginBottom: 8 },
   keypadBtn: { height: 56, width: 57.4, borderRadius: 12, justifyContent: "center", alignItems: "center", borderWidth: 1 },
