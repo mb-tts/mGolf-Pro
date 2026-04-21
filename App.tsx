@@ -81,7 +81,7 @@ import GolfCourseActiveIcon from "@assets/icons/tabbar/golf-course2.svg";
 import ProfileIcon from "@assets/icons/tabbar/profile-circle.svg";
 import ProfileActiveIcon from "@assets/icons/tabbar/profile-circle2.svg";
 import overviewSCreen from "@/screens/match/detialFlight/overviewScreen";
-import setIndexRegret from "@/screens/match/detialFlight/component/setIndexRegret";
+import setIndexRegret from "@/screens/match/detialFlight/component/Tong quan va Everything/setIndexRegret";
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
 const TAB_ICONS: Record<
   keyof MainTabParamList,

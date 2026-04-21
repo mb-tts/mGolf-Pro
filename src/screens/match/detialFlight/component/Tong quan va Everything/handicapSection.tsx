@@ -15,8 +15,8 @@ export default function HandicapSection() {
     { id: "di", label: "Index hố đường đi x2 -1" },
     { id: "ve", label: "Index hố đường về x2 -1" },
   ];
-  const selectedOption = OPTIONS.find((o) => o.id === selectedId);
   const [selectedId, setSelectedId] = useState("ve");
+  const selectedOption = OPTIONS.find((o) => o.id === selectedId);
   const renderMatchupRowTeam = (matchup: HandicapMatchup) => (
     <View key={matchup.id} style={styles.matchupRowTeam}>
       <View style={styles.playersContainerTeam}>
@@ -193,7 +193,8 @@ export default function HandicapSection() {
 
                 <TouchableOpacity
                   style={styles.updateButton}
-                  onPress={() => console.log("Cập nhật id:", selectedId)}
+                  
+                  onPress={() => setFilterVisible(false)}
                 >
                   <Text style={styles.updateButtonText}>Cập nhật</Text>
                 </TouchableOpacity>

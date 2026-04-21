@@ -4,22 +4,26 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  
   SafeAreaView,
-  FlatList
+  FlatList,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import PlayerCard from "./component/infoStickHDCNetSkin";
-import { mockPlayers } from "./component/data";
+import PlayerCard from "./component/Tong quan va Everything/infoStickHDCNetSkin";
+import { mockPlayers } from "./component/Tong quan va Everything/data";
 const TABS = ["Tổng quan", "Everything", "Team", "Hợp đồng", "Quỹ gà"];
-import ScoreTable from "./component/tableRegret";
-import HandicapSection from "./component/handicapSection";
+import ScoreTable from "./component/Tong quan va Everything/tableRegret";
+import HandicapSection from "./component/Tong quan va Everything/handicapSection";
+import ValueRegret from "./component/Tong quan va Everything/valueRegret";
+import RoamingCard, { mockRoamingData } from "./component/Hop Dong/contract";
+import RoamingHeader from "./component/Hop Dong/roamingHeader";
+import ChickenFundSummary from "./component/Quy ga/totalquyga";
+import ChickenFundTable from "./component/Quy ga/tablequyga";
 export default function FlightDetailHeader({ navigation }: any) {
   const [activeTab, setActiveTab] = useState("Tổng quan");
 
   const renderHeader = () => (
-    <View style = {{marginBottom: 20}}>
+    <View style={{ marginTop: 20 }}>
       <View style={styles.headerRow}>
         <TouchableOpacity
           style={styles.backButton}
@@ -78,8 +82,8 @@ export default function FlightDetailHeader({ navigation }: any) {
           numColumns={2}
           ListFooterComponent={() => (
             <View style={{ marginTop: 10 }}>
-               <ScoreTable />
-               <HandicapSection/>
+              <ScoreTable />
+              <HandicapSection />
             </View>
           )}
           contentContainerStyle={{
@@ -97,6 +101,11 @@ export default function FlightDetailHeader({ navigation }: any) {
           data={mockPlayers}
           keyExtractor={(item) => item.id}
           numColumns={2}
+          ListFooterComponent={() => (
+            <View style={{ marginTop: 10 }}>
+              <ValueRegret />
+            </View>
+          )}
           contentContainerStyle={{
             paddingHorizontal: 10,
             paddingVertical: 16,
@@ -104,6 +113,22 @@ export default function FlightDetailHeader({ navigation }: any) {
           }}
           renderItem={({ item }) => <PlayerCard player={item} />}
         />
+      )}
+
+      {activeTab === "Hợp đồng" && (
+        <FlatList
+          data={mockRoamingData}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={<RoamingHeader />}
+          renderItem={({ item }) => <RoamingCard match={item} />}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      )}
+      {activeTab === "Quỹ gà" && (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <ChickenFundTable />
+          <ChickenFundSummary />
+        </ScrollView>
       )}
     </SafeAreaView>
   );
@@ -125,7 +150,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    
   },
   backButton: {
     width: 40,
