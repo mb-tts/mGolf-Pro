@@ -1,3 +1,3 @@
 export { HoleDetailModal } from "./HoleDetailModal";
-export { LegendModal } from "./LegendModal";
+export { AnnotationModal } from "./AnnotationModal";
 export { ConfirmModal } from "./ConfirmModal";
