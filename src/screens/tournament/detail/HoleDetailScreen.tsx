@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   actionButtonsContainer: { flexDirection: 'row', gap: 12, marginBottom: 24 },
   primaryBtn: {
     flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    backgroundColor: '#0066FF', paddingVertical: 12, borderRadius: 8, gap: 6,
+    backgroundColor: '#0061AF', paddingVertical: 12, borderRadius: 8, gap: 6,
   },
   primaryBtnText: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
 

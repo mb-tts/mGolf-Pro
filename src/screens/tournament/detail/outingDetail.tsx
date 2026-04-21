@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
 
   // ĐÃ SỬA: Card hợp nhất 1 lớp viền
   tournamentCardWrapper: {
-    backgroundColor: "#fff",
+    backgroundColor: "#f7f7f7",
     borderRadius: 16,
     padding: 16,
     marginBottom: 20,
