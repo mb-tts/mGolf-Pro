@@ -72,7 +72,7 @@ export default function RoamingCard({ match }: Props) {
 
   return (
     <View style={styles.card}>
-      <View style={styles.leftCol}>
+      {/* <View style={styles.leftCol}>
         <View style={styles.indexCircle}>
           <Text style={styles.indexText}>{index}</Text>
         </View>
@@ -136,7 +136,7 @@ export default function RoamingCard({ match }: Props) {
             isP1Winner={isP1Winner}
           />
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
     flexDirection: "row",
-    padding: 16,
-    marginBottom: 16,
+    padding: 5,
+    // marginBottom: 16,
     borderWidth: 1,
     borderColor: "#F3F4F6",
   },

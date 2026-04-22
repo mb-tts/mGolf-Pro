@@ -1,89 +1,277 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Modal,
+  TouchableWithoutFeedback,
+  Dimensions,
+} from 'react-native';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
-// Dữ liệu avatar demo
-const TOP_PLAYERS = [
-  { id: '1', avatar: 'https://i.pravatar.cc/150?img=11' },
-  { id: '2', avatar: 'https://i.pravatar.cc/150?img=12' },
-  { id: '3', avatar: 'https://i.pravatar.cc/150?img=13' },
-  { id: '4', avatar: 'https://i.pravatar.cc/150?img=14' },
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+// --- Data Types ---
+type FilterType = 'Đi' | 'Về' | 'Tất cả';
+
+interface RoamingPlayer {
+  name: string;
+  goScore: number;
+  backScore: number;
+  totalScore: number;
+}
+
+interface RoamingMatch {
+  id: string;
+  index: number;
+  player1: RoamingPlayer;
+  player2: RoamingPlayer;
+}
+
+// --- Mock Data ---
+const mockRoamingData: RoamingMatch[] = [
+  {
+    id: "1",
+    index: 1,
+    player1: { name: "Hoàng Anh", goScore: -6, backScore: -5, totalScore: -11 },
+    player2: { name: "Xuân Anh", goScore: -8, backScore: -8, totalScore: -16 },
+  },
+  {
+    id: "2",
+    index: 2,
+    player1: { name: "Hoàng Anh", goScore: -6, backScore: -5, totalScore: -11 },
+    player2: { name: "Lan Anh", goScore: -8, backScore: -8, totalScore: -16 },
+  },
+  {
+    id: "3",
+    index: 3,
+    player1: { name: "Hoàng Anh", goScore: -8, backScore: -8, totalScore: -16 },
+    player2: { name: "Linh Anh", goScore: -6, backScore: -5, totalScore: -11 },
+  },
 ];
 
-export default function RoamingHeader() {
+// --- Sub-Component: ScoreRow ---
+const ScoreRow = ({ label1, label2, isP1Winner, activeFilter }: any) => (
+  <View style={styles.scoreRow}>
+    <View style={styles.scoreBox}>
+      <Text style={[styles.scoreValue, !isP1Winner && styles.dimmedText]}>{label1}</Text>
+      <Image source={require("@assets/images/chip.png")} style={styles.chipIcon} />
+    </View>
+    <Text style={styles.vsText}>vs</Text>
+    <View style={styles.scoreBox}>
+      <Text style={[styles.scoreValue, isP1Winner && styles.dimmedText]}>{label2}</Text>
+      <Image source={require("@assets/images/chip.png")} style={styles.chipIcon} />
+    </View>
+  </View>
+);
+
+const RoamingCard = ({ match, activeFilter }: { match: RoamingMatch; activeFilter: FilterType }) => {
+  const { player1, player2, index } = match;
+  
+  const isP1Winner = player1.totalScore > player2.totalScore;
+
   return (
-    <View style={styles.headerContainer}>
-      <View style={styles.avatarGroup}>
-        {TOP_PLAYERS.map((item, index) => (
-          <Image 
-            key={item.id} 
-            source={{ uri: item.avatar }} 
-            style={[
-              styles.headerAvatar,
-            ]} 
-          />
+    <View style={styles.card}>
+      <View style={styles.leftCol}>
+        <View style={styles.indexCircle}>
+          <Text style={styles.indexText}>{index}</Text>
+        </View>
+        
+        {activeFilter === 'Tất cả' ? (
+          <View style={styles.allBadgesContainer}>
+            <View style={styles.sideBadge}><Text style={styles.sideBadgeText}>Đi</Text></View>
+            <View style={styles.sideBadge}><Text style={styles.sideBadgeText}>Về</Text></View>
+            <View style={styles.sideBadge}><Text style={styles.sideBadgeText}>Tổng</Text></View>
+          </View>
+        ) : (
+          <View style={[styles.sideBadge, styles.activeBadge]}>
+            <Text style={styles.activeBadgeText}>{activeFilter}</Text>
+          </View>
+        )}
+      </View>
+
+      <View style={styles.rightCol}>
+        <View style={styles.nameHeader}>
+          <View style={styles.nameWrapper}>
+            <Text style={[styles.playerName, !isP1Winner && styles.dimmedText]}>{player1.name}</Text>
+            {isP1Winner && <FontAwesome5 name="crown" size={14} color="#F59E0B" style={styles.crown} />}
+          </View>
+          
+          <Text style={styles.vsCenter}>vs</Text>
+          
+          <View style={styles.nameWrapper}>
+            <Text style={[styles.playerName, isP1Winner && styles.dimmedText]}>{player2.name}</Text>
+            {!isP1Winner && <FontAwesome5 name="crown" size={14} color="#F59E0B" style={styles.crown} />}
+          </View>
+        </View>
+
+        <View style={styles.scoreContent}>
+          {activeFilter === 'Tất cả' ? (
+            <View>
+              <ScoreRow label1={player1.goScore} label2={player2.goScore} isP1Winner={isP1Winner} />
+              <View style={styles.divider} />
+              <ScoreRow label1={player1.backScore} label2={player2.backScore} isP1Winner={isP1Winner} />
+              <View style={styles.divider} />
+              <ScoreRow label1={player1.totalScore} label2={player2.totalScore} isP1Winner={isP1Winner} />
+            </View>
+          ) : activeFilter === 'Đi' ? (
+            <ScoreRow label1={player1.goScore} label2={player2.goScore} isP1Winner={isP1Winner} />
+          ) : (
+            <ScoreRow label1={player1.backScore} label2={player2.backScore} isP1Winner={isP1Winner} />
+          )}
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const FilterModal = ({ visible, onClose, onSelect, currentFilter }: any) => {
+  const options: FilterType[] = ['Đi', 'Về', 'Tất cả'];
+  
+  return (
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.modalOverlay}>
+          <TouchableWithoutFeedback>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <View style={styles.modalHandle} />
+                <Text style={styles.modalTitle}>Bộ lọc</Text>
+                <TouchableOpacity onPress={onClose} style={styles.closeIcon}>
+                  <Ionicons name="close" size={24} color="#333" />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.optionsContainer}>
+                {options.map((opt) => (
+                  <TouchableOpacity 
+                    key={opt} 
+                    onPress={() => onSelect(opt)}
+                    style={styles.optionItem}
+                  >
+                    <Text style={[styles.optionText, currentFilter === opt && styles.optionTextActive]}>
+                      {opt}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <TouchableOpacity 
+                style={[styles.resetBtn, currentFilter !== 'Tất cả' && styles.resetBtnActive]} 
+                onPress={() => { onSelect('Tất cả'); onClose(); }}
+              >
+                <Text style={[styles.resetBtnText, currentFilter !== 'Tất cả' && styles.resetBtnTextActive]}>
+                  Đặt lại
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
+};
+
+// --- Main Screen ---
+export default function ContractScreen() {
+  const [filter, setFilter] = useState<FilterType>('Tất cả');
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  return (
+    <View style={{ flex: 1, backgroundColor: '#F9FAFB' }}>
+      {/* Header */}
+      <View style={styles.headerContainer}>
+        <View style={styles.avatarGroup}>
+          {[1, 2, 3, 4].map((i) => (
+            <Image key={i} source={{ uri: `https://i.pravatar.cc/150?u=${i}` }} style={styles.headerAvatar} />
+          ))}
+        </View>
+        <View style={styles.actionGroup}>
+          <TouchableOpacity style={styles.roamingBtn}>
+            <Text style={styles.roamingText}>Roaming</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.filterBtn} onPress={() => setModalVisible(true)}>
+            <Ionicons name="options-outline" size={20} color="#0066B2" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Danh sách Card */}
+      <View style={{ padding: 16 }}>
+        {mockRoamingData.map((item) => (
+          <RoamingCard key={item.id} match={item} activeFilter={filter} />
         ))}
       </View>
 
-      <View style={styles.actionGroup}>
-        <TouchableOpacity style={styles.roamingBtn}>
-          <Text style={styles.roamingText}>Roaming</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.filterBtn}>
-          <Ionicons name="options-outline" size={20} color="#0066B2" />
-        </TouchableOpacity>
-      </View>
+      {/* Modal bộ lọc */}
+      <FilterModal 
+        visible={isModalVisible} 
+        onClose={() => setModalVisible(false)} 
+        currentFilter={filter}
+        onSelect={(val: FilterType) => {
+          setFilter(val);
+          setModalVisible(false);
+        }}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
+  // Header Styles
+  headerContainer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16, backgroundColor: '#FFF' },
+  avatarGroup: { flexDirection: 'row' },
+  headerAvatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: '#FFF', },
+  actionGroup: { flexDirection: 'row', gap: 8 },
+  roamingBtn: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: '#E5E7EB' },
+  roamingText: { color: '#0066B2', fontWeight: '600' },
+  filterBtn: { width: 38, height: 38, borderRadius: 19, borderWidth: 1, borderColor: '#E5E7EB', justifyContent: 'center', alignItems: 'center' },
+
+  // Card Styles
+  card: { backgroundColor: "#FFF", borderRadius: 20, flexDirection: "row", padding: 16, marginBottom: 16, borderWidth: 1, borderColor: "#F3F4F6" },
+  leftCol: { width: 60, alignItems: "center", borderRightWidth: 1, borderRightColor: "#F3F4F6", paddingRight: 10 },
+  indexCircle: { width: 24, height: 24, borderRadius: 12, borderWidth: 1, borderColor: "#E5E7EB", justifyContent: "center", alignItems: "center", marginBottom: 12 },
+  indexText: { fontSize: 12, color: "#6B7280", fontWeight: "bold" },
+  sideBadge: { width: "100%", paddingVertical: 6, borderRadius: 12, backgroundColor: "#F9FAFB", borderWidth: 1, borderColor: "#E5E7EB", alignItems: "center", marginBottom: 8 },
+  sideBadgeText: { fontSize: 13, color: "#374151" },
+  activeBadge: { borderColor: '#0066B2', backgroundColor: '#FFF' },
+  activeBadgeText: { color: '#0066B2', fontWeight: 'bold' },
+
+  rightCol: { flex: 1, paddingLeft: 10 },
+  nameHeader: { flexDirection: "row", justifyContent: "space-between", marginBottom: 15, alignItems: 'center' },
+  nameWrapper: { flexDirection: "row", alignItems: "center", flex: 1, justifyContent: "center" },
+  vsCenter: { fontSize: 12, color: '#9CA3AF', marginHorizontal: 5 },
+  playerName: { fontSize: 15, fontWeight: "600", color: "#374151" },
+  crown: { marginLeft: 5 },
+  dimmedText: { color: "#9CA3AF" },
+
+  scoreContent: { paddingHorizontal: 10 },
+  scoreRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 8 },
+  scoreBox: { flexDirection: "row", alignItems: "center", gap: 5 },
+  scoreValue: { fontSize: 18, fontWeight: "bold", color: "#1F2937" },
+  chipIcon: { width: 16, height: 16 },
+  vsText: { fontSize: 12, color: "#9CA3AF" },
+  divider: { height: 1, backgroundColor: "#F3F4F6", width: "100%" },
+
+  // Modal Styles
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+  modalContent: { backgroundColor: '#FFF', borderTopLeftRadius: 25, borderTopRightRadius: 25, padding: 20, paddingBottom: 40 },
+  modalHeader: { alignItems: 'center', marginBottom: 20 },
+  modalHandle: { width: 40, height: 5, backgroundColor: '#E5E7EB', borderRadius: 3, marginBottom: 10 },
+  modalTitle: { fontSize: 18, fontWeight: 'bold' },
+  closeIcon: { position: 'absolute', right: 0, top: 10 },
+  optionsContainer: { alignItems: 'center', gap: 20, marginBottom: 30 },
+  optionItem: { width: '100%', alignItems: 'center', paddingVertical: 10 },
+  optionText: { fontSize: 18, color: '#6B7280' },
+  optionTextActive: { color: '#0066B2', fontWeight: 'bold' },
+  resetBtn: { backgroundColor: '#F3F4F6', paddingVertical: 15, borderRadius: 15, alignItems: 'center', marginBottom: 15  },
+  resetBtnActive: { backgroundColor: '#0066B2' },
+  resetBtnText: { fontSize: 16, color: '#9CA3AF', fontWeight: 'bold' },
+  resetBtnTextActive: { color: '#FFF' },
+  allBadgesContainer: {
+    width: '100%',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: '#FFFFFF',
-  },
-  avatarGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 2,
-    borderColor: '#FFFFFF', // Viền trắng để phân tách khi xếp chồng
-  },
-  actionGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  roamingBtn: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    backgroundColor: '#FFFFFF',
-  },
-  roamingText: {
-    fontSize: 14,
-    color: '#0066B2', // Màu xanh đặc trưng của tab đang chọn
-    fontWeight: '500',
-  },
-  filterBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
   },
 });
