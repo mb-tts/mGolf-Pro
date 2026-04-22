@@ -59,4 +59,5 @@ export type AppStackParamList = {
   InstallGame: undefined;
   TeamCoDinh: undefined;
   Teamxoay: undefined;
+  overviewScreen: undefined; 
 };
