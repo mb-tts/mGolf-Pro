@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { Ionicons } from "@expo/vector-icons";
@@ -14,10 +15,20 @@ export default function HoleVideoScreen({ navigation, route }: Props) {
     route.params?.currentHole?.videoUrl ??
     DEFAULT_VIDEO_SOURCE;
 
-  const player = useVideoPlayer(videoSource, player => {
-    player.loop = true;
-    player.play();
+  const player = useVideoPlayer(videoSource, (p) => {
+    p.loop = true;
+    p.play();
   });
+
+  // Tối ưu RAM: Dừng video khi không focus vào screen
+  const isFocused = navigation.isFocused();
+  useEffect(() => {
+    if (isFocused) {
+      player.play();
+    } else {
+      player.pause();
+    }
+  }, [isFocused, player]);
 
   return (
     <View style={styles.container}>

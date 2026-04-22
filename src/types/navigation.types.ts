@@ -72,4 +72,5 @@ export type AppStackParamList = {
     players: PlayerScore[];
     scoreData: Record<string, { score: number; relative: number }>;
   };
+  overviewScreen: undefined; 
 };

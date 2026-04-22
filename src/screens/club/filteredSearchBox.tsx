@@ -20,9 +20,6 @@ export default function FilterSearchBox({
   const [filterVisible, setFilterVisible] = useState(false);
 
   return (
-    // <KeyboardAvoidingView
-    //   behavior={Platform.OS === "ios" ? "padding" : "height"}
-    // >
       <View>
         
         <View style={styles.searchWrap}>
@@ -94,7 +91,6 @@ export default function FilterSearchBox({
           </TouchableOpacity>
         </Modal>
       </View>
-    // </KeyboardAvoidingView>
   );
 }
 

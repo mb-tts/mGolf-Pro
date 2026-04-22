@@ -26,12 +26,15 @@ import LogoBackground from "@assets/icons/home/logobackground.svg";
 import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 import { useAppNavigation } from "@/hooks/useNavigation";
 
+import { useUser } from "@/providers/user.provider";
+
 export const HomeScreen = () => {
   const { user } = useAuth();
+  const { profile } = useUser();
   const navigation = useAppNavigation();
 
   // Clone Chưa có data -> dành cho user b
-  const hasMatches = user?.vgaCode === "a" && MOCK_MATCHES.length > 0;
+  const hasMatches = profile.vgaCode === "VGA123" && MOCK_MATCHES.length > 0;
 
   // Thành tích mảng rỗng nếu chưa có trận — dữ liệu ít, cố định → dùng .map()
   const achievements = hasMatches
@@ -99,7 +102,7 @@ export const HomeScreen = () => {
               <>
                 <View style={styles.emptyGreetingWrapper}>
                   <Text style={styles.italicGreeting}>Xin chào,</Text>
-                  <Text style={styles.greetingName}>{user?.fullName}</Text>
+                  <Text style={styles.greetingName}>{profile.fullName}</Text>
                 </View>
 
                 <IndexBanner index={12.5} />

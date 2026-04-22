@@ -29,9 +29,8 @@ const HoleDetailScreen = ({ route, navigation }: Props) => {
     const isActive = currentHole?.hole === item.hole;
     
     // Xử lý ảnh cho thanh trượt dưới cùng
-    const thumbSource = typeof item.image === 'string' 
-      ? { uri: item.image } 
-      : (item.image || { uri: 'https://picsum.photos/200' });
+    const rawImage = item.image || { uri: 'https://picsum.photos/200' };
+    const thumbSource = typeof rawImage === 'string' ? { uri: rawImage } : rawImage;
 
     return (
       <TouchableOpacity 
@@ -231,7 +230,7 @@ const styles = StyleSheet.create({
   actionButtonsContainer: { flexDirection: 'row', gap: 12, marginBottom: 24 },
   primaryBtn: {
     flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    backgroundColor: '#0066FF', paddingVertical: 12, borderRadius: 8, gap: 6,
+    backgroundColor: '#0061AF', paddingVertical: 12, borderRadius: 8, gap: 6,
   },
   primaryBtnText: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
 

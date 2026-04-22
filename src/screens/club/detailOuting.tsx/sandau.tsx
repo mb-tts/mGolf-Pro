@@ -49,9 +49,10 @@ export default function Sandau({ courseDetails }: { courseDetails: CourseDetails
         showsHorizontalScrollIndicator={false}
         style={styles.imageList}
       >
-        {courseDetails.courseImages.map((img: string, idx: number) => (
-          <Image key={idx} source={{ uri: img }} style={styles.courseImg} />
-        ))}
+        {courseDetails.courseImages.map((img: any, idx: number) => {
+          const imgSrc = typeof img === "string" ? { uri: img } : img;
+          return <Image key={idx} source={imgSrc} style={styles.courseImg} />;
+        })}
       </ScrollView>
 
       <Text style={styles.sectionTitle}>Bảng điểm (Scorecard)</Text>

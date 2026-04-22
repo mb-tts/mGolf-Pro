@@ -20,13 +20,14 @@ export const OUTING_DATA = [
       phone: "024 9999 678",
       description: "Sân golf Vân Trì Golf Club là sân golf tư nhân đầu tiên và duy nhất tại Việt Nam đạt tiêu chuẩn quốc tế, nằm tại Đông Anh...",
       courseImages: [
-        "https://picsum.photos/id/28/300/200",
-        "https://picsum.photos/id/29/300/200"
+       require("../../../../assets/images/anh1.png"),
+      require("../../../../assets/images/anh2.png"),
+      require("../../../../assets/images/anh3.png"),
       ],
       scorecard: [
         { 
           hole: 1, black: 1, blue: 1, white: 1, red: 1, par: 4, strokeIndex: 1, yard: 450, 
-          image: "https://images.pexels.com/photos/1018080/pexels-photo-1018080.jpeg?auto=compress&cs=tinysrgb&w=600", 
+          image: require("../../../../assets/images/image3.png"),
           teeTournament: "450 yards", teeMen: "420 yards", teeWomen: "380 yards", 
           layout: "Hình chữ S, fairway uốn nhẹ sang phải.", obstacles: "Bunker phải fairway, hồ nước trước và bên phải green.", greenDetail: "Green tròn, hơi dốc xuống phía trước.",
           // 👇 ĐÃ CẬP NHẬT ẢNH BẢN ĐỒ VÀ CÁC CHẤM TỌA ĐỘ CHO HỐ 1
@@ -39,14 +40,14 @@ export const OUTING_DATA = [
             { id: 5, top: '12%', left: '62%', label: '5' },
           ]
         },
-        { hole: 2, black: 2, blue: 2, white: 2, red: 2, par: 5, strokeIndex: 2, yard: 520, image: "https://images.pexels.com/photos/4006182/pexels-photo-4006182.jpeg?auto=compress&cs=tinysrgb&w=600", teeTournament: "520 yards", teeMen: "490 yards", teeWomen: "450 yards", layout: "Đường thẳng, dốc ngược lên đồi ở đoạn cuối.", obstacles: "Suối cắt ngang ở khoảng cách 250 yards, nhiều bẫy cát hai bên.", greenDetail: "Green hình oval, dốc từ sau ra trước rất nhanh." },
-        { hole: 3, black: 3, blue: 3, white: 3, red: 3, par: 3, strokeIndex: 3, yard: 180, image: "https://images.pexels.com/photos/1000624/pexels-photo-1000624.jpeg?auto=compress&cs=tinysrgb&w=600", teeTournament: "180 yards", teeMen: "165 yards", teeWomen: "140 yards", layout: "Hố Par 3 tiêu chuẩn, green được bao bọc bởi hồ nước.", obstacles: "Hồ nước bao quanh 3 mặt của green.", greenDetail: "Green dốc từ trái sang phải." },
-        { hole: 4, black: 4, blue: 4, white: 4, red: 4, par: 4, strokeIndex: 4, yard: 410, image: "https://images.pexels.com/photos/1183022/pexels-photo-1183022.jpeg?auto=compress&cs=tinysrgb&w=600", teeTournament: "410 yards", teeMen: "390 yards", teeWomen: "350 yards", layout: "Dogleg trái, đòi hỏi cú drive chuẩn xác.", obstacles: "Bunker dọc bên trái fairway.", greenDetail: "Green hẹp và dài." },
-        { hole: 5, par: 4, yard: 390, strokeIndex: 9, image: "https://picsum.photos/id/105/200", teeTournament: "390 yards", teeMen: "370 yards", teeWomen: "330 yards", layout: "Fairway rộng rãi, dễ tiếp cận.", obstacles: "Bunker rải rác xung quanh khu vực tiếp cận.", greenDetail: "Green khá phẳng." },
-        { hole: 6, par: 3, yard: 165, strokeIndex: 17, image: "https://picsum.photos/id/106/200", teeTournament: "165 yards", teeMen: "150 yards", teeWomen: "120 yards", layout: "Cần đánh vượt qua thung lũng nhỏ.", obstacles: "Bunker sâu bảo vệ phía trước green.", greenDetail: "Green phân 2 bậc rõ rệt." },
-        { hole: 7, par: 5, yard: 550, strokeIndex: 5, image: "https://picsum.photos/id/107/200", teeTournament: "550 yards", teeMen: "520 yards", teeWomen: "480 yards", layout: "Hố dài nhất sân, uốn lượn nhẹ nhàng.", obstacles: "Nhiều cây lớn hai bên và suối cắt ngang fairway thứ hai.", greenDetail: "Green rộng lớn, độ dốc phức tạp." },
-        { hole: 8, par: 4, yard: 430, strokeIndex: 11, image: "https://picsum.photos/id/108/200", teeTournament: "430 yards", teeMen: "400 yards", teeWomen: "360 yards", layout: "Đường thẳng tắp nhưng gió tạt ngang mạnh.", obstacles: "Hàng cây rậm rạp bên phải.", greenDetail: "Green nhỏ, nhô cao." },
-        { hole: 9, par: 4, yard: 405, strokeIndex: 13, image: "https://picsum.photos/id/109/200", teeTournament: "405 yards", teeMen: "385 yards", teeWomen: "340 yards", layout: "Khép lại 9 hố đầu bằng hướng về phía Clubhouse.", obstacles: "Hồ nước lớn bên trái bảo vệ toàn bộ green.", greenDetail: "Green dốc mạnh về phía hồ nước." },
+        { hole: 2, black: 2, blue: 2, white: 2, red: 2, par: 5, strokeIndex: 2, yard: 520, image: require("../../../../assets/images/image4.png"), teeTournament: "520 yards", teeMen: "490 yards", teeWomen: "450 yards", layout: "Đường thẳng, dốc ngược lên đồi ở đoạn cuối.", obstacles: "Suối cắt ngang ở khoảng cách 250 yards, nhiều bẫy cát hai bên.", greenDetail: "Green hình oval, dốc từ sau ra trước rất nhanh." },
+        { hole: 3, black: 3, blue: 3, white: 3, red: 3, par: 3, strokeIndex: 3, yard: 180, image: require("../../../../assets/images/image5.png"), teeTournament: "180 yards", teeMen: "165 yards", teeWomen: "140 yards", layout: "Hố Par 3 tiêu chuẩn, green được bao bọc bởi hồ nước.", obstacles: "Hồ nước bao quanh 3 mặt của green.", greenDetail: "Green dốc từ trái sang phải." },
+        { hole: 4, black: 4, blue: 4, white: 4, red: 4, par: 4, strokeIndex: 4, yard: 410, image: require("../../../../assets/images/image6.png"), teeTournament: "410 yards", teeMen: "390 yards", teeWomen: "350 yards", layout: "Dogleg trái, đòi hỏi cú drive chuẩn xác.", obstacles: "Bunker dọc bên trái fairway.", greenDetail: "Green hẹp và dài." },
+        { hole: 5, par: 4, yard: 390, strokeIndex: 9, image: require("../../../../assets/images/image1.png"), teeTournament: "390 yards", teeMen: "370 yards", teeWomen: "330 yards", layout: "Fairway rộng rãi, dễ tiếp cận.", obstacles: "Bunker rải rác xung quanh khu vực tiếp cận.", greenDetail: "Green khá phẳng." },
+        { hole: 6, par: 3, yard: 165, strokeIndex: 17, image: require("../../../../assets/images/image2.png"), teeTournament: "165 yards", teeMen: "150 yards", teeWomen: "120 yards", layout: "Cần đánh vượt qua thung lũng nhỏ.", obstacles: "Bunker sâu bảo vệ phía trước green.", greenDetail: "Green phân 2 bậc rõ rệt." },
+        { hole: 7, par: 5, yard: 550, strokeIndex: 5, image: require("../../../../assets/images/anh1.png"), teeTournament: "550 yards", teeMen: "520 yards", teeWomen: "480 yards", layout: "Hố dài nhất sân, uốn lượn nhẹ nhàng.", obstacles: "Nhiều cây lớn hai bên và suối cắt ngang fairway thứ hai.", greenDetail: "Green rộng lớn, độ dốc phức tạp." },
+        { hole: 8, par: 4, yard: 430, strokeIndex: 11, image: require("../../../../assets/images/anh2.png"), teeTournament: "430 yards", teeMen: "400 yards", teeWomen: "360 yards", layout: "Đường thẳng tắp nhưng gió tạt ngang mạnh.", obstacles: "Hàng cây rậm rạp bên phải.", greenDetail: "Green nhỏ, nhô cao." },
+        { hole: 9, par: 4, yard: 405, strokeIndex: 13, image: require("../../../../assets/images/anh3.png"), teeTournament: "405 yards", teeMen: "385 yards", teeWomen: "340 yards", layout: "Khép lại 9 hố đầu bằng hướng về phía Clubhouse.", obstacles: "Hồ nước lớn bên trái bảo vệ toàn bộ green.", greenDetail: "Green dốc mạnh về phía hồ nước." },
       ], 
     },
     rules: [
@@ -105,7 +106,8 @@ export const OUTING_DATA = [
       description: "Sân Golf Tân Sơn Nhất được thiết kế bởi Nelson & Haworth, là sân golf duy nhất nằm trong nội thành TP.HCM với 36 hố tiêu chuẩn PGA...",
       courseImages: [
         "https://picsum.photos/id/10/300/200",
-        "https://picsum.photos/id/11/300/200"
+        "https://picsum.photos/id/11/300/200",
+        "https://picsum.photos/id/12/300/200"
       ],
       scorecard: [
         { hole: 1, black: 4, blue: 4, white: 4, red: 5, par: 4, strokeIndex: 9, yard: 420, image: "https://picsum.photos/id/201/200", teeTournament: "420 yards", teeMen: "400 yards", teeWomen: "360 yards", layout: "Đường băng thẳng, fairway rộng.", obstacles: "Bunker dọc hai bên, có hồ nước bên trái sát green.", greenDetail: "Green bằng phẳng, dễ put." },
@@ -136,7 +138,8 @@ export const OUTING_DATA = [
       description: "Được thiết kế bởi huyền thoại Greg Norman, mang phong cách Links truyền thống với những bãi cát dọc bờ biển đầy thách thức...",
       courseImages: [
         "https://picsum.photos/id/13/300/200",
-        "https://picsum.photos/id/14/300/200"
+        "https://picsum.photos/id/14/300/200",
+        "https://picsum.photos/id/15/300/200"
       ],
       scorecard: [
         { hole: 1, par: 4, strokeIndex: 7, yard: 390, image: "https://picsum.photos/id/301/200", teeTournament: "390 yards", teeMen: "370 yards", teeWomen: "340 yards", layout: "Hướng ra biển, fairway gợn sóng đặc trưng phong cách Links.", obstacles: "Bãi cát tự nhiên (waste area) dọc hai bên.", greenDetail: "Green rất nhanh và cứng." },
@@ -180,7 +183,8 @@ export const OUTING_DATA = [
       description: "Tọa lạc trên đồi cao, sở hữu tầm nhìn ngoạn mục bao quát toàn cảnh Vịnh Hạ Long, mang lại trải nghiệm đánh golf không thể quên...",
       courseImages: [
         "https://picsum.photos/id/16/300/200",
-        "https://picsum.photos/id/17/300/200"
+        "https://picsum.photos/id/17/300/200",
+        "https://picsum.photos/id/18/300/200"
       ],
       scorecard: [
         { hole: 1, par: 4, strokeIndex: 13, yard: 380, image: "https://picsum.photos/id/401/200", teeTournament: "380 yards", teeMen: "360 yards", teeWomen: "320 yards", layout: "Xuất phát từ trên đồi cao đánh xuống.", obstacles: "Vách núi bên phải, vực bên trái.", greenDetail: "Green bằng phẳng nhìn thẳng ra vịnh." },

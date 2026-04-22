@@ -25,7 +25,8 @@ export default function OutingDetailScreen({ route, navigation }: Props) {
   const { outingData } = route.params;
   const source = route.params.source;
   const courseDetails = outingData?.courseDetails;
-  const headerImageSource = outingData?.image || require("../../../../assets/images/image.png");
+  const rawImage = outingData?.image || require("../../../../assets/images/image.png");
+  const headerImageSource = typeof rawImage === "string" ? { uri: rawImage } : rawImage;
   const isTournament = source === "Tournament";
 
   const [activeTab, setActiveTab] = useState("Sân đấu");
@@ -69,13 +70,13 @@ export default function OutingDetailScreen({ route, navigation }: Props) {
 
         {/* Nút Xem bản đồ */}
         <TouchableOpacity style={styles.tournamentMapButton}
-        onPress={() => {
+          onPress={() => {
             // Lấy dữ liệu hố số 1 làm mặc định
             const firstHole = outingData?.courseDetails?.scorecard?.[0];
-            
-            navigation.navigate("HoleMapScreen", { 
+
+            navigation.navigate("HoleMapScreen", {
               currentHole: firstHole,
-              courseName: outingData?.courseDetails?.name 
+              courseName: outingData?.courseDetails?.name
             });
           }}>
           <Ionicons name="map-outline" size={18} color="#fff" style={{ marginRight: 8 }} />
@@ -92,28 +93,32 @@ export default function OutingDetailScreen({ route, navigation }: Props) {
         </TouchableOpacity>
 
         {/* Khám phá 18 lỗ */}
-        <SectionHeader 
-          title="Khám phá 18 lỗ" 
-          rightText="Xem chi tiết" 
+        <SectionHeader
+          title="Khám phá 18 lỗ"
+          rightText="Xem chi tiết"
           onRightPress={() => navigation.navigate("HoleListScreen", { courseDetails })}
         />
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.rowScroll}>
-          {(courseDetails.courseImages || []).slice(0, 4).map((uri: string, idx: number) => (
-            <View key={idx} style={styles.holeImageWrapper}>
-              <Image source={{ uri }} style={styles.holeImage} />
-              <View style={styles.holeBadge}>
-                <Text style={styles.holeBadgeText}>{idx + 1}</Text>
+          {(courseDetails.scorecard || []).slice(0, 4).map((item: any, idx: number) => {
+            const holeSource = typeof item.image === "string" ? { uri: item.image } : item.image;
+            return (
+              <View key={idx} style={styles.holeImageWrapper}>
+                <Image source={holeSource} style={styles.holeImage} />
+                <View style={styles.holeBadge}>
+                  <Text style={styles.holeBadgeText}>{item.hole}</Text>
+                </View>
               </View>
-            </View>
-          ))}
+            );
+          })}
         </ScrollView>
 
         {/* Hình ảnh và video */}
         <SectionHeader title="Hình ảnh và video" rightText="Xem tất cả" />
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.rowScroll}>
-          {(courseDetails.courseImages || []).map((uri: string, idx: number) => (
-            <Image key={idx} source={{ uri }} style={styles.mediaImage} />
-          ))}
+          {(courseDetails.courseImages || []).slice(0, 3).map((img: any, idx: number) => {
+            const mediaSource = typeof img === "string" ? { uri: img } : img;
+            return <Image key={idx} source={mediaSource} style={styles.mediaImage} />;
+          })}
         </ScrollView>
       </View>
     </ScrollView>
@@ -202,43 +207,43 @@ const styles = StyleSheet.create({
   headerImageContainer: { height: 240 },
   headerImage: { width: "100%", height: "100%", position: "absolute" },
   headerOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0, 0, 0, 0.24)" },
-  
+
   actionButton: {
     width: 40, height: 40, borderRadius: 20, backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "center", alignItems: "center",
   },
-  
+
   mainInfoBox: {
     backgroundColor: "#fff", borderTopLeftRadius: 30, borderTopRightRadius: 30,
     paddingTop: 3, paddingHorizontal: 16, marginTop: -24, overflow: "hidden",
   },
-  
+
   mainTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 12, marginTop: 15 },
   tournamentTitle: { fontSize: 22, fontWeight: "700", marginTop: 12, marginBottom: 10, color: "#0F172A" },
-  
+
   infoRowShared: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
   infoTextShared: { marginLeft: 10, fontSize: 14 },
-  
+
   tabContainer: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#EEE" },
   tabItem: { flex: 1, alignItems: "center", paddingVertical: 12 },
   activeTabItem: { borderBottomWidth: 2, borderBottomColor: "#0055A5" },
   tabText: { color: "#888" },
   activeTabText: { color: "#0055A5", fontWeight: "bold" },
-  
+
   // ĐÃ SỬA: Card hợp nhất 1 lớp viền
   tournamentCardWrapper: {
-    backgroundColor: "#fff", 
-    borderRadius: 16, 
-    padding: 16, 
+    backgroundColor: "#f7f7f7",
+    borderRadius: 16,
+    padding: 16,
     marginBottom: 20,
-    shadowColor: "#000", 
-    shadowOpacity: 0.08, 
-    shadowRadius: 10, 
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
     elevation: 4,
-    borderWidth: 1, 
+    borderWidth: 1,
     borderColor: "#EFF6FF", // Đường viền xanh mỏng cho sang trọng
   },
-  
+
   tournamentMapButton: {
     flexDirection: "row", justifyContent: "center", alignItems: "center",
     marginBottom: 20, backgroundColor: "#1D4ED8", borderRadius: 12,
@@ -250,17 +255,19 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 16, fontWeight: "700", color: "#111827" },
   sectionTitleLine: { flex: 1, height: 1, backgroundColor: "#2563EB", opacity: 0.2, marginLeft: 8 },
   linkText: { fontFamily: "Inter", fontWeight: "600", fontSize: 12, color: "#004FA1" },
-  
+
   sectionText: { marginBottom: 14, color: "#111827", lineHeight: 20 },
   readMoreText: { fontSize: 13, color: "#6B7280", fontWeight: "600", marginBottom: 20 },
-  
+
   rowScroll: { marginBottom: 16 },
-  holeImageWrapper: { width: 96, height: 96, marginRight: 12, borderRadius: 12, overflow: "hidden" },
+  holeImageWrapper: { width: 75, height: 75, marginRight: 10, borderRadius: 12, overflow: "hidden" },
   holeImage: { width: "100%", height: "100%", borderRadius: 12 },
   holeBadge: {
-    position: "absolute", top: 8, left: 8, backgroundColor: "rgba(0,0,0,0.5)",
-    width: 24, height: 24, borderRadius: 12, justifyContent: "center", alignItems: "center",
+    position: "absolute", top: "50%", left: "50%", marginTop: -16, marginLeft: -16,
+    backgroundColor: "#FFFFFF", width: 32, height: 32, borderRadius: 16, 
+    justifyContent: "center", alignItems: "center",
+    shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 3, elevation: 4,
   },
-  holeBadgeText: { color: "#fff", fontWeight: "bold", fontSize: 12 },
-  mediaImage: { width: 160, height: 110, borderRadius: 12, marginRight: 12 },
+  holeBadgeText: { color: "#333333", fontWeight: "bold", fontSize: 13 },
+  mediaImage: { width: 160, height: 160, borderRadius: 12, marginRight: 12 },
 });

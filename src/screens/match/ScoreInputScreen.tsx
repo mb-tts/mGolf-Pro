@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { AppStackParamList } from "@/types/navigation.types";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 import { Colors } from "@/constants/colors";
@@ -19,7 +21,10 @@ import MatchSummaryScreen from "./MatchSummaryScreen";
 import FlightIcon from "@assets/icons/flight_icon.png";
 import FlightEditIcon from "@assets/icons/flightedit_icon.png";
 import RankingIcon from "@assets/icons/ranking_icon.png";
-
+type ScoreInputNavigationProp = NativeStackNavigationProp<
+  AppStackParamList,
+  "ScoreInputScreen"
+>;
 const { width, height } = Dimensions.get("window");
 
 interface PlayerScore {
@@ -31,7 +36,7 @@ interface PlayerScore {
 }
 
 const ScoreInputScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<ScoreInputNavigationProp>();
   const insets = useSafeAreaInsets();
 
   const handleBack = () => {
@@ -109,7 +114,7 @@ const ScoreInputScreen = () => {
         <ScrollView style={styles.tableScrollView} showsVerticalScrollIndicator={false}>
           {/* Top Actions */}
           <View style={styles.actionRow}>
-            <TouchableOpacity style={styles.actionItem}>
+            <TouchableOpacity style={styles.actionItem} onPress={() => navigation.navigate("overviewScreen")}>
               <View style={styles.iconWrapper}>
                 <Image source={FlightIcon} style={styles.actionIcon} />
               </View>
