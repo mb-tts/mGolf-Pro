@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 import { Colors } from "@/constants/colors";
 import { HoleDetailModal, AnnotationModal, ConfirmModal } from "./modals";
+import MatchSummaryScreen from "./MatchSummaryScreen";
 import FlightIcon from "@assets/icons/flight_icon.png";
 import FlightEditIcon from "@assets/icons/flightedit_icon.png";
 import RankingIcon from "@assets/icons/ranking_icon.png";
@@ -259,7 +260,13 @@ const ScoreInputScreen = () => {
       <ConfirmModal
         visible={showConfirmModal}
         players={players}
-        onConfirm={() => navigation.goBack()}
+        onConfirm={() => {
+          // Navigate to MatchSummaryScreen with data
+          (navigation as any).navigate("MatchSummary", {
+            players,
+            scoreData,
+          });
+        }}
         onCancel={() => setShowConfirmModal(false)}
       />
     </ScreenWrapper>

@@ -60,6 +60,7 @@ import HoleVideoScreen from "@/screens/tournament/detail/HoleVideoScreen";
 import ClubMainScreen from "@/screens/club/mainscreen";
 import ImagesAndVideosScreen from "@/screens/club/imagesAndvideos";
 import ScoreInputScreen from "@/screens/match/ScoreInputScreen";
+import MatchSummaryScreen from "@/screens/match/MatchSummaryScreen";
 
 // ─── Create Flight Sub-Screens ────────────────────────────────────────────────
 import InstallGameScreen from "@/screens/home/create-flight/installGame";
@@ -177,6 +178,7 @@ const AppNavigator = () => (
   <AppStack.Navigator id="AppStack" screenOptions={{ headerShown: false }}>
     <AppStack.Screen name="MainTabs" component={MainNavigator} />
     <AppStack.Screen name="ScoreInputScreen" component={ScoreInputScreen} />
+    <AppStack.Screen name="MatchSummary" component={MatchSummaryScreen} />
 
     <AppStack.Screen
       name="AccountInformation"
