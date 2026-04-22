@@ -68,6 +68,7 @@ import TeamXoayScreen from "@/screens/home/create-flight/teamxoay";
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 import { AuthProvider, useAuth } from "@/providers/auth.provider";
+import { UserProvider } from "@/providers/user.provider";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 import HomeIcon from "@assets/icons/tabbar/Home.svg";
@@ -363,9 +364,11 @@ export default function App() {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
-          <AuthProvider>
-            <RootNavigator />
-           </AuthProvider>
+          <UserProvider>
+            <AuthProvider>
+              <RootNavigator />
+             </AuthProvider>
+          </UserProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
