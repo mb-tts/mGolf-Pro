@@ -4,6 +4,15 @@
  */
 import type { OutingData, HoleData, CourseDetails } from "./golf.types";
 
+// ─── Player Score ─────────────────────────────────────────────────────────────
+export type PlayerScore = {
+  name: string;
+  avatar: string;
+  score: number;
+  relative: number;
+  id?: string;
+};
+
 // ─── Auth Stack ───────────────────────────────────────────────────────────────
 export type AuthStackParamList = {
   Splash: undefined;
@@ -59,5 +68,9 @@ export type AppStackParamList = {
   InstallGame: undefined;
   TeamCoDinh: undefined;
   Teamxoay: undefined;
+  MatchSummary: {
+    players: PlayerScore[];
+    scoreData: Record<string, { score: number; relative: number }>;
+  };
   overviewScreen: undefined; 
 };

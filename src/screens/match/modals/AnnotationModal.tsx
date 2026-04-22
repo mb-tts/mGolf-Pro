@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   legendRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 12,
   },
   legendAvatarCol: {
     alignItems: "center",

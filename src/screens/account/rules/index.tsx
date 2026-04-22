@@ -91,6 +91,31 @@ const styles = StyleSheet.create({
     flex: 1, 
     backgroundColor: "#F4F6F9" 
   },
+  header: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "space-between", 
+    paddingHorizontal: 16, 
+    paddingVertical: 12,
+    backgroundColor: "#F4F6F9" 
+  },
+  backBtn: { 
+    width: 36, 
+    height: 36, 
+    borderRadius: 8, 
+    borderWidth: 1, 
+    borderColor: "#E5E7EB", 
+    alignItems: "center", 
+    justifyContent: "center",
+  },
+  headerTitle: { 
+    fontSize: 18, 
+    fontWeight: "600", 
+    color: "#1A1A1A" 
+  },
+  placeholder: { 
+    width: 36 
+  },
   container: {
     flex: 1,
     position: 'relative',
