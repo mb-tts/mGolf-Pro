@@ -69,6 +69,7 @@ import TeamXoayScreen from "@/screens/home/create-flight/teamxoay";
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 import { AuthProvider, useAuth } from "@/providers/auth.provider";
+import { UserProvider } from "@/providers/user.provider";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 import HomeIcon from "@assets/icons/tabbar/Home.svg";
@@ -81,7 +82,8 @@ import GolfCourseIcon from "@assets/icons/tabbar/golf-course.svg";
 import GolfCourseActiveIcon from "@assets/icons/tabbar/golf-course2.svg";
 import ProfileIcon from "@assets/icons/tabbar/profile-circle.svg";
 import ProfileActiveIcon from "@assets/icons/tabbar/profile-circle2.svg";
-
+import overviewSCreen from "@/screens/match/detialFlight/overviewScreen";
+import setIndexRegret from "@/screens/match/detialFlight/component/Tong quan va Everything/setIndexRegret";
 // ─── Tab Icons Map ────────────────────────────────────────────────────────────
 const TAB_ICONS: Record<
   keyof MainTabParamList,
@@ -192,6 +194,12 @@ const AppNavigator = () => (
     <AppStack.Screen
       name="NotificationSettings"
       component={NotificationSettingsScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="overviewScreen"
+      component={overviewSCreen}
       options={{ animation: "slide_from_right" }}
     />
 
@@ -358,9 +366,11 @@ export default function App() {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
-          <AuthProvider>
-            <RootNavigator />
-           </AuthProvider>
+          <UserProvider>
+            <AuthProvider>
+              <RootNavigator />
+             </AuthProvider>
+          </UserProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>

@@ -102,6 +102,10 @@ export default function ImagesAndVideosScreen({ navigation, route }: Props) {
             offset: width * index,
             index,
           })}
+          removeClippedSubviews={true}
+          initialNumToRender={1}
+          maxToRenderPerBatch={1}
+          windowSize={3}
         />
       </View>
 

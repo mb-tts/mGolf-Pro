@@ -36,7 +36,7 @@ const HoleListScreen = ({ route, navigation }: Props) => {
       <View style={styles.cardContainer}>
         <View style={styles.thumbnailContainer}>
           <Image
-            source={{ uri: item.image || 'https://picsum.photos/200' }}
+            source={typeof item.image === 'string' ? { uri: item.image } : (item.image || { uri: 'https://picsum.photos/200' })}
             style={styles.holeThumbnail}
           />
           <View style={styles.holeNumberContainer}>
@@ -63,11 +63,11 @@ const HoleListScreen = ({ route, navigation }: Props) => {
             currentHole: item,       // item chính là dữ liệu của hố đang được render
             courseName: route.params?.courseName || "Sân Golf"   // Biến lưu tên sân (hoặc lấy từ route.params tùy code của bạn)
           })}>
-              <Ionicons name="map-outline" size={16} color="#0066FF" />
+              <Ionicons name="map-outline" size={16} color="#0061AF" />
               <Text style={styles.actionText}>Xem bản đồ hố</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton} activeOpacity={0.6}>
-              <Ionicons name="videocam-outline" size={16} color="#0066FF" />
+              <Ionicons name="videocam-outline" size={16} color="#0061AF" />
               <Text style={styles.actionText}>Xem video hố</Text>
             </TouchableOpacity>
           </View>
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   actionText: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#0066FF',
+    color: '#0061AF',
   },
 });
 
