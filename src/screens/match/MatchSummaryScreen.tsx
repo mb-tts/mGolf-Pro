@@ -12,6 +12,7 @@ import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { AppStackParamList } from "@/types/navigation.types";
 import { TabsNavigation, PlayerCards, ScoreTable } from "./matchsummary";
+import { ScorecardModal } from "./scorecard";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface HoleScore {
@@ -31,23 +32,85 @@ const MatchSummaryScreen: React.FC<MatchSummaryScreenProps> = () => {
   const navigation = useNavigation<MatchSummaryNavigationProp>();  const route = useRoute<MatchSummaryScreenProps["route"]>();
   const insets = useSafeAreaInsets();
   const [activeTab, setActiveTab] = useState("team");
+  const [showScorecardModal, setShowScorecardModal] = useState(false);
 
-  // Dữ liệu mock nếu không có route.params
-  const players = route.params?.players || [
-    { name: "Tôi", avatar: "https://i.pravatar.cc/100?img=11" },
-    { name: "Hoàng Anh", avatar: "https://i.pravatar.cc/100?img=12" },
-    { name: "Xuân Anh", avatar: "https://i.pravatar.cc/100?img=13" },
-    { name: "Hoàng Anh", avatar: "https://i.pravatar.cc/100?img=14" },
+  // Extended player data for scorecard
+  const scoreboardPlayers = [
+    { 
+      id: "1",
+      name: "Nguyễn Văn Anh", 
+      avatar: "https://i.pravatar.cc/100?img=11",
+      hdc: 30,
+      scores: [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12],
+    },
+    { 
+      id: "2",
+      name: "Nguyễn Xuân Anh", 
+      avatar: "https://i.pravatar.cc/100?img=12",
+      hdc: 30,
+      scores: [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12],
+    },
+    { 
+      id: "3",
+      name: "Nguyễn Văn An", 
+      avatar: "https://i.pravatar.cc/100?img=13",
+      hdc: 30,
+      scores: [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12],
+    },
+    { 
+      id: "4",
+      name: "Nguyễn Quang", 
+      avatar: "https://i.pravatar.cc/100?img=14",
+      hdc: 30,
+      scores: [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12],
+    },
   ];
+
+  // Simple player data for summary view
+  const players = route.params?.players || [
+    { name: "Nguyễn Văn Anh", avatar: "https://i.pravatar.cc/100?img=11" },
+    { name: "Nguyễn Xuân Anh", avatar: "https://i.pravatar.cc/100?img=12" },
+    { name: "Nguyễn Văn An", avatar: "https://i.pravatar.cc/100?img=13" },
+    { name: "Nguyễn Quang", avatar: "https://i.pravatar.cc/100?img=14" },
+  ];
+
+  // Hole data - Front 9, A (subtotal), Back 9, B (subtotal)
+  const holes = [
+    // Front 9 (1-9)
+    ...Array.from({ length: 9 }, (_, i) => ({
+      hole: i + 1,
+      par: i % 3 === 0 ? 5 : i % 2 === 0 ? 4 : 3,
+      strokeIndex: i + 1,
+    })),
+    // A - Subtotal Front 9
+    {
+      hole: "A",
+      par: 36,
+      strokeIndex: "IN",
+    },
+    // Back 9 (1-9)
+    ...Array.from({ length: 9 }, (_, i) => ({
+      hole: i + 1,
+      par: i % 3 === 0 ? 5 : i % 2 === 0 ? 4 : 3,
+      strokeIndex: i + 10,
+    })),
+    // B - Subtotal Back 9
+    {
+      hole: "B",
+      par: 36,
+      strokeIndex: "OUT",
+    },
+  ];
+
   const scoreData = route.params?.scoreData || {};
-  const totalHoles = 5;
+  const totalHoles = 9; // Front 9 holes cho phần summary ở trên
 
   const handleGoHome = () => {
     navigation.navigate("MainTabs");
   };
 
   const handleViewScorecard = () => {
-    // navigation.navigate("Scorecard");
+    setShowScorecardModal(true);
   };
 
   const calculatePlayerTotals = (playerIdx: number) => {
@@ -103,6 +166,14 @@ const MatchSummaryScreen: React.FC<MatchSummaryScreenProps> = () => {
             <Text style={styles.primaryBtnText}>Xem Scorecard</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Scorecard Modal */}
+        <ScorecardModal
+          visible={showScorecardModal}
+          players={scoreboardPlayers}
+          holes={holes}
+          onClose={() => setShowScorecardModal(false)}
+        />
       </View>
     </ScreenWrapper>
   );

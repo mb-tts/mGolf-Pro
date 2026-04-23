@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 8,
   },
-  confirmSubTitle: { textAlign: "center", color: "#666", marginBottom: 20 },
+  confirmSubTitle: { textAlign: "center", color: "#000", marginBottom: 20, },
   summaryTable: {
     borderWidth: 1,
     borderColor: "#EAF6FF",
