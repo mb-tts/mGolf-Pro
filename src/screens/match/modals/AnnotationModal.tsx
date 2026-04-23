@@ -143,7 +143,7 @@ export const AnnotationModal: React.FC<AnnotationModalProps> = ({
 
           {/* Footer Text */}
           <Text style={styles.footerText}>
-            Trong hố này A sẽ được chấp bởi B; A và C không chấp; A sẽ chấp D
+            Trong hố này <Text style={styles.footerTextBold}>A sẽ được chấp bởi B; A và C không chấp; A sẽ chấp D</Text>
           </Text>
         </View>
       </View>
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
 
   /* Text Descriptions */
   descText: { 
-    color: "#444", 
+    color: "#000", 
     lineHeight: 22, 
     fontSize: 14,
     marginBottom: 20,
@@ -316,13 +316,17 @@ const styles = StyleSheet.create({
   },
   legendLabelText: {
     fontSize: 15,
-    color: "#333",
+    color: "#000",
   },
   
   /* Footer */
   footerText: {
     fontSize: 14,
-    color: "#333",
+    color: "#000",
     lineHeight: 22,
   },
+
+  footerTextBold: {
+    fontWeight: "bold",
+  }
 });
