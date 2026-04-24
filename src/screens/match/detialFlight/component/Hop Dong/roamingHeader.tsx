@@ -5,12 +5,17 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Modal,
+  TouchableWithoutFeedback,
+  ScrollView,
 } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
+// Đảm bảo đường dẫn import đúng với project của bạn
 import { MOCK_FLIGHTS } from "./Roaming/mockData";
 import SelectPlayerModal from "./Roaming/SelectPlayerModal";
-import { SelectedPlayers } from "./Roaming/";
+import { SelectedPlayers } from "./Roaming/index";
+
 type FilterType = "Đi" | "Về" | "Tất cả";
 
 interface RoamingPlayer {
@@ -48,200 +53,177 @@ const mockRoamingData: RoamingMatch[] = [
   },
 ];
 
-const ScoreRow = ({ label1, label2, isP1Winner }: any) => (
-  <View style={styles.scoreRow}>
-    <View style={styles.scoreBox}>
-      <Text style={[styles.scoreValue, !isP1Winner && styles.dimmedText]}>
-        {label1}
-      </Text>
-      <Image
-        source={require("@assets/images/chip.png")}
-        style={styles.chipIcon}
-      />
+// Component hiển thị từng hàng điểm số (Đi / Về / Tổng)
+const ScoreRow = ({
+  score1,
+  score2,
+  isP1Winner,
+  hasBorder,
+  showVs,
+}: {
+  score1: number;
+  score2: number;
+  isP1Winner: boolean;
+  hasBorder?: boolean;
+  showVs?: boolean;
+}) => (
+  <View style={styles.scoreRowContainer}>
+    {/* Điểm Player 1 */}
+    <View style={styles.scoreBlock}>
+      <View style={[styles.scoreInner, hasBorder && styles.scoreBorder]}>
+        <Text style={[styles.scoreValue, !isP1Winner && styles.dimmedText]}>
+          {score1}
+        </Text>
+        <Image
+          source={require("@assets/images/chip.png")}
+          style={styles.chipIcon}
+        />
+      </View>
     </View>
-    <Text style={styles.vsText}>vs</Text>
-    <View style={styles.scoreBox}>
-      <Text style={[styles.scoreValue, isP1Winner && styles.dimmedText]}>
-        {label2}
-      </Text>
-      <Image
-        source={require("@assets/images/chip.png")}
-        style={styles.chipIcon}
-      />
+
+    {/* Chữ VS ở giữa */}
+    <View style={styles.vsContainer}>
+      {showVs && <Text style={styles.vsText}>vs</Text>}
+    </View>
+
+    {/* Điểm Player 2 */}
+    <View style={styles.scoreBlock}>
+      <View style={[styles.scoreInner, hasBorder && styles.scoreBorder]}>
+        <Text style={[styles.scoreValue, isP1Winner && styles.dimmedText]}>
+          {score2}
+        </Text>
+        <Image
+          source={require("@assets/images/chip.png")}
+          style={styles.chipIcon}
+        />
+      </View>
     </View>
   </View>
 );
 
-const RoamingCard = ({
-  match,
-  activeFilter,
-}: {
-  match: RoamingMatch;
-  activeFilter: FilterType;
-}) => {
+const RoamingCard = ({ match }: { match: RoamingMatch }) => {
   const { player1, player2, index } = match;
-  const isP1Winner = player1.totalScore > player2.totalScore;
+  const isP1Winner = player1.totalScore >= player2.totalScore;
 
   return (
     <View style={styles.card}>
+      {/* CỘT TRÁI: Index và các nút Đi/Về/Tổng */}
       <View style={styles.leftCol}>
         <View style={styles.indexCircle}>
           <Text style={styles.indexText}>{index}</Text>
         </View>
-
-        {activeFilter === "Tất cả" ? (
-          <View style={styles.allBadgesContainer}>
-            <View style={styles.sideBadge}>
-              <Text style={styles.sideBadgeText}>Đi</Text>
-            </View>
-            <View style={styles.sideBadge}>
-              <Text style={styles.sideBadgeText}>Về</Text>
-            </View>
-            <View style={styles.sideBadge}>
-              <Text style={styles.sideBadgeText}>Tổng</Text>
-            </View>
-          </View>
-        ) : (
-          <View style={[styles.sideBadge, styles.activeBadge]}>
-            <Text style={styles.activeBadgeText}>{activeFilter}</Text>
-          </View>
-        )}
+        <View style={styles.sideBadge}>
+          <Text style={styles.sideBadgeText}>Đi</Text>
+        </View>
+        <View style={styles.sideBadge}>
+          <Text style={styles.sideBadgeText}>Về</Text>
+        </View>
+        <View style={styles.sideBadge}>
+          <Text style={styles.sideBadgeText}>Tổng</Text>
+        </View>
       </View>
 
+      {/* CỘT PHẢI: Tên người chơi và điểm số dọc */}
       <View style={styles.rightCol}>
         <View style={styles.nameHeader}>
-          <View style={styles.nameWrapper}>
+          <View style={[styles.nameWrapper, { justifyContent: "center", paddingRight: 20 }]}>
             <Text style={[styles.playerName, !isP1Winner && styles.dimmedText]}>
               {player1.name}
             </Text>
             {isP1Winner && (
-              <FontAwesome5
-                name="crown"
-                size={14}
-                color="#F59E0B"
-                style={styles.crown}
-              />
+              <FontAwesome5 name="crown" size={12} color="#F59E0B" style={styles.crown} />
             )}
           </View>
-
-          <Text style={styles.vsCenter}>vs</Text>
-
-          <View style={styles.nameWrapper}>
+          <View style={[styles.nameWrapper, { justifyContent: "center", paddingLeft: 20 }]}>
             <Text style={[styles.playerName, isP1Winner && styles.dimmedText]}>
               {player2.name}
             </Text>
             {!isP1Winner && (
-              <FontAwesome5
-                name="crown"
-                size={14}
-                color="#F59E0B"
-                style={styles.crown}
-              />
+              <FontAwesome5 name="crown" size={12} color="#F59E0B" style={styles.crown} />
             )}
           </View>
         </View>
 
-        <View style={styles.scoreContent}>
-          {activeFilter === "Tất cả" ? (
-            <View>
-              <ScoreRow
-                label1={player1.goScore}
-                label2={player2.goScore}
-                isP1Winner={isP1Winner}
-              />
-              <View style={styles.divider} />
-              <ScoreRow
-                label1={player1.backScore}
-                label2={player2.backScore}
-                isP1Winner={isP1Winner}
-              />
-              <View style={styles.divider} />
-              <ScoreRow
-                label1={player1.totalScore}
-                label2={player2.totalScore}
-                isP1Winner={isP1Winner}
-              />
-            </View>
-          ) : activeFilter === "Đi" ? (
-            <ScoreRow
-              label1={player1.goScore}
-              label2={player2.goScore}
-              isP1Winner={isP1Winner}
-            />
-          ) : (
-            <ScoreRow
-              label1={player1.backScore}
-              label2={player2.backScore}
-              isP1Winner={isP1Winner}
-            />
-          )}
+        <View style={styles.scoresGrid}>
+          <ScoreRow score1={player1.goScore} score2={player2.goScore} isP1Winner={isP1Winner} hasBorder />
+          <ScoreRow score1={player1.backScore} score2={player2.backScore} isP1Winner={isP1Winner} hasBorder showVs />
+          <ScoreRow score1={player1.totalScore} score2={player2.totalScore} isP1Winner={isP1Winner} />
         </View>
       </View>
     </View>
-  );
-};
-
-// ✅ FilterModal giữ nguyên
-const FilterModal = ({ visible, onClose, onSelect, currentFilter }: any) => {
-  const options: FilterType[] = ["Đi", "Về", "Tất cả"];
-
-  return (
-    // dùng SelectPlayerModal pattern: import Modal từ RN
-    <View />
   );
 };
 
 export default function ContractScreen() {
   const [filter, setFilter] = useState<FilterType>("Tất cả");
   const [filterModalVisible, setFilterModalVisible] = useState(false);
-
-  // ✅ State cho SelectPlayerModal
   const [selectPlayerVisible, setSelectPlayerVisible] = useState(false);
+
   const [selectedPlayers, setSelectedPlayers] = useState<SelectedPlayers>({
     player1: null,
     player2: null,
   });
 
+  // State lưu trữ trận đấu tùy chỉnh sau khi chọn 2 người
+  const [activeMatch, setActiveMatch] = useState<RoamingMatch | null>(null);
+
   const handleStart = (selected: SelectedPlayers) => {
     setSelectedPlayers(selected);
     setSelectPlayerVisible(false);
-    // TODO: xử lý logic sau khi chọn xong 2 người chơi
-    console.log("Bắt đầu với:", selected.player1?.name, "vs", selected.player2?.name);
+
+    if (selected.player1 && selected.player2) {
+      // Rút gọn tên hiển thị (vd: Nguyễn Văn Anh -> Văn Anh)
+      const p1Name = selected.player1.name.split(" ").slice(-2).join(" ");
+      const p2Name = selected.player2.name.split(" ").slice(-2).join(" ");
+
+      setActiveMatch({
+        id: "active_roaming_match",
+        index: 1,
+        player1: { name: p1Name, goScore: -6, backScore: -5, totalScore: -11 },
+        player2: { name: p2Name, goScore: -8, backScore: -8, totalScore: -16 },
+      });
+    }
+  };
+
+  const handleReset = () => {
+    setSelectedPlayers({ player1: null, player2: null });
+    setActiveMatch(null);
+  };
+
+  // Avatar hiển thị trên Header (Overlap nhau)
+  const renderAvatars = () => {
+    if (activeMatch && selectedPlayers.player1 && selectedPlayers.player2) {
+      return (
+        <View style={styles.avatarGroup}>
+          <Image source={{ uri: selectedPlayers.player1.image }} style={[styles.headerAvatar, { zIndex: 2 }]} />
+          <Image source={{ uri: selectedPlayers.player2.image }} style={[styles.headerAvatar, styles.avatarOverlap, { zIndex: 1 }]} />
+        </View>
+      );
+    }
+    // Mock 4 avatars lúc chưa chọn
+    return (
+      <View style={styles.avatarGroup}>
+        {[1, 2, 3, 4].map((i, index) => (
+          <Image
+            key={i}
+            source={{ uri: `https://i.pravatar.cc/150?u=${i}` }}
+            style={[
+              styles.headerAvatar,
+              index > 0 && styles.avatarOverlap,
+              { zIndex: 10 - index }
+            ]}
+          />
+        ))}
+      </View>
+    );
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#F9FAFB" }}>
+    <View style={{ flex: 1, backgroundColor: "#FFF" }}>
       <View style={styles.headerContainer}>
-        {/* Avatar group - hiển thị player đã chọn nếu có, fallback về mock */}
-        <View style={styles.avatarGroup}>
-          {selectedPlayers.player1 || selectedPlayers.player2 ? (
-            <>
-              {selectedPlayers.player1 && (
-                <Image
-                  source={{ uri: selectedPlayers.player1.image }}
-                  style={styles.headerAvatar}
-                />
-              )}
-              {selectedPlayers.player2 && (
-                <Image
-                  source={{ uri: selectedPlayers.player2.image }}
-                  style={styles.headerAvatar}
-                />
-              )}
-            </>
-          ) : (
-            [1, 2, 3, 4].map((i) => (
-              <Image
-                key={i}
-                source={{ uri: `https://i.pravatar.cc/150?u=${i}` }}
-                style={styles.headerAvatar}
-              />
-            ))
-          )}
-        </View>
+        {renderAvatars()}
 
         <View style={styles.actionGroup}>
-          {/* ✅ Nút Roaming mở SelectPlayerModal */}
           <TouchableOpacity
             style={styles.roamingBtn}
             onPress={() => setSelectPlayerVisible(true)}
@@ -249,23 +231,32 @@ export default function ContractScreen() {
             <Text style={styles.roamingText}>Roaming</Text>
           </TouchableOpacity>
 
-          {/* Nút filter */}
           <TouchableOpacity
             style={styles.filterBtn}
             onPress={() => setFilterModalVisible(true)}
           >
-            <Ionicons name="options-outline" size={20} color="#0066B2" />
+            <Ionicons name="options-outline" size={20} color="#0062C4" />
           </TouchableOpacity>
         </View>
       </View>
 
-      <View style={{ padding: 16 }}>
-        {mockRoamingData.map((item) => (
-          <RoamingCard key={item.id} match={item} activeFilter={filter} />
-        ))}
-      </View>
+      <ScrollView contentContainerStyle={{ padding: 16 }}>
+        {activeMatch ? (
+          // Trạng thái: Đã chọn 2 người chơi
+          <>
+            <RoamingCard match={activeMatch} />
+            <TouchableOpacity style={styles.resetMainBtn} onPress={handleReset}>
+              <Text style={styles.resetMainBtnText}>Đặt lại</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          // Trạng thái ban đầu: Hiển thị danh sách mockData
+          mockRoamingData.map((item) => (
+            <RoamingCard key={item.id} match={item} />
+          ))
+        )}
+      </ScrollView>
 
-      {/* ✅ SelectPlayerModal thay thế modal cũ */}
       <SelectPlayerModal
         visible={selectPlayerVisible}
         flights={MOCK_FLIGHTS}
@@ -273,7 +264,6 @@ export default function ContractScreen() {
         onStart={handleStart}
       />
 
-      {/* Filter modal (Đi / Về / Tất cả) giữ nguyên */}
       <FilterModalSheet
         visible={filterModalVisible}
         onClose={() => setFilterModalVisible(false)}
@@ -287,18 +277,11 @@ export default function ContractScreen() {
   );
 }
 
-// Tách FilterModal ra ngoài để tránh dùng Modal lồng nhau
-import { Modal, TouchableWithoutFeedback } from "react-native";
-
+// Giữ nguyên FilterModalSheet
 const FilterModalSheet = ({ visible, onClose, onSelect, currentFilter }: any) => {
   const options: FilterType[] = ["Đi", "Về", "Tất cả"];
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onClose}
-    >
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.modalOverlay}>
           <TouchableWithoutFeedback>
@@ -313,42 +296,13 @@ const FilterModalSheet = ({ visible, onClose, onSelect, currentFilter }: any) =>
 
               <View style={styles.optionsContainer}>
                 {options.map((opt) => (
-                  <TouchableOpacity
-                    key={opt}
-                    onPress={() => onSelect(opt)}
-                    style={styles.optionItem}
-                  >
-                    <Text
-                      style={[
-                        styles.optionText,
-                        currentFilter === opt && styles.optionTextActive,
-                      ]}
-                    >
+                  <TouchableOpacity key={opt} onPress={() => onSelect(opt)} style={styles.optionItem}>
+                    <Text style={[styles.optionText, currentFilter === opt && styles.optionTextActive]}>
                       {opt}
                     </Text>
                   </TouchableOpacity>
                 ))}
               </View>
-
-              <TouchableOpacity
-                style={[
-                  styles.resetBtn,
-                  currentFilter !== "Tất cả" && styles.resetBtnActive,
-                ]}
-                onPress={() => {
-                  onSelect("Tất cả");
-                  onClose();
-                }}
-              >
-                <Text
-                  style={[
-                    styles.resetBtnText,
-                    currentFilter !== "Tất cả" && styles.resetBtnTextActive,
-                  ]}
-                >
-                  Đặt lại
-                </Text>
-              </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -362,146 +316,167 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
     backgroundColor: "#FFF",
   },
-  avatarGroup: { flexDirection: "row" , },
+  avatarGroup: { flexDirection: "row", alignItems: "center" },
   headerAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     borderWidth: 2,
     borderColor: "#FFF",
+    backgroundColor: "#eee",
+  },
+  avatarOverlap: {
     marginLeft: 5,
   },
-  actionGroup: { flexDirection: "row", gap: 8 },
+  actionGroup: { flexDirection: "row", gap: 10, alignItems: "center" },
   roamingBtn: {
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderWidth: 1.5,
+    borderColor: "#0062C4", // Màu xanh dương nhạt
   },
-  roamingText: { color: "#0066B2", fontWeight: "600" },
+  roamingText: { color: "#0062C4", fontWeight: "500", fontSize: 14 },
   filterBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     borderWidth: 1,
     borderColor: "#E5E7EB",
     justifyContent: "center",
     alignItems: "center",
   },
 
-  // Card
+  // RoamingCard Styles
   card: {
-    backgroundColor: "#FFF",
-    borderRadius: 20,
+    backgroundColor: "#F9FAFB",
+    borderRadius: 16,
     flexDirection: "row",
-    padding: 16,
+    padding: 12,
     marginBottom: 16,
     borderWidth: 1,
     borderColor: "#F3F4F6",
   },
   leftCol: {
-    width: 60,
+    width: 65,
     alignItems: "center",
     borderRightWidth: 1,
-    borderRightColor: "#F3F4F6",
-    paddingRight: 10,
+    borderRightColor: "#E5E7EB",
+    paddingRight: 12,
   },
   indexCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
     borderWidth: 1,
     borderColor: "#E5E7EB",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 16,
+    marginTop: 4,
+    backgroundColor: "#FFF",
   },
-  indexText: { fontSize: 12, color: "#6B7280", fontWeight: "bold" },
+  indexText: { fontSize: 12, color: "#374151", fontWeight: "600" },
   sideBadge: {
     width: "100%",
     paddingVertical: 6,
-    borderRadius: 12,
-    backgroundColor: "#F9FAFB",
+    borderRadius: 14,
+    backgroundColor: "#FFF",
     borderWidth: 1,
     borderColor: "#E5E7EB",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 12,
   },
-  sideBadgeText: { fontSize: 13, color: "#374151" },
-  activeBadge: { borderColor: "#0066B2", backgroundColor: "#FFF" },
-  activeBadgeText: { color: "#0066B2", fontWeight: "bold" },
-  allBadgesContainer: { width: "100%", alignItems: "center" },
+  sideBadgeText: { fontSize: 13, color: "#4B5563" },
 
-  rightCol: { flex: 1, paddingLeft: 10 },
+  rightCol: { flex: 1, paddingLeft: 12 },
   nameHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 15,
-    alignItems: "center",
+    marginBottom: 16,
+    marginTop: 8,
   },
   nameWrapper: {
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
-    justifyContent: "center",
   },
-  vsCenter: { fontSize: 12, color: "#9CA3AF", marginHorizontal: 5 },
-  playerName: { fontSize: 15, fontWeight: "600", color: "#374151" },
-  crown: { marginLeft: 5 },
+  playerName: { fontSize: 14, fontWeight: "500", color: "#111" },
+  crown: { marginLeft: 6 },
   dimmedText: { color: "#9CA3AF" },
 
-  scoreContent: { paddingHorizontal: 10 },
-  scoreRow: {
+  // Grid Styles
+  scoresGrid: {
+    flex: 1,
+  },
+  scoreRowContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 8,
+    marginBottom: 12,
   },
-  scoreBox: { flexDirection: "row", alignItems: "center", gap: 5 },
-  scoreValue: { fontSize: 18, fontWeight: "bold", color: "#1F2937" },
-  chipIcon: { width: 16, height: 16 },
-  vsText: { fontSize: 12, color: "#9CA3AF" },
-  divider: { height: 1, backgroundColor: "#F3F4F6", width: "100%" },
+  scoreBlock: {
+    flex: 1,
+    alignItems: "center",
+  },
+  scoreInner: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: 8,
+    width: "60%", // Rút ngắn chiều dài của vạch kẻ ngang
+    justifyContent: "center",
+  },
+  scoreBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E7EB",
+  },
+  vsContainer: {
+    width: 30,
+    alignItems: "center",
+  },
+  scoreValue: { fontSize: 15, color: "#111", fontWeight: "500", marginRight: 4 },
+  chipIcon: { width: 14, height: 14 },
+  vsText: { fontSize: 12, color: "#111", fontWeight: "600", marginTop: -8 },
 
-  // Filter Modal
+  resetMainBtn: {
+    alignItems: "center",
+    paddingVertical: 16,
+  },
+  resetMainBtnText: {
+    color: "#0062C4",
+    fontSize: 15,
+    fontWeight: "500",
+  },
+
+  // Modal Styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.4)",
     justifyContent: "flex-end",
   },
   modalContent: {
     backgroundColor: "#FFF",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     padding: 20,
     paddingBottom: 40,
   },
   modalHeader: { alignItems: "center", marginBottom: 20 },
   modalHandle: {
     width: 40,
-    height: 5,
+    height: 4,
     backgroundColor: "#E5E7EB",
-    borderRadius: 3,
-    marginBottom: 10,
-  },
-  modalTitle: { fontSize: 18, fontWeight: "bold" },
-  closeIcon: { position: "absolute", right: 0, top: 10 },
-  optionsContainer: { alignItems: "center", gap: 20, marginBottom: 30 },
-  optionItem: { width: "100%", alignItems: "center", paddingVertical: 10 },
-  optionText: { fontSize: 18, color: "#6B7280" },
-  optionTextActive: { color: "#0066B2", fontWeight: "bold" },
-  resetBtn: {
-    backgroundColor: "#F3F4F6",
-    paddingVertical: 15,
-    borderRadius: 15,
-    alignItems: "center",
+    borderRadius: 2,
     marginBottom: 15,
   },
-  resetBtnActive: { backgroundColor: "#0066B2" },
-  resetBtnText: { fontSize: 16, color: "#9CA3AF", fontWeight: "bold" },
-  resetBtnTextActive: { color: "#FFF" },
+  modalTitle: { fontSize: 16, fontWeight: "600", color: "#111" },
+  closeIcon: { position: "absolute", right: 0, top: 10 },
+  optionsContainer: { alignItems: "center", gap: 10 },
+  optionItem: { width: "100%", alignItems: "center", paddingVertical: 15 },
+  optionText: { fontSize: 15, color: "#4B5563" },
+  optionTextActive: { color: "#0062C4", fontWeight: "600" },
 });
