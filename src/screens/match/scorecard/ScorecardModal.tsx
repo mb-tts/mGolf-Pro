@@ -77,7 +77,7 @@ export const ScorecardModal: React.FC<ScorecardModalProps> = ({
             Sân Golf Vân Trì 12:05, 08/12/2024
           </Text>
           <TouchableOpacity style={styles.iconBtn}>
-            <Feather name="download" size={22} color="#0056D2" />
+            <Feather name="download" size={22} color="#0061AF" />
           </TouchableOpacity>
         </View>
 
@@ -101,7 +101,7 @@ export const ScorecardModal: React.FC<ScorecardModalProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F6F8", // Nền xám nhạt toàn màn hình
+    backgroundColor: "#F5F6F8", 
   },
   header: {
     flexDirection: "row",
