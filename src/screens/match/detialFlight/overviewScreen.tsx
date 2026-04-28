@@ -19,8 +19,32 @@ import RoamingCard, { mockRoamingData } from "./component/Hop Dong/contract";
 import RoamingHeader from "./component/Hop Dong/roamingHeader";
 import ChickenFundSummary from "./component/Quy ga/totalquyga";
 import ChickenFundTable from "./component/Quy ga/tablequyga";
+import { useRoute } from "@react-navigation/native";
+import type { RouteProp } from "@react-navigation/native";
+import type { AppStackParamList } from "@/types/navigation.types";
+import HeaderTeamCoDinh from "./component/Team co dinh/headerTeamcodinh";
+import TableRegret from "./component/Team co dinh/TableRegret";
+import HeaderTeamXoay from "./component/Team xoay/headerTeamxoay";
+import TableRegretTeamXoay from "./component/Team xoay/tableRegretTeamxoay";
 export default function FlightDetailHeader({ navigation }: any) {
-  const [activeTab, setActiveTab] = useState("Tổng quan");
+  const route = useRoute<RouteProp<AppStackParamList, "overviewScreen">>();
+  const initialTabParam = route?.params?.initialTab ?? "Tổng quan";
+  const initialTeamMode = route?.params?.teamMode;
+
+  const teamTabLabel =
+    initialTeamMode === "xoay"
+      ? "Team xoay"
+      : initialTeamMode === "codinh"
+        ? "Team cố định"
+        : "Team";
+
+  const initialTab =
+    initialTabParam === "Team" && initialTeamMode
+      ? teamTabLabel
+      : initialTabParam;
+
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const [teamMode] = useState<"xoay" | "codinh" | undefined>(initialTeamMode);
 
   const renderHeader = () => (
     <View style={{ marginTop: 20 }}>
@@ -44,7 +68,10 @@ export default function FlightDetailHeader({ navigation }: any) {
           contentContainerStyle={styles.scrollContent}
         >
           {TABS.map((tab, index) => {
-            const isActive = activeTab === tab;
+            const displayLabel = tab === "Team" ? teamTabLabel : tab;
+            const isActive = activeTab === displayLabel;
+            const handlePress = () => setActiveTab(displayLabel);
+
             return (
               <TouchableOpacity
                 key={index}
@@ -52,7 +79,7 @@ export default function FlightDetailHeader({ navigation }: any) {
                   styles.tabItem,
                   isActive ? styles.activeTabItem : styles.inactiveTabItem,
                 ]}
-                onPress={() => setActiveTab(tab)}
+                onPress={handlePress}
               >
                 <Text
                   style={[
@@ -60,7 +87,7 @@ export default function FlightDetailHeader({ navigation }: any) {
                     isActive ? styles.activeTabText : styles.inactiveTabText,
                   ]}
                 >
-                  {tab}
+                  {displayLabel}
                 </Text>
               </TouchableOpacity>
             );
@@ -115,13 +142,35 @@ export default function FlightDetailHeader({ navigation }: any) {
         />
       )}
 
+      {activeTab === teamTabLabel && (
+        <ScrollView style={{ flex: 1 }}>
+          <View style={{ paddingHorizontal: 16, paddingTop: 16, flex: 1 }}>
+            {teamMode === "xoay" ? (
+              <View style={{ flex: 1 }}>
+                <HeaderTeamXoay />
+                <TableRegretTeamXoay />
+              </View>
+            ) : teamMode === "codinh" ? (
+              <View style={{ flex: 1 }}>
+                <HeaderTeamCoDinh />
+                <TableRegret />
+              </View>
+            ) : (
+              <Text style={{ fontSize: 16, fontWeight: "600", color: "#333" }}>
+                Đây là Team
+              </Text>
+            )}
+          </View>
+        </ScrollView>
+      )}
+
       {activeTab === "Hợp đồng" && (
         <FlatList
           data={mockRoamingData}
           keyExtractor={(item) => item.id}
           ListHeaderComponent={<RoamingHeader />}
           renderItem={({ item }) => <RoamingCard match={item} />}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: 0 }}
         />
       )}
       {activeTab === "Quỹ gà" && (

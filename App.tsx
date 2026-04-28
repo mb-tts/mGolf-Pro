@@ -50,7 +50,7 @@ import { PersonalNotificationScreen } from "@/screens/account/notification-setti
 import { ContactScreen } from "@/screens/account/contact";
 import { AboutUsScreen } from "@/screens/account/aboutus";
 import { RuleScreen } from "@/screens/account/rules";
-
+import orderRegret from "@/screens/match/detialFlight/component/Team xoay/orderRegret";
 // ─── Tournament / Club Sub-Screens ────────────────────────────────────────────
 import OutingDetailScreen from "@/screens/tournament/detail/outingDetail";
 import HoleListScreen from "@/screens/tournament/detail/HoleListScreen";
@@ -249,6 +249,12 @@ const AppNavigator = () => (
     <AppStack.Screen
       name="InstallGame"
       component={InstallGameScreen}
+      options={{ animation: "slide_from_right" }}
+    />
+
+    <AppStack.Screen
+      name="orderRegret"
+      component={orderRegret}
       options={{ animation: "slide_from_right" }}
     />
 

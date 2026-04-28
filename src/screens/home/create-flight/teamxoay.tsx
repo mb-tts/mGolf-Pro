@@ -232,7 +232,7 @@ export default function TeamXoayScreen() {
           <TouchableOpacity
             style={styles.continueBtn}
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("ScoreInputScreen")}
+            onPress={() => navigation.navigate("ScoreInputScreen", { teamMode: "xoay" })}
           >
             <Text style={styles.continueText}>Vào trận đấu</Text>
           </TouchableOpacity>
