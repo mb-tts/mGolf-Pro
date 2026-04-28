@@ -17,7 +17,8 @@ import type { AppStackParamList } from "@/types/navigation.types";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenWrapper } from "@/components/common/ScreenWrapper";
 import { Colors } from "@/constants/colors";
-import { HoleDetailModal, LegendModal, ConfirmModal } from "./modals";
+import { HoleDetailModal, AnnotationModal, ConfirmModal } from "./modals";
+import MatchSummaryScreen from "./MatchSummaryScreen";
 import FlightIcon from "@assets/icons/flight_icon.png";
 import FlightEditIcon from "@assets/icons/flightedit_icon.png";
 import RankingIcon from "@assets/icons/ranking_icon.png";
@@ -47,7 +48,7 @@ const ScoreInputScreen = () => {
   
   // States
   const [showHoleModal, setShowHoleModal] = useState(false);
-  const [showLegendModal, setShowLegendModal] = useState(false);
+  const [showAnnotationModal, setShowAnnotationModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isAutoNext, setIsAutoNext] = useState(true);
   const [selectedHole, setSelectedHole] = useState<number | null>(null);
@@ -165,8 +166,8 @@ const ScoreInputScreen = () => {
                       onPress={() => setSelectedCell({ holeId: hole.id, playerIdx: idx })}
                     >
                       <Text style={styles.scoreValueText}>{cellData.score}</Text>
-                      <Text style={[styles.relativeTextSmall, { color: cellData.relative > 0 ? "#ED1C24" : "#1A7C24" }]}>
-                        {cellData.relative > 0 ? `+${cellData.relative}` : cellData.relative === 0 ? "E" : cellData.relative}
+                      <Text style={[styles.relativeTextSmall, { color: cellData.relative > 0 ? "#1A7C24" : "#ED1C24" }]}>
+                        {cellData.relative > 0 ? `${cellData.relative}` : cellData.relative === 0 ? "E" : cellData.relative}
                       </Text>
                     </TouchableOpacity>
                   );
@@ -191,7 +192,7 @@ const ScoreInputScreen = () => {
                       onPress={() => setSelectedCell({ holeId: hole.id, playerIdx: idx })}
                     >
                       <Text style={styles.scoreValueText}>{cellData.score}</Text>
-                      <Text style={[styles.relativeTextSmall, { color: cellData.relative > 0 ? "#ED1C24" : "#1A7C24" }]}>
+                      <Text style={[styles.relativeTextSmall, { color: cellData.relative > 0 ? "#1A7C24" : "#ED1C24" }]}>
                         {cellData.relative > 0 ? `+${cellData.relative}` : cellData.relative === 0 ? "E" : cellData.relative}
                       </Text>
                     </TouchableOpacity>
@@ -252,18 +253,28 @@ const ScoreInputScreen = () => {
         isAutoNext={isAutoNext}
         onAutoNextChange={setIsAutoNext}
         onClose={() => setShowHoleModal(false)}
+        onShowAnnotation={() => {
+          setShowHoleModal(false);
+          setShowAnnotationModal(true);
+        }}
       />
 
-      <LegendModal
-        visible={showLegendModal}
+      <AnnotationModal
+        visible={showAnnotationModal}
         players={players}
-        onClose={() => setShowLegendModal(false)}
+        onClose={() => setShowAnnotationModal(false)}
       />
 
       <ConfirmModal
         visible={showConfirmModal}
         players={players}
-        onConfirm={() => navigation.goBack()}
+        onConfirm={() => {
+          // Navigate to MatchSummaryScreen with data
+          (navigation as any).navigate("MatchSummary", {
+            players,
+            scoreData,
+          });
+        }}
         onCancel={() => setShowConfirmModal(false)}
       />
     </ScreenWrapper>
@@ -303,7 +314,7 @@ const styles = StyleSheet.create({
   actionItem: { alignItems: "center", width: width / 3 - 20 },
   iconWrapper: { width: 44, height: 44, borderRadius: 22, justifyContent: "center", alignItems: "center", marginBottom: 6 },
   actionLabel: { fontSize: 11, color: "#333", textAlign: "center" },
-  actionIcon: { width: 32, height: 32, resizeMode: "contain" },
+  actionIcon: { width: 35, height: 35, resizeMode: "contain" },
   trophyBtn: { width: 32, height: 32, borderRadius: 16, backgroundColor: "#EAF6FF", justifyContent: "center", alignItems: "center" },
   
   tableContainer: { borderTopWidth: 1, borderTopColor: "#DFE5EB", borderRadius: 12, overflow: "hidden" },

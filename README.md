@@ -84,3 +84,5 @@ src/
     ├── mock-data.ts
     └── navigation.types.ts   ← NEW
 ```
+
+taskkill /F /IM java.exe; taskkill /F /IM adb.exe; Remove-Item -Recurse -Force android/app/build, android/build -ErrorAction SilentlyContinue; npm run android

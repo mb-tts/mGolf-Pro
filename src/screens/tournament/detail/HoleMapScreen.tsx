@@ -13,6 +13,7 @@ import { useAppNavigation } from "@/hooks/useNavigation";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import Svg, { Line, Text as SvgText } from 'react-native-svg';
+import { BackHeader } from '@/components/common/BackHeader';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -124,21 +125,16 @@ const HoleMapScreen = () => {
       </ImageBackground>
 
       {/* ─── HEADER ĐIỀU HƯỚNG TRONG SUỐT Ở TRÊN CÙNG ─── */}
-      <View style={[styles.headerOverlay, { top: insets.top + 10 }]}>
-        <TouchableOpacity 
-          style={styles.overlayButton}
-          onPress={() => navigation.goBack()}
-          activeOpacity={0.7}
-        >
-          <Ionicons name="chevron-back" size={24} color="#FFFFFF" />
-        </TouchableOpacity>
-
-        <Text style={styles.headerTitle}>Thông tin sân đấu</Text>
-
-        <TouchableOpacity style={styles.overlayButton} activeOpacity={0.7}>
-          <Ionicons name="share-social" size={20} color="#FFFFFF" />
-        </TouchableOpacity>
-      </View>
+      <BackHeader 
+        title="Thông tin sân đấu"
+        onBack={() => navigation.goBack()}
+        variant="blur"
+        rightAction={
+          <TouchableOpacity style={styles.overlayButton} activeOpacity={0.7}>
+            <Ionicons name="share-social" size={20} color="#FFFFFF" />
+          </TouchableOpacity>
+        }
+      />
 
     </View>
   );
@@ -154,16 +150,6 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT,
     position: 'relative',
   },
-  headerOverlay: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    zIndex: 10,
-  },
   overlayButton: {
     width: 40,
     height: 40,
@@ -171,14 +157,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.3)', // Nền đen mờ 
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  headerTitle: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 3,
   },
 
   // Style chấm số hố (Chuẩn mẫu: Trắng, chữ đen)

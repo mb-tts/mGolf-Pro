@@ -60,6 +60,7 @@ import HoleVideoScreen from "@/screens/tournament/detail/HoleVideoScreen";
 import ClubMainScreen from "@/screens/club/mainscreen";
 import ImagesAndVideosScreen from "@/screens/club/imagesAndvideos";
 import ScoreInputScreen from "@/screens/match/ScoreInputScreen";
+import MatchSummaryScreen from "@/screens/match/MatchSummaryScreen";
 
 // ─── Create Flight Sub-Screens ────────────────────────────────────────────────
 import InstallGameScreen from "@/screens/home/create-flight/installGame";
@@ -68,6 +69,7 @@ import TeamXoayScreen from "@/screens/home/create-flight/teamxoay";
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 import { AuthProvider, useAuth } from "@/providers/auth.provider";
+import { UserProvider } from "@/providers/user.provider";
 
 // ─── Tab Icons ────────────────────────────────────────────────────────────────
 import HomeIcon from "@assets/icons/tabbar/Home.svg";
@@ -178,6 +180,7 @@ const AppNavigator = () => (
   <AppStack.Navigator id="AppStack" screenOptions={{ headerShown: false }}>
     <AppStack.Screen name="MainTabs" component={MainNavigator} />
     <AppStack.Screen name="ScoreInputScreen" component={ScoreInputScreen} />
+    <AppStack.Screen name="MatchSummary" component={MatchSummaryScreen} />
 
     <AppStack.Screen
       name="AccountInformation"
@@ -369,9 +372,11 @@ export default function App() {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
-          <AuthProvider>
-            <RootNavigator />
-           </AuthProvider>
+          <UserProvider>
+            <AuthProvider>
+              <RootNavigator />
+             </AuthProvider>
+          </UserProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
