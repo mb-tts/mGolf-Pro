@@ -10,7 +10,10 @@ import {
   Alert,
   Dimensions,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -35,7 +38,8 @@ const { height } = Dimensions.get("window");
 
 // ─── COMPONENT MAIN ──────────────────────────────────────────────────────────
 export default function TeamXoayScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AppStackParamList>>();
 
   // State lưu 3 trận đấu
   const [matches, setMatches] = useState<Match[]>([
@@ -46,11 +50,17 @@ export default function TeamXoayScreen() {
 
   // States cho Modal chọn người
   const [modalVisible, setModalVisible] = useState(false);
-  const [targetSlot, setTargetSlot] = useState<{ matchIndex: number; isTeamA: boolean } | null>(null);
+  const [targetSlot, setTargetSlot] = useState<{
+    matchIndex: number;
+    isTeamA: boolean;
+  } | null>(null);
   const [tempSelectedPlayers, setTempSelectedPlayers] = useState<Player[]>([]);
 
   // Helper: compute IDs that are already assigned in other slots (to hide in modal)
-  const computeAssignedIds = (currentMatchIndex?: number, selectingTeamA?: boolean) => {
+  const computeAssignedIds = (
+    currentMatchIndex?: number,
+    selectingTeamA?: boolean,
+  ) => {
     const ids = new Set<string>();
     if (currentMatchIndex === undefined) return ids;
     const match = matches[currentMatchIndex];
@@ -66,11 +76,15 @@ export default function TeamXoayScreen() {
 
   // ─── LOGIC KIỂM TRA ĐỒNG ĐỘI ───────────────────────────────────────────────
   // Trả về true nếu 2 người này đã từng là đồng đội trong một team ở bất kỳ trận nào
-  const isPairAlreadyTeammates = (p1: Player, p2: Player, currentMatchIndex: number) => {
+  const isPairAlreadyTeammates = (
+    p1: Player,
+    p2: Player,
+    currentMatchIndex: number,
+  ) => {
     for (let i = 0; i < matches.length; i++) {
       if (i === currentMatchIndex) continue; // Bỏ qua trận hiện tại đang xét
       const match = matches[i];
-      
+
       const checkTeam = (team: Team) => {
         if (team.length === 2) {
           const ids = team.map((p) => p.id);
@@ -87,7 +101,9 @@ export default function TeamXoayScreen() {
   // ─── ACTIONS MỞ/ĐÓNG MODAL & CHỌN NGƯỜI ────────────────────────────────────
   const openPlayerSelection = (matchIndex: number, isTeamA: boolean) => {
     setTargetSlot({ matchIndex, isTeamA });
-    const currentTeam = isTeamA ? matches[matchIndex].teamA : matches[matchIndex].teamB;
+    const currentTeam = isTeamA
+      ? matches[matchIndex].teamA
+      : matches[matchIndex].teamB;
     setTempSelectedPlayers([...currentTeam]);
     setModalVisible(true);
   };
@@ -95,12 +111,17 @@ export default function TeamXoayScreen() {
   const togglePlayerSelection = (player: Player) => {
     const isSelected = tempSelectedPlayers.find((p) => p.id === player.id);
     if (isSelected) {
-      setTempSelectedPlayers(tempSelectedPlayers.filter((p) => p.id !== player.id));
+      setTempSelectedPlayers(
+        tempSelectedPlayers.filter((p) => p.id !== player.id),
+      );
     } else {
       if (tempSelectedPlayers.length < 2) {
         setTempSelectedPlayers([...tempSelectedPlayers, player]);
       } else {
-        Alert.alert("Thông báo", "Chỉ được chọn tối đa 2 người cho một cặp đấu.");
+        Alert.alert(
+          "Thông báo",
+          "Chỉ được chọn tối đa 2 người cho một cặp đấu.",
+        );
       }
     }
   };
@@ -113,10 +134,16 @@ export default function TeamXoayScreen() {
 
     if (targetSlot) {
       // KIỂM TRA LUẬT: Cặp này đã từng ghép chưa?
-      if (isPairAlreadyTeammates(tempSelectedPlayers[0], tempSelectedPlayers[1], targetSlot.matchIndex)) {
+      if (
+        isPairAlreadyTeammates(
+          tempSelectedPlayers[0],
+          tempSelectedPlayers[1],
+          targetSlot.matchIndex,
+        )
+      ) {
         Alert.alert(
-          "Cặp đấu không hợp lệ", 
-          "Hai người chơi này đã là đồng đội của nhau ở trận khác. Vui lòng chọn cặp khác!"
+          "Cặp đấu không hợp lệ",
+          "Hai người chơi này đã là đồng đội của nhau ở trận khác. Vui lòng chọn cặp khác!",
         );
         return;
       }
@@ -169,7 +196,10 @@ export default function TeamXoayScreen() {
           <View style={styles.teamPlayersWrap}>
             {team.map((player, idx) => (
               <View key={idx} style={styles.playerAvatarItem}>
-                <Image source={{ uri: player.avatar }} style={styles.avatarImg} />
+                <Image
+                  source={{ uri: player.avatar }}
+                  style={styles.avatarImg}
+                />
                 <Text style={styles.shortNameText} numberOfLines={1}>
                   {formatShortName(player.name)}
                 </Text>
@@ -182,16 +212,21 @@ export default function TeamXoayScreen() {
   };
 
   const insets = useSafeAreaInsets();
-
+  const isAllMatchesFilled = matches.every(
+    (match) => match.teamA.length === 2 && match.teamB.length === 2,
+  );
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       {/* HEADER */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => navigation.goBack()}
+        >
           <Ionicons name="chevron-back" size={24} color="#333" />
         </TouchableOpacity>
       </View>
-      
+
       <Text style={styles.title}>Trận đấu sắp bắt đầu...</Text>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -202,11 +237,11 @@ export default function TeamXoayScreen() {
           {matches.map((match, index) => (
             <View key={match.id} style={styles.matchRow}>
               {renderTeamBox(match.teamA, index, true)}
-              
+
               <View style={styles.vsBadge}>
                 <Text style={styles.vsText}>vs</Text>
               </View>
-              
+
               {renderTeamBox(match.teamB, index, false)}
             </View>
           ))}
@@ -214,12 +249,25 @@ export default function TeamXoayScreen() {
           {/* NÚT ACTION NHỎ */}
           <View style={styles.actionRow}>
             <TouchableOpacity style={styles.smallOutlineBtn}>
-              <Ionicons name="person-outline" size={16} color="#0061AF" style={{ marginRight: 6 }} />
+              <Ionicons
+                name="person-outline"
+                size={16}
+                color="#0061AF"
+                style={{ marginRight: 6 }}
+              />
               <Text style={styles.smallOutlineText}>Tuỳ chỉnh team</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.smallFillBtn} onPress={generateRandomTeams}>
-              <Ionicons name="refresh-outline" size={16} color="#FFF" style={{ marginRight: 6 }} />
+            <TouchableOpacity
+              style={styles.smallFillBtn}
+              onPress={generateRandomTeams}
+            >
+              <Ionicons
+                name="refresh-outline"
+                size={16}
+                color="#FFF"
+                style={{ marginRight: 6 }}
+              />
               <Text style={styles.smallFillText}>Team ngẫu nhiên</Text>
             </TouchableOpacity>
           </View>
@@ -230,9 +278,21 @@ export default function TeamXoayScreen() {
       <View style={[styles.footerWrap, { paddingBottom: insets.bottom }]}>
         <View style={styles.footer}>
           <TouchableOpacity
-            style={styles.continueBtn}
-            activeOpacity={0.8}
-            onPress={() => navigation.navigate("ScoreInputScreen", { teamMode: "xoay" })}
+            style={[
+              styles.continueBtn,
+              !isAllMatchesFilled && styles.continueBtnDisabled,
+            ]}
+            activeOpacity={isAllMatchesFilled ? 0.8 : 1}
+            onPress={() => {
+              if (!isAllMatchesFilled) {
+                Alert.alert(
+                  "Thông báo",
+                  "Vui lòng chọn đủ cặp đấu cho tất cả các trận.",
+                );
+                return;
+              }
+              navigation.navigate("ScoreInputScreen", { teamMode: "xoay" });
+            }}
           >
             <Text style={styles.continueText}>Vào trận đấu</Text>
           </TouchableOpacity>
@@ -245,25 +305,34 @@ export default function TeamXoayScreen() {
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Chọn cặp đấu</Text>
-              <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeBtn}>
+              <TouchableOpacity
+                onPress={() => setModalVisible(false)}
+                style={styles.closeBtn}
+              >
                 <Ionicons name="close" size={24} color="#333" />
               </TouchableOpacity>
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
               {(() => {
-                const assignedIds = computeAssignedIds(targetSlot?.matchIndex, targetSlot?.isTeamA);
-                const available = MOCK_ALL_PLAYERS
-                  .filter((p) => p.isSelected)
-                  .filter((p) => {
-                    // keep those already in tempSelectedPlayers so user can unselect
-                    if (tempSelectedPlayers.some((tp) => tp.id === p.id)) return true;
-                    // hide if assigned in other slots or (if selecting teamB) already in any teamA
-                    return !assignedIds.has(p.id);
-                  });
+                const assignedIds = computeAssignedIds(
+                  targetSlot?.matchIndex,
+                  targetSlot?.isTeamA,
+                );
+                const available = MOCK_ALL_PLAYERS.filter(
+                  (p) => p.isSelected,
+                ).filter((p) => {
+                  // keep those already in tempSelectedPlayers so user can unselect
+                  if (tempSelectedPlayers.some((tp) => tp.id === p.id))
+                    return true;
+                  // hide if assigned in other slots or (if selecting teamB) already in any teamA
+                  return !assignedIds.has(p.id);
+                });
 
                 return available.map((player) => {
-                  const isSelected = tempSelectedPlayers.some((p) => p.id === player.id);
+                  const isSelected = tempSelectedPlayers.some(
+                    (p) => p.id === player.id,
+                  );
                   return (
                     <TouchableOpacity
                       key={player.id}
@@ -271,17 +340,31 @@ export default function TeamXoayScreen() {
                       activeOpacity={0.7}
                       onPress={() => togglePlayerSelection(player)}
                     >
-                      <Image source={{ uri: player.avatar }} style={styles.modalAvatar} />
+                      <Image
+                        source={{ uri: player.avatar }}
+                        style={styles.modalAvatar}
+                      />
                       <View style={styles.playerInfo}>
                         <Text style={styles.playerName}>{player.name}</Text>
                         <View style={styles.playerStatsRow}>
-                          <Text style={styles.statTag}>Index {player.index}</Text>
+                          <Text style={styles.statTag}>
+                            Index {player.index}
+                          </Text>
                           <Text style={styles.statTag}>HDC {player.hdc}</Text>
-                          <Text style={styles.statTagText}>VGA: {player.vga}</Text>
+                          <Text style={styles.statTagText}>
+                            VGA: {player.vga}
+                          </Text>
                         </View>
                       </View>
-                      <View style={[styles.checkbox, isSelected && styles.checkboxActive]}>
-                        {isSelected && <Ionicons name="checkmark" size={14} color="#FFF" />}
+                      <View
+                        style={[
+                          styles.checkbox,
+                          isSelected && styles.checkboxActive,
+                        ]}
+                      >
+                        {isSelected && (
+                          <Ionicons name="checkmark" size={14} color="#FFF" />
+                        )}
                       </View>
                     </TouchableOpacity>
                   );
@@ -290,7 +373,10 @@ export default function TeamXoayScreen() {
             </ScrollView>
 
             <View style={styles.modalFooter}>
-              <TouchableOpacity style={styles.mainBtn} onPress={handleConfirmTeam}>
+              <TouchableOpacity
+                style={styles.mainBtn}
+                onPress={handleConfirmTeam}
+              >
                 <Text style={styles.mainBtnText}>Xác nhận</Text>
               </TouchableOpacity>
             </View>
@@ -446,7 +532,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     backgroundColor: "#FFF",
     borderTopWidth: 1,
-    borderColor: "#EEE", 
+    borderColor: "#EEE",
   },
   mainBtn: {
     backgroundColor: "#0061AF",
@@ -549,12 +635,23 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopWidth: 1,
     borderColor: "#EEE",
-    marginBottom: 60 // SafeArea cho iPhone X+
+    marginBottom: 60, // SafeArea cho iPhone X+
   },
-  footerWrap: { backgroundColor: "#FFF", borderTopWidth: 1, borderTopColor: "#F0F0F0", marginBottom: 40 },
+  footerWrap: {
+    backgroundColor: "#FFF",
+    borderTopWidth: 1,
+    borderTopColor: "#F0F0F0",
+    marginBottom: 40,
+  },
   continueBtn: {
-    height: 56, borderRadius: 16, backgroundColor: "#0061AF",
-    justifyContent: "center", alignItems: "center",
+    height: 56,
+    borderRadius: 16,
+    backgroundColor: "#0061AF",
+    justifyContent: "center",
+    alignItems: "center",
   },
   continueText: { fontSize: 16, fontWeight: "700", color: "#FFF" },
+  continueBtnDisabled: {
+    backgroundColor: "#B0C4D8",
+  },
 });

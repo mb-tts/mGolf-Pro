@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
-// Đảm bảo đường dẫn import đúng với project của bạn
 import { MOCK_FLIGHTS } from "./Roaming/mockData";
 import SelectPlayerModal from "./Roaming/SelectPlayerModal";
 import { SelectedPlayers } from "./Roaming/index";
@@ -203,14 +202,13 @@ export default function ContractScreen() {
     // Mock 4 avatars lúc chưa chọn
     return (
       <View style={styles.avatarGroup}>
-        {[1, 2, 3, 4].map((i, index) => (
+        {[11, 12, 13, 14].map((i, index) => (
           <Image
             key={i}
-            source={{ uri: `https://i.pravatar.cc/150?u=${i}` }}
+            source={{ uri: `https://i.pravatar.cc/150?img=${i}` }} 
             style={[
               styles.headerAvatar,
               index > 0 && styles.avatarOverlap,
-              { zIndex: 10 - index }
             ]}
           />
         ))}

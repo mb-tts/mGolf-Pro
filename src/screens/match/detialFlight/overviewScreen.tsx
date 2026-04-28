@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import { MOCK_PLAYERS} from './mock-data';
 import PlayerCard from "./component/Tong quan va Everything/infoStickHDCNetSkin";
 import { mockPlayers } from "./component/Tong quan va Everything/data";
 const TABS = ["Tổng quan", "Everything", "Team", "Hợp đồng", "Quỹ gà"];
@@ -104,7 +105,7 @@ export default function FlightDetailHeader({ navigation }: any) {
       {activeTab === "Tổng quan" && (
         <FlatList
           style={{ flex: 1 }}
-          data={mockPlayers}
+          data={MOCK_PLAYERS}
           keyExtractor={(item) => item.id}
           numColumns={2}
           ListFooterComponent={() => (
@@ -125,7 +126,7 @@ export default function FlightDetailHeader({ navigation }: any) {
       {activeTab === "Everything" && (
         <FlatList
           style={{ flex: 1 }}
-          data={mockPlayers}
+          data={MOCK_PLAYERS}
           keyExtractor={(item) => item.id}
           numColumns={2}
           ListFooterComponent={() => (

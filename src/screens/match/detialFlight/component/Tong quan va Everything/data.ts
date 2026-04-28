@@ -13,7 +13,7 @@ export const mockPlayers: PlayerData[] = [
   {
     id: '1',
     name: 'Tôi',
-    avatarUrl: "https://i.pravatar.cc/150?u=1", 
+    avatarUrl: "https://i.pravatar.cc/150?u=11", 
     strokesHdc: '+15/30',
     netScore: 5,
     skins: -1,
@@ -22,7 +22,7 @@ export const mockPlayers: PlayerData[] = [
   {
     id: '2',
     name: 'Hoàng Anh',
-    avatarUrl: "https://i.pravatar.cc/150?u=2",
+    avatarUrl: "https://i.pravatar.cc/150?u=12",
     strokesHdc: '+15/30',
     netScore: 10,
     skins: -1,
@@ -30,7 +30,7 @@ export const mockPlayers: PlayerData[] = [
   {
     id: '3',
     name: 'Xuân Anh',
-    avatarUrl: "https://i.pravatar.cc/150?u=3",
+    avatarUrl: "https://i.pravatar.cc/150?u=13",
     strokesHdc: '+15/30',
     netScore: 15,
     skins: -1,
@@ -38,7 +38,7 @@ export const mockPlayers: PlayerData[] = [
   {
     id: '4',
     name: 'Hoàng Anh',
-    avatarUrl: "https://i.pravatar.cc/150?u=4",
+    avatarUrl: "https://i.pravatar.cc/150?u=14",
     strokesHdc: '+15/30',
     netScore: 20,
     skins: -1,
