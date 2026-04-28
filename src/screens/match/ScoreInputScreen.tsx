@@ -10,7 +10,8 @@ import {
   Switch,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import type { RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import type { AppStackParamList } from "@/types/navigation.types";
 import { Ionicons } from "@expo/vector-icons";
@@ -37,6 +38,8 @@ interface PlayerScore {
 
 const ScoreInputScreen = () => {
   const navigation = useNavigation<ScoreInputNavigationProp>();
+  const route = useRoute<RouteProp<AppStackParamList, "ScoreInputScreen">>();
+  const teamMode = route?.params?.teamMode;
   const insets = useSafeAreaInsets();
 
   const handleBack = () => {
@@ -114,7 +117,7 @@ const ScoreInputScreen = () => {
         <ScrollView style={styles.tableScrollView} showsVerticalScrollIndicator={false}>
           {/* Top Actions */}
           <View style={styles.actionRow}>
-            <TouchableOpacity style={styles.actionItem} onPress={() => navigation.navigate("overviewScreen")}>
+            <TouchableOpacity style={styles.actionItem} onPress={() => navigation.navigate("overviewScreen", { initialTab: "Team", teamMode })}>
               <View style={styles.iconWrapper}>
                 <Image source={FlightIcon} style={styles.actionIcon} />
               </View>

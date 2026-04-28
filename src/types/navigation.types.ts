@@ -60,7 +60,7 @@ export type AppStackParamList = {
   };
   HoleVideoScreen: { currentHole?: HoleData; videoUrl?: string };
   CreateFlight: undefined;
-  ScoreInputScreen: undefined;
+  ScoreInputScreen: { teamMode?: "xoay" | "codinh" } | undefined;
   PasswordChange: undefined;
   SetPasswordForm: undefined;
   ImagesAndVideosScreen: { selectedIndex?: number };
@@ -68,9 +68,5 @@ export type AppStackParamList = {
   InstallGame: undefined;
   TeamCoDinh: undefined;
   Teamxoay: undefined;
-  MatchSummary: {
-    players: PlayerScore[];
-    scoreData: Record<string, { score: number; relative: number }>;
-  };
   overviewScreen: undefined; 
 };

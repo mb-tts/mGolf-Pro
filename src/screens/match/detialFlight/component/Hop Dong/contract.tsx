@@ -72,71 +72,6 @@ export default function RoamingCard({ match }: Props) {
 
   return (
     <View style={styles.card}>
-      <View style={styles.leftCol}>
-        <View style={styles.indexCircle}>
-          <Text style={styles.indexText}>{index}</Text>
-        </View>
-        <TouchableOpacity style={styles.sideBtn}>
-          <Text style={styles.sideBtnText}>Đi</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.sideBtn}>
-          <Text style={styles.sideBtnText}>Về</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.sideBtn}>
-          <Text style={styles.sideBtnText}>Tổng</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.rightCol}>
-        <View style={styles.nameHeader}>
-          <View style={styles.nameWrapper}>
-            <Text style={[styles.playerName, !isP1Winner && styles.dimmedText]}>
-              {player1.name}
-            </Text>
-            {isP1Winner && (
-              <FontAwesome5
-                name="crown"
-                size={14}
-                color="#F59E0B"
-                style={styles.crown}
-              />
-            )}
-          </View>
-          <View style={styles.nameWrapper}>
-            <Text style={[styles.playerName, isP1Winner && styles.dimmedText]}>
-              {player2.name}
-            </Text>
-            {!isP1Winner && (
-              <FontAwesome5
-                name="crown"
-                size={14}
-                color="#F59E0B"
-                style={styles.crown}
-              />
-            )}
-          </View>
-        </View>
-
-        <View style={styles.scoreContent}>
-          <ScoreRow
-            label1={player1.goScore}
-            label2={player2.goScore}
-            isP1Winner={isP1Winner}
-          />
-          <View style={styles.divider} />
-          <ScoreRow
-            label1={player1.backScore}
-            label2={player2.backScore}
-            isP1Winner={isP1Winner}
-          />
-          <View style={styles.divider} />
-          <ScoreRow
-            label1={player1.totalScore}
-            label2={player2.totalScore}
-            isP1Winner={isP1Winner}
-          />
-        </View>
-      </View>
     </View>
   );
 }
@@ -146,8 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
     flexDirection: "row",
-    padding: 16,
-    marginBottom: 16,
+    padding: 5,
     borderWidth: 1,
     borderColor: "#F3F4F6",
   },
