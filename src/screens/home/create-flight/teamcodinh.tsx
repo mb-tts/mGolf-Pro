@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
 } from "react-native";
+import { Alert } from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -80,9 +81,13 @@ export default function TeamCoDinhScreen({ navigation }: Props) {
     }));
   };
 
+  const isAllPlayersFilled = Object.values(selectedPlayers).every(
+      (player) => player !== null,
+    );
+
   const renderPlayerPicker = (label: string, pos: string) => {
     const player = selectedPlayers[pos];
-
+    
     return (
       <View style={styles.pickerContainer}>
         <Text style={styles.pickerLabel}>{label}</Text>
@@ -164,9 +169,21 @@ export default function TeamCoDinhScreen({ navigation }: Props) {
       {/* FOOTER */}
       <View style={styles.footer}>
         <TouchableOpacity
-          style={styles.continueBtn}
-          onPress={() => navigation.navigate("ScoreInputScreen", { teamMode: "codinh" })}
-          activeOpacity={0.8}
+          style={[
+            styles.continueBtn,
+            !isAllPlayersFilled && styles.continueBtnDisabled,
+          ]}
+          activeOpacity={isAllPlayersFilled ? 0.8 : 1}
+          onPress={() => {
+            if (!isAllPlayersFilled) {
+              Alert.alert(
+                "Thông báo",
+                "Vui lòng chọn đủ người chơi cho cả 2 team.",
+              );
+              return;
+            }
+            navigation.navigate("ScoreInputScreen", { teamMode: "codinh" });
+          }}
         >
           <Text style={styles.continueText}>Vào trận đấu</Text>
         </TouchableOpacity>
@@ -311,4 +328,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#FFF",
   },
+  continueBtnDisabled: {
+  backgroundColor: "#B0C4D8",
+},
 });

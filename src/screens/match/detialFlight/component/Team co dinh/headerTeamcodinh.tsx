@@ -29,8 +29,8 @@ const demoData: TeamData[] = [
     id: "1",
     isWinner: true,
     players: [
-      { id: "p1", avatarUrl: "https://i.pravatar.cc/150?u=a1" },
-      { id: "p2", avatarUrl: "https://i.pravatar.cc/150?u=a2" },
+      { id: "p1", avatarUrl: "https://i.pravatar.cc/150?img=11" },
+      { id: "p2", avatarUrl: "https://i.pravatar.cc/150?img=12" },
     ],
     soGay: "+15",
     net: 1,
@@ -41,8 +41,8 @@ const demoData: TeamData[] = [
     id: "2",
     isWinner: false,
     players: [
-      { id: "p3", avatarUrl: "https://i.pravatar.cc/150?u=a3" },
-      { id: "p4", avatarUrl: "https://i.pravatar.cc/150?u=a4" },
+      { id: "p3", avatarUrl: "https://i.pravatar.cc/150?img=13" },
+      { id: "p4", avatarUrl: "https://i.pravatar.cc/150?img=14" },
     ],
     soGay: "+15",
     net: 1,

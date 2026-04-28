@@ -1,17 +1,18 @@
-import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { MOCK_PLAYERS, Player } from '../../mock-data';
 
 interface PlayerCardProps {
-  player: Player;}
+  player: Player;
+}
 
-export default function PlayerCard({ player }: PlayerCardProps) {
+function PlayerCard({ player }: PlayerCardProps) {
   return (
     <View style={[styles.cardContainer, player.isMe && styles.cardMe]}>
       <View style={styles.header}>
         <Image source={{ uri: player.avatarUrl }} style={styles.avatar} />
         <Text style={styles.name} numberOfLines={1}>
-          {player.name}
+          {player.isMe ? 'Tôi' : player.shortName}
         </Text>
       </View>
 
@@ -28,10 +29,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
       <View style={styles.statRow}>
         <View style={styles.skinsLabelWrapper}>
           <Text style={styles.statLabel}>Skins</Text>
-          <Image
-            source={require("@assets/images/chip.png")}
-            style={styles.outingImage}
-          />
+          <Image source={require('@assets/images/chip.png')} style={styles.outingImage} />
         </View>
         <Text style={styles.statValueBlue}>{player.skins}</Text>
       </View>
@@ -39,66 +37,66 @@ export default function PlayerCard({ player }: PlayerCardProps) {
   );
 }
 
+// Hiển thị 2 cột dạng lưới
+export default function InfoStickHDCNetSkin() {
+  return (
+    <View style={styles.gridContainer}>
+      {MOCK_PLAYERS.map((player) => (
+        <PlayerCard key={player.id} player={player} />
+      ))}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 6,
+  },
   cardContainer: {
     borderRadius: 16,
-    backgroundColor: "#F9FAFB",
+    backgroundColor: '#F9FAFB',
     padding: 12,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: '#E5E7EB',
     flex: 1,
+    minWidth: '45%',
     marginHorizontal: 6,
     marginBottom: 12,
   },
   cardMe: {
-    backgroundColor: "#F0F9FF",
-    borderColor: "#BAE6FD",
+    backgroundColor: '#F0F9FF',
+    borderColor: '#BAE6FD',
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 16,
   },
   avatar: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "#D1D5DB",
+    backgroundColor: '#D1D5DB',
   },
   name: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#111827",
+    fontWeight: '600',
+    color: '#111827',
     flex: 1,
-    textAlign: "right",
+    textAlign: 'right',
     marginLeft: 8,
   },
   statRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 8,
   },
-  statLabel: {
-    fontSize: 14,
-    color: "#4B5563",
-  },
-  skinsLabelWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  icon: {
-    fontSize: 14,
-    marginLeft: 4,
-  },
-  statValueBlue: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#0066B2",
-  },
-  outingImage: {
-    width: 20, 
-    height: 20, 
-  }
+  statLabel:       { fontSize: 14, color: '#4B5563' },
+  skinsLabelWrapper: { flexDirection: 'row', alignItems: 'center' },
+  statValueBlue:   { fontSize: 15, fontWeight: '600', color: '#0066B2' },
+  outingImage:     { width: 20, height: 20 },
 });
