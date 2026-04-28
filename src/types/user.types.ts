@@ -5,7 +5,6 @@ export type EquipmentKey = EquipmentBrandKey | EquipmentSizeKey;
 export interface EquipmentItem {
   label: string;
   value: string;
-  logo?: any;
 }
 
 export interface UserProfile {
@@ -22,6 +21,6 @@ export interface UserProfile {
 export interface UserContextType {
   profile: UserProfile;
   updateProfile: (data: Partial<UserProfile>) => void;
-  updateEquipment: (key: EquipmentKey, value: string, logo?: any) => void;
+  updateEquipment: (key: EquipmentKey, value: string) => void;
   isLoading: boolean;
 }
