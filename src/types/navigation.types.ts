@@ -68,5 +68,11 @@ export type AppStackParamList = {
   InstallGame: undefined;
   TeamCoDinh: undefined;
   Teamxoay: undefined;
+  overviewScreen: { initialTab?: string; teamMode?: "xoay" | "codinh" } | undefined;
+  orderRegret: undefined;
+  MatchSummary: {
+    players: PlayerScore[];
+    scoreData: Record<string, { score: number; relative: number }>;
+  };
   overviewScreen: undefined; 
 };
