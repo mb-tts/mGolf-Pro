@@ -6,6 +6,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 import { Colors } from "@/constants/colors";
+import { useUser } from '@/providers/user.provider';
+import { BackHeader } from '@/components/common/BackHeader';
+import type { EquipmentKey } from '@/types/user.types';
 
 // Import các logo từ assets/icons
 const BridgestoneLogo = require('../../../../assets/icons/bridgestone.png');
@@ -13,8 +16,6 @@ const PingLogo = require('../../../../assets/icons/ping.png');
 const KatanaGolfLogo = require('../../../../assets/icons/katanagolf.png');
 
 const BRAND_TYPES = ['driver', 'wood', 'hybrid', 'iron', 'technical', 'putter', 'ball'] as const;
-type BrandType = typeof BRAND_TYPES[number];
-type EquipmentKey = BrandType | 'hand' | 'gloveSize' | 'shirtSize' | 'pantSize' | 'shoeSize' | 'hatSize';
 
 interface OptionItem {
   id: string;
@@ -22,11 +23,6 @@ interface OptionItem {
   logo?: ImageSourcePropType; 
 }
 
-interface EquipmentItem {
-  label: string;
-  value: string;
-  logo?: ImageSourcePropType;
-}
 
 // --- 2. ĐƯA DỮ LIỆU TĨNH RA NGOÀI COMPONENT ---
 const BRANDS: OptionItem[] = [
@@ -47,26 +43,24 @@ const OPTIONS_MAP: Record<string, OptionItem[]> = {
   hatSize: toOptionList(['56', '57', '58', '59', '60']),
 };
 
+// Map để lookup logo từ brand name
+const LOGO_MAP: Record<string, ImageSourcePropType> = {
+  'Bridgestone': BridgestoneLogo,
+  'Ping': PingLogo,
+  'Katana Golf': KatanaGolfLogo,
+};
+
+const getLogoForBrand = (brandName: string): ImageSourcePropType | undefined => {
+  return LOGO_MAP[brandName];
+};
+
 export const EquipmentSettingsScreen = () => {
   const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const { profile, updateEquipment } = useUser();
 
   const [selectedType, setSelectedType] = useState<EquipmentKey | null>(null);
-  const [equipmentData, setEquipmentData] = useState<Record<EquipmentKey, EquipmentItem>>({
-    driver: { label: 'Gậy driver', value: 'Bridgestone', logo: BridgestoneLogo },
-    wood: { label: 'Gậy gỗ', value: 'Bridgestone', logo: BridgestoneLogo },
-    hybrid: { label: 'Gậy hybrid', value: 'Bridgestone', logo: BridgestoneLogo },
-    iron: { label: 'Gậy bộ gậy sắt', value: 'Katana', logo: KatanaGolfLogo },
-    technical: { label: 'Gậy kỹ thuật', value: 'Katana', logo: KatanaGolfLogo },
-    putter: { label: 'Putter', value: 'Ping', logo: PingLogo },
-    ball: { label: 'Hãng bóng', value: 'Ping', logo: PingLogo },
-    hand: { label: 'Tay thuận', value: 'Tay trái' },
-    gloveSize: { label: 'Size găng tay', value: '30' },
-    shirtSize: { label: 'Size áo', value: 'XL' },
-    pantSize: { label: 'Size quần', value: '40' },
-    shoeSize: { label: 'Size giày', value: '42' },
-    hatSize: { label: 'Size mũ', value: '30' },
-  });
+  const equipmentData = profile.equipment;
 
   const snapPoints = useMemo(() => ['40%'], []);
 
@@ -83,16 +77,8 @@ export const EquipmentSettingsScreen = () => {
 
   const handleSelectOption = (option: OptionItem) => {
     if (!selectedType) return;
-    
-    setEquipmentData(prev => ({
-      ...prev,
-      [selectedType]: { 
-        ...prev[selectedType], 
-        value: option.name, 
-        ...(isBrandType && { logo: option.logo }) 
-      }
-    }));
-    bottomSheetRef. current?.close();
+    updateEquipment(selectedType, option.name);
+    bottomSheetRef.current?.close();
   };
   
   const renderBackdrop = useCallback(
@@ -103,13 +89,12 @@ export const EquipmentSettingsScreen = () => {
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-          <Ionicons name="chevron-back" size={20} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Trang bị</Text>
-        <View style={styles.placeholder} />
-      </View>
+      <BackHeader 
+        title="Trang bị" 
+        onBack={() => navigation.goBack()} 
+        variant="white"
+        tintColor="#333"
+      />
 
       {/* CONTENT */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -126,14 +111,18 @@ export const EquipmentSettingsScreen = () => {
               >
                 <Text style={styles.rowLabel}>{item.label}</Text>
                 <View style={styles.rowRight}>
-                  {item.logo ? (
+                  {isBlueText ? (
+                    <Text style={[styles.rowValue, styles.textBlue]}>
+                      {item.value}
+                    </Text>
+                  ) : getLogoForBrand(item.value) ? (
                     <Image 
-                      source={typeof item.logo === 'string' ? { uri: item.logo } : item.logo} 
+                      source={getLogoForBrand(item.value)!} 
                       style={styles.brandLogoSmall} 
                       resizeMode="contain" 
                     />
                   ) : (
-                    <Text style={[styles.rowValue, isBlueText && styles.textBlue]}>
+                    <Text style={styles.rowValue}>
                       {item.value}
                     </Text>
                   )}
@@ -172,9 +161,9 @@ export const EquipmentSettingsScreen = () => {
                 style={styles.brandItem}
                 onPress={() => handleSelectOption(option)}
               >
-                {isBrandType && option.logo ? (
+                {isBrandType && getLogoForBrand(option.name) ? (
                    <Image 
-                     source={typeof option.logo === 'string' ? { uri: option.logo } : option.logo} 
+                     source={getLogoForBrand(option.name)!} 
                      style={styles.brandLogoLarge} 
                      resizeMode="contain" 
                    />
@@ -195,11 +184,7 @@ export const EquipmentSettingsScreen = () => {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: "#F4F6F9" },
-  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 16, paddingVertical: 12 },
-  backBtn: { width: 36, height: 36, borderRadius: 8, borderWidth: 1, borderColor: "#E5E7EB", alignItems: "center", justifyContent: "center"},
-  headerTitle: { fontSize: 18, fontWeight: "600", color: "#1A1A1A" },
-  placeholder: { width: 36 },
-  scrollContent: { padding: 16 },
+  scrollContent: { padding: 16, marginTop: 60 },
   card: { backgroundColor: '#FFF', borderRadius: 16, overflow: 'hidden' },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 16, paddingHorizontal: 16 },
   borderBottom: { borderBottomWidth: 1, borderBottomColor: '#F0F0F0' },

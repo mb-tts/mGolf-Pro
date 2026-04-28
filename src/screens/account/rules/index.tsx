@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { Asset } from 'expo-asset';
 import Pdf from 'react-native-pdf';
+import { BackHeader } from '@/components/common/BackHeader';
 
 // Lấy chiều rộng màn hình
 const screenWidth = Dimensions.get('window').width;
@@ -37,13 +38,12 @@ export const RuleScreen = () => {
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       
       {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
-          <Ionicons name="chevron-back" size={20} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Luật chơi</Text>
-        <View style={styles.placeholder} />
-      </View>
+      <BackHeader 
+        title="Luật chơi" 
+        onBack={handleBack} 
+        variant="white"
+        tintColor="#333"
+      />
 
       {/* KHU VỰC HIỂN THỊ PDF */}
       <View style={styles.container}>
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     borderColor: "#E5E7EB", 
     alignItems: "center", 
     justifyContent: "center",
-    backgroundColor: '#FFF'
   },
   headerTitle: { 
     fontSize: 18, 
@@ -121,6 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
     backgroundColor: '#F4F6F9', 
+    marginTop: 60, // Bù đắp cho BackHeader absolute
   },
   pdfViewer: {
     flex: 1,

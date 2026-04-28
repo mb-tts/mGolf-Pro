@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 8,
   },
-  confirmSubTitle: { textAlign: "center", color: "#666", marginBottom: 20 },
+  confirmSubTitle: { textAlign: "center", color: "#000", marginBottom: 20, },
   summaryTable: {
     borderWidth: 1,
     borderColor: "#EAF6FF",
@@ -132,12 +132,11 @@ const styles = StyleSheet.create({
   },
   summaryPlayerInfo: {
     flex: 1.5,
-    flexDirection: "row",
     alignItems: "center",
     gap: 8,
   },
-  summaryAvatar: { width: 28, height: 28, borderRadius: 14 },
-  summaryPlayerName: { fontSize: 12, fontWeight: "500" },
+  summaryAvatar: { width: 24, height: 24, borderRadius: 14 },
+  summaryPlayerName: { fontSize: 12, fontWeight: "400" },
   summaryValue: {
     flex: 1,
     textAlign: "center",

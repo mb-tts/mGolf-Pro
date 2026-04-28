@@ -17,8 +17,14 @@ interface BackHeaderProps {
   tintColor?: string;
   // Nút action bên phải (optional)
   rightAction?: React.ReactNode;
-  // Kiểu nền nút back: 'blur' (mờ tối, cho ảnh), 'clear' (trong suốt, cho nền sáng)
-  variant?: "blur" | "clear";
+  /**
+   * Kiểu nền nút back:
+   * - 'blur': Nền đen mờ (cho ảnh sáng)
+   * - 'clear': Nền trắng mờ (cho ảnh tối)
+   * - 'white': Nền trắng phẳng (cho giao diện app chuẩn)
+   * - 'transparent': Không nền (chỉ icon)
+   */
+  variant?: "blur" | "clear" | "white" | "transparent";
 }
 
 /**
@@ -54,6 +60,7 @@ export const BackHeader: FC<BackHeaderProps> = ({
             styles.backBtn,
             variant === "blur" && styles.backBtnBlur,
             variant === "clear" && styles.backBtnClear,
+            variant === "white" && styles.backBtnWhite,
           ]}
           onPress={onBack}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -118,6 +125,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 3,
+  },
+  // Kiểu nền trắng phẳng có viền — dùng cho màn hình Setting/Profile
+  backBtnWhite: {
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    borderRadius: 8,
+    width: 36,
+    height: 36,
   },
   title: {
     flex: 1,
