@@ -43,6 +43,17 @@ const OPTIONS_MAP: Record<string, OptionItem[]> = {
   hatSize: toOptionList(['56', '57', '58', '59', '60']),
 };
 
+// Map để lookup logo từ brand name
+const LOGO_MAP: Record<string, ImageSourcePropType> = {
+  'Bridgestone': BridgestoneLogo,
+  'Ping': PingLogo,
+  'Katana Golf': KatanaGolfLogo,
+};
+
+const getLogoForBrand = (brandName: string): ImageSourcePropType | undefined => {
+  return LOGO_MAP[brandName];
+};
+
 export const EquipmentSettingsScreen = () => {
   const navigation = useNavigation();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -66,7 +77,7 @@ export const EquipmentSettingsScreen = () => {
 
   const handleSelectOption = (option: OptionItem) => {
     if (!selectedType) return;
-    updateEquipment(selectedType, option.name, isBrandType ? option.logo : undefined);
+    updateEquipment(selectedType, option.name);
     bottomSheetRef.current?.close();
   };
   
@@ -100,14 +111,18 @@ export const EquipmentSettingsScreen = () => {
               >
                 <Text style={styles.rowLabel}>{item.label}</Text>
                 <View style={styles.rowRight}>
-                  {item.logo ? (
+                  {isBlueText ? (
+                    <Text style={[styles.rowValue, styles.textBlue]}>
+                      {item.value}
+                    </Text>
+                  ) : getLogoForBrand(item.value) ? (
                     <Image 
-                      source={typeof item.logo === 'string' ? { uri: item.logo } : item.logo} 
+                      source={getLogoForBrand(item.value)!} 
                       style={styles.brandLogoSmall} 
                       resizeMode="contain" 
                     />
                   ) : (
-                    <Text style={[styles.rowValue, isBlueText && styles.textBlue]}>
+                    <Text style={styles.rowValue}>
                       {item.value}
                     </Text>
                   )}
@@ -146,9 +161,9 @@ export const EquipmentSettingsScreen = () => {
                 style={styles.brandItem}
                 onPress={() => handleSelectOption(option)}
               >
-                {isBrandType && option.logo ? (
+                {isBrandType && getLogoForBrand(option.name) ? (
                    <Image 
-                     source={typeof option.logo === 'string' ? { uri: option.logo } : option.logo} 
+                     source={getLogoForBrand(option.name)!} 
                      style={styles.brandLogoLarge} 
                      resizeMode="contain" 
                    />

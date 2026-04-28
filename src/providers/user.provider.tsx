@@ -8,8 +8,8 @@ const INITIAL_EQUIPMENT: Record<EquipmentKey, EquipmentItem> = {
   driver: { label: 'Gậy driver', value: 'Bridgestone' },
   wood: { label: 'Gậy gỗ', value: 'Bridgestone' },
   hybrid: { label: 'Gậy hybrid', value: 'Bridgestone' },
-  iron: { label: 'Gậy bộ gậy sắt', value: 'Katana' },
-  technical: { label: 'Gậy kỹ thuật', value: 'Katana' },
+  iron: { label: 'Gậy bộ gậy sắt', value: 'Katana Golf' },
+  technical: { label: 'Gậy kỹ thuật', value: 'Katana Golf' },
   putter: { label: 'Putter', value: 'Ping' },
   ball: { label: 'Hãng bóng', value: 'Ping' },
   hand: { label: 'Tay thuận', value: 'Tay trái' },
@@ -62,7 +62,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setProfile(prev => {
       const newEquipment = {
         ...prev.equipment,
-        [key]: { ...prev.equipment[key], value, logo }
+        [key]: { ...prev.equipment[key], value }
       };
       const newProfile = { ...prev, equipment: newEquipment };
       userStorage.set('user.profile', JSON.stringify(newProfile));
